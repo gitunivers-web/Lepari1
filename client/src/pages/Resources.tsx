@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { useTranslations } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -35,6 +36,7 @@ export default function Resources() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

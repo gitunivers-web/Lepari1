@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { useTranslations } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Users, TrendingUp, Award, Clock } from 'lucide-react';
@@ -44,6 +45,7 @@ export default function About() {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
