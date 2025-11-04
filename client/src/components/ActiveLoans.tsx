@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useTranslations } from '@/lib/i18n';
-import { ArrowRight } from 'lucide-react';
+import { useLocation } from 'wouter';
+import LoanDetailsDialog from './LoanDetailsDialog';
 
 interface Loan {
   id: string;
@@ -10,6 +12,7 @@ interface Loan {
   interestRate: number;
   nextPaymentDate: string | null;
   totalRepaid: number;
+  status: string;
 }
 
 interface ActiveLoansProps {
@@ -18,6 +21,9 @@ interface ActiveLoansProps {
 
 export default function ActiveLoans({ loans }: ActiveLoansProps) {
   const t = useTranslations();
+  const [, setLocation] = useLocation();
+  const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -28,46 +34,65 @@ export default function ActiveLoans({ loans }: ActiveLoansProps) {
 
   const displayedLoans = loans.slice(0, 3);
 
+  const handleLoanClick = (loan: Loan) => {
+    setSelectedLoan(loan);
+    setDetailsOpen(true);
+  };
+
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between gap-1 space-y-0 pb-2">
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.activeLoans}</CardTitle>
-        {loans.length > 3 && (
-          <Button variant="ghost" size="sm" data-testid="button-view-all-loans">
-            {t.loan.viewAll}
-          </Button>
-        )}
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {displayedLoans.map((loan) => {
-          const progress = (loan.totalRepaid / loan.amount) * 100;
-          return (
-            <div
-              key={loan.id}
-              className="border rounded-md p-4 space-y-3 hover-elevate cursor-pointer"
-              data-testid={`card-loan-${loan.id}`}
+    <>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between gap-1 space-y-0 pb-2">
+          <CardTitle className="text-xl md:text-2xl">{t.dashboard.activeLoans}</CardTitle>
+          {loans.length > 3 && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              data-testid="button-view-all-loans"
+              onClick={() => setLocation('/loans')}
             >
-              <div className="flex justify-between items-start">
+              {t.loan.viewAll}
+            </Button>
+          )}
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {displayedLoans.map((loan) => {
+            const progress = (loan.totalRepaid / loan.amount) * 100;
+            return (
+              <div
+                key={loan.id}
+                className="border rounded-md p-4 space-y-3 hover-elevate cursor-pointer"
+                data-testid={`card-loan-${loan.id}`}
+                onClick={() => handleLoanClick(loan)}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-sm text-muted-foreground">{t.loan.amount}</p>
+                    <p className="text-2xl font-mono font-semibold">{formatCurrency(loan.amount)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-muted-foreground">{t.loan.interestRate}</p>
+                    <p className="text-lg font-semibold">{loan.interestRate}%</p>
+                  </div>
+                </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t.loan.amount}</p>
-                  <p className="text-2xl font-mono font-semibold">{formatCurrency(loan.amount)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-muted-foreground">{t.loan.interestRate}</p>
-                  <p className="text-lg font-semibold">{loan.interestRate}%</p>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="text-muted-foreground">{t.loan.nextPayment}</span>
+                    <span>{loan.nextPaymentDate}</span>
+                  </div>
+                  <Progress value={progress} />
                 </div>
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-muted-foreground">{t.loan.nextPayment}</span>
-                  <span>{loan.nextPaymentDate}</span>
-                </div>
-                <Progress value={progress} />
-              </div>
-            </div>
-          );
-        })}
-      </CardContent>
-    </Card>
+            );
+          })}
+        </CardContent>
+      </Card>
+      
+      <LoanDetailsDialog 
+        open={detailsOpen} 
+        onOpenChange={setDetailsOpen}
+        loan={selectedLoan}
+      />
+    </>
   );
 }

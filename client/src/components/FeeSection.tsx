@@ -51,11 +51,44 @@ export default function FeeSection({ fees }: FeeSectionProps) {
     account: t.fee.accountFees,
   };
 
+  const handleDownloadStatement = () => {
+    const content = `RELEVÉ DE FRAIS - ProLoan\n\nDate: ${new Date().toLocaleDateString('fr-FR')}\n\n`;
+    let feeContent = content;
+    
+    Object.entries(categorizedFees).forEach(([category, categoryFees]) => {
+      if (categoryFees.length > 0) {
+        feeContent += `\n${categoryLabels[category as keyof typeof categoryLabels]}:\n`;
+        categoryFees.forEach(fee => {
+          feeContent += `  - ${fee.feeType}: ${formatCurrency(fee.amount)}\n`;
+          feeContent += `    ${fee.reason}\n`;
+          feeContent += `    Date: ${fee.createdAt}\n\n`;
+        });
+      }
+    });
+    
+    feeContent += `\nTOTAL: ${formatCurrency(totalFees)}\n`;
+    
+    const blob = new Blob([feeContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `releve-frais-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-1 space-y-0 pb-2">
         <CardTitle className="text-xl md:text-2xl">{t.dashboard.fees}</CardTitle>
-        <Button variant="outline" size="sm" data-testid="button-download-statement">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          data-testid="button-download-statement"
+          onClick={handleDownloadStatement}
+        >
           <Download className="h-4 w-4 mr-2" />
           {t.fee.downloadStatement}
         </Button>
