@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from '@/lib/i18n';
-import { Download, ChevronDown, AlertCircle, Info } from 'lucide-react';
+import { Download, ChevronDown, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import {
   Collapsible,
@@ -118,17 +118,6 @@ export default function FeeSection({ fees }: FeeSectionProps) {
                   <h3 className="font-semibold text-destructive">Frais à payer</h3>
                   <p className="text-sm text-muted-foreground">
                     Vous avez {unpaidFees.length} frais impayé{unpaidFees.length > 1 ? 's' : ''} pour un total de {formatCurrency(totalUnpaidFees)}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <div className="flex items-start gap-2">
-                <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-blue-900 dark:text-blue-100">Validation automatique</h3>
-                  <p className="text-sm text-blue-800 dark:text-blue-200">
-                    Les frais sont automatiquement validés lorsque vous utilisez les codes de validation envoyés par notification. Vous n'avez pas besoin de les marquer manuellement comme payés.
                   </p>
                 </div>
               </div>
