@@ -45,15 +45,15 @@ export default function Header() {
             </Link>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
+          <nav className="hidden md:flex items-center space-x-2">
+            <Link href="/" className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white">
               {t.nav.home}
             </Link>
             
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium">
+                  <NavigationMenuTrigger className="text-sm font-medium hover:bg-primary hover:text-white data-[state=open]:bg-primary data-[state=open]:text-white">
                     {t.nav.products}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -74,16 +74,16 @@ export default function Header() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link href="/how-it-works" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="/how-it-works" className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white">
               {t.nav.howItWorks}
             </Link>
-            <Link href="/resources" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="/resources" className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white">
               {t.nav.resources}
             </Link>
-            <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="/about" className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white">
               {t.nav.about}
             </Link>
-            <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="/contact" className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white">
               {t.nav.contact}
             </Link>
           </nav>
@@ -111,10 +111,10 @@ export default function Header() {
 
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
-            <nav className="flex flex-col space-y-4">
+            <nav className="flex flex-col space-y-2">
               <Link 
                 href="/" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-home-mobile"
               >
@@ -122,7 +122,7 @@ export default function Header() {
               </Link>
               <Link 
                 href="/products" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-products-mobile"
               >
@@ -130,7 +130,7 @@ export default function Header() {
               </Link>
               <Link 
                 href="/how-it-works" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-how-it-works-mobile"
               >
@@ -138,7 +138,7 @@ export default function Header() {
               </Link>
               <Link 
                 href="/resources" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-resources-mobile"
               >
@@ -146,7 +146,7 @@ export default function Header() {
               </Link>
               <Link 
                 href="/about" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-about-mobile"
               >
@@ -154,7 +154,7 @@ export default function Header() {
               </Link>
               <Link 
                 href="/contact" 
-                className="text-sm font-medium transition-colors hover:text-primary"
+                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
                 data-testid="link-contact-mobile"
               >
