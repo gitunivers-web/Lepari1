@@ -119,6 +119,8 @@ type TranslationKeys = {
   products: {
     title: string;
     subtitle: string;
+    businessTitle: string;
+    businessSubtitle: string;
     termLoans: string;
     termLoansDesc: string;
     lineOfCredit: string;
