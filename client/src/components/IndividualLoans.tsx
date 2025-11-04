@@ -138,7 +138,7 @@ export default function IndividualLoans() {
                   </div>
                 </div>
                 <Button className="w-full gap-2" asChild>
-                  <Link href="/dashboard">
+                  <Link href="/loan-request">
                     {t.hero?.cta1 || 'Demander un prêt'}
                     <ArrowRight className="h-4 w-4" />
                   </Link>

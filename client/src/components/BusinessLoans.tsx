@@ -135,7 +135,7 @@ export default function BusinessLoans() {
                 </ul>
 
                 <Button className="w-full gap-2" asChild>
-                  <Link href="/dashboard">
+                  <Link href="/loan-request">
                     En savoir plus
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -199,7 +199,7 @@ export default function BusinessLoans() {
             Taux indicatifs soumis à l'étude et l'acceptation de votre dossier. TAEG fixe.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dashboard">
+            <Link href="/loan-request">
               <Button size="lg" data-testid="button-simulate-business-loan">
                 Simuler mon prêt professionnel
               </Button>
