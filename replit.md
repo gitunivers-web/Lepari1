@@ -1,8 +1,8 @@
-# ProLoan - Professional Loan Platform
+# ALTUS - Professional Loan Platform
 
 ## Overview
 
-ProLoan is a multi-language professional loan management platform designed for business clients. The application provides a comprehensive dashboard for managing loans, transfers, fees, and financial transactions with a focus on trust, clarity, and data-driven decision making. Built as a fintech application, it emphasizes professional design patterns inspired by industry leaders like Stripe and Wise.
+ALTUS is a multi-language professional loan management platform designed for business clients. The application provides a comprehensive dashboard for managing loans, transfers, fees, and financial transactions with a focus on trust, clarity, and data-driven decision making. Built as a fintech application, it emphasizes professional design patterns inspired by industry leaders like Stripe and Wise.
 
 **Key Features:**
 - Multi-language support (French, English, Spanish)

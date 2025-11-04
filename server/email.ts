@@ -50,7 +50,7 @@ export async function sendVerificationEmail(toEmail: string, fullName: string, t
     const msg = {
       to: toEmail,
       from: fromEmail,
-      subject: 'Vérifiez votre adresse email - ProLoan',
+      subject: 'Vérifiez votre adresse email - ALTUS',
       html: `
         <!DOCTYPE html>
         <html>
@@ -69,12 +69,12 @@ export async function sendVerificationEmail(toEmail: string, fullName: string, t
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0; font-size: 28px;">ProLoan</h1>
+              <h1 style="margin: 0; font-size: 28px;">ALTUS</h1>
               <p style="margin: 10px 0 0 0; opacity: 0.9;">Solutions de financement</p>
             </div>
             <div class="content">
               <h2 style="color: #1f2937; margin-top: 0;">Bonjour ${fullName},</h2>
-              <p>Merci de vous être inscrit sur ProLoan en tant que <strong>${accountTypeText}</strong>.</p>
+              <p>Merci de vous être inscrit sur ALTUS en tant que <strong>${accountTypeText}</strong>.</p>
               <p>Pour activer votre compte et accéder à nos services de financement, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :</p>
               <div style="text-align: center;">
                 <a href="${verificationUrl}" class="button">Vérifier mon email</a>
@@ -82,11 +82,11 @@ export async function sendVerificationEmail(toEmail: string, fullName: string, t
               <p style="margin-top: 20px;">Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :</p>
               <p class="link">${verificationUrl}</p>
               <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">
-                Si vous n'avez pas créé de compte sur ProLoan, vous pouvez ignorer cet email.
+                Si vous n'avez pas créé de compte sur ALTUS, vous pouvez ignorer cet email.
               </p>
             </div>
             <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} ProLoan. Tous droits réservés.</p>
+              <p>&copy; ${new Date().getFullYear()} ALTUS. Tous droits réservés.</p>
             </div>
           </div>
         </body>
@@ -95,14 +95,14 @@ export async function sendVerificationEmail(toEmail: string, fullName: string, t
       text: `
         Bonjour ${fullName},
         
-        Merci de vous être inscrit sur ProLoan en tant que ${accountTypeText}.
+        Merci de vous être inscrit sur ALTUS en tant que ${accountTypeText}.
         
         Pour activer votre compte, veuillez vérifier votre adresse email en visitant ce lien :
         ${verificationUrl}
         
-        Si vous n'avez pas créé de compte sur ProLoan, vous pouvez ignorer cet email.
+        Si vous n'avez pas créé de compte sur ALTUS, vous pouvez ignorer cet email.
         
-        ProLoan - Solutions de financement
+        ALTUS - Solutions de financement
       `
     };
 
@@ -124,7 +124,7 @@ export async function sendWelcomeEmail(toEmail: string, fullName: string, accoun
     const msg = {
       to: toEmail,
       from: fromEmail,
-      subject: 'Bienvenue sur ProLoan !',
+      subject: 'Bienvenue sur ALTUS !',
       html: `
         <!DOCTYPE html>
         <html>
@@ -142,7 +142,7 @@ export async function sendWelcomeEmail(toEmail: string, fullName: string, accoun
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0; font-size: 28px;">🎉 Bienvenue sur ProLoan !</h1>
+              <h1 style="margin: 0; font-size: 28px;">🎉 Bienvenue sur ALTUS !</h1>
             </div>
             <div class="content">
               <h2 style="color: #1f2937; margin-top: 0;">Bonjour ${fullName},</h2>
@@ -162,7 +162,7 @@ export async function sendWelcomeEmail(toEmail: string, fullName: string, accoun
               </p>
             </div>
             <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} ProLoan. Tous droits réservés.</p>
+              <p>&copy; ${new Date().getFullYear()} ALTUS. Tous droits réservés.</p>
             </div>
           </div>
         </body>

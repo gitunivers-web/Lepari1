@@ -451,7 +451,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience sur notre plateforme. Vous pouvez contrôler les cookies via les paramètres de votre navigateur.',
         section7Title: '7. Nous Contacter',
-        section7Content: 'Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@proloan.com',
+        section7Content: 'Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -733,7 +733,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'We use cookies and similar tracking technologies to enhance your experience on our platform. You can control cookies through your browser settings.',
         section7Title: '7. Contact Us',
-        section7Content: 'If you have questions about this Privacy Policy, please contact us at privacy@proloan.com',
+        section7Content: 'If you have questions about this Privacy Policy, please contact us at privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -1003,7 +1003,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Utilizamos cookies y tecnologías de seguimiento similares para mejorar su experiencia en nuestra plataforma. Puede controlar las cookies a través de la configuración de su navegador.',
         section7Title: '7. Contáctenos',
-        section7Content: 'Si tiene preguntas sobre esta Política de Privacidad, contáctenos en privacy@proloan.com',
+        section7Content: 'Si tiene preguntas sobre esta Política de Privacidad, contáctenos en privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -1268,7 +1268,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Usamos cookies e tecnologias de rastreamento similares para melhorar sua experiência em nossa plataforma. Você pode controlar os cookies através das configurações do seu navegador.',
         section7Title: '7. Entre em Contato',
-        section7Content: 'Se você tiver dúvidas sobre esta política de privacidade, entre em contato conosco em privacy@proloan.com',
+        section7Content: 'Se você tiver dúvidas sobre esta política de privacidade, entre em contato conosco em privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -1533,7 +1533,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookie',
         section6Content: 'Utilizziamo cookie e tecnologie di tracciamento simili per migliorare la tua esperienza sulla nostra piattaforma. Puoi controllare i cookie tramite le impostazioni del tuo browser.',
         section7Title: '7. Contattaci',
-        section7Content: 'Se hai domande riguardo a questa politica sulla privacy, contattaci all\'indirizzo privacy@proloan.com',
+        section7Content: 'Se hai domande riguardo a questa politica sulla privacy, contattaci all\'indirizzo privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -1798,7 +1798,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Wir verwenden Cookies und ähnliche Tracking-Technologien, um Ihre Erfahrung auf unserer Plattform zu verbessern. Sie können Cookies über Ihre Browsereinstellungen steuern.',
         section7Title: '7. Kontaktieren Sie uns',
-        section7Content: 'Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy@proloan.com',
+        section7Content: 'Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy@altus-group.com',
       },
     },
     individualLoans: {
@@ -2063,7 +2063,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'We gebruiken cookies en vergelijkbare trackingtechnologieën om uw ervaring op ons platform te verbeteren. U kunt cookies beheren via uw browserinstellingen.',
         section7Title: '7. Neem Contact Op',
-        section7Content: 'Als u vragen heeft over dit privacybeleid, neem dan contact met ons op via privacy@proloan.com',
+        section7Content: 'Als u vragen heeft over dit privacybeleid, neem dan contact met ons op via privacy@altus-group.com',
       },
     },
     individualLoans: {

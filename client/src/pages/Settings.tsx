@@ -218,7 +218,7 @@ export default function Settings() {
                 Type de compte
               </CardTitle>
               <CardDescription className="text-base">
-                Votre compte professionnel ProLoan
+                Votre compte professionnel ALTUS
               </CardDescription>
             </CardHeader>
             <CardContent className="relative">

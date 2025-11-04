@@ -33,7 +33,7 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
       scrolled 
         ? 'bg-white dark:bg-slate-900 shadow-md' 
-        : 'bg-blue-600 dark:bg-blue-800'
+        : 'bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 dark:from-violet-800 dark:via-purple-800 dark:to-blue-800'
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -108,18 +108,10 @@ export default function Header() {
             <ThemeToggle />
             <Link href="/login">
               <Button 
-                variant={scrolled ? "outline" : "secondary"} 
-                data-testid="button-login"
+                variant={scrolled ? "default" : "secondary"} 
+                data-testid="button-mon-espace"
               >
-                Se connecter
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button 
-                variant={scrolled ? "default" : "secondary"}
-                data-testid="button-signup"
-              >
-                S'inscrire
+                Mon espace
               </Button>
             </Link>
           </div>
@@ -205,19 +197,10 @@ export default function Header() {
               <Link 
                 href="/login" 
                 onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-login-mobile"
-              >
-                <Button className="w-full" variant={scrolled ? "outline" : "secondary"}>
-                  Se connecter
-                </Button>
-              </Link>
-              <Link 
-                href="/signup" 
-                onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-signup-mobile"
+                data-testid="link-mon-espace-mobile"
               >
                 <Button className="w-full" variant={scrolled ? "default" : "secondary"}>
-                  S'inscrire
+                  Mon espace
                 </Button>
               </Link>
             </nav>
