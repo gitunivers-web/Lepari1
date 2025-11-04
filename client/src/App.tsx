@@ -14,6 +14,9 @@ import Contact from '@/pages/Contact';
 import Resources from '@/pages/Resources';
 import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
+import Verify from '@/pages/Verify';
 import AdminDashboard from '@/pages/AdminDashboard';
 import AdminUsers from '@/pages/AdminUsers';
 import AdminTransfers from '@/pages/AdminTransfers';
@@ -76,6 +79,9 @@ function App() {
           <Route path="/resources" component={Resources} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/verify/:token" component={Verify} />
           <Route>
             <SidebarProvider style={style as React.CSSProperties}>
               <div className="flex h-screen w-full">
