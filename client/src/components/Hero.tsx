@@ -54,7 +54,7 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <Link href="/dashboard">
+          <Link href="/loan-request">
             <Button
               size="lg"
               className="bg-primary text-primary-foreground hover-elevate active-elevate-2 gap-2"
@@ -64,7 +64,7 @@ export default function Hero() {
               <ArrowRight className="h-5 w-5" />
             </Button>
           </Link>
-          <Link href="/dashboard">
+          <Link href="/login">
             <Button
               size="lg"
               variant="outline"

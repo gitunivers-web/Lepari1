@@ -7,8 +7,14 @@ import { randomUUID } from "crypto";
 import { sendVerificationEmail, sendWelcomeEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  const DEMO_USER_ID = "demo-user-001";
   const ADMIN_ID = "admin-001";
+
+  const requireAuth = (req: any, res: any, next: any) => {
+    if (!req.session || !req.session.userId) {
+      return res.status(401).json({ error: 'Authentification requise' });
+    }
+    next();
+  };
 
   const calculateInterestRate = async (loanType: string, amount: number): Promise<number> => {
     const rateTiersSetting = await storage.getAdminSetting('interest_rate_tiers');
@@ -111,6 +117,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      req.session.userId = user.id;
+      
       const { password: _, verificationToken: __, ...userWithoutSensitive } = user;
       
       res.json({
@@ -120,6 +128,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Login error:', error);
       res.status(500).json({ error: 'Erreur lors de la connexion' });
+    }
+  });
+
+  app.post("/api/auth/logout", async (req, res) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ error: 'Erreur lors de la déconnexion' });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: 'Déconnexion réussie' });
+      });
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      res.status(500).json({ error: 'Erreur lors de la déconnexion' });
     }
   });
 
@@ -175,9 +198,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/dashboard", async (req, res) => {
+  app.get("/api/dashboard", requireAuth, async (req, res) => {
     try {
-      const data = await storage.getDashboardData(DEMO_USER_ID);
+      const data = await storage.getDashboardData(req.session.userId!);
       
       const formatDate = (date: Date | null) => {
         if (!date) return null;
@@ -249,19 +272,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/user", async (req, res) => {
     try {
-      const user = await storage.getUser(DEMO_USER_ID);
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+      if (!req.session || !req.session.userId) {
+        return res.status(401).json({ error: 'Non authentifié' });
       }
-      res.json(user);
+      const user = await storage.getUser(req.session.userId);
+      if (!user) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé' });
+      }
+      const { password: _, verificationToken: __, ...userWithoutSensitive } = user;
+      res.json(userWithoutSensitive);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch user' });
+      res.status(500).json({ error: 'Erreur lors de la récupération de l\'utilisateur' });
     }
   });
 
-  app.post("/api/user/mark-welcome-seen", async (req, res) => {
+  app.post("/api/user/mark-welcome-seen", requireAuth, async (req, res) => {
     try {
-      await storage.markWelcomeMessageAsSeen(DEMO_USER_ID);
+      await storage.markWelcomeMessageAsSeen(req.session.userId!);
       res.json({ success: true });
     } catch (error) {
       console.error('Error marking welcome message as seen:', error);
@@ -269,23 +296,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/loans", async (req, res) => {
+  app.get("/api/loans", requireAuth, async (req, res) => {
     try {
-      const loans = await storage.getUserLoans(DEMO_USER_ID);
+      const loans = await storage.getUserLoans(req.session.userId!);
       res.json(loans);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch loans' });
     }
   });
 
-  app.post("/api/loans", async (req, res) => {
+  app.post("/api/loans", requireAuth, async (req, res) => {
     try {
       const { loanType, amount, duration } = req.body;
       
       const interestRate = await calculateInterestRate(loanType, parseFloat(amount));
       
       const validated = insertLoanSchema.parse({
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         loanType,
         amount,
         duration,
@@ -296,7 +323,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const loan = await storage.createLoan(validated);
       
       await storage.createAdminMessage({
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         transferId: null,
         subject: 'Demande de prêt en attente de validation',
         content: `Votre demande de prêt ${loanType} de ${amount} EUR a été soumise et est en attente de validation par notre service. Nous vous contacterons dès que possible.`,
@@ -313,25 +340,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/transfers", async (req, res) => {
+  app.get("/api/transfers", requireAuth, async (req, res) => {
     try {
-      const transfers = await storage.getUserTransfers(DEMO_USER_ID);
+      const transfers = await storage.getUserTransfers(req.session.userId!);
       res.json(transfers);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch transfers' });
     }
   });
 
-  app.post("/api/transfers", async (req, res) => {
+  app.post("/api/transfers", requireAuth, async (req, res) => {
     try {
       const validated = insertTransferSchema.parse({
         ...req.body,
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
       });
       const transfer = await storage.createTransfer(validated);
       
       await storage.createFee({
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         feeType: 'Frais de transfert',
         reason: `Transfert vers ${validated.recipient}`,
         amount: '25',
@@ -343,7 +370,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/transfers/initiate", async (req, res) => {
+  app.post("/api/transfers/initiate", requireAuth, async (req, res) => {
     try {
       const { amount, externalAccountId, recipient } = req.body;
       
@@ -354,7 +381,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const feeAmount = (settingFee?.settingValue as any)?.amount || 25;
       
       const transfer = await storage.createTransfer({
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         externalAccountId: externalAccountId || null,
         amount: amount.toString(),
         recipient,
@@ -371,7 +398,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { code, notification, fee } = await storage.issueCodeWithNotificationAndFee({
         transferId: transfer.id,
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         sequence: 1,
         expiresAt,
         deliveryMethod: 'email',
@@ -400,7 +427,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/transfers/:id", async (req, res) => {
+  app.get("/api/transfers/:id", requireAuth, async (req, res) => {
     try {
       const transfer = await storage.getTransfer(req.params.id);
       if (!transfer) {
@@ -416,7 +443,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/transfers/:id/send-code", async (req, res) => {
+  app.post("/api/transfers/:id/send-code", requireAuth, async (req, res) => {
     try {
       const transfer = await storage.getTransfer(req.params.id);
       if (!transfer) {
@@ -436,7 +463,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { code, notification, fee } = await storage.issueCodeWithNotificationAndFee({
         transferId: transfer.id,
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         sequence: nextSequence,
         expiresAt,
         deliveryMethod: req.body.method || 'email',
@@ -464,7 +491,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/transfers/:id/validate-code", async (req, res) => {
+  app.post("/api/transfers/:id/validate-code", requireAuth, async (req, res) => {
     try {
       const { code, sequence } = req.body;
       const transfer = await storage.getTransfer(req.params.id);
@@ -542,19 +569,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/external-accounts", async (req, res) => {
+  app.get("/api/external-accounts", requireAuth, async (req, res) => {
     try {
-      const accounts = await storage.getUserExternalAccounts(DEMO_USER_ID);
+      const accounts = await storage.getUserExternalAccounts(req.session.userId!);
       res.json(accounts);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch external accounts' });
     }
   });
 
-  app.post("/api/external-accounts", async (req, res) => {
+  app.post("/api/external-accounts", requireAuth, async (req, res) => {
     try {
       const account = await storage.createExternalAccount({
-        userId: DEMO_USER_ID,
+        userId: req.session.userId!,
         bankName: req.body.bankName,
         iban: req.body.iban,
         bic: req.body.bic,
@@ -567,7 +594,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/external-accounts/:id", async (req, res) => {
+  app.delete("/api/external-accounts/:id", requireAuth, async (req, res) => {
     try {
       const deleted = await storage.deleteExternalAccount(req.params.id);
       if (!deleted) {
@@ -579,16 +606,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/messages", async (req, res) => {
+  app.get("/api/messages", requireAuth, async (req, res) => {
     try {
-      const messages = await storage.getUserMessages(DEMO_USER_ID);
+      const messages = await storage.getUserMessages(req.session.userId!);
       res.json(messages);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch messages' });
     }
   });
 
-  app.post("/api/messages/:id/read", async (req, res) => {
+  app.post("/api/messages/:id/read", requireAuth, async (req, res) => {
     try {
       const message = await storage.markMessageAsRead(req.params.id);
       if (!message) {
@@ -600,28 +627,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/fees", async (req, res) => {
+  app.get("/api/fees", requireAuth, async (req, res) => {
     try {
-      const fees = await storage.getUserFees(DEMO_USER_ID);
+      const fees = await storage.getUserFees(req.session.userId!);
       res.json(fees);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch fees' });
     }
   });
 
-  app.get("/api/transactions", async (req, res) => {
+  app.get("/api/transactions", requireAuth, async (req, res) => {
     try {
-      const transactions = await storage.getUserTransactions(DEMO_USER_ID);
+      const transactions = await storage.getUserTransactions(req.session.userId!);
       res.json(transactions);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch transactions' });
     }
   });
 
-  app.get("/api/charts/available-funds", async (req, res) => {
+  app.get("/api/charts/available-funds", requireAuth, async (req, res) => {
     try {
       const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-      const dashboardData = await storage.getDashboardData(DEMO_USER_ID);
+      const dashboardData = await storage.getDashboardData(req.session.userId!);
       
       const totalBorrowed = dashboardData.loans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0);
       const totalRepaid = dashboardData.loans.reduce((sum, loan) => sum + parseFloat(loan.totalRepaid), 0);
@@ -649,10 +676,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/charts/upcoming-repayments", async (req, res) => {
+  app.get("/api/charts/upcoming-repayments", requireAuth, async (req, res) => {
     try {
       const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-      const userLoans = await storage.getUserLoans(DEMO_USER_ID);
+      const userLoans = await storage.getUserLoans(req.session.userId!);
       
       const activeLoans = userLoans.filter(loan => loan.status === 'active');
       
@@ -1236,9 +1263,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/fees/unpaid", async (req, res) => {
+  app.get("/api/fees/unpaid", requireAuth, async (req, res) => {
     try {
-      const fees = await storage.getUnpaidFees(DEMO_USER_ID);
+      const fees = await storage.getUnpaidFees(req.session.userId!);
       res.json(fees);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch unpaid fees' });

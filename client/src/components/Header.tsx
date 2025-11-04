@@ -95,7 +95,7 @@ export default function Header() {
                 variant="default" 
                 data-testid="button-mon-espace"
               >
-                Mon espace
+                {t.hero.cta2}
               </Button>
             </Link>
           </div>
@@ -169,7 +169,7 @@ export default function Header() {
                 data-testid="link-mon-espace-mobile"
               >
                 <Button className="w-full" variant="default">
-                  Mon espace
+                  {t.hero.cta2}
                 </Button>
               </Link>
             </nav>
