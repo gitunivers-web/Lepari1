@@ -67,7 +67,15 @@ export class MemStorage implements IStorage {
       password: "hashed_password",
       email: "jean.dupont@entreprise.fr",
       fullName: "Jean Dupont",
+      phone: "+33612345678",
       accountType: "business",
+      role: "user",
+      status: "active",
+      kycStatus: "approved",
+      kycSubmittedAt: new Date("2023-01-01"),
+      kycApprovedAt: new Date("2023-01-05"),
+      createdAt: new Date("2023-01-01"),
+      updatedAt: new Date("2023-01-01"),
     };
     this.users.set(demoUserId, demoUser);
 
@@ -113,10 +121,18 @@ export class MemStorage implements IStorage {
     const transfer1: Transfer = {
       id: "transfer-001",
       userId: demoUserId,
+      externalAccountId: null,
       amount: "50000",
       recipient: "Fournisseur ABC SARL",
       status: "in-progress",
       currentStep: 3,
+      progressPercent: 60,
+      feeAmount: "25.00",
+      requiredCodes: 2,
+      codesValidated: 1,
+      approvedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      suspendedAt: null,
+      completedAt: null,
       createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
       updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
     };
@@ -125,10 +141,18 @@ export class MemStorage implements IStorage {
     const transfer2: Transfer = {
       id: "transfer-002",
       userId: demoUserId,
+      externalAccountId: null,
       amount: "25000",
       recipient: "Partenaire XYZ Inc.",
       status: "pending",
       currentStep: 1,
+      progressPercent: 20,
+      feeAmount: "15.00",
+      requiredCodes: 1,
+      codesValidated: 0,
+      approvedAt: null,
+      suspendedAt: null,
+      completedAt: null,
       createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
       updatedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
     };
@@ -219,10 +243,19 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
+    const now = new Date();
     const user: User = { 
-      ...insertUser, 
+      ...insertUser,
       id,
-      accountType: insertUser.accountType || 'business'
+      phone: insertUser.phone || null,
+      accountType: insertUser.accountType || 'business',
+      role: insertUser.role || 'user',
+      status: insertUser.status || 'pending',
+      kycStatus: insertUser.kycStatus || 'pending',
+      kycSubmittedAt: insertUser.kycSubmittedAt || null,
+      kycApprovedAt: insertUser.kycApprovedAt || null,
+      createdAt: now,
+      updatedAt: now,
     };
     this.users.set(id, user);
     return user;
@@ -276,8 +309,16 @@ export class MemStorage implements IStorage {
     const transfer: Transfer = {
       ...insertTransfer,
       id,
+      externalAccountId: insertTransfer.externalAccountId || null,
       status: insertTransfer.status || 'pending',
       currentStep: insertTransfer.currentStep || 1,
+      progressPercent: insertTransfer.progressPercent || 0,
+      feeAmount: insertTransfer.feeAmount || "0",
+      requiredCodes: insertTransfer.requiredCodes || 1,
+      codesValidated: insertTransfer.codesValidated || 0,
+      approvedAt: insertTransfer.approvedAt || null,
+      suspendedAt: insertTransfer.suspendedAt || null,
+      completedAt: insertTransfer.completedAt || null,
       createdAt: now,
       updatedAt: now,
     };
