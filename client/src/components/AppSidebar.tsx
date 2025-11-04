@@ -47,10 +47,10 @@ export default function AppSidebar() {
   const currentMenuItems = isAdminPath ? adminMenuItems : menuItems;
 
   return (
-    <Sidebar>
+    <Sidebar className="border-r-2 border-blue-100 dark:border-blue-900 bg-gradient-to-b from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg font-bold px-4 py-6">
+          <SidebarGroupLabel className="text-lg font-bold px-4 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
             {isAdminPath ? 'Admin Console' : 'ProLoan'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -85,13 +85,13 @@ export default function AppSidebar() {
                 </div>
               </div>
             ) : user ? (
-              <div className="flex items-center gap-3 px-4 py-3">
-                <Avatar>
-                  <AvatarFallback data-testid="text-user-initials">{getUserInitials(user.fullName)}</AvatarFallback>
+              <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 rounded-lg mx-2 border-2 border-blue-200 dark:border-blue-800">
+                <Avatar className="bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500">
+                  <AvatarFallback className="bg-transparent text-white font-bold" data-testid="text-user-initials">{getUserInitials(user.fullName)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold truncate" data-testid="text-user-name">{user.fullName}</p>
-                  <p className="text-xs text-muted-foreground truncate" data-testid="text-user-account-type">
+                  <p className="text-sm font-bold truncate bg-gradient-to-r from-blue-700 to-indigo-700 dark:from-blue-300 dark:to-indigo-300 bg-clip-text text-transparent" data-testid="text-user-name">{user.fullName}</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 font-medium truncate" data-testid="text-user-account-type">
                     {getAccountTypeLabel(user.accountType)}
                   </p>
                 </div>
@@ -102,6 +102,7 @@ export default function AppSidebar() {
             <SidebarMenuButton
               onClick={handleLogout}
               data-testid="button-logout"
+              className="hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
             >
               <LogOut />
               <span>{t.nav.logout}</span>
