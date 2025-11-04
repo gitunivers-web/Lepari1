@@ -55,52 +55,54 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-6 md:p-8 space-y-8">
-      <div>
-        <h1 className="text-3xl md:text-4xl font-semibold mb-2" data-testid="text-welcome">{getGreeting()}</h1>
-        <p className="text-muted-foreground">Vue d'ensemble de votre compte professionnel</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
+      <div className="p-6 md:p-8 space-y-8">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-semibold mb-2 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent" data-testid="text-welcome">{getGreeting()}</h1>
+          <p className="text-muted-foreground">Vue d'ensemble de votre compte professionnel</p>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <BalanceOverview
-            currentBalance={dashboardData.balance.currentBalance}
-            activeLoansCount={dashboardData.balance.activeLoansCount}
-            totalBorrowed={dashboardData.balance.totalBorrowed}
-            availableCredit={dashboardData.balance.availableCredit}
-            lastUpdated={dashboardData.balance.lastUpdated}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <BalanceOverview
+              currentBalance={dashboardData.balance.currentBalance}
+              activeLoansCount={dashboardData.balance.activeLoansCount}
+              totalBorrowed={dashboardData.balance.totalBorrowed}
+              availableCredit={dashboardData.balance.availableCredit}
+              lastUpdated={dashboardData.balance.lastUpdated}
+            />
+          </div>
+          <BorrowingCapacity
+            maxCapacity={dashboardData.borrowingCapacity.maxCapacity}
+            currentCapacity={dashboardData.borrowingCapacity.currentCapacity}
           />
         </div>
-        <BorrowingCapacity
-          maxCapacity={dashboardData.borrowingCapacity.maxCapacity}
-          currentCapacity={dashboardData.borrowingCapacity.currentCapacity}
-        />
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <NotificationsBox />
-        <QuickActions />
-      </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <NotificationsBox />
+          <QuickActions />
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ActiveLoans loans={dashboardData.loans} />
-        <FeeSection fees={dashboardData.fees} />
-      </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ActiveLoans loans={dashboardData.loans} />
+          <FeeSection fees={dashboardData.fees} />
+        </div>
 
-      <PendingTransfers transfers={dashboardData.transfers} />
+        <PendingTransfers transfers={dashboardData.transfers} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {isFundsLoading ? (
-          <Skeleton className="h-96" />
-        ) : fundsData ? (
-          <AvailableFundsChart data={fundsData} />
-        ) : null}
-        
-        {isRepaymentsLoading ? (
-          <Skeleton className="h-96" />
-        ) : repaymentsData ? (
-          <UpcomingRepaymentsChart data={repaymentsData} />
-        ) : null}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {isFundsLoading ? (
+            <Skeleton className="h-96" />
+          ) : fundsData ? (
+            <AvailableFundsChart data={fundsData} />
+          ) : null}
+          
+          {isRepaymentsLoading ? (
+            <Skeleton className="h-96" />
+          ) : repaymentsData ? (
+            <UpcomingRepaymentsChart data={repaymentsData} />
+          ) : null}
+        </div>
       </div>
     </div>
   );

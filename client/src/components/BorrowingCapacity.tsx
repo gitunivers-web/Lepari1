@@ -24,9 +24,9 @@ export default function BorrowingCapacity({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <Card>
+    <Card className="shadow-xl border-2 border-indigo-100 dark:border-indigo-900 bg-white dark:bg-slate-800">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.borrowingCapacity}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">{t.dashboard.borrowingCapacity}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center space-y-6">
         <div className="relative w-48 h-48">

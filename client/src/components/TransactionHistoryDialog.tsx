@@ -45,9 +45,17 @@ export default function TransactionHistoryDialog({ open, onOpenChange }: Transac
 
   const getTransactionIcon = (type: string) => {
     if (type.includes('disbursement') || type.includes('deposit')) {
-      return <ArrowDownRight className="h-5 w-5 text-green-500" />;
+      return (
+        <div className="p-2 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900 rounded-full">
+          <ArrowDownRight className="h-5 w-5 text-green-600 dark:text-green-400" />
+        </div>
+      );
     }
-    return <ArrowUpRight className="h-5 w-5 text-red-500" />;
+    return (
+      <div className="p-2 bg-gradient-to-br from-red-100 to-rose-100 dark:from-red-900 dark:to-rose-900 rounded-full">
+        <ArrowUpRight className="h-5 w-5 text-red-600 dark:text-red-400" />
+      </div>
+    );
   };
 
   return (
@@ -68,18 +76,18 @@ export default function TransactionHistoryDialog({ open, onOpenChange }: Transac
               {transactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="border rounded-lg p-4 flex items-center justify-between hover:bg-accent transition-colors"
+                  className="border-2 border-transparent bg-gradient-to-r from-white to-gray-50 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 flex items-center justify-between hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg transition-all duration-200"
                 >
                   <div className="flex items-center gap-4">
                     {getTransactionIcon(transaction.type)}
                     <div>
-                      <p className="font-medium">{transaction.description}</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">{transaction.description}</p>
                       <p className="text-sm text-muted-foreground">{formatDate(transaction.createdAt)}</p>
                     </div>
                   </div>
                   <p
-                    className={`text-lg font-mono font-semibold ${
-                      parseFloat(transaction.amount) >= 0 ? 'text-green-600' : 'text-red-600'
+                    className={`text-lg font-mono font-bold ${
+                      parseFloat(transaction.amount) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                     }`}
                   >
                     {formatCurrency(transaction.amount)}

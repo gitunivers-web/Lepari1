@@ -26,9 +26,9 @@ export default function BalanceOverview({
   };
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="lg:col-span-2 shadow-xl border-2 border-blue-100 dark:border-blue-900 bg-white dark:bg-slate-800">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.currentBalance}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">{t.dashboard.currentBalance}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
