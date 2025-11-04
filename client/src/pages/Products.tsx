@@ -107,7 +107,7 @@ export default function Products() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/dashboard" className="block">
+                    <Link href="/loan-request" className="block">
                       <Button className="w-full" size="sm" data-testid={`button-apply-individual-${index}`}>{t.hero.cta1}</Button>
                     </Link>
                   </Card>
@@ -142,7 +142,7 @@ export default function Products() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/dashboard" className="block">
+                    <Link href="/loan-request" className="block">
                       <Button className="w-full" data-testid={`button-apply-business-${index}`}>{t.hero.cta1}</Button>
                     </Link>
                   </Card>
