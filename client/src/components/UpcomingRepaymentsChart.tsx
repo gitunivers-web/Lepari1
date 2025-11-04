@@ -15,9 +15,9 @@ export default function UpcomingRepaymentsChart({ data }: UpcomingRepaymentsChar
   const t = useTranslations();
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="lg:col-span-2 shadow-xl border-2 border-pink-100 dark:border-pink-900 bg-gradient-to-br from-white via-pink-50/30 to-rose-50/30 dark:from-slate-800 dark:via-pink-950/30 dark:to-rose-950/30">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.upcomingRepayments}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-pink-600 to-rose-600 dark:from-pink-400 dark:to-rose-400 bg-clip-text text-transparent">{t.dashboard.upcomingRepayments}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-80">

@@ -41,9 +41,9 @@ export default function ActiveLoans({ loans }: ActiveLoansProps) {
 
   return (
     <>
-      <Card>
+      <Card className="shadow-xl border-2 border-emerald-100 dark:border-emerald-900 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/30 dark:from-slate-800 dark:via-emerald-950/30 dark:to-teal-950/30">
         <CardHeader className="flex flex-row items-center justify-between gap-1 space-y-0 pb-2">
-          <CardTitle className="text-xl md:text-2xl">{t.dashboard.activeLoans}</CardTitle>
+          <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">{t.dashboard.activeLoans}</CardTitle>
           {loans.length > 3 && (
             <Button 
               variant="ghost" 
@@ -61,7 +61,7 @@ export default function ActiveLoans({ loans }: ActiveLoansProps) {
             return (
               <div
                 key={loan.id}
-                className="border rounded-md p-4 space-y-3 hover-elevate cursor-pointer"
+                className="border-2 border-emerald-200 dark:border-emerald-800 bg-gradient-to-br from-white to-emerald-50/50 dark:from-slate-800 dark:to-emerald-950/50 rounded-xl p-4 space-y-3 hover:shadow-lg hover:border-emerald-400 dark:hover:border-emerald-600 transition-all duration-200 cursor-pointer"
                 data-testid={`card-loan-${loan.id}`}
                 onClick={() => handleLoanClick(loan)}
               >

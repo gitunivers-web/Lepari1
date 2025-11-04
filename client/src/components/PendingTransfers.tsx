@@ -57,9 +57,9 @@ export default function PendingTransfers({ transfers }: PendingTransfersProps) {
   };
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="lg:col-span-2 shadow-xl border-2 border-cyan-100 dark:border-cyan-900 bg-gradient-to-br from-white via-cyan-50/30 to-sky-50/30 dark:from-slate-800 dark:via-cyan-950/30 dark:to-sky-950/30">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.pendingTransfers}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-cyan-600 to-sky-600 dark:from-cyan-400 dark:to-sky-400 bg-clip-text text-transparent">{t.dashboard.pendingTransfers}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {transfers.length === 0 ? (
@@ -76,7 +76,7 @@ export default function PendingTransfers({ transfers }: PendingTransfersProps) {
             return (
               <div
                 key={transfer.id}
-                className="border rounded-lg p-6 space-y-4"
+                className="border-2 border-cyan-200 dark:border-cyan-800 bg-gradient-to-br from-white to-cyan-50/50 dark:from-slate-800 dark:to-cyan-950/50 rounded-xl p-6 space-y-4 hover:shadow-lg transition-all duration-200"
                 data-testid={`transfer-${transfer.id}`}
               >
                 <div className="flex flex-wrap justify-between items-start gap-4">

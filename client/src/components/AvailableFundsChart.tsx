@@ -15,9 +15,9 @@ export default function AvailableFundsChart({ data }: AvailableFundsChartProps) 
   const t = useTranslations();
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="lg:col-span-2 shadow-xl border-2 border-lime-100 dark:border-lime-900 bg-gradient-to-br from-white via-lime-50/30 to-green-50/30 dark:from-slate-800 dark:via-lime-950/30 dark:to-green-950/30">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">{t.dashboard.availableFunds}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl bg-gradient-to-r from-lime-600 to-green-600 dark:from-lime-400 dark:to-green-400 bg-clip-text text-transparent">{t.dashboard.availableFunds}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-80">

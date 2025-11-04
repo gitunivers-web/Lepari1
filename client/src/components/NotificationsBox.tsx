@@ -59,11 +59,11 @@ export default function NotificationsBox() {
   const unreadCount = messages?.filter(m => !m.isRead).length || 0;
 
   return (
-    <Card data-testid="card-notifications">
+    <Card className="shadow-xl border-2 border-violet-100 dark:border-violet-900 bg-gradient-to-br from-white via-violet-50/30 to-purple-50/30 dark:from-slate-800 dark:via-violet-950/30 dark:to-purple-950/30" data-testid="card-notifications">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <Bell className="w-5 h-5" />
+          <span className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent font-bold">
+            <Bell className="w-5 h-5 text-violet-600 dark:text-violet-400" />
             Notifications
           </span>
           {unreadCount > 0 && (
