@@ -326,6 +326,8 @@ export const translations: Record<Language, TranslationKeys> = {
     products: {
       title: 'Nos Solutions de Prêts',
       subtitle: 'Des produits adaptés à vos besoins - Particuliers et Professionnels',
+      businessTitle: 'Prêts Professionnels',
+      businessSubtitle: 'Des produits adaptés à vos besoins professionnels',
       termLoans: 'Prêts à Terme Professionnels',
       termLoansDesc: 'Financement à moyen et long terme pour vos investissements stratégiques : développement, acquisition, expansion. De 10 000€ à 500 000€ sur 1 à 7 ans. Taux fixes de 3,5% à 8,5% APR selon profil. Remboursement anticipé sans pénalité.',
       lineOfCredit: 'Ligne de Crédit Renouvelable',
@@ -578,6 +580,8 @@ export const translations: Record<Language, TranslationKeys> = {
     products: {
       title: 'Our Loan Solutions',
       subtitle: 'Products tailored to your needs - Individuals and Businesses',
+      businessTitle: 'Business Loans',
+      businessSubtitle: 'Products tailored to your business needs',
       termLoans: 'Professional Term Loans',
       termLoansDesc: 'Medium and long-term financing for your strategic investments: development, acquisition, expansion. From €10,000 to €500,000 over 1 to 7 years. Fixed rates from 3.5% to 8.5% APR depending on profile. Early repayment without penalty.',
       lineOfCredit: 'Revolving Line of Credit',
@@ -830,6 +834,8 @@ export const translations: Record<Language, TranslationKeys> = {
     products: {
       title: 'Nuestras Soluciones de Préstamos',
       subtitle: 'Productos adaptados a sus necesidades - Particulares y Empresas',
+      businessTitle: 'Préstamos Empresariales',
+      businessSubtitle: 'Productos adaptados a sus necesidades empresariales',
       termLoans: 'Préstamos a Plazo Profesionales',
       termLoansDesc: 'Financiamiento a mediano y largo plazo para sus inversiones estratégicas: desarrollo, adquisición, expansión. De €10,000 a €500,000 de 1 a 7 años. Tasas fijas de 3.5% a 8.5% TAE según perfil. Pago anticipado sin penalización.',
       lineOfCredit: 'Línea de Crédito Renovable',
