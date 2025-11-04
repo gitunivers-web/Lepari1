@@ -8,7 +8,11 @@ import {
   type Fee,
   type InsertFee,
   type Transaction,
-  type InsertTransaction
+  type InsertTransaction,
+  type AdminSetting,
+  type InsertAdminSetting,
+  type AuditLog,
+  type InsertAuditLog
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -16,6 +20,7 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: string, updates: Partial<User>): Promise<User | undefined>;
   
   getUserLoans(userId: string): Promise<Loan[]>;
   getLoan(id: string): Promise<Loan | undefined>;
@@ -41,6 +46,27 @@ export interface IStorage {
     fees: Fee[];
     transactions: Transaction[];
   }>;
+  
+  getAllUsers(): Promise<User[]>;
+  getAllTransfers(): Promise<Transfer[]>;
+  getAllLoans(): Promise<Loan[]>;
+  deleteUser(id: string): Promise<boolean>;
+  
+  getAdminSettings(): Promise<AdminSetting[]>;
+  getAdminSetting(key: string): Promise<AdminSetting | undefined>;
+  updateAdminSetting(key: string, value: any, updatedBy: string): Promise<AdminSetting>;
+  
+  getAuditLogs(limit?: number): Promise<AuditLog[]>;
+  createAuditLog(log: InsertAuditLog): Promise<AuditLog>;
+  
+  getActivityStats(): Promise<{
+    totalUsers: number;
+    activeUsers: number;
+    totalTransfers: number;
+    pendingTransfers: number;
+    totalLoans: number;
+    activeLoans: number;
+  }>;
 }
 
 export class MemStorage implements IStorage {
@@ -49,6 +75,8 @@ export class MemStorage implements IStorage {
   private transfers: Map<string, Transfer>;
   private fees: Map<string, Fee>;
   private transactions: Map<string, Transaction>;
+  private adminSettings: Map<string, AdminSetting>;
+  private auditLogs: AuditLog[];
 
   constructor() {
     this.users = new Map();
@@ -56,6 +84,8 @@ export class MemStorage implements IStorage {
     this.transfers = new Map();
     this.fees = new Map();
     this.transactions = new Map();
+    this.adminSettings = new Map();
+    this.auditLogs = [];
     this.seedData();
   }
 
@@ -229,6 +259,117 @@ export class MemStorage implements IStorage {
       },
     ];
     transactions.forEach((tx) => this.transactions.set(tx.id, tx));
+
+    const adminSettingsData: AdminSetting[] = [
+      {
+        id: randomUUID(),
+        settingKey: "default_transfer_fee",
+        settingValue: { amount: 25, currency: "EUR" },
+        description: "Montant des frais de transfert par défaut",
+        updatedAt: new Date(),
+        updatedBy: "admin-001",
+      },
+      {
+        id: randomUUID(),
+        settingKey: "validation_codes_count",
+        settingValue: { min: 1, max: 3, default: 2 },
+        description: "Nombre de codes de validation requis",
+        updatedAt: new Date(),
+        updatedBy: "admin-001",
+      },
+      {
+        id: randomUUID(),
+        settingKey: "validation_code_amount_threshold",
+        settingValue: { amount: 50000, currency: "EUR" },
+        description: "Montant déclenchant plusieurs codes de validation",
+        updatedAt: new Date(),
+        updatedBy: "admin-001",
+      },
+    ];
+    adminSettingsData.forEach((setting) => this.adminSettings.set(setting.settingKey, setting));
+
+    const user2: User = {
+      id: "user-002",
+      username: "marie.martin",
+      password: "hashed_password_2",
+      email: "marie.martin@societe.fr",
+      fullName: "Marie Martin",
+      phone: "+33698765432",
+      accountType: "business",
+      role: "user",
+      status: "active",
+      kycStatus: "approved",
+      kycSubmittedAt: new Date("2024-03-01"),
+      kycApprovedAt: new Date("2024-03-05"),
+      createdAt: new Date("2024-03-01"),
+      updatedAt: new Date("2024-03-01"),
+    };
+    this.users.set(user2.id, user2);
+
+    const user3: User = {
+      id: "user-003",
+      username: "pierre.bernard",
+      password: "hashed_password_3",
+      email: "pierre.bernard@company.fr",
+      fullName: "Pierre Bernard",
+      phone: "+33687654321",
+      accountType: "business",
+      role: "user",
+      status: "pending",
+      kycStatus: "pending",
+      kycSubmittedAt: new Date("2025-11-01"),
+      kycApprovedAt: null,
+      createdAt: new Date("2025-11-01"),
+      updatedAt: new Date("2025-11-01"),
+    };
+    this.users.set(user3.id, user3);
+
+    const transfer3: Transfer = {
+      id: "transfer-003",
+      userId: "user-002",
+      externalAccountId: null,
+      amount: "75000",
+      recipient: "Client ABC Ltd",
+      status: "completed",
+      currentStep: 5,
+      progressPercent: 100,
+      feeAmount: "50.00",
+      requiredCodes: 3,
+      codesValidated: 3,
+      approvedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      suspendedAt: null,
+      completedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    };
+    this.transfers.set(transfer3.id, transfer3);
+
+    this.auditLogs = [
+      {
+        id: randomUUID(),
+        actorId: "admin-001",
+        actorRole: "admin",
+        action: "approve_transfer",
+        entityType: "transfer",
+        entityId: "transfer-003",
+        metadata: { amount: "75000", recipient: "Client ABC Ltd" },
+        ipAddress: "192.168.1.1",
+        userAgent: "Mozilla/5.0",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      },
+      {
+        id: randomUUID(),
+        actorId: "admin-001",
+        actorRole: "admin",
+        action: "update_settings",
+        entityType: "admin_setting",
+        entityId: null,
+        metadata: { settingKey: "default_transfer_fee", oldValue: 20, newValue: 25 },
+        ipAddress: "192.168.1.1",
+        userAgent: "Mozilla/5.0",
+        createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+      },
+    ];
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -390,6 +531,88 @@ export class MemStorage implements IStorage {
       transfers,
       fees,
       transactions,
+    };
+  }
+
+  async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    const updated = { ...user, ...updates, updatedAt: new Date() };
+    this.users.set(id, updated);
+    return updated;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
+  async getAllTransfers(): Promise<Transfer[]> {
+    return Array.from(this.transfers.values())
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async getAllLoans(): Promise<Loan[]> {
+    return Array.from(this.loans.values());
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    return this.users.delete(id);
+  }
+
+  async getAdminSettings(): Promise<AdminSetting[]> {
+    return Array.from(this.adminSettings.values());
+  }
+
+  async getAdminSetting(key: string): Promise<AdminSetting | undefined> {
+    return this.adminSettings.get(key);
+  }
+
+  async updateAdminSetting(key: string, value: any, updatedBy: string): Promise<AdminSetting> {
+    const existing = this.adminSettings.get(key);
+    const setting: AdminSetting = {
+      id: existing?.id || randomUUID(),
+      settingKey: key,
+      settingValue: value,
+      description: existing?.description || "",
+      updatedAt: new Date(),
+      updatedBy,
+    };
+    this.adminSettings.set(key, setting);
+    return setting;
+  }
+
+  async getAuditLogs(limit: number = 100): Promise<AuditLog[]> {
+    return this.auditLogs
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, limit);
+  }
+
+  async createAuditLog(insertLog: InsertAuditLog): Promise<AuditLog> {
+    const log: AuditLog = {
+      ...insertLog,
+      id: randomUUID(),
+      entityId: insertLog.entityId || null,
+      metadata: insertLog.metadata || null,
+      ipAddress: insertLog.ipAddress || null,
+      userAgent: insertLog.userAgent || null,
+      createdAt: new Date(),
+    };
+    this.auditLogs.push(log);
+    return log;
+  }
+
+  async getActivityStats() {
+    const users = Array.from(this.users.values());
+    const transfers = Array.from(this.transfers.values());
+    const loans = Array.from(this.loans.values());
+
+    return {
+      totalUsers: users.length,
+      activeUsers: users.filter(u => u.status === 'active').length,
+      totalTransfers: transfers.length,
+      pendingTransfers: transfers.filter(t => t.status === 'pending' || t.status === 'in-progress').length,
+      totalLoans: loans.length,
+      activeLoans: loans.filter(l => l.status === 'active').length,
     };
   }
 }
