@@ -376,6 +376,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { password: _, verificationToken: __, ...userWithoutSensitive } = user;
       
+      await storage.createAuditLog({
+        actorId: user.id,
+        actorRole: user.role,
+        action: 'user_login',
+        entityType: 'user',
+        entityId: user.id,
+        ipAddress: req.ip || req.headers['x-forwarded-for'] as string || 'unknown',
+        userAgent: req.headers['user-agent'] || 'unknown',
+      });
+      
       res.json({
         message: 'Connexion réussie',
         user: userWithoutSensitive
@@ -392,6 +402,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/auth/logout", async (req, res) => {
     try {
+      const userId = req.session.userId;
+      const userRole = req.session.userRole || 'user';
+      
+      if (userId) {
+        await storage.createAuditLog({
+          actorId: userId,
+          actorRole: userRole,
+          action: 'user_logout',
+          entityType: 'user',
+          entityId: userId,
+        });
+      }
+      
       req.session.destroy((err) => {
         if (err) {
           return res.status(500).json({ error: 'Erreur lors de la déconnexion' });
@@ -722,9 +745,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       await storage.createAuditLog({
-        userId: req.session.userId!,
+        actorId: req.session.userId!,
+        actorRole: 'user',
         action: 'loan_request_submitted',
-        details: { loanId: loan.id, amount, loanType, duration },
+        entityType: 'loan',
+        entityId: loan.id,
+        metadata: { amount, loanType, duration },
       });
       
       res.status(201).json({ 
