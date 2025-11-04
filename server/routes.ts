@@ -53,6 +53,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     legacyHeaders: false,
   });
 
+  const loanLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    message: { error: 'Trop de demandes de prêt. Veuillez réessayer dans 1 heure.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  const generalApiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    message: { error: 'Trop de requêtes. Veuillez ralentir.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   const loginSchema = z.object({
     email: z.string().email('Email invalide'),
     password: z.string().min(1, 'Mot de passe requis'),
@@ -671,9 +687,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/loans", requireAuth, async (req, res) => {
+  app.post("/api/loans", requireAuth, loanLimiter, async (req, res) => {
     try {
-      const { loanType, amount, duration } = req.body;
+      const loanRequestSchema = z.object({
+        loanType: z.enum(['business', 'personal', 'real_estate']),
+        amount: z.string().refine((val) => {
+          const num = parseFloat(val);
+          return !isNaN(num) && num > 0 && num <= 500000;
+        }, 'Le montant doit être entre 0 et 500,000 EUR'),
+        duration: z.number().int().min(6).max(240),
+      });
+
+      const { loanType, amount, duration } = loanRequestSchema.parse(req.body);
       
       const interestRate = await calculateInterestRate(loanType, parseFloat(amount));
       
@@ -696,13 +721,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         severity: 'info',
       });
       
+      await storage.createAuditLog({
+        userId: req.session.userId!,
+        action: 'loan_request_submitted',
+        details: { loanId: loan.id, amount, loanType, duration },
+      });
+      
       res.status(201).json({ 
         loan,
         message: 'Votre demande de prêt a été soumise avec succès et est en attente de validation par notre service.'
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Loan creation error:', error);
-      res.status(400).json({ error: 'Invalid loan data' });
+      if (error.name === 'ZodError') {
+        const firstError = error.errors[0];
+        return res.status(400).json({ error: firstError.message });
+      }
+      res.status(400).json({ error: 'Données de prêt invalides' });
     }
   });
 
