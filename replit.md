@@ -89,6 +89,11 @@ externalAccounts (id, userId, accountType, accountName, iban, bic, createdAt)
   - Communication tools (messages, notifications with fees)
   - Statistics and audit logs
   - Detailed validation schemas and security measures
+- **ADMIN_SETUP.md**: Guide for creating admin accounts in production:
+  - Automated script (`scripts/create-admin.ts`) for interactive admin creation
+  - Manual SQL method for direct database access
+  - Security requirements (12+ character passwords, bcrypt hashing)
+  - Troubleshooting and support information
 
 ### Business Workflows
 
