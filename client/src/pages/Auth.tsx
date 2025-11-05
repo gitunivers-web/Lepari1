@@ -94,13 +94,17 @@ export default function Auth() {
       const response = await apiRequest('POST', '/api/auth/login', data);
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       clearCsrfToken();
       toast({
         title: t.auth.loginSuccess,
         description: t.auth.loginSuccessDesc,
       });
-      setLocation('/dashboard');
+      if (data.user?.role === 'admin') {
+        setLocation('/admin');
+      } else {
+        setLocation('/dashboard');
+      }
     },
     onError: (error: any) => {
       if (error.needsVerification) {
