@@ -97,16 +97,20 @@ export default function Dashboard() {
           <QuickActions />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <FeeSection fees={dashboardData.fees} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+          <div className="lg:col-span-2">
+            <FeeSection fees={dashboardData.fees} />
+          </div>
+          <BankCardOffer />
+        </div>
+
+        <div className="grid grid-cols-1">
           {isFundsLoading ? (
             <Skeleton className="h-64" />
           ) : fundsData ? (
             <AvailableFundsChart data={fundsData} />
           ) : null}
         </div>
-
-        <BankCardOffer />
       </div>
     </div>
   );

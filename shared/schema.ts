@@ -28,6 +28,7 @@ export const users = pgTable("users", {
   externalTransfersBlocked: boolean("external_transfers_blocked").notNull().default(false),
   transferBlockReason: text("transfer_block_reason"),
   hasSeenWelcomeMessage: boolean("has_seen_welcome_message").notNull().default(false),
+  profilePhoto: text("profile_photo"),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });

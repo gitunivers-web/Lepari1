@@ -1,4 +1,5 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertLoanSchema, insertTransferSchema, insertUserSchema } from "@shared/schema";
@@ -13,6 +14,8 @@ import fs from "fs";
 import { fileTypeFromFile } from "file-type";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
   const generateCSRFToken = (): string => {
     return randomBytes(32).toString('hex');
   };
@@ -310,6 +313,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
       files: 1,
     },
     fileFilter: fileFilter,
+  });
+
+  const profilePhotoDir = path.join(process.cwd(), 'uploads', 'profile-photos');
+  if (!fs.existsSync(profilePhotoDir)) {
+    fs.mkdirSync(profilePhotoDir, { recursive: true });
+  }
+
+  const profilePhotoStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, profilePhotoDir);
+    },
+    filename: function (req, file, cb) {
+      const uniqueName = `${randomUUID()}${path.extname(file.originalname)}`;
+      cb(null, uniqueName);
+    }
+  });
+
+  const profilePhotoUpload = multer({
+    storage: profilePhotoStorage,
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+      files: 1,
+    },
+    fileFilter: (req: any, file: any, cb: any) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const allowedImageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+      const allowedImageMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      
+      if (!allowedImageExtensions.includes(ext)) {
+        return cb(new Error('Type de fichier non autorisé. Seules les images JPEG, PNG et WebP sont acceptées.'), false);
+      }
+      
+      if (!allowedImageMimes.includes(file.mimetype)) {
+        return cb(new Error('Type MIME non autorisé.'), false);
+      }
+      
+      cb(null, true);
+    },
   });
 
 
@@ -636,6 +677,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error marking welcome message as seen:', error);
       res.status(500).json({ error: 'Failed to mark welcome message as seen' });
+    }
+  });
+
+  app.post("/api/user/profile-photo", requireAuth, uploadLimiter, profilePhotoUpload.single('profilePhoto'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'Aucune image fournie' });
+      }
+
+      const fileType = await fileTypeFromFile(req.file.path);
+      
+      const allowedTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
+      const allowedExtensions = new Set(['jpg', 'jpeg', 'png', 'webp']);
+      
+      if (!fileType || !allowedTypes.has(fileType.mime) || !allowedExtensions.has(fileType.ext)) {
+        try {
+          await fs.promises.unlink(req.file.path);
+        } catch (cleanupError) {
+          console.error('Error cleaning up invalid file:', cleanupError);
+        }
+        return res.status(400).json({ 
+          error: 'Type de fichier non autorisé. Seules les images JPEG, PNG et WebP sont acceptées.' 
+        });
+      }
+
+      const user = await storage.getUser(req.session.userId!);
+      if (user?.profilePhoto) {
+        const oldPhotoPath = path.join(profilePhotoDir, path.basename(user.profilePhoto));
+        try {
+          if (fs.existsSync(oldPhotoPath)) {
+            await fs.promises.unlink(oldPhotoPath);
+          }
+        } catch (cleanupError) {
+          console.error('Error cleaning up old profile photo:', cleanupError);
+        }
+      }
+
+      const photoUrl = `/uploads/profile-photos/${req.file.filename}`;
+      
+      await storage.updateUser(req.session.userId!, {
+        profilePhoto: photoUrl,
+      });
+
+      await storage.createAuditLog({
+        actorId: req.session.userId!,
+        actorRole: req.session.userRole || 'user',
+        action: 'profile_photo_update',
+        entityType: 'user',
+        entityId: req.session.userId!,
+        ipAddress: req.ip || req.headers['x-forwarded-for'] as string || 'unknown',
+        userAgent: req.headers['user-agent'] || 'unknown',
+      });
+
+      res.json({ 
+        success: true, 
+        profilePhoto: photoUrl,
+        message: 'Photo de profil mise à jour avec succès'
+      });
+    } catch (error: any) {
+      console.error('Profile photo upload error:', error);
+      
+      if (req.file) {
+        try {
+          await fs.promises.unlink(req.file.path);
+        } catch (cleanupError) {
+          console.error('Error cleaning up file after error:', cleanupError);
+        }
+      }
+      
+      res.status(500).json({ error: 'Erreur lors de la mise à jour de la photo de profil' });
     }
   });
 

@@ -35,6 +35,7 @@ import AppSidebar from '@/components/AppSidebar';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import ThemeToggle from '@/components/ThemeToggle';
 import NotificationBanner from '@/components/NotificationBanner';
+import UserProfileHeader from '@/components/UserProfileHeader';
 
 function Router() {
   return (
@@ -94,11 +95,12 @@ function App() {
                 <div className="flex h-screen w-full">
                   <AppSidebar />
                   <div className="flex flex-col flex-1">
-                    <header className="flex items-center justify-between p-4 border-b">
+                    <header className="flex items-center justify-between p-4 border-b bg-white dark:bg-slate-900">
                       <SidebarTrigger data-testid="button-sidebar-toggle" />
-                      <div className="flex gap-2">
+                      <div className="flex items-center gap-3">
                         <LanguageSwitcher />
                         <ThemeToggle />
+                        <UserProfileHeader />
                       </div>
                     </header>
                     <div className="p-4">

@@ -16,66 +16,19 @@ export default function BankCardOffer() {
 
   return (
     <>
-      <Card className="bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-800 dark:to-indigo-900 text-white border-0 shadow-xl overflow-hidden">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <CardTitle className="text-2xl font-bold text-white flex items-center gap-2" data-testid="text-card-title">
-                <CreditCard className="h-6 w-6" />
-                {t.bankCard.title}
-              </CardTitle>
-              <CardDescription className="text-blue-100 mt-2" data-testid="text-card-subtitle">
-                {t.bankCard.subtitle}
-              </CardDescription>
-            </div>
-            <Badge variant="secondary" className="bg-yellow-400 text-yellow-900 hover:bg-yellow-400">
-              Premium
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex justify-center">
-            <VirtualBankCard />
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="flex items-center gap-2 text-sm">
-              <Gift className="h-4 w-4 text-yellow-300" />
-              <span className="text-white">2% Cashback</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="h-4 w-4 text-yellow-300" />
-              <span className="text-white">{t.bankCard.advantages.protection}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Globe className="h-4 w-4 text-yellow-300" />
-              <span className="text-white">{t.bankCard.advantages.global}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4 text-yellow-300" />
-              <span className="text-white">{t.bankCard.advantages.support}</span>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <Button 
-              onClick={() => setIsModalOpen(true)}
-              variant="secondary"
-              className="flex-1 bg-white text-blue-700 hover:bg-blue-50"
-              data-testid="button-learn-more"
-            >
-              <Info className="h-4 w-4 mr-2" />
-              {t.bankCard.learnMore}
-            </Button>
-            <Button 
-              variant="outline"
-              className="flex-1 border-white text-white hover:bg-white/10"
-              data-testid="button-order-card"
-            >
-              <CreditCard className="h-4 w-4 mr-2" />
-              {t.bankCard.orderNow}
-            </Button>
-          </div>
+      <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-2 border-blue-200 dark:border-blue-800 shadow-xl overflow-hidden h-full">
+        <CardContent className="p-4 flex flex-col items-center justify-center h-full space-y-3">
+          <VirtualBankCard />
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            variant="default"
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+            data-testid="button-card-details"
+          >
+            <Info className="h-4 w-4 mr-2" />
+            Voir les détails
+          </Button>
         </CardContent>
       </Card>
 
