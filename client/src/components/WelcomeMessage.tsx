@@ -6,11 +6,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, Info, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { useUser, getAccountTypeLabel } from '@/hooks/use-user';
+import { useTranslations } from '@/lib/i18n';
 
 export default function WelcomeMessage() {
   const { data: user } = useUser();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations();
 
   useEffect(() => {
     if (user && !user.hasSeenWelcomeMessage) {
@@ -121,7 +123,7 @@ export default function WelcomeMessage() {
             disabled={markAsSeenMutation.isPending}
             data-testid="button-close-welcome"
           >
-            {markAsSeenMutation.isPending ? 'Chargement...' : 'Compris, commencer'}
+            {markAsSeenMutation.isPending ? t.common.loading : 'Compris, commencer'}
           </Button>
         </DialogFooter>
       </DialogContent>
