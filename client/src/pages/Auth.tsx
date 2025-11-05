@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { Building2, User, Mail, Lock, Phone, FileText, Hash, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
 
 const loginSchema = z.object({
   email: z.string().email('Email invalide'),
@@ -53,6 +54,7 @@ type SignupFormData = z.infer<typeof signupSchema>;
 export default function Auth() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
+  const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState<string>('login');
   const [accountType, setAccountType] = useState<'personal' | 'business'>('personal');
 
@@ -117,7 +119,7 @@ export default function Auth() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: SignupFormData) => {
-      const response = await apiRequest('POST', '/api/auth/signup', data);
+      const response = await apiRequest('POST', '/api/auth/signup', { ...data, preferredLanguage: language });
       return response.json();
     },
     onSuccess: (data) => {

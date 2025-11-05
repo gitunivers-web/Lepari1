@@ -500,7 +500,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const verifiedUser = await storage.verifyUserEmail(user.id);
       
-      await sendWelcomeEmail(user.email, user.fullName, user.accountType);
+      await sendWelcomeEmail(user.email, user.fullName, user.accountType, user.preferredLanguage || 'fr');
       
       res.json({
         message: 'Email vérifié avec succès ! Vous pouvez maintenant vous connecter.',
@@ -532,7 +532,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         verificationTokenExpiry: newExpiry
       });
       
-      await sendVerificationEmail(user.email, user.fullName, newToken, user.accountType);
+      await sendVerificationEmail(user.email, user.fullName, newToken, user.accountType, user.preferredLanguage || 'fr');
       
       res.json({ message: 'Email de vérification renvoyé avec succès' });
     } catch (error: any) {
@@ -1672,7 +1672,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             user.fullName,
             loan.id,
             loan.amount,
-            contractUrl
+            contractUrl,
+            user.preferredLanguage || 'fr'
           );
         } catch (emailError) {
           console.error('Failed to send contract email, loan still approved:', emailError);

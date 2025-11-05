@@ -46,6 +46,10 @@ type TemplateVariables = VerificationVariables | WelcomeVariables | ContractVari
 
 const translations = {
   fr: {
+    accountTypes: {
+      personal: "particulier",
+      business: "professionnel/entreprise"
+    },
     verification: {
       subject: "Vérifiez votre adresse email - ALTUS",
       tagline: "Solutions de financement",
@@ -126,6 +130,10 @@ const translations = {
     }
   },
   en: {
+    accountTypes: {
+      personal: "individual/personal",
+      business: "business/professional"
+    },
     verification: {
       subject: "Verify your email address - ALTUS",
       tagline: "Financing Solutions",
@@ -206,6 +214,10 @@ const translations = {
     }
   },
   es: {
+    accountTypes: {
+      personal: "particular",
+      business: "profesional/empresa"
+    },
     verification: {
       subject: "Verifica tu dirección de correo electrónico - ALTUS",
       tagline: "Soluciones de financiación",
@@ -286,6 +298,10 @@ const translations = {
     }
   },
   pt: {
+    accountTypes: {
+      personal: "particular",
+      business: "profissional/empresa"
+    },
     verification: {
       subject: "Verifique seu endereço de email - ALTUS",
       tagline: "Soluções de financiamento",
@@ -366,6 +382,10 @@ const translations = {
     }
   },
   it: {
+    accountTypes: {
+      personal: "particolare",
+      business: "professionale/aziendale"
+    },
     verification: {
       subject: "Verifica il tuo indirizzo email - ALTUS",
       tagline: "Soluzioni di finanziamento",
@@ -446,6 +466,10 @@ const translations = {
     }
   },
   de: {
+    accountTypes: {
+      personal: "privat",
+      business: "geschäftlich/unternehmen"
+    },
     verification: {
       subject: "Bestätigen Sie Ihre E-Mail-Adresse - ALTUS",
       tagline: "Finanzierungslösungen",
@@ -526,6 +550,10 @@ const translations = {
     }
   },
   nl: {
+    accountTypes: {
+      personal: "particulier",
+      business: "professioneel/zakelijk"
+    },
     verification: {
       subject: "Verifieer uw e-mailadres - ALTUS",
       tagline: "Financieringsoplossingen",
@@ -609,7 +637,10 @@ const translations = {
 
 function getVerificationTemplate(lang: Language, vars: VerificationVariables): EmailTemplate {
   const t = translations[lang].verification;
+  const accountTypes = translations[lang].accountTypes;
   const currentYear = new Date().getFullYear();
+  
+  const translatedAccountType = (accountTypes as any)[vars.accountTypeText] || vars.accountTypeText;
   
   const html = `
     <!DOCTYPE html>
@@ -634,7 +665,7 @@ function getVerificationTemplate(lang: Language, vars: VerificationVariables): E
         </div>
         <div class="content">
           <h2 style="color: #1f2937; margin-top: 0;">${t.greeting} ${escapeHtml(vars.fullName)},</h2>
-          <p>${t.thankYou} <strong>${escapeHtml(vars.accountTypeText)}</strong>.</p>
+          <p>${t.thankYou} <strong>${escapeHtml(translatedAccountType)}</strong>.</p>
           <p>${t.instruction}</p>
           <div style="text-align: center;">
             <a href="${vars.verificationUrl}" class="button">${t.buttonText}</a>
@@ -656,7 +687,7 @@ function getVerificationTemplate(lang: Language, vars: VerificationVariables): E
   const text = `
     ${t.greeting} ${vars.fullName},
     
-    ${t.textVersion.thankYou} ${vars.accountTypeText}.
+    ${t.textVersion.thankYou} ${translatedAccountType}.
     
     ${t.textVersion.instruction}
     ${vars.verificationUrl}
@@ -675,8 +706,10 @@ function getVerificationTemplate(lang: Language, vars: VerificationVariables): E
 
 function getWelcomeTemplate(lang: Language, vars: WelcomeVariables): EmailTemplate {
   const t = translations[lang].welcome;
+  const accountTypes = translations[lang].accountTypes;
   const currentYear = new Date().getFullYear();
   
+  const translatedAccountType = (accountTypes as any)[vars.accountTypeText] || vars.accountTypeText;
   const featuresHtml = t.features.map(feature => `<li>${feature}</li>`).join('');
   const featuresText = t.features.map((feature, index) => `${index + 1}. ${feature}`).join('\n');
   
@@ -701,7 +734,7 @@ function getWelcomeTemplate(lang: Language, vars: WelcomeVariables): EmailTempla
         </div>
         <div class="content">
           <h2 style="color: #1f2937; margin-top: 0;">${t.greeting} ${escapeHtml(vars.fullName)},</h2>
-          <p>${t.verifiedMessage} <strong>${escapeHtml(vars.accountTypeText)}</strong> ${t.activeMessage}</p>
+          <p>${t.verifiedMessage} <strong>${escapeHtml(translatedAccountType)}</strong> ${t.activeMessage}</p>
           <p>${t.featuresIntro}</p>
           <ul>
             ${featuresHtml}
@@ -724,7 +757,7 @@ function getWelcomeTemplate(lang: Language, vars: WelcomeVariables): EmailTempla
   const text = `
     ${t.greeting} ${vars.fullName},
     
-    ${t.verifiedMessage} ${vars.accountTypeText} ${t.activeMessage}
+    ${t.verifiedMessage} ${translatedAccountType} ${t.activeMessage}
     
     ${t.featuresIntro}
     ${featuresText}
