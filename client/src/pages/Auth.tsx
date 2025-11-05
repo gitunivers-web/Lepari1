@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
-import { Building2, User, Mail, Lock, Phone, FileText, Hash } from 'lucide-react';
+import { Building2, User, Mail, Lock, Phone, FileText, Hash, ArrowLeft } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email('Email invalide'),
@@ -166,6 +166,18 @@ export default function Auth() {
             <TabsContent value="login" className="mt-6">
               <Form {...loginForm}>
                 <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
+                  <Link href="/">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="mb-4 -mt-2 text-violet-600 hover:text-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950"
+                      data-testid="button-back-login"
+                    >
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      Retour à l'accueil
+                    </Button>
+                  </Link>
+
                   <FormField
                     control={loginForm.control}
                     name="email"
@@ -220,14 +232,6 @@ export default function Auth() {
                   >
                     {loginMutation.isPending ? 'Connexion en cours...' : 'Se connecter'}
                   </Button>
-
-                  <div className="text-center">
-                    <Link href="/">
-                      <span className="text-sm text-violet-600 hover:underline cursor-pointer" data-testid="link-home">
-                        Retour à l'accueil
-                      </span>
-                    </Link>
-                  </div>
                 </form>
               </Form>
             </TabsContent>
@@ -235,6 +239,18 @@ export default function Auth() {
             <TabsContent value="signup" className="mt-6">
               <Form {...signupForm}>
                 <form onSubmit={signupForm.handleSubmit(onSignupSubmit)} className="space-y-6">
+                  <Link href="/">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="mb-4 -mt-2 text-violet-600 hover:text-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950"
+                      data-testid="button-back-signup"
+                    >
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      Retour à l'accueil
+                    </Button>
+                  </Link>
+
                   <FormField
                     control={signupForm.control}
                     name="accountType"
