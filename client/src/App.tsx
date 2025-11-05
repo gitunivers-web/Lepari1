@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import PageLoader from '@/components/PageLoader';
 import NotFound from '@/pages/not-found';
 import Home from '@/pages/Home';
 import Dashboard from '@/pages/Dashboard';
@@ -72,6 +73,7 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <PageLoader />
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/about" component={About} />

@@ -1,11 +1,17 @@
 import { seoConfig } from './seo-config';
 
 export const organizationSchema = {
+  "@context": "https://schema.org",
   "@type": "FinancialService",
   "name": seoConfig.siteName,
   "description": "Solutions de prêt professionnel pour particuliers et professionnels avec des taux compétitifs et un processus transparent",
   "url": seoConfig.siteUrl,
-  "logo": `${seoConfig.siteUrl}/logo.png`,
+  "logo": {
+    "@type": "ImageObject",
+    "url": `${seoConfig.siteUrl}/logo.png`,
+    "width": 512,
+    "height": 512
+  },
   "image": `${seoConfig.siteUrl}/og-image.jpg`,
   "telephone": seoConfig.organization.telephone,
   "address": {
@@ -21,6 +27,12 @@ export const organizationSchema = {
     "@type": "AggregateRating",
     "ratingValue": "4.8",
     "reviewCount": "15000"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": seoConfig.organization.telephone,
+    "contactType": "Service Client",
+    "availableLanguage": ["French", "English", "Spanish", "Portuguese", "Italian", "German"]
   }
 };
 
