@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -14,49 +14,50 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { Building2, User, Mail, Lock, Phone, FileText, Hash, ArrowLeft } from 'lucide-react';
-import { useLanguage } from '@/lib/i18n';
-
-const loginSchema = z.object({
-  email: z.string().email('Email invalide'),
-  password: z.string().min(1, 'Le mot de passe est requis'),
-});
-
-const signupSchema = z.object({
-  accountType: z.enum(['personal', 'business']),
-  email: z.string().email('Email invalide'),
-  password: z.string()
-    .min(12, 'Le mot de passe doit contenir au moins 12 caractères')
-    .regex(/[A-Z]/, 'Le mot de passe doit contenir au moins une majuscule')
-    .regex(/[a-z]/, 'Le mot de passe doit contenir au moins une minuscule')
-    .regex(/[0-9]/, 'Le mot de passe doit contenir au moins un chiffre')
-    .regex(/[^A-Za-z0-9]/, 'Le mot de passe doit contenir au moins un caractère spécial'),
-  confirmPassword: z.string(),
-  fullName: z.string().min(2, 'Le nom complet est requis'),
-  phone: z.string().optional(),
-  companyName: z.string().optional(),
-  siret: z.string().optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Les mots de passe ne correspondent pas',
-  path: ['confirmPassword'],
-}).refine((data) => {
-  if (data.accountType === 'business') {
-    return !!data.companyName;
-  }
-  return true;
-}, {
-  message: 'Le nom de l\'entreprise est requis pour un compte professionnel',
-  path: ['companyName'],
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-type SignupFormData = z.infer<typeof signupSchema>;
+import { useLanguage, useTranslations } from '@/lib/i18n';
 
 export default function Auth() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const { language } = useLanguage();
+  const t = useTranslations();
   const [activeTab, setActiveTab] = useState<string>('login');
   const [accountType, setAccountType] = useState<'personal' | 'business'>('personal');
+
+  const loginSchema = useMemo(() => z.object({
+    email: z.string().email(t.auth.emailInvalid),
+    password: z.string().min(1, t.auth.required),
+  }), [t]);
+
+  const signupSchema = useMemo(() => z.object({
+    accountType: z.enum(['personal', 'business']),
+    email: z.string().email(t.auth.emailInvalid),
+    password: z.string()
+      .min(12, t.auth.passwordMinLength)
+      .regex(/[A-Z]/, t.auth.passwordUppercase)
+      .regex(/[a-z]/, t.auth.passwordLowercase)
+      .regex(/[0-9]/, t.auth.passwordNumber)
+      .regex(/[^A-Za-z0-9]/, t.auth.passwordSpecial),
+    confirmPassword: z.string(),
+    fullName: z.string().min(2, t.auth.required),
+    phone: z.string().optional(),
+    companyName: z.string().optional(),
+    siret: z.string().optional(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t.auth.passwordMatch,
+    path: ['confirmPassword'],
+  }).refine((data) => {
+    if (data.accountType === 'business') {
+      return !!data.companyName;
+    }
+    return true;
+  }, {
+    message: t.auth.companyRequired,
+    path: ['companyName'],
+  }), [t]);
+
+  type LoginFormData = z.infer<typeof loginSchema>;
+  type SignupFormData = z.infer<typeof signupSchema>;
 
   useEffect(() => {
     if (location === '/signup') {
@@ -95,22 +96,22 @@ export default function Auth() {
     },
     onSuccess: () => {
       toast({
-        title: 'Connexion réussie !',
-        description: 'Bienvenue sur ALTUS',
+        title: t.auth.loginSuccess,
+        description: t.auth.loginSuccessDesc,
       });
       setLocation('/dashboard');
     },
     onError: (error: any) => {
       if (error.needsVerification) {
         toast({
-          title: 'Email non vérifié',
+          title: t.auth.emailNotVerified,
           description: error.message,
           variant: 'destructive',
         });
       } else {
         toast({
-          title: 'Erreur de connexion',
-          description: error.message || 'Email ou mot de passe incorrect',
+          title: t.auth.loginError,
+          description: error.message || t.auth.loginErrorDesc,
           variant: 'destructive',
         });
       }
@@ -124,7 +125,7 @@ export default function Auth() {
     },
     onSuccess: (data) => {
       toast({
-        title: 'Inscription réussie !',
+        title: t.auth.signupSuccess,
         description: data.message,
       });
       setActiveTab('login');
@@ -132,8 +133,8 @@ export default function Auth() {
     },
     onError: (error: any) => {
       toast({
-        title: 'Erreur',
-        description: error.message || 'Une erreur est survenue lors de l\'inscription',
+        title: t.auth.signupError,
+        description: error.message || t.auth.signupErrorDesc,
         variant: 'destructive',
       });
     },
@@ -152,17 +153,17 @@ export default function Auth() {
       <Card className="w-full max-w-2xl shadow-2xl">
         <CardHeader className="text-center space-y-2">
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">
-            ALTUS
+            {t.auth.title}
           </CardTitle>
           <CardDescription className="text-base">
-            Votre partenaire de confiance pour le financement
+            {t.auth.subtitle}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2" data-testid="tabs-auth">
-              <TabsTrigger value="login" data-testid="tab-login">Connexion</TabsTrigger>
-              <TabsTrigger value="signup" data-testid="tab-signup">Inscription</TabsTrigger>
+              <TabsTrigger value="login" data-testid="tab-login">{t.auth.loginTab}</TabsTrigger>
+              <TabsTrigger value="signup" data-testid="tab-signup">{t.auth.signupTab}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="mt-6">
@@ -176,7 +177,7 @@ export default function Auth() {
                       data-testid="button-back-login"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
-                      Retour à l'accueil
+                      {t.auth.backToHome}
                     </Button>
                   </Link>
 
@@ -185,14 +186,14 @@ export default function Auth() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t.auth.email}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                             <Input
                               {...field}
                               type="email"
-                              placeholder="jean.dupont@example.com"
+                              placeholder={t.auth.emailPlaceholder}
                               className="pl-10"
                               data-testid="input-login-email"
                             />
@@ -208,14 +209,14 @@ export default function Auth() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Mot de passe</FormLabel>
+                        <FormLabel>{t.auth.password}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                             <Input
                               {...field}
                               type="password"
-                              placeholder="••••••••"
+                              placeholder={t.auth.passwordPlaceholder}
                               className="pl-10"
                               data-testid="input-login-password"
                             />
@@ -232,7 +233,7 @@ export default function Auth() {
                     disabled={loginMutation.isPending}
                     data-testid="button-submit-login"
                   >
-                    {loginMutation.isPending ? 'Connexion en cours...' : 'Se connecter'}
+                    {loginMutation.isPending ? t.auth.loggingIn : t.auth.login}
                   </Button>
                 </form>
               </Form>
@@ -249,7 +250,7 @@ export default function Auth() {
                       data-testid="button-back-signup"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
-                      Retour à l'accueil
+                      {t.auth.backToHome}
                     </Button>
                   </Link>
 
@@ -258,7 +259,7 @@ export default function Auth() {
                     name="accountType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">Type de compte</FormLabel>
+                        <FormLabel className="text-base font-semibold">{t.auth.accountType}</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={(value) => {
@@ -282,9 +283,9 @@ export default function Auth() {
                               >
                                 <User className="mb-3 h-8 w-8 text-violet-600" />
                                 <div className="text-center">
-                                  <div className="font-semibold">Particulier</div>
+                                  <div className="font-semibold">{t.auth.personal}</div>
                                   <div className="text-xs text-muted-foreground mt-1">
-                                    Prêt personnel
+                                    {t.auth.personalLoan}
                                   </div>
                                 </div>
                               </Label>
@@ -303,9 +304,9 @@ export default function Auth() {
                               >
                                 <Building2 className="mb-3 h-8 w-8 text-violet-600" />
                                 <div className="text-center">
-                                  <div className="font-semibold">Professionnel</div>
+                                  <div className="font-semibold">{t.auth.business}</div>
                                   <div className="text-xs text-muted-foreground mt-1">
-                                    Prêt entreprise
+                                    {t.auth.businessLoan}
                                   </div>
                                 </div>
                               </Label>
@@ -323,13 +324,13 @@ export default function Auth() {
                       name="fullName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nom complet *</FormLabel>
+                          <FormLabel>{t.auth.fullName} *</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                               <Input
                                 {...field}
-                                placeholder="Jean Dupont"
+                                placeholder={t.auth.fullNamePlaceholder}
                                 className="pl-10"
                                 data-testid="input-fullName"
                               />
@@ -345,13 +346,13 @@ export default function Auth() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Téléphone</FormLabel>
+                          <FormLabel>{t.auth.phone}</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                               <Input
                                 {...field}
-                                placeholder="+33 6 12 34 56 78"
+                                placeholder={t.auth.phonePlaceholder}
                                 className="pl-10"
                                 data-testid="input-phone"
                               />
@@ -370,13 +371,13 @@ export default function Auth() {
                         name="companyName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Nom de l'entreprise *</FormLabel>
+                            <FormLabel>{t.auth.companyName} *</FormLabel>
                             <FormControl>
                               <div className="relative">
                                 <FileText className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                                 <Input
                                   {...field}
-                                  placeholder="SARL ALTUS"
+                                  placeholder={t.auth.companyNamePlaceholder}
                                   className="pl-10 bg-white dark:bg-gray-800"
                                   data-testid="input-companyName"
                                 />
@@ -392,13 +393,13 @@ export default function Auth() {
                         name="siret"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>SIRET</FormLabel>
+                            <FormLabel>{t.auth.siret}</FormLabel>
                             <FormControl>
                               <div className="relative">
                                 <Hash className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                                 <Input
                                   {...field}
-                                  placeholder="123 456 789 00010"
+                                  placeholder={t.auth.siretPlaceholder}
                                   className="pl-10 bg-white dark:bg-gray-800"
                                   data-testid="input-siret"
                                 />
@@ -416,14 +417,14 @@ export default function Auth() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email *</FormLabel>
+                        <FormLabel>{t.auth.email} *</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                             <Input
                               {...field}
                               type="email"
-                              placeholder="jean.dupont@example.com"
+                              placeholder={t.auth.emailPlaceholder}
                               className="pl-10"
                               data-testid="input-signup-email"
                             />
@@ -440,14 +441,14 @@ export default function Auth() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mot de passe *</FormLabel>
+                          <FormLabel>{t.auth.password} *</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                               <Input
                                 {...field}
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder={t.auth.passwordPlaceholder}
                                 className="pl-10"
                                 data-testid="input-signup-password"
                               />
@@ -463,14 +464,14 @@ export default function Auth() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Confirmer le mot de passe *</FormLabel>
+                          <FormLabel>{t.auth.confirmPassword} *</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                               <Input
                                 {...field}
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder={t.auth.passwordPlaceholder}
                                 className="pl-10"
                                 data-testid="input-confirmPassword"
                               />
@@ -488,7 +489,7 @@ export default function Auth() {
                     disabled={signupMutation.isPending}
                     data-testid="button-submit-signup"
                   >
-                    {signupMutation.isPending ? 'Inscription en cours...' : 'Créer mon compte'}
+                    {signupMutation.isPending ? t.auth.signingUp : t.auth.signup}
                   </Button>
                 </form>
               </Form>
