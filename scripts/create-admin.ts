@@ -1,4 +1,5 @@
-import { neon } from '@neondatabase/serverless';
+import pkg from 'pg';
+const { Pool } = pkg;
 import * as bcrypt from 'bcrypt';
 import * as readline from 'readline';
 
@@ -14,6 +15,11 @@ function question(query: string): Promise<string> {
 }
 
 async function createAdmin() {
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+  });
+
   try {
     // Vérifier que DATABASE_URL est défini
     if (!process.env.DATABASE_URL) {
@@ -33,6 +39,7 @@ async function createAdmin() {
     if (password.length < 12) {
       console.error('❌ Le mot de passe doit contenir au moins 12 caractères');
       rl.close();
+      await pool.end();
       process.exit(1);
     }
 
@@ -45,19 +52,19 @@ async function createAdmin() {
 
     // Connexion à la base de données
     console.log('📡 Connexion à la base de données...');
-    const sql = neon(process.env.DATABASE_URL);
+    const client = await pool.connect();
 
     // Créer l'admin directement via SQL
     console.log('👤 Création du compte administrateur...');
-    await sql`
-      INSERT INTO users (
+    await client.query(
+      `INSERT INTO users (
         username, password, email, email_verified, full_name, 
         account_type, role, status, kyc_status, preferred_language
-      ) VALUES (
-        ${finalUsername}, ${hashedPassword}, ${email}, true, ${fullName},
-        'business', 'admin', 'active', 'approved', 'fr'
-      )
-    `;
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [finalUsername, hashedPassword, email, true, fullName, 'business', 'admin', 'active', 'approved', 'fr']
+    );
+    
+    client.release();
 
     console.log('\n✅ Compte administrateur créé avec succès!');
     console.log('\n📋 Détails du compte:');
@@ -69,12 +76,14 @@ async function createAdmin() {
     console.log('\n🔑 Vous pouvez maintenant vous connecter avec ces identifiants.');
 
     rl.close();
+    await pool.end();
   } catch (error: any) {
     console.error('\n❌ Erreur lors de la création de l\'admin:', error.message);
     if (error.code === '23505') {
       console.error('   → L\'email ou le nom d\'utilisateur existe déjà.');
     }
     rl.close();
+    await pool.end();
     process.exit(1);
   }
 }
