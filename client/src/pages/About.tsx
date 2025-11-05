@@ -1,11 +1,18 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { useTranslations } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Users, TrendingUp, Award, Clock } from 'lucide-react';
+import { organizationSchema, breadcrumbSchema } from '@/lib/seo-data';
 
 export default function About() {
   const t = useTranslations();
+
+  const aboutBreadcrumb = breadcrumbSchema([
+    { name: 'Accueil', path: '/' },
+    { name: 'À propos', path: '/about' }
+  ]);
 
   const stats = [
     { icon: Users, label: t.about.stats.clients, value: '10,000+' },
@@ -16,6 +23,13 @@ export default function About() {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="À propos d'Altus Group - Notre Mission et Nos Valeurs | Solutions de Financement"
+        description="Découvrez Altus Group, leader en solutions de prêt professionnel avec plus de 15 ans d'expérience, 10 000+ clients satisfaits et 500M€ de prêts accordés. Notre mission : rendre le financement accessible à tous."
+        keywords="à propos Altus Group, mission Altus Group, valeurs entreprise financement, expérience prêt professionnel, financement entreprise fiable"
+        path="/about"
+        structuredData={[organizationSchema, aboutBreadcrumb]}
+      />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

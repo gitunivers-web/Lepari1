@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { useTranslations } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { contactPageSchema, breadcrumbSchema } from '@/lib/seo-data';
 
 export default function Contact() {
   const t = useTranslations();
@@ -19,6 +21,11 @@ export default function Contact() {
     phone: '',
     message: '',
   });
+
+  const contactBreadcrumb = breadcrumbSchema([
+    { name: 'Accueil', path: '/' },
+    { name: 'Contact', path: '/contact' }
+  ]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +38,13 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Contactez-nous - Altus Group | Questions sur nos Prêts Professionnels"
+        description="Une question sur nos solutions de financement ? Contactez Altus Group. Notre équipe est à votre disposition pour vous accompagner dans votre projet de prêt professionnel. Réponse rapide garantie."
+        keywords="contact Altus Group, nous contacter, service client prêt, aide financement entreprise, support client Altus"
+        path="/contact"
+        structuredData={[contactPageSchema, contactBreadcrumb]}
+      />
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

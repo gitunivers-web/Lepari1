@@ -42,11 +42,11 @@ app.use(helmet({
         ? ["'self'"]
         : ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
       styleSrc: process.env.NODE_ENV === 'production'
-        ? ["'self'"]
-        : ["'self'", "'unsafe-inline'"],
+        ? ["'self'", "https://fonts.googleapis.com"]
+        : ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'"],
-      fontSrc: ["'self'", "data:"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
       frameSrc: ["'none'"],

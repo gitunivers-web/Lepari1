@@ -1,6 +1,7 @@
 import { Switch, Route } from 'wouter';
 import { queryClient } from './lib/queryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -68,47 +69,49 @@ function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/how-it-works" component={HowItWorks} />
-          <Route path="/products" component={Products} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/resources" component={Resources} />
-          <Route path="/terms" component={Terms} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/login" component={Auth} />
-          <Route path="/signup" component={Auth} />
-          <Route path="/verify/:token" component={Verify} />
-          <Route path="/loan-request" component={LoanRequest} />
-          <Route>
-            <SidebarProvider style={style as React.CSSProperties}>
-              <div className="flex h-screen w-full">
-                <AppSidebar />
-                <div className="flex flex-col flex-1">
-                  <header className="flex items-center justify-between p-4 border-b">
-                    <SidebarTrigger data-testid="button-sidebar-toggle" />
-                    <div className="flex gap-2">
-                      <LanguageSwitcher />
-                      <ThemeToggle />
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/how-it-works" component={HowItWorks} />
+            <Route path="/products" component={Products} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/resources" component={Resources} />
+            <Route path="/terms" component={Terms} />
+            <Route path="/privacy" component={Privacy} />
+            <Route path="/login" component={Auth} />
+            <Route path="/signup" component={Auth} />
+            <Route path="/verify/:token" component={Verify} />
+            <Route path="/loan-request" component={LoanRequest} />
+            <Route>
+              <SidebarProvider style={style as React.CSSProperties}>
+                <div className="flex h-screen w-full">
+                  <AppSidebar />
+                  <div className="flex flex-col flex-1">
+                    <header className="flex items-center justify-between p-4 border-b">
+                      <SidebarTrigger data-testid="button-sidebar-toggle" />
+                      <div className="flex gap-2">
+                        <LanguageSwitcher />
+                        <ThemeToggle />
+                      </div>
+                    </header>
+                    <div className="p-4">
+                      <NotificationBanner />
                     </div>
-                  </header>
-                  <div className="p-4">
-                    <NotificationBanner />
+                    <main className="flex-1 overflow-auto">
+                      <Router />
+                    </main>
                   </div>
-                  <main className="flex-1 overflow-auto">
-                    <Router />
-                  </main>
                 </div>
-              </div>
-            </SidebarProvider>
-          </Route>
-        </Switch>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+              </SidebarProvider>
+            </Route>
+          </Switch>
+          <Toaster />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 
