@@ -34,8 +34,8 @@ declare module 'http' {
   }
 }
 
-if (process.env.NODE_ENV === 'production' && !process.env.SESSION_SECRET) {
-  console.error('FATAL: SESSION_SECRET environment variable must be set in production');
+if (process.env.NODE_ENV === 'production' && (!process.env.SESSION_SECRET || !process.env.DATABASE_URL)) {
+  console.error('FATAL: Missing required environment variables (SESSION_SECRET or DATABASE_URL)');
   process.exit(1);
 }
 
@@ -170,14 +170,10 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`Backend API server listening on port ${port}`);
-    log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    log(`Database: ${process.env.DATABASE_URL ? 'Connected' : 'No DATABASE_URL set'}`);
+  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+  server.listen(port, "0.0.0.0", () => {
+    log(`✅ Backend API server listening on port ${port}`);
+    log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    log(`🗄️ Database: ${process.env.DATABASE_URL ? 'Connected' : 'No DATABASE_URL set'}`);
   });
 })();
