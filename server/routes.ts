@@ -432,13 +432,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedInput = loginSchema.parse(req.body);
       const { email, password } = validatedInput;
       
+      console.log('[DEBUG] Login attempt for email:', email);
       const user = await storage.getUserByEmail(email);
+      console.log('[DEBUG] User found:', user ? 'YES' : 'NO');
       if (!user) {
+        console.log('[DEBUG] User not found in database');
         return res.status(401).json({ error: 'Identifiants invalides' });
       }
       
+      console.log('[DEBUG] Comparing password...');
       const isValidPassword = await bcrypt.compare(password, user.password);
+      console.log('[DEBUG] Password valid:', isValidPassword);
       if (!isValidPassword) {
+        console.log('[DEBUG] Invalid password');
         return res.status(401).json({ error: 'Identifiants invalides' });
       }
       
