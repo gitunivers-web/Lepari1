@@ -681,7 +681,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/user/profile-photo", requireAuth, uploadLimiter, profilePhotoUpload.single('profilePhoto'), async (req, res) => {
+  app.post("/api/user/profile-photo", requireAuth, requireCSRF, uploadLimiter, profilePhotoUpload.single('profilePhoto'), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: 'Aucune image fournie' });
