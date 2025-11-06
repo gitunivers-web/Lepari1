@@ -178,6 +178,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: 'Session invalide' });
       }
 
+      if (user.activeSessionId && user.activeSessionId !== req.session.id) {
+        req.session.destroy(() => {});
+        return res.status(401).json({ 
+          error: 'Votre compte est connecté sur un autre appareil. Veuillez vous reconnecter.',
+          sessionExpired: true
+        });
+      }
+
       if (user.status === 'blocked') {
         return res.status(403).json({ 
           error: 'Compte bloqué. Veuillez contacter le support.'
@@ -467,6 +475,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       });
       
+      await storage.updateUserSessionId(user.id, req.session.id);
+      
       const { password: _, verificationToken: __, ...userWithoutSensitive } = user;
       
       await storage.createAuditLog({
@@ -499,6 +509,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userRole = req.session.userRole || 'user';
       
       if (userId) {
+        await storage.updateUserSessionId(userId, null);
+        
         await storage.createAuditLog({
           actorId: userId,
           actorRole: userRole,

@@ -33,6 +33,7 @@ export const users = pgTable("users", {
   notificationTransferUpdates: boolean("notification_transfer_updates").notNull().default(true),
   notificationLoanReminders: boolean("notification_loan_reminders").notNull().default(true),
   notificationMarketingEmails: boolean("notification_marketing_emails").notNull().default(false),
+  activeSessionId: text("active_session_id"),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });
@@ -184,6 +185,12 @@ export const auditLogs = pgTable("audit_logs", {
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+export const userSessions = pgTable("user_sessions", {
+  sid: varchar("sid").primaryKey(),
+  sess: json("sess").notNull(),
+  expire: timestamp("expire").notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true }).extend({

@@ -33,6 +33,12 @@ async function getCsrfToken(): Promise<string> {
   return '';
 }
 
+export async function preloadCsrfToken(): Promise<void> {
+  if (!csrfToken) {
+    await getCsrfToken();
+  }
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
