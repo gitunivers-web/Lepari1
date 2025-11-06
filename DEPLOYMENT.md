@@ -28,6 +28,44 @@
 
 ---
 
+## Fonctionnalités Multilingues
+
+### Détection Automatique de la Langue
+
+Le site détecte automatiquement la langue du navigateur de l'utilisateur lors de sa première visite :
+
+**Langues supportées** :
+- 🇫🇷 Français (fr)
+- 🇬🇧 English (en)
+- 🇪🇸 Español (es)
+- 🇵🇹 Português (pt)
+- 🇮🇹 Italiano (it)
+- 🇩🇪 Deutsch (de)
+- 🇳🇱 Nederlands (nl)
+
+**Fonctionnement** :
+1. **Première visite** : Le site détecte la langue du navigateur via `navigator.language`
+2. **Visites suivantes** : La préférence de l'utilisateur est stockée dans `localStorage`
+3. **Changement manuel** : L'utilisateur peut changer de langue via le sélecteur en haut à droite
+
+### Emails Multilingues
+
+Tous les emails envoyés par l'application sont automatiquement dans la langue de l'utilisateur :
+
+- ✉️ **Email de vérification** : Envoyé dans la langue choisie lors de l'inscription
+- ✉️ **Email de bienvenue** : Envoyé après vérification du compte
+- ✉️ **Email de contrat** : Pour les prêts approuvés
+- ✉️ **Email de déblocage de fonds** : Pour confirmer les transferts
+
+**Comment ça marche** :
+1. Lors de l'inscription, la langue actuelle est envoyée au backend (`preferredLanguage`)
+2. Cette langue est stockée dans le profil utilisateur
+3. Tous les emails futurs utilisent cette langue préférée
+
+**Templates disponibles** : `server/emailTemplates.ts` contient toutes les traductions
+
+---
+
 ## Architecture de Déploiement
 
 - **Frontend** : Déployé sur **Vercel** (altusfinancegroup.com)

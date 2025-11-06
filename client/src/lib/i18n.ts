@@ -8,10 +8,39 @@ interface LanguageStore {
   setLanguage: (lang: Language) => void;
 }
 
+function detectBrowserLanguage(): Language {
+  const browserLang = navigator.language.toLowerCase();
+  
+  if (browserLang.startsWith('fr')) return 'fr';
+  if (browserLang.startsWith('en')) return 'en';
+  if (browserLang.startsWith('es')) return 'es';
+  if (browserLang.startsWith('pt')) return 'pt';
+  if (browserLang.startsWith('it')) return 'it';
+  if (browserLang.startsWith('de')) return 'de';
+  if (browserLang.startsWith('nl')) return 'nl';
+  
+  return 'en';
+}
+
+function getInitialLanguage(): Language {
+  const stored = localStorage.getItem('language-storage');
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed.state?.language) {
+        return parsed.state.language;
+      }
+    } catch (e) {
+      console.error('Failed to parse stored language:', e);
+    }
+  }
+  return detectBrowserLanguage();
+}
+
 export const useLanguage = create<LanguageStore>()(
   persist(
     (set) => ({
-      language: 'fr',
+      language: getInitialLanguage(),
       setLanguage: (language) => set({ language }),
     }),
     {
