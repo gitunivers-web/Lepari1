@@ -97,6 +97,10 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <FeeSection fees={dashboardData.fees} />
+          
+          <div className="md:hidden">
+            <BankCardOffer />
+          </div>
         </div>
       </div>
 
