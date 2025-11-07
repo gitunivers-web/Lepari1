@@ -16,6 +16,7 @@ import { db } from "./db";
 import { generateAndSendOTP, verifyOTP } from "./services/otp";
 import { generateTwoFactorSecret, generateQRCode, verifyTwoFactorToken } from "./services/twoFactor";
 import { notifyLoanApproved, notifyLoanRejected, notifyLoanDisbursed, notifyTransferCompleted, notifyCodeIssued } from "./notification-helper";
+import cloudinary from "./config/cloudinary";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
@@ -327,23 +328,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     fileFilter: fileFilter,
   });
 
-  const profilePhotoDir = path.join(process.cwd(), 'uploads', 'profile-photos');
-  if (!fs.existsSync(profilePhotoDir)) {
-    fs.mkdirSync(profilePhotoDir, { recursive: true });
-  }
-
-  const profilePhotoStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, profilePhotoDir);
-    },
-    filename: function (req, file, cb) {
-      const uniqueName = `${randomUUID()}${path.extname(file.originalname)}`;
-      cb(null, uniqueName);
-    }
-  });
-
   const profilePhotoUpload = multer({
-    storage: profilePhotoStorage,
+    storage: multer.memoryStorage(),
     limits: {
       fileSize: 5 * 1024 * 1024,
       files: 1,
@@ -1108,35 +1094,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Aucune image fournie' });
       }
 
-      const fileType = await fileTypeFromFile(req.file.path);
-      
-      const allowedTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
-      const allowedExtensions = new Set(['jpg', 'jpeg', 'png', 'webp']);
-      
-      if (!fileType || !allowedTypes.has(fileType.mime) || !allowedExtensions.has(fileType.ext)) {
-        try {
-          await fs.promises.unlink(req.file.path);
-        } catch (cleanupError) {
-          console.error('Error cleaning up invalid file:', cleanupError);
-        }
-        return res.status(400).json({ 
-          error: 'Type de fichier non autorisé. Seules les images JPEG, PNG et WebP sont acceptées.' 
-        });
-      }
-
       const user = await storage.getUser(req.session.userId!);
-      if (user?.profilePhoto) {
-        const oldPhotoPath = path.join(profilePhotoDir, path.basename(user.profilePhoto));
+      
+      if (user?.profilePhoto && user.profilePhoto.includes('cloudinary.com')) {
         try {
-          if (fs.existsSync(oldPhotoPath)) {
-            await fs.promises.unlink(oldPhotoPath);
-          }
+          const urlParts = user.profilePhoto.split('/');
+          const publicIdWithExt = urlParts.slice(urlParts.indexOf('user_profiles')).join('/');
+          const publicId = publicIdWithExt.replace(/\.[^/.]+$/, '');
+          await cloudinary.uploader.destroy(publicId);
         } catch (cleanupError) {
-          console.error('Error cleaning up old profile photo:', cleanupError);
+          console.error('Error deleting old Cloudinary photo:', cleanupError);
         }
       }
 
-      const photoUrl = `/uploads/profile-photos/${req.file.filename}`;
+      const result = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'user_profiles',
+            resource_type: 'image',
+            transformation: [
+              { width: 500, height: 500, crop: 'fill', gravity: 'face' },
+              { quality: 'auto', fetch_format: 'auto' }
+            ],
+            allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+            public_id: `user_${req.session.userId}_${Date.now()}`,
+          },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        uploadStream.end(req.file!.buffer);
+      });
+
+      const photoUrl = result.secure_url;
       
       await storage.updateUser(req.session.userId!, {
         profilePhoto: photoUrl,
@@ -1160,15 +1151,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error: any) {
       console.error('Profile photo upload error:', error);
-      
-      if (req.file) {
-        try {
-          await fs.promises.unlink(req.file.path);
-        } catch (cleanupError) {
-          console.error('Error cleaning up file after error:', cleanupError);
-        }
-      }
-      
       res.status(500).json({ error: 'Erreur lors de la mise à jour de la photo de profil' });
     }
   });
