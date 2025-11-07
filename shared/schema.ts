@@ -206,6 +206,19 @@ export const userOtps = pgTable("user_otps", {
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
 });
 
+export const notifications = pgTable("notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  type: text("type").notNull(),
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  severity: text("severity").notNull().default("info"),
+  isRead: boolean("is_read").notNull().default(false),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  readAt: timestamp("read_at"),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true }).extend({
   password: z.string()
     .min(12, 'Le mot de passe doit contenir au moins 12 caractères')
@@ -226,6 +239,7 @@ export const insertAdminSettingSchema = createInsertSchema(adminSettings).omit({
 export const insertAdminMessageSchema = createInsertSchema(adminMessages).omit({ id: true, deliveredAt: true });
 export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ id: true, createdAt: true });
 export const insertUserOtpSchema = createInsertSchema(userOtps).omit({ id: true, createdAt: true });
+export const insertNotificationSchema = createInsertSchema(notifications).omit({ id: true, createdAt: true });
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -253,6 +267,8 @@ export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
 export type UserOtp = typeof userOtps.$inferSelect;
 export type InsertUserOtp = z.infer<typeof insertUserOtpSchema>;
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 
 export type TransferDetailsResponse = {
   transfer: Transfer;

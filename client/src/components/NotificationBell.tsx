@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,60 +10,69 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/hooks/use-toast';
+import { apiRequest, queryClient } from '@/lib/queryClient';
 
 interface Notification {
   id: string;
+  userId: string;
+  type: string;
   title: string;
-  description?: string;
-  timestamp: Date;
-  read: boolean;
+  message: string;
+  severity: string;
+  isRead: boolean;
+  metadata: any;
+  createdAt: string;
+  readAt: string | null;
 }
 
 export default function NotificationBell() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const { toasts } = useToast();
+  const { data: notifications = [], isLoading } = useQuery<Notification[]>({
+    queryKey: ['/api/notifications'],
+    refetchInterval: 30000,
+  });
 
-  useEffect(() => {
-    const newNotifications = toasts.map(toast => ({
-      id: toast.id,
-      title: typeof toast.title === 'string' ? toast.title : 'Notification',
-      description: typeof toast.description === 'string' ? toast.description : undefined,
-      timestamp: new Date(),
-      read: false,
-    }));
+  const { data: unreadData } = useQuery<{ count: number }>({
+    queryKey: ['/api/notifications/unread-count'],
+    refetchInterval: 30000,
+  });
 
-    if (newNotifications.length > 0) {
-      setNotifications(prev => {
-        const existingIds = new Set(prev.map(n => n.id));
-        const trulyNew = newNotifications.filter(n => !existingIds.has(n.id));
-        return [...trulyNew, ...prev].slice(0, 20);
-      });
-      setUnreadCount(prev => prev + newNotifications.filter(n => !notifications.some(existing => existing.id === n.id)).length);
-    }
-  }, [toasts]);
+  const markAsReadMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiRequest('POST', `/api/notifications/${id}/read`, {});
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications/unread-count'] });
+    },
+  });
 
-  const markAsRead = (id: string) => {
-    setNotifications(prev =>
-      prev.map(notif =>
-        notif.id === id ? { ...notif, read: true } : notif
-      )
-    );
-    setUnreadCount(prev => Math.max(0, prev - 1));
-  };
+  const markAllAsReadMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest('POST', `/api/notifications/read-all`, {});
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications/unread-count'] });
+    },
+  });
 
-  const markAllAsRead = () => {
-    setNotifications(prev => prev.map(notif => ({ ...notif, read: true })));
-    setUnreadCount(0);
-  };
+  const deleteNotificationMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await apiRequest('DELETE', `/api/notifications/${id}`, {});
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/notifications/unread-count'] });
+    },
+  });
 
-  const clearAll = () => {
-    setNotifications([]);
-    setUnreadCount(0);
-  };
+  const unreadCount = unreadData?.count || 0;
 
-  const formatTime = (date: Date) => {
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     const minutes = Math.floor(diff / 60000);
@@ -104,7 +113,8 @@ export default function NotificationBell() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={markAllAsRead}
+              onClick={() => markAllAsReadMutation.mutate()}
+              disabled={markAllAsReadMutation.isPending}
               className="h-auto p-1 text-xs"
               data-testid="button-mark-all-read"
             >
@@ -113,7 +123,11 @@ export default function NotificationBell() {
           )}
         </div>
         <DropdownMenuSeparator />
-        {notifications.length === 0 ? (
+        {isLoading ? (
+          <div className="p-4 text-center text-sm text-muted-foreground">
+            Chargement...
+          </div>
+        ) : notifications.length === 0 ? (
           <div className="p-4 text-center text-sm text-muted-foreground">
             Aucune notification
           </div>
@@ -123,40 +137,28 @@ export default function NotificationBell() {
               <DropdownMenuItem
                 key={notif.id}
                 className={`flex flex-col items-start gap-1 p-3 cursor-pointer ${
-                  !notif.read ? 'bg-blue-50 dark:bg-blue-950' : ''
+                  !notif.isRead ? 'bg-blue-50 dark:bg-blue-950' : ''
                 }`}
-                onClick={() => markAsRead(notif.id)}
+                onClick={() => !notif.isRead && markAsReadMutation.mutate(notif.id)}
                 data-testid={`notification-${notif.id}`}
               >
                 <div className="flex items-start justify-between w-full gap-2">
                   <div className="flex-1">
                     <p className="font-medium text-sm">{notif.title}</p>
-                    {notif.description && (
+                    {notif.message && (
                       <p className="text-xs text-muted-foreground mt-1">
-                        {notif.description}
+                        {notif.message}
                       </p>
                     )}
                   </div>
-                  {!notif.read && (
+                  {!notif.isRead && (
                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-1 flex-shrink-0" />
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">{formatTime(notif.timestamp)}</p>
+                <p className="text-xs text-muted-foreground">{formatTime(notif.createdAt)}</p>
               </DropdownMenuItem>
             ))}
           </ScrollArea>
-        )}
-        {notifications.length > 0 && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={clearAll}
-              className="justify-center text-xs text-muted-foreground"
-              data-testid="button-clear-all"
-            >
-              Effacer toutes les notifications
-            </DropdownMenuItem>
-          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

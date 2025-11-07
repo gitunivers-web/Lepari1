@@ -23,6 +23,8 @@ import {
   type InsertExternalAccount,
   type KycDocument,
   type InsertKycDocument,
+  type Notification,
+  type InsertNotification,
   users,
   loans,
   transfers,
@@ -35,6 +37,7 @@ import {
   adminMessages,
   externalAccounts,
   kycDocuments,
+  notifications,
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
@@ -160,6 +163,14 @@ export interface IStorage {
   
   enable2FA(userId: string, secret: string): Promise<User | undefined>;
   disable2FA(userId: string): Promise<User | undefined>;
+  
+  getUserNotifications(userId: string, limit?: number): Promise<Notification[]>;
+  getNotification(id: string): Promise<Notification | undefined>;
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  markNotificationAsRead(id: string): Promise<Notification | undefined>;
+  markAllNotificationsAsRead(userId: string): Promise<boolean>;
+  deleteNotification(id: string): Promise<boolean>;
+  getUnreadNotificationCount(userId: string): Promise<number>;
 }
 
 // export class MemStorage implements IStorage {
@@ -2168,6 +2179,64 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return result[0];
+  }
+
+  async getUserNotifications(userId: string, limit: number = 50): Promise<Notification[]> {
+    return await db.select()
+      .from(notifications)
+      .where(eq(notifications.userId, userId))
+      .orderBy(desc(notifications.createdAt))
+      .limit(limit);
+  }
+
+  async getNotification(id: string): Promise<Notification | undefined> {
+    const result = await db.select()
+      .from(notifications)
+      .where(eq(notifications.id, id));
+    return result[0];
+  }
+
+  async createNotification(notification: InsertNotification): Promise<Notification> {
+    const result = await db.insert(notifications)
+      .values(notification)
+      .returning();
+    return result[0];
+  }
+
+  async markNotificationAsRead(id: string): Promise<Notification | undefined> {
+    const result = await db.update(notifications)
+      .set({ 
+        isRead: true,
+        readAt: new Date()
+      })
+      .where(eq(notifications.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async markAllNotificationsAsRead(userId: string): Promise<boolean> {
+    const result = await db.update(notifications)
+      .set({ 
+        isRead: true,
+        readAt: new Date()
+      })
+      .where(and(eq(notifications.userId, userId), eq(notifications.isRead, false)))
+      .returning();
+    return result.length > 0;
+  }
+
+  async deleteNotification(id: string): Promise<boolean> {
+    const result = await db.delete(notifications)
+      .where(eq(notifications.id, id))
+      .returning();
+    return result.length > 0;
+  }
+
+  async getUnreadNotificationCount(userId: string): Promise<number> {
+    const result = await db.select({ count: sqlDrizzle<number>`count(*)::int` })
+      .from(notifications)
+      .where(and(eq(notifications.userId, userId), eq(notifications.isRead, false)));
+    return result[0]?.count || 0;
   }
 }
 

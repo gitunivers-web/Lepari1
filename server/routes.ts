@@ -2042,6 +2042,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/notifications", requireAuth, async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
+      const notifs = await storage.getUserNotifications(req.session.userId!, limit);
+      res.json(notifs);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch notifications' });
+    }
+  });
+
+  app.get("/api/notifications/unread-count", requireAuth, async (req, res) => {
+    try {
+      const count = await storage.getUnreadNotificationCount(req.session.userId!);
+      res.json({ count });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch unread count' });
+    }
+  });
+
+  app.post("/api/notifications/:id/read", requireAuth, requireCSRF, async (req, res) => {
+    try {
+      const notification = await storage.getNotification(req.params.id);
+      if (!notification) {
+        return res.status(404).json({ error: 'Notification not found' });
+      }
+
+      if (notification.userId !== req.session.userId) {
+        return res.status(403).json({ error: 'Accès refusé' });
+      }
+
+      const updatedNotif = await storage.markNotificationAsRead(req.params.id);
+      res.json(updatedNotif);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to mark notification as read' });
+    }
+  });
+
+  app.post("/api/notifications/read-all", requireAuth, requireCSRF, async (req, res) => {
+    try {
+      const success = await storage.markAllNotificationsAsRead(req.session.userId!);
+      res.json({ success });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to mark all as read' });
+    }
+  });
+
+  app.delete("/api/notifications/:id", requireAuth, requireCSRF, async (req, res) => {
+    try {
+      const notification = await storage.getNotification(req.params.id);
+      if (!notification) {
+        return res.status(404).json({ error: 'Notification not found' });
+      }
+
+      if (notification.userId !== req.session.userId) {
+        return res.status(403).json({ error: 'Accès refusé' });
+      }
+
+      const deleted = await storage.deleteNotification(req.params.id);
+      if (!deleted) {
+        return res.status(404).json({ error: 'Notification not found' });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete notification' });
+    }
+  });
+
   app.get("/api/fees", requireAuth, async (req, res) => {
     try {
       const fees = await storage.getUserFees(req.session.userId!);
