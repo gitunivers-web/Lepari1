@@ -2,9 +2,14 @@ import { storage } from './storage';
 import { type InsertNotification } from '@shared/schema';
 
 export type NotificationType =
+  | 'loan_request'
+  | 'loan_under_review'
   | 'loan_approved'
   | 'loan_rejected'
+  | 'loan_contract_generated'
+  | 'loan_contract_signed'
   | 'loan_disbursed'
+  | 'transfer_initiated'
   | 'transfer_completed'
   | 'transfer_approved'
   | 'transfer_suspended'
@@ -13,6 +18,7 @@ export type NotificationType =
   | 'kyc_rejected'
   | 'fee_added'
   | 'account_status_changed'
+  | 'admin_message_sent'
   | 'general';
 
 export interface CreateNotificationParams {
@@ -157,5 +163,70 @@ export async function notifyAccountStatusChanged(userId: string, newStatus: stri
       : `Le statut de votre compte a changé: ${newStatus}`,
     severity: newStatus === 'active' ? 'success' : 'warning',
     metadata: { newStatus, reason },
+  });
+}
+
+export async function notifyLoanRequest(userId: string, loanId: string, amount: string, loanType: string) {
+  return await createUserNotification({
+    userId,
+    type: 'loan_request',
+    title: 'Demande de prêt soumise',
+    message: `Votre demande de prêt ${loanType} de ${amount} € a été soumise avec succès. Notre équipe examinera votre demande dans les plus brefs délais.`,
+    severity: 'success',
+    metadata: { loanId, loanType, amount },
+  });
+}
+
+export async function notifyLoanUnderReview(userId: string, loanId: string, amount: string) {
+  return await createUserNotification({
+    userId,
+    type: 'loan_under_review',
+    title: 'Demande en cours d\'examen',
+    message: `Votre demande de prêt de ${amount} € est actuellement en cours d'examen par notre équipe. Vous recevrez une réponse prochainement.`,
+    severity: 'info',
+    metadata: { loanId },
+  });
+}
+
+export async function notifyLoanContractGenerated(userId: string, loanId: string, amount: string) {
+  return await createUserNotification({
+    userId,
+    type: 'loan_contract_generated',
+    title: 'Contrat de prêt disponible',
+    message: `Votre contrat de prêt de ${amount} € est maintenant disponible. Veuillez le télécharger, le signer et le retourner pour débloquer les fonds.`,
+    severity: 'success',
+    metadata: { loanId },
+  });
+}
+
+export async function notifyLoanContractSigned(userId: string, loanId: string, amount: string) {
+  return await createUserNotification({
+    userId,
+    type: 'loan_contract_signed',
+    title: 'Contrat signé reçu',
+    message: `Votre contrat signé pour le prêt de ${amount} € a été reçu avec succès. Les fonds seront débloqués prochainement.`,
+    severity: 'success',
+    metadata: { loanId },
+  });
+}
+
+export async function notifyAdminMessage(userId: string, subject: string, severity: 'info' | 'success' | 'warning' | 'error' = 'info') {
+  return await createUserNotification({
+    userId,
+    type: 'admin_message_sent',
+    title: 'Nouveau message de l\'administration',
+    message: subject,
+    severity,
+  });
+}
+
+export async function notifyTransferInitiated(userId: string, transferId: string, amount: string, recipientName: string) {
+  return await createUserNotification({
+    userId,
+    type: 'transfer_initiated',
+    title: 'Transfert initié',
+    message: `Votre transfert de ${amount} € vers ${recipientName} a été initié avec succès. Il sera traité dans les plus brefs délais.`,
+    severity: 'success',
+    metadata: { transferId, recipientName },
   });
 }
