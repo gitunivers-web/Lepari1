@@ -617,24 +617,39 @@ export default function Settings() {
                 </CardTitle>
               </div>
               <CardDescription className="text-base">
-                Ajoutez une couche de sécurité supplémentaire
+                Ajoutez une couche de sécurité supplémentaire à votre compte
               </CardDescription>
             </CardHeader>
             <CardContent className="relative">
-              <div className="flex items-center justify-between p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 rounded-xl border-2 border-green-300/30 dark:border-green-500/30 hover:border-green-400/50 dark:hover:border-green-400/50 transition-all shadow-lg">
-                <div className="space-y-1">
-                  <p className="text-lg font-semibold">Activer 2FA</p>
-                  <p className="text-sm text-muted-foreground">
-                    Protégez votre compte avec une vérification en deux étapes
+              <div className="flex flex-col gap-4 p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 rounded-xl border-2 border-green-300/30 dark:border-green-500/30 shadow-lg">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <p className="text-lg font-semibold text-foreground">Activer 2FA</p>
+                    <p className="text-sm text-muted-foreground">
+                      Protégez votre compte avec une vérification en deux étapes
+                    </p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="h-11 px-6 border-green-500/50 text-green-700 dark:text-green-400 cursor-not-allowed"
+                    data-testid="button-enable-2fa"
+                    disabled
+                    aria-describedby="2fa-status-message"
+                  >
+                    Configurer
+                  </Button>
+                </div>
+                <div 
+                  className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-700 rounded-lg"
+                  role="status"
+                >
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500 dark:bg-amber-600 text-white shadow-sm">
+                    Bientôt disponible
+                  </span>
+                  <p id="2fa-status-message" className="text-sm font-medium text-amber-900 dark:text-amber-200 leading-relaxed">
+                    Nous travaillons actuellement à l'implémentation de l'authentification à deux facteurs. Cette fonctionnalité de sécurité renforcée sera disponible dans une prochaine mise à jour.
                   </p>
                 </div>
-                <Button 
-                  variant="outline" 
-                  className="h-11 px-6 border-green-500/50 text-green-700 dark:text-green-400 hover:bg-green-500/10 dark:hover:bg-green-500/20 shadow-md hover:shadow-lg transition-all"
-                  data-testid="button-enable-2fa"
-                >
-                  Configurer
-                </Button>
               </div>
             </CardContent>
           </Card>
