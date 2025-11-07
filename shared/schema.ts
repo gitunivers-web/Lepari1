@@ -193,6 +193,15 @@ export const userSessions = pgTable("user_sessions", {
   expire: timestamp("expire").notNull(),
 });
 
+export const userOtps = pgTable("user_otps", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  otpCode: text("otp_code").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  used: boolean("used").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true }).extend({
   password: z.string()
     .min(12, 'Le mot de passe doit contenir au moins 12 caractères')
@@ -212,6 +221,7 @@ export const insertKycDocumentSchema = createInsertSchema(kycDocuments).omit({ i
 export const insertAdminSettingSchema = createInsertSchema(adminSettings).omit({ id: true, updatedAt: true });
 export const insertAdminMessageSchema = createInsertSchema(adminMessages).omit({ id: true, deliveredAt: true });
 export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ id: true, createdAt: true });
+export const insertUserOtpSchema = createInsertSchema(userOtps).omit({ id: true, createdAt: true });
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -237,6 +247,8 @@ export type AdminMessage = typeof adminMessages.$inferSelect;
 export type InsertAdminMessage = z.infer<typeof insertAdminMessageSchema>;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+export type UserOtp = typeof userOtps.$inferSelect;
+export type InsertUserOtp = z.infer<typeof insertUserOtpSchema>;
 
 export type TransferDetailsResponse = {
   transfer: Transfer;

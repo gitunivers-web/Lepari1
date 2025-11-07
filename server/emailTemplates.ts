@@ -8,7 +8,7 @@ function escapeHtml(unsafe: string): string {
 }
 
 type Language = 'fr' | 'en' | 'es' | 'pt' | 'it' | 'de' | 'nl';
-type TemplateType = 'verification' | 'welcome' | 'contract' | 'fundingRelease';
+type TemplateType = 'verification' | 'welcome' | 'contract' | 'fundingRelease' | 'otp';
 
 interface EmailTemplate {
   subject: string;
@@ -42,7 +42,12 @@ interface FundingReleaseVariables {
   loanId: string;
 }
 
-type TemplateVariables = VerificationVariables | WelcomeVariables | ContractVariables | FundingReleaseVariables;
+interface OtpVariables {
+  fullName: string;
+  otpCode: string;
+}
+
+type TemplateVariables = VerificationVariables | WelcomeVariables | ContractVariables | FundingReleaseVariables | OtpVariables;
 
 const translations = {
   fr: {
@@ -126,6 +131,17 @@ const translations = {
       reminderText: "N'oubliez pas vos échéances de remboursement. Vous pouvez consulter le calendrier complet dans votre espace client.",
       supportText: "Notre équipe reste à votre disposition pour toute question.",
       contactText: "Des questions ? Contactez-nous à",
+      footer: "Tous droits réservés."
+    },
+    otp: {
+      subject: "Code de vérification - ALTUS FINANCE GROUP",
+      headerTitle: "🔐 Authentification à deux facteurs",
+      greeting: "Bonjour",
+      codeTitle: "Votre code de vérification",
+      instruction: "Utilisez le code ci-dessous pour vous connecter à votre compte ALTUS FINANCE GROUP :",
+      expirationText: "Ce code expirera dans 5 minutes.",
+      securityWarning: "⚠️ Pour votre sécurité, ne partagez jamais ce code avec quiconque. Notre équipe ne vous demandera jamais ce code.",
+      notYouText: "Si vous n'avez pas demandé ce code, ignorez cet email et votre compte restera sécurisé.",
       footer: "Tous droits réservés."
     }
   },
@@ -996,7 +1012,94 @@ export function getEmailTemplate(
       return getContractTemplate(language, variables as ContractVariables);
     case 'fundingRelease':
       return getFundingReleaseTemplate(language, variables as FundingReleaseVariables);
+    case 'otp':
+      return getOtpEmailTemplate(language, variables as OtpVariables);
     default:
       throw new Error(`Unknown template type: ${templateType}`);
   }
+}
+
+export function getOtpEmailTemplate(
+  language: Language,
+  vars: OtpVariables
+): EmailTemplate {
+  const t = (translations as any)[language]?.otp || translations.fr.otp;
+
+  const html = `
+    <!DOCTYPE html>
+    <html lang="${language}">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 40px 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 24px; font-weight: bold; }
+        .content { padding: 40px 30px; }
+        .greeting { font-size: 18px; color: #333333; margin-bottom: 20px; }
+        .code-section { background: #f8f9fa; border: 2px solid #667eea; border-radius: 8px; padding: 30px; text-align: center; margin: 30px 0; }
+        .code-title { color: #667eea; font-size: 14px; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .code { font-size: 42px; font-weight: bold; color: #667eea; letter-spacing: 8px; font-family: 'Courier New', monospace; }
+        .expiration { color: #666666; font-size: 14px; margin-top: 15px; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .warning-text { color: #856404; font-size: 14px; margin: 0; }
+        .not-you { color: #666666; font-size: 14px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666666; font-size: 12px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1 class="header-title">${escapeHtml(t.headerTitle)}</h1>
+        </div>
+        <div class="content">
+          <p class="greeting">${escapeHtml(t.greeting)} ${escapeHtml(vars.fullName)},</p>
+          <p>${escapeHtml(t.instruction)}</p>
+          
+          <div class="code-section">
+            <div class="code-title">${escapeHtml(t.codeTitle)}</div>
+            <div class="code">${escapeHtml(vars.otpCode)}</div>
+            <div class="expiration">${escapeHtml(t.expirationText)}</div>
+          </div>
+          
+          <div class="warning">
+            <p class="warning-text">${escapeHtml(t.securityWarning)}</p>
+          </div>
+          
+          <p class="not-you">${escapeHtml(t.notYouText)}</p>
+        </div>
+        <div class="footer">
+          <p>ALTUS FINANCE GROUP</p>
+          <p>${escapeHtml(t.footer)}</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+${t.greeting} ${vars.fullName},
+
+${t.headerTitle}
+
+${t.instruction}
+
+${t.codeTitle}: ${vars.otpCode}
+
+${t.expirationText}
+
+${t.securityWarning}
+
+${t.notYouText}
+
+ALTUS FINANCE GROUP
+${t.footer}
+  `;
+
+  return {
+    subject: t.subject,
+    html,
+    text
+  };
 }
