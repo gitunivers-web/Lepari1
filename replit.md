@@ -41,6 +41,13 @@ Preferred communication style: Simple, everyday language.
     - Email-based 2FA with 6-digit OTP codes, 5-minute expiration, and 3 attempt limit.
     - Single session enforcement preventing multiple simultaneous logins per user.
     - CSRF protection on mutating routes, with preloading tokens for signup.
+- **Session Management & Error Handling:**
+    - Global 401/403 interceptor in `queryClient.ts` redirecting to login with contextual messages stored in sessionStorage.
+    - `SessionMonitor` component for periodic session validation (60s intervals) and inactivity detection (30min timeout).
+    - Automatic CSRF token cleanup and session clearing on authentication failures.
+    - Intelligent retry logic distinguishing network errors (exponential backoff, max 3 retries) from authentication errors (no retry).
+    - Enhanced 404 page ensuring authentication errors never display as "page not found".
+    - All authentication routes (`/auth`, `/login`, `/signup`) properly configured to prevent routing errors.
 - **Security Features:**
     - IDOR protection, Zod validation, XSS protection, strong password requirements, UUID usernames, generic error messages.
     - File upload validation with magic byte verification.
