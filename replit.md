@@ -39,8 +39,14 @@ Preferred communication style: Simple, everyday language.
 - **Authentication:**
     - Complete forgot/reset password functionality with email notifications, rate limiting, and 12-character password validation.
     - Email verification with automatic login: After clicking verification link, users are automatically logged in and redirected to dashboard (no manual login required).
+    - **Streamlined Login Flow (Updated Nov 2025):**
+        - Users WITHOUT 2FA enabled: Direct login access to dashboard (no OTP required)
+        - Users WITH 2FA enabled: Must enter 6-digit TOTP code from Google Authenticator
+        - OTP email codes removed for standard login (only used for password reset and special cases)
     - TOTP-based Two-Factor Authentication (2FA) using Google Authenticator, including setup, verification, and disable flows.
-    - Email-based 2FA with 6-digit OTP codes, 5-minute expiration, and 3 attempt limit.
+        - Optional feature enabled via user settings (Security section)
+        - Setup flow: Generate QR code → Scan with authenticator app → Verify code → Enable 2FA
+        - Once enabled, 2FA code required at every login
     - Single session enforcement preventing multiple simultaneous logins per user.
     - CSRF protection on mutating routes, with preloading tokens for signup.
     - Cross-domain session cookies with flexible configuration:
