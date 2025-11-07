@@ -43,6 +43,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 import NotificationBanner from '@/components/NotificationBanner';
 import UserProfileHeader from '@/components/UserProfileHeader';
 import NotificationBell from '@/components/NotificationBell';
+import SessionMonitor from '@/components/SessionMonitor';
 
 function Router() {
   return (
@@ -85,6 +86,7 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <SessionMonitor />
           <PageLoader />
           <Switch>
             <Route path="/" component={Home} />
@@ -95,6 +97,7 @@ function App() {
             <Route path="/resources" component={Resources} />
             <Route path="/terms" component={Terms} />
             <Route path="/privacy" component={Privacy} />
+            <Route path="/auth" component={Auth} />
             <Route path="/login" component={Auth} />
             <Route path="/signup" component={Auth} />
             <Route path="/verify/:token" component={Verify} />

@@ -71,6 +71,21 @@ export default function Auth() {
     preloadCsrfToken();
   }, []);
 
+  useEffect(() => {
+    const authMessage = sessionStorage.getItem('auth_redirect_message');
+    const redirectFrom = sessionStorage.getItem('auth_redirect_from');
+    
+    if (authMessage) {
+      toast({
+        title: 'Session expirée',
+        description: authMessage,
+        variant: 'destructive',
+      });
+      sessionStorage.removeItem('auth_redirect_message');
+      sessionStorage.removeItem('auth_redirect_from');
+    }
+  }, [toast]);
+
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {

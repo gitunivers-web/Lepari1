@@ -10,6 +10,7 @@ export function getApiUrl(path: string): string {
 }
 
 let csrfToken: string | null = null;
+let sessionCheckInterval: NodeJS.Timeout | null = null;
 
 export function clearCsrfToken() {
   csrfToken = null;
@@ -39,8 +40,44 @@ export async function preloadCsrfToken(): Promise<void> {
   }
 }
 
+function handleAuthError(res: Response, errorMessage?: string) {
+  clearCsrfToken();
+  
+  if (sessionCheckInterval) {
+    clearInterval(sessionCheckInterval);
+    sessionCheckInterval = null;
+  }
+  
+  const currentPath = window.location.pathname;
+  const isAuthPage = currentPath === '/login' || currentPath === '/signup' || currentPath === '/auth';
+  
+  if (!isAuthPage) {
+    const message = errorMessage || (res.status === 401 
+      ? 'Votre session a expiré. Veuillez vous reconnecter.' 
+      : 'Accès refusé. Veuillez vous reconnecter.');
+    
+    sessionStorage.setItem('auth_redirect_message', message);
+    sessionStorage.setItem('auth_redirect_from', currentPath);
+    
+    window.location.href = '/login';
+  }
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      let errorData;
+      try {
+        errorData = await res.json();
+      } catch {
+        errorData = {};
+      }
+      
+      const errorMessage = errorData?.error || '';
+      handleAuthError(res, errorMessage);
+      throw new Error(errorMessage || `${res.status}: Authentification requise`);
+    }
+    
     const text = (await res.text()) || res.statusText;
     throw new Error(`${res.status}: ${text}`);
   }
@@ -83,8 +120,21 @@ export const getQueryFn: <T>(options: {
       credentials: "include",
     });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+    if (res.status === 401 || res.status === 403) {
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
+      
+      let errorData;
+      try {
+        errorData = await res.json();
+      } catch {
+        errorData = {};
+      }
+      
+      const errorMessage = errorData?.error || '';
+      handleAuthError(res, errorMessage);
+      throw new Error(errorMessage || `${res.status}: Authentification requise`);
     }
 
     await throwIfResNotOk(res);
