@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { queryClient, apiRequest } from '@/lib/queryClient';
+import { queryClient, apiRequest, clearCsrfToken } from '@/lib/queryClient';
 import { Loader2, Shield } from 'lucide-react';
 import SEO from '@/components/SEO';
 
@@ -26,6 +26,7 @@ export default function VerifyTwoFactor() {
       return await response.json();
     },
     onSuccess: (data) => {
+      clearCsrfToken();
       toast({
         title: 'Connexion réussie',
         description: 'Bienvenue sur votre compte',
