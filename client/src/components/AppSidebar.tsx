@@ -9,17 +9,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2 } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 import { useLocation } from 'wouter';
-import { useUser, getUserInitials, getAccountTypeLabel } from '@/hooks/use-user';
+import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl } from '@/hooks/use-user';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AppSidebar() {
   const t = useTranslations();
   const [location, setLocation] = useLocation();
   const { data: user, isLoading: isUserLoading } = useUser();
+  const profilePhotoUrl = useUserProfilePhotoUrl();
 
   const isAdminPath = location.startsWith('/admin');
 
@@ -101,7 +102,13 @@ export default function AppSidebar() {
               </div>
             ) : user ? (
               <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 rounded-lg mx-2 border-2 border-blue-200 dark:border-blue-800">
-                <Avatar className="bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500">
+                <Avatar className="bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 border-2 border-blue-200 dark:border-blue-800">
+                  {profilePhotoUrl ? (
+                    <AvatarImage 
+                      src={profilePhotoUrl} 
+                      alt={user.fullName} 
+                    />
+                  ) : null}
                   <AvatarFallback className="bg-transparent text-white font-bold" data-testid="text-user-initials">{getUserInitials(user.fullName)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">

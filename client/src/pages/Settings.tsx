@@ -11,7 +11,7 @@ import { User, Bell, Shield, Palette, Globe, Camera, Mail, Phone, Building2, Che
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage, useTranslations } from '@/lib/i18n';
 import { useTheme } from '@/hooks/use-theme';
-import { useUser, getUserInitials } from '@/hooks/use-user';
+import { useUser, getUserInitials, useUserProfilePhotoUrl } from '@/hooks/use-user';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient, getApiUrl } from '@/lib/queryClient';
 import type { User as UserType } from '@shared/schema';
@@ -22,6 +22,7 @@ export default function Settings() {
   const { language, setLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
   const { data: user, isLoading } = useUser();
+  const profilePhotoUrl = useUserProfilePhotoUrl();
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   
@@ -191,8 +192,15 @@ export default function Settings() {
     formData.append('profilePhoto', file);
 
     try {
+      const csrfToken = await fetch(getApiUrl('/api/csrf-token'), {
+        credentials: 'include',
+      }).then((res) => res.json()).then((data) => data.csrfToken);
+
       const response = await fetch(getApiUrl('/api/user/profile-photo'), {
         method: 'POST',
+        headers: {
+          'X-CSRF-Token': csrfToken,
+        },
         body: formData,
         credentials: 'include',
       });
@@ -245,7 +253,9 @@ export default function Settings() {
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-br from-violet-500 via-blue-500 to-cyan-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
                   <Avatar className="relative h-24 w-24 border-4 border-white dark:border-slate-800 shadow-2xl ring-4 ring-violet-500/30 dark:ring-violet-400/30">
-                    <AvatarImage src={user.profilePhoto ? getApiUrl(user.profilePhoto) : ''} alt="Profile" />
+                    {profilePhotoUrl ? (
+                      <AvatarImage src={profilePhotoUrl} alt="Profile" />
+                    ) : null}
                     <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-violet-600 via-blue-600 to-cyan-600 text-white">
                       {getUserInitials(user.fullName)}
                     </AvatarFallback>

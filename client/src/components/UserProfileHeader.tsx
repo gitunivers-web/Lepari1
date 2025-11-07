@@ -9,19 +9,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Upload, User } from 'lucide-react';
-import { useUser, getUserInitials } from '@/hooks/use-user';
+import { useUser, getUserInitials, useUserProfilePhotoUrl } from '@/hooks/use-user';
 import { useLocation } from 'wouter';
 import { useMutation } from '@tanstack/react-query';
-import { apiRequest, queryClient, getApiUrl } from '@/lib/queryClient';
+import { queryClient, getApiUrl } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 
 export default function UserProfileHeader() {
   const { data: user } = useUser();
+  const profilePhotoUrl = useUserProfilePhotoUrl();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [photoCacheBuster, setPhotoCacheBuster] = useState<number>(Date.now());
 
   const handleLogout = () => {
     setLocation('/');
@@ -53,7 +53,6 @@ export default function UserProfileHeader() {
       return await response.json();
     },
     onSuccess: () => {
-      setPhotoCacheBuster(Date.now());
       queryClient.invalidateQueries({ queryKey: ['/api/user'] });
       toast({
         title: 'Photo mise à jour',
@@ -105,10 +104,6 @@ export default function UserProfileHeader() {
     return null;
   }
 
-  const finalPhotoUrl = user.profilePhoto 
-    ? `${getApiUrl(user.profilePhoto)}?t=${photoCacheBuster}` 
-    : null;
-
   return (
     <div className="flex items-center gap-3" data-testid="user-profile-header">
       <input
@@ -128,8 +123,8 @@ export default function UserProfileHeader() {
             data-testid="button-profile-menu"
           >
             <Avatar className="h-12 w-12 border-2 border-blue-200 dark:border-blue-800">
-              {finalPhotoUrl ? (
-                <AvatarImage src={finalPhotoUrl} alt={user.fullName} />
+              {profilePhotoUrl ? (
+                <AvatarImage src={profilePhotoUrl} alt={user.fullName} />
               ) : null}
               <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold">
                 {getUserInitials(user.fullName)}
@@ -145,8 +140,8 @@ export default function UserProfileHeader() {
         <DropdownMenuContent align="end" className="w-56">
           <div className="flex items-center gap-2 p-2">
             <Avatar className="h-10 w-10">
-              {finalPhotoUrl ? (
-                <AvatarImage src={finalPhotoUrl} alt={user.fullName} />
+              {profilePhotoUrl ? (
+                <AvatarImage src={profilePhotoUrl} alt={user.fullName} />
               ) : null}
               <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
                 {getUserInitials(user.fullName)}
