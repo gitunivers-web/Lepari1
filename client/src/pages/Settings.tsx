@@ -763,40 +763,33 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="relative">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <button
-                  onClick={() => setLanguage('fr')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    language === 'fr'
-                      ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-500/20'
-                      : 'border-muted hover:border-indigo-300'
-                  }`}
-                  data-testid="button-lang-fr"
-                >
-                  <span className="font-semibold">Français</span>
-                </button>
-                <button
-                  onClick={() => setLanguage('en')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    language === 'en'
-                      ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-500/20'
-                      : 'border-muted hover:border-indigo-300'
-                  }`}
-                  data-testid="button-lang-en"
-                >
-                  <span className="font-semibold">English</span>
-                </button>
-                <button
-                  onClick={() => setLanguage('es')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    language === 'es'
-                      ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-500/20'
-                      : 'border-muted hover:border-indigo-300'
-                  }`}
-                  data-testid="button-lang-es"
-                >
-                  <span className="font-semibold">Español</span>
-                </button>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {[
+                  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+                  { code: 'en', name: 'English', flag: '🇬🇧' },
+                  { code: 'es', name: 'Español', flag: '🇪🇸' },
+                  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+                  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+                  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+                  { code: 'nl', name: 'Nederlands', flag: '🇳🇱' },
+                ].map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code as any)}
+                    className={`flex items-center gap-2.5 p-3.5 rounded-lg border-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                      language === lang.code
+                        ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-500/20 shadow-md shadow-indigo-500/20'
+                        : 'border-muted hover:border-indigo-300 dark:hover:border-indigo-600'
+                    }`}
+                    data-testid={`button-lang-${lang.code}`}
+                  >
+                    <span className="text-2xl leading-none">{lang.flag}</span>
+                    <span className="font-semibold text-sm">{lang.name}</span>
+                    {language === lang.code && (
+                      <CheckCircle2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 ml-auto" />
+                    )}
+                  </button>
+                ))}
               </div>
             </CardContent>
           </Card>
