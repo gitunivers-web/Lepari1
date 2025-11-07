@@ -14,15 +14,18 @@ export default function SessionMonitor() {
                      location.startsWith('/verify') || location.startsWith('/forgot-password') ||
                      location.startsWith('/reset-password');
 
+  const publicPages = ['/', '/about', '/how-it-works', '/products', '/contact', '/resources', '/terms', '/privacy'];
+  const isPublicPage = publicPages.includes(location);
+
   const { data: user } = useQuery<any>({
     queryKey: ['/api/user'],
-    enabled: !isAuthPage,
+    enabled: !isAuthPage && !isPublicPage,
     refetchInterval: SESSION_CHECK_INTERVAL,
     retry: false,
   });
 
   useEffect(() => {
-    if (isAuthPage) return;
+    if (isAuthPage || isPublicPage) return;
 
     const updateActivity = () => {
       lastActivityRef.current = Date.now();
