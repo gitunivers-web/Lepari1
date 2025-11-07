@@ -37,6 +37,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 import ThemeToggle from '@/components/ThemeToggle';
 import NotificationBanner from '@/components/NotificationBanner';
 import UserProfileHeader from '@/components/UserProfileHeader';
+import NotificationBell from '@/components/NotificationBell';
 
 function Router() {
   return (
@@ -102,6 +103,7 @@ function App() {
                       <div className="flex items-center gap-3">
                         <LanguageSwitcher />
                         <ThemeToggle />
+                        <NotificationBell />
                         <UserProfileHeader />
                       </div>
                     </header>
