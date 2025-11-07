@@ -13,7 +13,7 @@ import { useLanguage, useTranslations } from '@/lib/i18n';
 import { useTheme } from '@/hooks/use-theme';
 import { useUser, getUserInitials } from '@/hooks/use-user';
 import { useMutation } from '@tanstack/react-query';
-import { apiRequest, queryClient } from '@/lib/queryClient';
+import { apiRequest, queryClient, getApiUrl } from '@/lib/queryClient';
 import type { User as UserType } from '@shared/schema';
 
 export default function Settings() {
@@ -188,12 +188,13 @@ export default function Settings() {
 
     setIsUploadingAvatar(true);
     const formData = new FormData();
-    formData.append('photo', file);
+    formData.append('profilePhoto', file);
 
     try {
-      const response = await fetch('/api/user/profile-photo', {
+      const response = await fetch(getApiUrl('/api/user/profile-photo'), {
         method: 'POST',
         body: formData,
+        credentials: 'include',
       });
 
       if (!response.ok) {
