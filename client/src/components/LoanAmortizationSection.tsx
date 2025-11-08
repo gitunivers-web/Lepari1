@@ -22,6 +22,7 @@ import {
 } from 'recharts';
 import { Calculator, TrendingUp, PieChart as PieChartIcon, Info } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useTranslations } from '@/lib/i18n';
 
 interface Loan {
   id: string;
@@ -127,6 +128,7 @@ function calculateAmortization(
 }
 
 export default function LoanAmortizationSection({ loans }: LoanAmortizationSectionProps) {
+  const t = useTranslations();
   const [selectedLoanId, setSelectedLoanId] = useState<string>('');
   const [loanAmount, setLoanAmount] = useState(100000);
   const [interestRate, setInterestRate] = useState(4.5);
@@ -152,22 +154,22 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
     const errors: string[] = [];
 
     if (!loanAmount || loanAmount <= 0) {
-      errors.push('Le montant du prêt doit être supérieur à 0 €');
+      errors.push(t.amortization.errors.amountPositive);
     }
     if (loanAmount > 10000000) {
-      errors.push('Le montant du prêt ne peut pas dépasser 10 000 000 €');
+      errors.push(t.amortization.errors.amountMax);
     }
     if (interestRate < 0) {
-      errors.push('Le taux d\'intérêt ne peut pas être négatif');
+      errors.push(t.amortization.errors.rateNegative);
     }
     if (interestRate > 100) {
-      errors.push('Le taux d\'intérêt ne peut pas dépasser 100%');
+      errors.push(t.amortization.errors.rateMax);
     }
     if (!loanTerm || loanTerm <= 0) {
-      errors.push('La durée du prêt doit être supérieure à 0 année');
+      errors.push(t.amortization.errors.durationPositive);
     }
     if (loanTerm > 50) {
-      errors.push('La durée du prêt ne peut pas dépasser 50 années');
+      errors.push(t.amortization.errors.durationMax);
     }
 
     setValidationErrors(errors);
@@ -197,10 +199,10 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calculator className="h-6 w-6" />
-            Tableau d'amortissement interactif
+            {t.amortization.interactiveTitle}
           </CardTitle>
           <CardDescription>
-            Sélectionnez un prêt actif et personnalisez les paramètres pour voir l'impact sur les remboursements
+            {t.amortization.interactiveDescription}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -208,21 +210,21 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription>
-                Vous n'avez aucun prêt actif pour le moment. Demandez un nouveau prêt pour utiliser cette fonctionnalité.
+                {t.amortization.noActiveLoansDesc}
               </AlertDescription>
             </Alert>
           ) : (
             <>
               <div className="space-y-2">
-                <Label htmlFor="loan-select">Sélectionner un prêt actif</Label>
+                <Label htmlFor="loan-select">{t.amortization.selectActiveLoan}</Label>
                 <Select value={selectedLoanId} onValueChange={handleLoanSelect}>
                   <SelectTrigger id="loan-select" data-testid="select-loan">
-                    <SelectValue placeholder="Choisissez un prêt..." />
+                    <SelectValue placeholder={t.amortization.chooseLoan} />
                   </SelectTrigger>
                   <SelectContent>
                     {activeLoans.map((loan) => (
                       <SelectItem key={loan.id} value={loan.id}>
-                        Prêt de {formatCurrency(loan.amount)} à {loan.interestRate}%
+                        {t.amortization.loanOf} {formatCurrency(loan.amount)} {t.amortization.at} {loan.interestRate}%
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -231,7 +233,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Montant du prêt (€)</Label>
+                  <Label htmlFor="amount">{t.amortization.loanAmount}</Label>
                   <Input
                     id="amount"
                     type="number"
@@ -243,7 +245,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="rate">Taux d'intérêt annuel (%)</Label>
+                  <Label htmlFor="rate">{t.amortization.annualInterestRate}</Label>
                   <Input
                     id="rate"
                     type="number"
@@ -255,7 +257,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="term">Durée (années)</Label>
+                  <Label htmlFor="term">{t.amortization.duration}</Label>
                   <Input
                     id="term"
                     type="number"
@@ -287,7 +289,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                 data-testid="button-calculate-amortization"
               >
                 <Calculator className="mr-2 h-4 w-4" />
-                Calculer l'amortissement
+                {t.amortization.calculateAmortization}
               </Button>
 
               {amortization && (
@@ -296,7 +298,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                          Paiement mensuel
+                          {t.amortization.monthlyPayment}
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -308,7 +310,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                          Total à rembourser
+                          {t.amortization.totalPayment}
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -320,7 +322,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                          Total des intérêts
+                          {t.amortization.totalInterest}
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -334,19 +336,19 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                   <Tabs defaultValue="table" className="w-full">
                     <TabsList className="grid w-full grid-cols-4">
                       <TabsTrigger value="table" data-testid="tab-table">
-                        Tableau
+                        {t.amortization.table}
                       </TabsTrigger>
                       <TabsTrigger value="line" data-testid="tab-line-chart">
                         <TrendingUp className="mr-2 h-4 w-4" />
-                        Évolution
+                        {t.amortization.evolution}
                       </TabsTrigger>
                       <TabsTrigger value="area" data-testid="tab-area-chart">
                         <TrendingUp className="mr-2 h-4 w-4" />
-                        Cumul
+                        {t.amortization.cumulative}
                       </TabsTrigger>
                       <TabsTrigger value="pie" data-testid="tab-pie-chart">
                         <PieChartIcon className="mr-2 h-4 w-4" />
-                        Répartition
+                        {t.amortization.breakdown}
                       </TabsTrigger>
                     </TabsList>
 
@@ -355,11 +357,11 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                         <table className="w-full">
                           <thead className="bg-muted sticky top-0">
                             <tr>
-                              <th className="p-2 text-left">Mois</th>
-                              <th className="p-2 text-right">Paiement</th>
-                              <th className="p-2 text-right">Principal</th>
-                              <th className="p-2 text-right">Intérêts</th>
-                              <th className="p-2 text-right">Solde</th>
+                              <th className="p-2 text-left">{t.amortization.month}</th>
+                              <th className="p-2 text-right">{t.amortization.payment}</th>
+                              <th className="p-2 text-right">{t.amortization.principal}</th>
+                              <th className="p-2 text-right">{t.amortization.interest}</th>
+                              <th className="p-2 text-right">{t.amortization.balance}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -396,35 +398,35 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis
                               dataKey="month"
-                              label={{ value: 'Mois', position: 'insideBottom', offset: -5 }}
+                              label={{ value: t.amortization.monthLabel, position: 'insideBottom', offset: -5 }}
                             />
                             <YAxis
-                              label={{ value: 'Montant (€)', angle: -90, position: 'insideLeft' }}
+                              label={{ value: t.amortization.amount, angle: -90, position: 'insideLeft' }}
                             />
                             <Tooltip
                               formatter={(value: number) => formatCurrency(value)}
-                              labelFormatter={(label) => `Mois ${label}`}
+                              labelFormatter={(label) => `${t.amortization.month} ${label}`}
                             />
                             <Legend />
                             <Line
                               type="monotone"
                               dataKey="principal"
                               stroke="#10b981"
-                              name="Principal"
+                              name={t.amortization.principal}
                               strokeWidth={2}
                             />
                             <Line
                               type="monotone"
                               dataKey="interest"
                               stroke="#f59e0b"
-                              name="Intérêts"
+                              name={t.amortization.interest}
                               strokeWidth={2}
                             />
                             <Line
                               type="monotone"
                               dataKey="balance"
                               stroke="#3b82f6"
-                              name="Solde"
+                              name={t.amortization.balance}
                               strokeWidth={2}
                             />
                           </LineChart>
@@ -439,14 +441,14 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis
                               dataKey="month"
-                              label={{ value: 'Mois', position: 'insideBottom', offset: -5 }}
+                              label={{ value: t.amortization.monthLabel, position: 'insideBottom', offset: -5 }}
                             />
                             <YAxis
-                              label={{ value: 'Montant (€)', angle: -90, position: 'insideLeft' }}
+                              label={{ value: t.amortization.amount, angle: -90, position: 'insideLeft' }}
                             />
                             <Tooltip
                               formatter={(value: number) => formatCurrency(value)}
-                              labelFormatter={(label) => `Mois ${label}`}
+                              labelFormatter={(label) => `${t.amortization.month} ${label}`}
                             />
                             <Legend />
                             <Area
@@ -455,7 +457,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                               stackId="1"
                               stroke="#10b981"
                               fill="#10b981"
-                              name="Principal"
+                              name={t.amortization.principal}
                             />
                             <Area
                               type="monotone"
@@ -463,7 +465,7 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                               stackId="1"
                               stroke="#f59e0b"
                               fill="#f59e0b"
-                              name="Intérêts"
+                              name={t.amortization.interest}
                             />
                           </AreaChart>
                         </ResponsiveContainer>
@@ -476,8 +478,8 @@ export default function LoanAmortizationSection({ loans }: LoanAmortizationSecti
                           <PieChart>
                             <Pie
                               data={[
-                                { name: 'Principal', value: amortization.loanAmount },
-                                { name: 'Intérêts', value: amortization.totalInterest },
+                                { name: t.amortization.principal, value: amortization.loanAmount },
+                                { name: t.amortization.interest, value: amortization.totalInterest },
                               ]}
                               cx="50%"
                               cy="50%"
