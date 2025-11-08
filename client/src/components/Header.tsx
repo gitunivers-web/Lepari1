@@ -38,10 +38,10 @@ export default function Header() {
         <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-all">
+              <img src={logoUrl} alt="Altus Finance Group" className="h-10 sm:h-12 lg:h-16 w-auto" />
               <span className="text-base sm:text-lg lg:text-xl font-bold text-primary whitespace-nowrap hidden sm:block">
                 Altus Finance Group
               </span>
-              <img src={logoUrl} alt="Altus Finance Group" className="h-10 sm:h-12 lg:h-16 w-auto" />
             </Link>
           </div>
 
