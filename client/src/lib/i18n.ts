@@ -1136,6 +1136,41 @@ type TranslationKeys = {
     };
     note: string;
   };
+  footer: {
+    description: string;
+    phone: string;
+    email: string;
+    address: string;
+    productsTitle: string;
+    products: {
+      personal: string;
+      business: string;
+      mortgage: string;
+      auto: string;
+      renovation: string;
+    };
+    companyTitle: string;
+    careers: string;
+    legalTitle: string;
+    legalLinks: {
+      terms: string;
+      privacy: string;
+      cgu: string;
+      cookies: string;
+      gdpr: string;
+    };
+    helpTitle: string;
+    helpLinks: {
+      faq: string;
+      userGuide: string;
+      support: string;
+      simulator: string;
+      contactUs: string;
+    };
+    copyright: string;
+    regulatory: string;
+    disclaimer: string;
+  };
 };
 
 export const translations: Record<Language, TranslationKeys> = {
@@ -2348,6 +2383,41 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       note: 'En activant votre Carte Virtuelle ALTUS, vous reconnaissez avoir lu, compris et accepté l\'intégralité des présentes Conditions Générales d\'Utilisation.',
     },
+    footer: {
+      description: 'Votre partenaire de confiance pour tous vos projets de financement. Solutions de prêt adaptées aux particuliers et professionnels.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      productsTitle: 'Nos Produits',
+      products: {
+        personal: 'Prêts particuliers',
+        business: 'Prêts professionnels',
+        mortgage: 'Prêt immobilier',
+        auto: 'Crédit auto',
+        renovation: 'Prêt travaux',
+      },
+      companyTitle: 'Entreprise',
+      careers: 'Carrières',
+      legalTitle: 'Légal',
+      legalLinks: {
+        terms: 'Mentions légales',
+        privacy: 'Politique de confidentialité',
+        cgu: 'CGU',
+        cookies: 'Cookies',
+        gdpr: 'RGPD',
+      },
+      helpTitle: 'Aide',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'Guide d\'utilisation',
+        support: 'Support client',
+        simulator: 'Simulateur de prêt',
+        contactUs: 'Nous contacter',
+      },
+      copyright: 'Altus Finance Group. Tous droits réservés.',
+      regulatory: 'Altus Finance Group est une marque de financement agréée par l\'ACPR. Organisme de crédit soumis au contrôle de la Banque de France.',
+      disclaimer: 'Attention, emprunter de l\'argent coûte aussi de l\'argent. Les informations sur cette page sont données à titre indicatif et ne constituent pas une offre contractuelle. Toute demande de crédit est soumise à l\'étude et à l\'acceptation du dossier. Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager.',
+    },
   },
   en: {
     hero: {
@@ -3546,6 +3616,41 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       note: 'By activating your ALTUS Virtual Card, you acknowledge having read, understood, and accepted all of these Terms and Conditions.',
     },
+    footer: {
+      description: 'Your trusted partner for all your financing projects. Loan solutions tailored to individuals and professionals.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      productsTitle: 'Our Products',
+      products: {
+        personal: 'Personal Loans',
+        business: 'Business Loans',
+        mortgage: 'Mortgage Loan',
+        auto: 'Auto Credit',
+        renovation: 'Home Improvement Loan',
+      },
+      companyTitle: 'Company',
+      careers: 'Careers',
+      legalTitle: 'Legal',
+      legalLinks: {
+        terms: 'Legal Notice',
+        privacy: 'Privacy Policy',
+        cgu: 'Terms of Use',
+        cookies: 'Cookies',
+        gdpr: 'GDPR',
+      },
+      helpTitle: 'Help',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'User Guide',
+        support: 'Customer Support',
+        simulator: 'Loan Simulator',
+        contactUs: 'Contact Us',
+      },
+      copyright: 'Altus Finance Group. All rights reserved.',
+      regulatory: 'Altus Finance Group is a financing brand approved by the ACPR. Credit organization subject to the control of the Bank of France.',
+      disclaimer: 'Attention, borrowing money also costs money. The information on this page is provided for informational purposes only and does not constitute a contractual offer. All credit applications are subject to review and acceptance of the file. A credit commits you and must be repaid. Check your repayment capacity before committing.',
+    },
   },
   es: {
     hero: {
@@ -4739,6 +4844,41 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       note: 'Al activar su Tarjeta Virtual ALTUS, usted reconoce haber leído, comprendido y aceptado la totalidad de las presentes Condiciones Generales de Uso.',
     },
+    footer: {
+      description: 'Su socio de confianza para todos sus proyectos de financiamiento. Soluciones de préstamo adaptadas a particulares y profesionales.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 París',
+      productsTitle: 'Nuestros Productos',
+      products: {
+        personal: 'Préstamos Personales',
+        business: 'Préstamos Profesionales',
+        mortgage: 'Préstamo Hipotecario',
+        auto: 'Crédito Automático',
+        renovation: 'Préstamo para Reformas',
+      },
+      companyTitle: 'Empresa',
+      careers: 'Carreras',
+      legalTitle: 'Legal',
+      legalLinks: {
+        terms: 'Aviso Legal',
+        privacy: 'Política de Privacidad',
+        cgu: 'CGU',
+        cookies: 'Cookies',
+        gdpr: 'RGPD',
+      },
+      helpTitle: 'Ayuda',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'Guía de Usuario',
+        support: 'Soporte al Cliente',
+        simulator: 'Simulador de Préstamos',
+        contactUs: 'Contáctenos',
+      },
+      copyright: 'Altus Finance Group. Todos los derechos reservados.',
+      regulatory: 'Altus Finance Group es una marca de financiamiento aprobada por la ACPR. Organismo de crédito sujeto al control del Banco de Francia.',
+      disclaimer: 'Atención, pedir dinero prestado también cuesta dinero. La información en esta página se proporciona únicamente con fines informativos y no constituye una oferta contractual. Todas las solicitudes de crédito están sujetas a revisión y aceptación del expediente. Un crédito le compromete y debe ser reembolsado. Verifique su capacidad de reembolso antes de comprometerse.',
+    },
   },
   pt: {
     hero: {
@@ -5931,6 +6071,41 @@ export const translations: Record<Language, TranslationKeys> = {
         content: 'Os presentes TCG são regidos pela lei portuguesa. Qualquer litígio relativo à sua interpretação ou execução é da competência exclusiva dos tribunais portugueses.',
       },
       note: 'Ao ativar o seu Cartão Virtual ALTUS, você reconhece ter lido, compreendido e aceitado a totalidade dos presentes Termos e Condições de Uso.',
+    },
+    footer: {
+      description: 'Seu parceiro de confiança para todos os seus projetos de financiamento. Soluções de empréstimo adaptadas a particulares e profissionais.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      productsTitle: 'Nossos Produtos',
+      products: {
+        personal: 'Empréstimos Pessoais',
+        business: 'Empréstimos Empresariais',
+        mortgage: 'Empréstimo Hipotecário',
+        auto: 'Crédito Auto',
+        renovation: 'Empréstimo para Reformas',
+      },
+      companyTitle: 'Empresa',
+      careers: 'Carreiras',
+      legalTitle: 'Legal',
+      legalLinks: {
+        terms: 'Avisos Legais',
+        privacy: 'Política de Privacidade',
+        cgu: 'CGU',
+        cookies: 'Cookies',
+        gdpr: 'RGPD',
+      },
+      helpTitle: 'Ajuda',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'Guia do Usuário',
+        support: 'Suporte ao Cliente',
+        simulator: 'Simulador de Empréstimos',
+        contactUs: 'Contate-nos',
+      },
+      copyright: 'Altus Finance Group. Todos os direitos reservados.',
+      regulatory: 'Altus Finance Group é uma marca de financiamento aprovada pela ACPR. Organismo de crédito sujeito ao controle do Banco da França.',
+      disclaimer: 'Atenção, pedir dinheiro emprestado também custa dinheiro. As informações nesta página são fornecidas apenas para fins informativos e não constituem uma oferta contratual. Todas as solicitações de crédito estão sujeitas a revisão e aceitação do arquivo. Um crédito o compromete e deve ser reembolsado. Verifique sua capacidade de reembolso antes de se comprometer.',
     },
   },
   it: {
@@ -7127,6 +7302,41 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       note: 'Attivando la vostra Carta Virtuale ALTUS, riconoscete di aver letto, compreso e accettato l\'interezza delle presenti Condizioni Generali d\'Uso.',
     },
+    footer: {
+      description: 'Il vostro partner di fiducia per tutti i vostri progetti di finanziamento. Soluzioni di prestito adattate a privati e professionisti.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 Parigi',
+      productsTitle: 'I nostri prodotti',
+      products: {
+        personal: 'Prestiti personali',
+        business: 'Prestiti aziendali',
+        mortgage: 'Mutuo ipotecario',
+        auto: 'Credito auto',
+        renovation: 'Prestito ristrutturazione',
+      },
+      companyTitle: 'Azienda',
+      careers: 'Carriere',
+      legalTitle: 'Legale',
+      legalLinks: {
+        terms: 'Note legali',
+        privacy: 'Informativa sulla privacy',
+        cgu: 'CGU',
+        cookies: 'Cookies',
+        gdpr: 'GDPR',
+      },
+      helpTitle: 'Aiuto',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'Guida utente',
+        support: 'Assistenza clienti',
+        simulator: 'Simulatore di prestito',
+        contactUs: 'Contattaci',
+      },
+      copyright: 'Altus Finance Group. Tutti i diritti riservati.',
+      regulatory: 'Altus Finance Group è un marchio di finanziamento approvato dall\'ACPR. Organismo di credito soggetto al controllo della Banca di Francia.',
+      disclaimer: 'Attenzione, prendere in prestito denaro costa anche denaro. Le informazioni in questa pagina sono fornite solo a scopo informativo e non costituiscono un\'offerta contrattuale. Tutte le richieste di credito sono soggette a revisione e accettazione del dossier. Un credito vi impegna e deve essere rimborsato. Verificate la vostra capacità di rimborso prima di impegnarvi.',
+    },
   } as TranslationKeys,
   de: {
     hero: {
@@ -8291,6 +8501,41 @@ export const translations: Record<Language, TranslationKeys> = {
         content: 'Diese AGB unterliegen deutschem Recht. Alle Streitigkeiten bezüglich ihrer Auslegung oder Ausführung fallen in die ausschließliche Zuständigkeit der deutschen Gerichte.',
       },
       note: 'Durch Aktivierung Ihrer ALTUS Virtuellen Karte bestätigen Sie, dass Sie die gesamten Allgemeinen Nutzungsbedingungen gelesen, verstanden und akzeptiert haben.',
+    },
+    footer: {
+      description: 'Ihr vertrauenswürdiger Partner für alle Ihre Finanzierungsprojekte. Kreditlösungen für Privat- und Geschäftskunden.',
+      phone: '+33 1 23 45 67 89',
+      email: 'contact@altus-group.fr',
+      address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      productsTitle: 'Unsere Produkte',
+      products: {
+        personal: 'Privatdarlehen',
+        business: 'Geschäftskredite',
+        mortgage: 'Immobilienkredit',
+        auto: 'Autokredit',
+        renovation: 'Renovierungsdarlehen',
+      },
+      companyTitle: 'Unternehmen',
+      careers: 'Karriere',
+      legalTitle: 'Rechtliches',
+      legalLinks: {
+        terms: 'Rechtliche Hinweise',
+        privacy: 'Datenschutzrichtlinie',
+        cgu: 'AGB',
+        cookies: 'Cookies',
+        gdpr: 'DSGVO',
+      },
+      helpTitle: 'Hilfe',
+      helpLinks: {
+        faq: 'FAQ',
+        userGuide: 'Benutzerhandbuch',
+        support: 'Kundensupport',
+        simulator: 'Kreditsimulator',
+        contactUs: 'Kontaktieren Sie uns',
+      },
+      copyright: 'Altus Finance Group. Alle Rechte vorbehalten.',
+      regulatory: 'Altus Finance Group ist eine von der ACPR zugelassene Finanzierungsmarke. Kreditinstitut unter Kontrolle der Banque de France.',
+      disclaimer: 'Achtung, Geld leihen kostet auch Geld. Die Informationen auf dieser Seite dienen nur zu Informationszwecken und stellen kein vertragliches Angebot dar. Alle Kreditanträge unterliegen der Prüfung und Annahme der Unterlagen. Ein Kredit verpflichtet Sie und muss zurückgezahlt werden. Überprüfen Sie Ihre Rückzahlungsfähigkeit, bevor Sie sich verpflichten.',
     },
   } as TranslationKeys,
   nl: {
@@ -9725,6 +9970,41 @@ translations.nl.common = {
   cancel: 'Annuleren',
   save: 'Opslaan',
   close: 'Sluiten',
+};
+translations.nl.footer = {
+  description: 'Uw betrouwbare partner voor al uw financieringsprojecten. Kredietoplossingen aangepast aan particulieren en bedrijven.',
+  phone: '+33 1 23 45 67 89',
+  email: 'contact@altus-group.fr',
+  address: '75 Avenue des Champs-Élysées, 75008 Parijs',
+  productsTitle: 'Onze Producten',
+  products: {
+    personal: 'Particuliere Leningen',
+    business: 'Zakelijke Leningen',
+    mortgage: 'Hypotheekleen',
+    auto: 'Autokrediet',
+    renovation: 'Renovatielening',
+  },
+  companyTitle: 'Bedrijf',
+  careers: 'Carrières',
+  legalTitle: 'Juridisch',
+  legalLinks: {
+    terms: 'Juridische Kennisgeving',
+    privacy: 'Privacybeleid',
+    cgu: 'Algemene Voorwaarden',
+    cookies: 'Cookies',
+    gdpr: 'AVG',
+  },
+  helpTitle: 'Help',
+  helpLinks: {
+    faq: 'FAQ',
+    userGuide: 'Gebruikershandleiding',
+    support: 'Klantenondersteuning',
+    simulator: 'Leningsimulator',
+    contactUs: 'Contact',
+  },
+  copyright: 'Altus Finance Group. Alle rechten voorbehouden.',
+  regulatory: 'Altus Finance Group is een financieringsmerk goedgekeurd door de ACPR. Kredietorganisatie onder toezicht van de Banque de France.',
+  disclaimer: 'Let op, geld lenen kost ook geld. De informatie op deze pagina wordt alleen ter informatie verstrekt en vormt geen contractueel aanbod. Alle kredietaanvragen zijn onderworpen aan beoordeling en goedkeuring van het dossier. Een krediet verplicht u en moet worden terugbetaald. Controleer uw terugbetalingscapaciteit voordat u zich verbindt.',
 };
 
 export function useTranslations() {
