@@ -369,10 +369,6 @@
     animation: marquee 60s linear infinite;
   }
 
-  .animate-scroll {
-    animation: marquee 40s linear infinite;
-  }
-
   /* Dashboard card styling */
   .dashboard-card {
     @apply bg-white dark:bg-slate-900 shadow-sm;

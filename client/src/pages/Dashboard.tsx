@@ -7,7 +7,6 @@ import PendingTransfers from '@/components/PendingTransfers';
 import UpcomingRepaymentsChart from '@/components/UpcomingRepaymentsChart';
 import NotificationsBox from '@/components/NotificationsBox';
 import BankCardOffer from '@/components/BankCardOffer';
-import InfoTicker from '@/components/InfoTicker';
 import { useTranslations } from '@/lib/i18n';
 import { useDashboard, useUpcomingRepaymentsChart } from '@/hooks/use-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -65,8 +64,6 @@ export default function Dashboard() {
             {t.dashboard.yourGlobalBalance} : {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(dashboardData.balance.currentBalance)}
           </p>
         </div>
-
-        <InfoTicker />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <BalanceOverview
