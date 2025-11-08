@@ -12,7 +12,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import logoUrl from '@assets/Logo_1762606366224.png';
+import logoUrl from '@assets/Logo_1762619815448.jpeg';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
