@@ -4006,3 +4006,33 @@ export const translations: Record<Language, TranslationKeys> = {
       identity: 'Documento de Identidade',
       proof_of_address: 'Comprovante de Residência',
       income_proof: 'Comprovante de Renda',
+      business_registration: 'Registro Empresarial',
+      financial_statements: 'Demonstrações Financeiras',
+      tax_returns: 'Declaração de Impostos',
+      chooseFile: 'Escolher arquivo',
+      upload: 'Enviar',
+      uploading: 'Enviando...',
+      uploadSuccess: 'Documento enviado',
+      uploadSuccessDesc: 'Seu documento foi enviado com sucesso.',
+      uploadError: 'Erro ao enviar',
+      status: 'Status',
+      pending: 'Pendente',
+      approved: 'Aprovado',
+      rejected: 'Rejeitado',
+      uploadedAt: 'Enviado em',
+      noDocuments: 'Nenhum documento enviado',
+    },
+  },
+  it: {} as TranslationKeys,
+  de: {} as TranslationKeys,
+  nl: {} as TranslationKeys,
+};
+
+translations.it = translations.en;
+translations.de = translations.en;
+translations.nl = translations.en;
+
+export function useTranslations() {
+  const { language } = useLanguage();
+  return translations[language];
+}
