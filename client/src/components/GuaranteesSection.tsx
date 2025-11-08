@@ -1,66 +1,49 @@
 import { Card } from '@/components/ui/card';
 import { Shield, FileCheck, Building, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
 
 export default function GuaranteesSection() {
+  const { t } = useLanguage();
+
   const guarantees = [
     {
       icon: Shield,
-      title: 'Garanties Organismes',
-      items: [
-        'BPI France (40-70% du prêt)',
-        'SIAGI (garantie artisans/commerçants)',
-        'France Active (économie sociale)',
-        'SOCAMA (agriculteurs)'
-      ]
+      title: t.guaranteesSection.organizationalTitle,
+      items: t.guaranteesSection.organizationalItems
     },
     {
       icon: Building,
-      title: 'Garanties Réelles',
-      items: [
-        'Hypothèque sur biens immobiliers',
-        'Nantissement fonds de commerce',
-        'Gage sur matériel/équipement',
-        'Privilège du prêteur de deniers'
-      ]
+      title: t.guaranteesSection.realTitle,
+      items: t.guaranteesSection.realItems
     },
     {
       icon: FileCheck,
-      title: 'Garanties Personnelles',
-      items: [
-        'Caution solidaire du dirigeant',
-        'Caution bancaire professionnelle',
-        'Garantie à première demande',
-        'Lettre de confort groupe'
-      ]
+      title: t.guaranteesSection.personalTitle,
+      items: t.guaranteesSection.personalItems
     },
     {
       icon: Users,
-      title: 'Assurance Emprunteur',
-      items: [
-        'Décès / PTIA (obligatoire)',
-        'Invalidité permanente (IPT/IPP)',
-        'Incapacité temporaire (ITT)',
-        'Cotisations fiscalement déductibles'
-      ]
+      title: t.guaranteesSection.insuranceTitle,
+      items: t.guaranteesSection.insuranceItems
     }
   ];
 
   const taxBenefits = [
     {
-      title: 'Déductibilité des intérêts',
-      description: 'Les intérêts d\'emprunt sont déductibles du résultat fiscal de votre entreprise, réduisant ainsi votre impôt sur les bénéfices.'
+      title: t.guaranteesSection.taxBenefit1Title,
+      description: t.guaranteesSection.taxBenefit1Description
     },
     {
-      title: 'Amortissement accéléré',
-      description: 'Pour les équipements financés, possibilité d\'amortissement accéléré selon certaines conditions (matériel neuf, écologique, etc.).'
+      title: t.guaranteesSection.taxBenefit2Title,
+      description: t.guaranteesSection.taxBenefit2Description
     },
     {
-      title: 'Crédit d\'impôt',
-      description: 'Certains investissements ouvrent droit à des crédits d\'impôt (transition énergétique, numérique, formation).'
+      title: t.guaranteesSection.taxBenefit3Title,
+      description: t.guaranteesSection.taxBenefit3Description
     },
     {
-      title: 'TVA récupérable',
-      description: 'La TVA sur les intérêts et frais de dossier est récupérable pour les entreprises assujetties.'
+      title: t.guaranteesSection.taxBenefit4Title,
+      description: t.guaranteesSection.taxBenefit4Description
     }
   ];
 
@@ -69,10 +52,10 @@ export default function GuaranteesSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            Garanties & Sécurisation
+            {t.guaranteesSection.title}
           </h2>
           <p className="text-xl text-muted-foreground">
-            Plusieurs options pour sécuriser votre financement et optimiser votre fiscalité
+            {t.guaranteesSection.subtitle}
           </p>
         </div>
 
@@ -104,7 +87,7 @@ export default function GuaranteesSection() {
           <Card className="p-8 bg-gradient-to-br from-primary/5 to-transparent">
             <div className="flex items-center gap-3 mb-6">
               <TrendingUp className="w-8 h-8 text-primary" />
-              <h3 className="text-3xl font-bold">Avantages Fiscaux du Prêt Professionnel</h3>
+              <h3 className="text-3xl font-bold">{t.guaranteesSection.taxBenefitsTitle}</h3>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {taxBenefits.map((benefit, index) => (
@@ -119,7 +102,7 @@ export default function GuaranteesSection() {
             </div>
             <div className="mt-6 p-4 bg-muted/50 rounded-lg">
               <p className="text-sm text-muted-foreground">
-                💡 <strong>Conseil fiscal :</strong> Consultez votre expert-comptable pour optimiser la déductibilité de vos emprunts et maximiser vos avantages fiscaux.
+                {t.guaranteesSection.taxAdvice}
               </p>
             </div>
           </Card>
@@ -127,26 +110,26 @@ export default function GuaranteesSection() {
 
         <div className="mt-12 max-w-4xl mx-auto">
           <Card className="p-8 border-2 border-primary/20">
-            <h3 className="text-2xl font-bold mb-4 text-center">Apport Personnel Requis</h3>
+            <h3 className="text-2xl font-bold mb-4 text-center">{t.guaranteesSection.contributionTitle}</h3>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">10-15%</div>
-                <div className="text-sm font-semibold mb-1">Équipement</div>
-                <div className="text-xs text-muted-foreground">Matériel, véhicules</div>
+                <div className="text-4xl font-bold text-primary mb-2">{t.guaranteesSection.equipmentPercentage}</div>
+                <div className="text-sm font-semibold mb-1">{t.guaranteesSection.equipmentLabel}</div>
+                <div className="text-xs text-muted-foreground">{t.guaranteesSection.equipmentDescription}</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">20-30%</div>
-                <div className="text-sm font-semibold mb-1">Création / Reprise</div>
-                <div className="text-xs text-muted-foreground">Fonds de commerce</div>
+                <div className="text-4xl font-bold text-primary mb-2">{t.guaranteesSection.creationPercentage}</div>
+                <div className="text-sm font-semibold mb-1">{t.guaranteesSection.creationLabel}</div>
+                <div className="text-xs text-muted-foreground">{t.guaranteesSection.creationDescription}</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">20-25%</div>
-                <div className="text-sm font-semibold mb-1">Immobilier Pro</div>
-                <div className="text-xs text-muted-foreground">Locaux, bureaux</div>
+                <div className="text-4xl font-bold text-primary mb-2">{t.guaranteesSection.realEstatePercentage}</div>
+                <div className="text-sm font-semibold mb-1">{t.guaranteesSection.realEstateLabel}</div>
+                <div className="text-xs text-muted-foreground">{t.guaranteesSection.realEstateDescription}</div>
               </div>
             </div>
             <p className="text-sm text-muted-foreground text-center mt-6">
-              * Pourcentages indicatifs pouvant varier selon votre projet et votre profil
+              {t.guaranteesSection.contributionDisclaimer}
             </p>
           </Card>
         </div>
