@@ -56,14 +56,18 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900">
-      <DashboardHeader 
-        title={getGreeting()}
-        subtitle={`${t.dashboard.yourGlobalBalance} : ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(dashboardData.balance.currentBalance)}`}
-      />
+    <div className="min-h-screen bg-[#F9FAFB] dark:bg-slate-900">
       <div className="p-6 md:p-8 space-y-6">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-[#002855] dark:text-white mb-2">
+            {getGreeting()}
+          </h1>
+          <p className="text-sm text-[#64748B] dark:text-slate-400">
+            {t.dashboard.yourGlobalBalance} : {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(dashboardData.balance.currentBalance)}
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <BalanceOverview
             currentBalance={dashboardData.balance.currentBalance}
             activeLoansCount={dashboardData.balance.activeLoansCount}
@@ -77,7 +81,7 @@ export default function Dashboard() {
           <PendingTransfers transfers={dashboardData.transfers} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <BorrowingCapacity
             maxCapacity={dashboardData.borrowingCapacity.maxCapacity}
             currentCapacity={dashboardData.borrowingCapacity.currentCapacity}
@@ -90,12 +94,12 @@ export default function Dashboard() {
           ) : null}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <NotificationsBox />
           <QuickActions />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <FeeSection fees={dashboardData.fees} />
           
           <div className="md:hidden">

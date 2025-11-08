@@ -16,65 +16,65 @@
 
   --background: 0 0% 100%;
 
-  --foreground: 207 100% 17%;
+  --foreground: 213 100% 17%;
 
-  --border: 207 15% 88%;
+  --border: 213 15% 88%;
 
   --card: 0 0% 100%;
 
-  --card-foreground: 207 100% 17%;
+  --card-foreground: 213 100% 17%;
 
-  --card-border: 207 15% 90%;
+  --card-border: 213 15% 90%;
 
-  --sidebar: 207 100% 17%;
+  --sidebar: 213 100% 17%;
 
   --sidebar-foreground: 0 0% 100%;
 
-  --sidebar-border: 207 50% 30%;
+  --sidebar-border: 213 50% 30%;
 
-  --sidebar-primary: 207 98% 42%;
+  --sidebar-primary: 213 100% 42%;
 
   --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 207 95% 24%;
+  --sidebar-accent: 213 95% 24%;
 
   --sidebar-accent-foreground: 0 0% 100%;
 
-  --sidebar-ring: 207 98% 42%;
+  --sidebar-ring: 213 100% 42%;
 
   --popover: 0 0% 98%;
 
-  --popover-foreground: 207 100% 15%;
+  --popover-foreground: 213 100% 17%;
 
-  --popover-border: 207 15% 88%;
+  --popover-border: 213 15% 88%;
 
-  --primary: 207 100% 17%;
+  --primary: 213 100% 42%;
 
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 207 15% 92%;
+  --secondary: 213 15% 92%;
 
-  --secondary-foreground: 207 100% 15%;
+  --secondary-foreground: 213 100% 17%;
 
-  --muted: 207 10% 94%;
+  --muted: 213 10% 94%;
 
-  --muted-foreground: 207 20% 45%;
+  --muted-foreground: 213 20% 45%;
 
-  --accent: 177 70% 41%;
+  --accent: 213 100% 42%;
 
   --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 72% 48%;
+  --destructive: 0 65% 46%;
 
   --destructive-foreground: 0 100% 98%;
 
-  --input: 207 15% 75%;
-  --ring: 207 100% 22%;
-  --chart-1: 177 70% 41%;
-  --chart-2: 177 85% 55%;
-  --chart-3: 207 100% 35%;
-  --chart-4: 177 60% 30%;
-  --chart-5: 207 80% 50%;
+  --input: 213 15% 75%;
+  --ring: 213 100% 42%;
+  --chart-1: 213 100% 42%;
+  --chart-2: 213 85% 55%;
+  --chart-3: 213 100% 35%;
+  --chart-4: 213 60% 30%;
+  --chart-5: 213 80% 50%;
 
   --font-sans: Inter, 'Work Sans', system-ui, -apple-system, sans-serif;
   --font-serif: Georgia, serif;
