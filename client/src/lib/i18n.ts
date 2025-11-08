@@ -122,6 +122,9 @@ type TranslationKeys = {
     downloading: string;
     uploading: string;
     loanNumber: string;
+    requestSubmitted: string;
+    requestSubmittedDesc: string;
+    requestError: string;
   };
   transfer: {
     pageTitle: string;
@@ -1227,6 +1230,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Téléchargement...',
       uploading: 'Téléchargement...',
       loanNumber: 'Prêt',
+      requestSubmitted: 'Demande de prêt soumise',
+      requestSubmittedDesc: 'Votre demande est en attente d\'approbation par un administrateur. Vous recevrez une notification dès qu\'elle sera traitée.',
+      requestError: 'Échec de la soumission de la demande de prêt',
     },
     transfer: {
       pageTitle: 'Mes transferts',
@@ -2434,6 +2440,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Downloading...',
       uploading: 'Uploading...',
       loanNumber: 'Loan',
+      requestSubmitted: 'Loan request submitted',
+      requestSubmittedDesc: 'Your request is pending approval by an administrator. You will receive a notification as soon as it is processed.',
+      requestError: 'Failed to submit loan request',
     },
     transfer: {
       pageTitle: 'My Transfers',
@@ -3629,6 +3638,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Descargando...',
       uploading: 'Subiendo...',
       loanNumber: 'Préstamo',
+      requestSubmitted: 'Solicitud de préstamo enviada',
+      requestSubmittedDesc: 'Su solicitud está pendiente de aprobación por un administrador. Recibirá una notificación tan pronto como sea procesada.',
+      requestError: 'Error al enviar la solicitud de préstamo',
     },
     transfer: {
       pageTitle: 'Mis Transferencias',
@@ -4819,6 +4831,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Baixando...',
       uploading: 'Enviando...',
       loanNumber: 'Empréstimo',
+      requestSubmitted: 'Solicitação de empréstimo enviada',
+      requestSubmittedDesc: 'Sua solicitação está pendente de aprovação por um administrador. Você receberá uma notificação assim que for processada.',
+      requestError: 'Falha ao enviar a solicitação de empréstimo',
     },
     transfer: {
       pageTitle: 'Minhas Transferências',
@@ -6009,6 +6024,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Download...',
       uploading: 'Caricamento...',
       loanNumber: 'Prestito',
+      requestSubmitted: 'Richiesta di prestito inviata',
+      requestSubmittedDesc: 'La tua richiesta è in attesa di approvazione da parte di un amministratore. Riceverai una notifica non appena verrà elaborata.',
+      requestError: 'Impossibile inviare la richiesta di prestito',
     },
     transfer: {
       pageTitle: 'I miei trasferimenti',
@@ -7201,6 +7219,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Wird heruntergeladen...',
       uploading: 'Wird hochgeladen...',
       loanNumber: 'Kredit',
+      requestSubmitted: 'Kreditanfrage eingereicht',
+      requestSubmittedDesc: 'Ihre Anfrage wartet auf Genehmigung durch einen Administrator. Sie erhalten eine Benachrichtigung, sobald sie bearbeitet wurde.',
+      requestError: 'Fehler beim Einreichen der Kreditanfrage',
     },
     transfer: {
       pageTitle: 'Meine Überweisungen',
@@ -8363,6 +8384,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloading: 'Downloaden...',
       uploading: 'Uploaden...',
       loanNumber: 'Lening',
+      requestSubmitted: 'Leningaanvraag ingediend',
+      requestSubmittedDesc: 'Uw aanvraag wacht op goedkeuring door een beheerder. U ontvangt een melding zodra deze is verwerkt.',
+      requestError: 'Kan leningaanvraag niet indienen',
     },
     transfer: {
       pageTitle: 'Mijn overschrijvingen',

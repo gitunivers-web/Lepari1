@@ -135,8 +135,8 @@ export default function AmortizationCalculator() {
     },
     onSuccess: () => {
       toast({
-        title: t.loans.requestSubmitted,
-        description: t.loans.requestSubmittedDesc,
+        title: t.loan.requestSubmitted,
+        description: t.loan.requestSubmittedDesc,
       });
       queryClient.invalidateQueries({ queryKey: ['/api/loans'] });
     },
@@ -144,7 +144,7 @@ export default function AmortizationCalculator() {
       toast({
         variant: 'destructive',
         title: t.common.error,
-        description: t.loans.requestError,
+        description: t.loan.requestError,
       });
     },
   });
