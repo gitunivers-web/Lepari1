@@ -8,6 +8,7 @@ import UpcomingRepaymentsChart from '@/components/UpcomingRepaymentsChart';
 import NotificationsBox from '@/components/NotificationsBox';
 import WelcomeMessage from '@/components/WelcomeMessage';
 import BankCardOffer from '@/components/BankCardOffer';
+import DashboardHeader from '@/components/DashboardHeader';
 import { useTranslations } from '@/lib/i18n';
 import { useDashboard, useUpcomingRepaymentsChart } from '@/hooks/use-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -56,11 +57,11 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900">
+      <DashboardHeader 
+        title={getGreeting()}
+        subtitle={`${t.dashboard.yourGlobalBalance} : ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(dashboardData.balance.currentBalance)}`}
+      />
       <div className="p-6 md:p-8 space-y-6">
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-[#1E293B]" data-testid="text-welcome">{getGreeting()} 👋</h1>
-          <p className="text-base text-[#64748B]">{t.dashboard.yourGlobalBalance} : <span className="font-semibold text-[#1E293B]">{new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(dashboardData.balance.currentBalance)}</span></p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           <BalanceOverview
