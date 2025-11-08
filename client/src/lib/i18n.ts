@@ -3901,7 +3901,7 @@ export const translations: Record<Language, TranslationKeys> = {
         },
         {
           question: '¿Cómo se calculan las tasas de interés?',
-          answer: 'Nuestras tasas se calculan mediante un algoritmo que analiza varios factores: su puntaje crediticio, duración del préstamo, monto prestado, ingresos y gastos, historial de pagos y salud financiera (para empresas). Las tasas varían de 3.5% a 9.0% TAE según perfil. Nuestras tasas están entre las más competitivas del mercado gracias a nuestra red de socios financieros.',
+          answer: 'Nuestras tasas se calculan mediante un algoritmo que analiza varios factores: su puntaje crediticio, duración del préstamo, monto prestado, ingresos y gastos, historial de pagos y salud financiera (para empresas). Las tasas varían de 0.5% a 9.0% TAE según perfil y tipo de préstamo. Nuestras tasas están entre las más competitivas del mercado gracias a nuestra red de socios financieros.',
         },
         {
           question: '¿Hay cargos de solicitud o cargos ocultos?',
@@ -3996,7 +3996,7 @@ export const translations: Record<Language, TranslationKeys> = {
       fast: 'Respuesta Express - Minutos a 24h',
       fastDesc: 'Nuestra tecnología de IA analiza su expediente en tiempo real. Respuesta de aprobación en minutos a 24 horas máximo. Fondos inmediatamente desbloqueados en su cuenta segura Altus. Luego transfiera a su cuenta bancaria cuando desee. 100% digital, cero papeleo.',
       competitive: 'Entre Las Tasas Más Bajas del Mercado',
-      competitiveDesc: 'Gracias a nuestra red de 50+ socios financieros y tecnología de evaluación optimizada, negociamos para usted las mejores tasas: de 1.5% a 9.0% según perfil. Comparación automática para garantizarle la mejor oferta.',
+      competitiveDesc: 'Gracias a nuestra red de 50+ socios financieros y tecnología de evaluación optimizada, negociamos para usted las mejores tasas: de 0.5% a 9.0% TAE según perfil y tipo de préstamo. Comparación automática para garantizarle la mejor oferta.',
       flexible: 'Flexibilidad Máxima Sin Penalización',
       flexibleDesc: 'Pago anticipado gratuito en cualquier momento. Posible modulación de mensualidades según su situación. Aplazamiento de mensualidades en caso de dificultades. Elección de fecha de débito. Mantiene control total de su crédito.',
     },
@@ -5129,7 +5129,7 @@ export const translations: Record<Language, TranslationKeys> = {
         },
         {
           question: 'Como são calculadas as taxas de juros?',
-          answer: 'Nossas taxas são calculadas por um algoritmo que analisa vários fatores: sua pontuação de crédito, duração do empréstimo, valor emprestado, renda e despesas, histórico de pagamento e saúde financeira (para empresas). As taxas variam de 3,5% a 9,0% TAE dependendo do perfil. Nossas taxas estão entre as mais competitivas do mercado graças à nossa rede de parceiros financeiros.',
+          answer: 'Nossas taxas são calculadas por um algoritmo que analisa vários fatores: sua pontuação de crédito, duração do empréstimo, valor emprestado, renda e despesas, histórico de pagamento e saúde financeira (para empresas). As taxas variam de 0,5% a 9,0% TAE dependendo do perfil e tipo de empréstimo. Nossas taxas estão entre as mais competitivas do mercado graças à nossa rede de parceiros financeiros.',
         },
         {
           question: 'Existem taxas de solicitação ou taxas ocultas?',
@@ -5224,7 +5224,7 @@ export const translations: Record<Language, TranslationKeys> = {
       fast: 'Resposta Expressa - Minutos a 24h',
       fastDesc: 'Nossa tecnologia de IA analisa seu arquivo em tempo real. Resposta de aprovação em minutos a 24 horas no máximo. Fundos imediatamente liberados em sua conta segura Altus. Depois transfira para sua conta bancária quando quiser. 100% digital, zero papelada.',
       competitive: 'Entre as Taxas Mais Baixas do Mercado',
-      competitiveDesc: 'Graças à nossa rede de 50+ parceiros financeiros e tecnologia de avaliação otimizada, negociamos as melhores taxas para você: de 1,5% a 9,0% dependendo do perfil. Comparação automática para garantir a melhor oferta.',
+      competitiveDesc: 'Graças à nossa rede de 50+ parceiros financeiros e tecnologia de avaliação otimizada, negociamos as melhores taxas para você: de 0,5% a 9,0% TAE dependendo do perfil e tipo de empréstimo. Comparação automática para garantir a melhor oferta.',
       flexible: 'Flexibilidade Máxima Sem Penalidade',
       flexibleDesc: 'Reembolso antecipado gratuito a qualquer momento. Possível modulação de parcelas de acordo com sua situação. Adiamento de parcela em caso de dificuldades. Escolha da data de débito. Você mantém controle total do seu crédito.',
     },
