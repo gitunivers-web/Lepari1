@@ -38,7 +38,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-14 sm:h-16 lg:h-18">
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all">
-              <img src={logoUrl} alt="Altus Finance Group" className="h-7 sm:h-8 lg:h-9 w-auto" />
+              <img src={logoUrl} alt="Altus Finance Group" className="h-9 sm:h-11 lg:h-12 w-auto" />
             </Link>
           </div>
 

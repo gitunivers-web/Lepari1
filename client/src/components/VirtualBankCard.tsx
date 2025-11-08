@@ -13,7 +13,7 @@ export default function VirtualBankCard({ className = '' }: VirtualBankCardProps
 
   return (
     <div className={`relative w-full max-w-sm ${className}`} data-testid="card-virtual-bank">
-      <div className="relative aspect-[1.586/1] rounded-2xl bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 p-6 shadow-2xl transform hover:scale-105 transition-all duration-300">
+      <div className="dashboard-card-3d relative aspect-[1.586/1] p-6">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-2xl"></div>
         
         <div className="relative h-full flex flex-col justify-between">
