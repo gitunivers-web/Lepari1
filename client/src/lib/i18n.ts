@@ -1136,6 +1136,72 @@ type TranslationKeys = {
     };
     note: string;
   };
+  processTimeline: {
+    title: string;
+    subtitle: string;
+    step1Title: string;
+    step1Duration: string;
+    step1Description: string;
+    step1Docs: string[];
+    step2Title: string;
+    step2Duration: string;
+    step2Description: string;
+    step2Docs: string[];
+    step3Title: string;
+    step3Duration: string;
+    step3Description: string;
+    step3Docs: string[];
+    step4Title: string;
+    step4Duration: string;
+    step4Description: string;
+    step4Docs: string[];
+    documentsTitle: string;
+    creationTitle: string;
+    creationDocs: string[];
+    repriseTitle: string;
+    repriseDocs: string[];
+    developmentTitle: string;
+    developmentDocs: string[];
+    incompleteTitle: string;
+    incompleteDescription: string;
+    needHelp: string;
+    averageTime: string;
+    averageTimeValue: string;
+    startApplication: string;
+  };
+  guaranteesSection: {
+    title: string;
+    subtitle: string;
+    organizationalTitle: string;
+    organizationalItems: string[];
+    realTitle: string;
+    realItems: string[];
+    personalTitle: string;
+    personalItems: string[];
+    insuranceTitle: string;
+    insuranceItems: string[];
+    taxBenefitsTitle: string;
+    taxBenefit1Title: string;
+    taxBenefit1Description: string;
+    taxBenefit2Title: string;
+    taxBenefit2Description: string;
+    taxBenefit3Title: string;
+    taxBenefit3Description: string;
+    taxBenefit4Title: string;
+    taxBenefit4Description: string;
+    taxAdvice: string;
+    contributionTitle: string;
+    equipmentPercentage: string;
+    equipmentLabel: string;
+    equipmentDescription: string;
+    creationPercentage: string;
+    creationLabel: string;
+    creationDescription: string;
+    realEstatePercentage: string;
+    realEstateLabel: string;
+    realEstateDescription: string;
+    contributionDisclaimer: string;
+  };
   footer: {
     description: string;
     phone: string;
@@ -2382,6 +2448,130 @@ export const translations: Record<Language, TranslationKeys> = {
         content: 'Les présentes CGU sont régies par le droit français. Tout litige relatif à leur interprétation ou exécution relève de la compétence exclusive des tribunaux français.',
       },
       note: 'En activant votre Carte Virtuelle ALTUS, vous reconnaissez avoir lu, compris et accepté l\'intégralité des présentes Conditions Générales d\'Utilisation.',
+    },
+    processTimeline: {
+      title: 'Processus de Financement',
+      subtitle: 'De votre demande au déblocage des fonds : un parcours simplifié et rapide',
+      step1Title: 'Demande en ligne',
+      step1Duration: '5 minutes',
+      step1Description: 'Remplissez notre formulaire sécurisé et téléchargez vos justificatifs',
+      step1Docs: [
+        'Kbis de moins de 3 mois',
+        'Pièce d\'identité du dirigeant',
+        'Derniers bilans comptables',
+        'Relevés bancaires (3 mois)'
+      ],
+      step2Title: 'Analyse du dossier',
+      step2Duration: '24-48h',
+      step2Description: 'Notre équipe d\'experts étudie votre demande et votre capacité de remboursement',
+      step2Docs: [
+        'Vérification des documents',
+        'Analyse financière',
+        'Étude de solvabilité',
+        'Calcul du taux personnalisé'
+      ],
+      step3Title: 'Accord de principe',
+      step3Duration: '48h',
+      step3Description: 'Réception de votre offre de prêt détaillée avec conditions définitives',
+      step3Docs: [
+        'Montant accordé',
+        'TAEG et mensualités',
+        'Garanties requises',
+        'Conditions suspensives'
+      ],
+      step4Title: 'Déblocage des fonds',
+      step4Duration: '7-15 jours',
+      step4Description: 'Signature électronique du contrat et versement sous 7 à 15 jours après mise en place des garanties',
+      step4Docs: [
+        'Signature contrat de prêt',
+        'Mise en place garanties',
+        'Assurance emprunteur',
+        'Virement des fonds'
+      ],
+      documentsTitle: 'Documents à Préparer selon Votre Projet',
+      creationTitle: 'Création d\'entreprise',
+      creationDocs: [
+        'Business plan détaillé',
+        'Prévisionnel financier sur 3 ans',
+        'Plan de financement',
+        'CV du dirigeant et expérience',
+        'Justificatif apport personnel'
+      ],
+      repriseTitle: 'Reprise d\'entreprise',
+      repriseDocs: [
+        'Protocole d\'accord de reprise',
+        'Bilans des 3 derniers exercices',
+        'Évaluation du fonds de commerce',
+        'Bail commercial',
+        'Attestation non-gage'
+      ],
+      developmentTitle: 'Développement',
+      developmentDocs: [
+        'Bilans des 3 derniers exercices',
+        'Liasse fiscale complète',
+        'Devis fournisseurs (équipement)',
+        'Relevés bancaires pro (6 mois)',
+        'Prévisionnel d\'activité'
+      ],
+      incompleteTitle: 'Dossier incomplet ? Pas de panique !',
+      incompleteDescription: 'Notre équipe vous accompagne pour constituer votre dossier. Nous vous aidons à obtenir les documents manquants.',
+      needHelp: 'Besoin d\'aide ?',
+      averageTime: 'Délai total moyen :',
+      averageTimeValue: '2 à 3 semaines du dépôt du dossier au déblocage des fonds',
+      startApplication: 'Commencer ma demande'
+    },
+    guaranteesSection: {
+      title: 'Garanties & Sécurisation',
+      subtitle: 'Plusieurs options pour sécuriser votre financement et optimiser votre fiscalité',
+      organizationalTitle: 'Garanties Organismes',
+      organizationalItems: [
+        'BPI France (40-70% du prêt)',
+        'SIAGI (garantie artisans/commerçants)',
+        'France Active (économie sociale)',
+        'SOCAMA (agriculteurs)'
+      ],
+      realTitle: 'Garanties Réelles',
+      realItems: [
+        'Hypothèque sur biens immobiliers',
+        'Nantissement fonds de commerce',
+        'Gage sur matériel/équipement',
+        'Privilège du prêteur de deniers'
+      ],
+      personalTitle: 'Garanties Personnelles',
+      personalItems: [
+        'Caution solidaire du dirigeant',
+        'Caution bancaire professionnelle',
+        'Garantie à première demande',
+        'Lettre de confort groupe'
+      ],
+      insuranceTitle: 'Assurance Emprunteur',
+      insuranceItems: [
+        'Décès / PTIA (obligatoire)',
+        'Invalidité permanente (IPT/IPP)',
+        'Incapacité temporaire (ITT)',
+        'Cotisations fiscalement déductibles'
+      ],
+      taxBenefitsTitle: 'Avantages Fiscaux du Prêt Professionnel',
+      taxBenefit1Title: 'Déductibilité des intérêts',
+      taxBenefit1Description: 'Les intérêts d\'emprunt sont déductibles du résultat fiscal de votre entreprise, réduisant ainsi votre impôt sur les bénéfices.',
+      taxBenefit2Title: 'Amortissement accéléré',
+      taxBenefit2Description: 'Pour les équipements financés, possibilité d\'amortissement accéléré selon certaines conditions (matériel neuf, écologique, etc.).',
+      taxBenefit3Title: 'Crédit d\'impôt',
+      taxBenefit3Description: 'Certains investissements ouvrent droit à des crédits d\'impôt (transition énergétique, numérique, formation).',
+      taxBenefit4Title: 'TVA récupérable',
+      taxBenefit4Description: 'La TVA sur les intérêts et frais de dossier est récupérable pour les entreprises assujetties.',
+      taxAdvice: 'Conseil fiscal : Consultez votre expert-comptable pour optimiser la déductibilité de vos emprunts et maximiser vos avantages fiscaux.',
+      contributionTitle: 'Apport Personnel Requis',
+      equipmentPercentage: '10-15%',
+      equipmentLabel: 'Équipement',
+      equipmentDescription: 'Matériel, véhicules',
+      creationPercentage: '20-30%',
+      creationLabel: 'Création / Reprise',
+      creationDescription: 'Fonds de commerce',
+      realEstatePercentage: '20-25%',
+      realEstateLabel: 'Immobilier Pro',
+      realEstateDescription: 'Locaux, bureaux',
+      contributionDisclaimer: '* Pourcentages indicatifs pouvant varier selon votre projet et votre profil'
     },
     footer: {
       description: 'Votre partenaire de confiance pour tous vos projets de financement. Solutions de prêt adaptées aux particuliers et professionnels.',
