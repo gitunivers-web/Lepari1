@@ -125,6 +125,14 @@ type TranslationKeys = {
     requestSubmitted: string;
     requestSubmittedDesc: string;
     requestError: string;
+    loanApproved: string;
+    approvalInstructions: string;
+    approvalStep1: string;
+    approvalStep2: string;
+    approvalStep3: string;
+    downloadContractButton: string;
+    uploadContractButton: string;
+    uploading2: string;
   };
   transfer: {
     pageTitle: string;
@@ -1419,6 +1427,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Demande de prêt soumise',
       requestSubmittedDesc: 'Votre demande est en attente d\'approbation par un administrateur. Vous recevrez une notification dès qu\'elle sera traitée.',
       requestError: 'Échec de la soumission de la demande de prêt',
+      loanApproved: '🎉 Votre prêt a été approuvé !',
+      approvalInstructions: 'Pour finaliser votre prêt, veuillez suivre ces étapes :',
+      approvalStep1: 'Téléchargez votre contrat de prêt (PDF)',
+      approvalStep2: 'Lisez-le attentivement et signez-le',
+      approvalStep3: 'Renvoyez le contrat signé (PDF) via le bouton ci-dessous',
+      downloadContractButton: '1. Télécharger le contrat',
+      uploadContractButton: '2. Renvoyer le contrat signé',
+      uploading2: 'Envoi en cours...',
     },
     transfer: {
       pageTitle: 'Mes transferts',
@@ -2933,6 +2949,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Loan request submitted',
       requestSubmittedDesc: 'Your request is pending approval by an administrator. You will receive a notification as soon as it is processed.',
       requestError: 'Failed to submit loan request',
+      loanApproved: '🎉 Your loan has been approved!',
+      approvalInstructions: 'To finalize your loan, please follow these steps:',
+      approvalStep1: 'Download your loan contract (PDF)',
+      approvalStep2: 'Read it carefully and sign it',
+      approvalStep3: 'Return the signed contract (PDF) via the button below',
+      downloadContractButton: '1. Download contract',
+      uploadContractButton: '2. Upload signed contract',
+      uploading2: 'Uploading...',
     },
     transfer: {
       pageTitle: 'My Transfers',
@@ -4431,6 +4455,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Solicitud de préstamo enviada',
       requestSubmittedDesc: 'Su solicitud está pendiente de aprobación por un administrador. Recibirá una notificación tan pronto como sea procesada.',
       requestError: 'Error al enviar la solicitud de préstamo',
+      loanApproved: '🎉 ¡Su préstamo ha sido aprobado!',
+      approvalInstructions: 'Para finalizar su préstamo, siga estos pasos:',
+      approvalStep1: 'Descargue su contrato de préstamo (PDF)',
+      approvalStep2: 'Léalo detenidamente y fírmelo',
+      approvalStep3: 'Devuelva el contrato firmado (PDF) mediante el botón de abajo',
+      downloadContractButton: '1. Descargar contrato',
+      uploadContractButton: '2. Subir contrato firmado',
+      uploading2: 'Subiendo...',
     },
     transfer: {
       pageTitle: 'Mis Transferencias',
@@ -5924,6 +5956,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Solicitação de empréstimo enviada',
       requestSubmittedDesc: 'Sua solicitação está pendente de aprovação por um administrador. Você receberá uma notificação assim que for processada.',
       requestError: 'Falha ao enviar a solicitação de empréstimo',
+      loanApproved: '🎉 Seu empréstimo foi aprovado!',
+      approvalInstructions: 'Para finalizar seu empréstimo, siga estas etapas:',
+      approvalStep1: 'Baixe seu contrato de empréstimo (PDF)',
+      approvalStep2: 'Leia-o cuidadosamente e assine-o',
+      approvalStep3: 'Envie o contrato assinado (PDF) através do botão abaixo',
+      downloadContractButton: '1. Baixar contrato',
+      uploadContractButton: '2. Enviar contrato assinado',
+      uploading2: 'Enviando...',
     },
     transfer: {
       pageTitle: 'Minhas Transferências',
@@ -7417,6 +7457,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Richiesta di prestito inviata',
       requestSubmittedDesc: 'La tua richiesta è in attesa di approvazione da parte di un amministratore. Riceverai una notifica non appena verrà elaborata.',
       requestError: 'Impossibile inviare la richiesta di prestito',
+      loanApproved: '🎉 Il tuo prestito è stato approvato!',
+      approvalInstructions: 'Per finalizzare il tuo prestito, segui questi passaggi:',
+      approvalStep1: 'Scarica il tuo contratto di prestito (PDF)',
+      approvalStep2: 'Leggilo attentamente e firmalo',
+      approvalStep3: 'Restituisci il contratto firmato (PDF) tramite il pulsante qui sotto',
+      downloadContractButton: '1. Scarica contratto',
+      uploadContractButton: '2. Carica contratto firmato',
+      uploading2: 'Caricamento...',
     },
     transfer: {
       pageTitle: 'I miei trasferimenti',
@@ -8912,6 +8960,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Kreditanfrage eingereicht',
       requestSubmittedDesc: 'Ihre Anfrage wartet auf Genehmigung durch einen Administrator. Sie erhalten eine Benachrichtigung, sobald sie bearbeitet wurde.',
       requestError: 'Fehler beim Einreichen der Kreditanfrage',
+      loanApproved: '🎉 Ihr Kredit wurde genehmigt!',
+      approvalInstructions: 'Um Ihren Kredit abzuschließen, folgen Sie bitte diesen Schritten:',
+      approvalStep1: 'Laden Sie Ihren Kreditvertrag herunter (PDF)',
+      approvalStep2: 'Lesen Sie ihn sorgfältig durch und unterschreiben Sie ihn',
+      approvalStep3: 'Senden Sie den unterschriebenen Vertrag (PDF) über die Schaltfläche unten zurück',
+      downloadContractButton: '1. Vertrag herunterladen',
+      uploadContractButton: '2. Unterschriebenen Vertrag hochladen',
+      uploading2: 'Wird hochgeladen...',
     },
     transfer: {
       pageTitle: 'Meine Überweisungen',
@@ -10377,6 +10433,14 @@ export const translations: Record<Language, TranslationKeys> = {
       requestSubmitted: 'Leningaanvraag ingediend',
       requestSubmittedDesc: 'Uw aanvraag wacht op goedkeuring door een beheerder. U ontvangt een melding zodra deze is verwerkt.',
       requestError: 'Kan leningaanvraag niet indienen',
+      loanApproved: '🎉 Uw lening is goedgekeurd!',
+      approvalInstructions: 'Om uw lening te voltooien, volgt u deze stappen:',
+      approvalStep1: 'Download uw leningcontract (PDF)',
+      approvalStep2: 'Lees het zorgvuldig en teken het',
+      approvalStep3: 'Stuur het ondertekende contract (PDF) terug via de knop hieronder',
+      downloadContractButton: '1. Download contract',
+      uploadContractButton: '2. Upload ondertekend contract',
+      uploading2: 'Uploaden...',
     },
     transfer: {
       pageTitle: 'Mijn overschrijvingen',
