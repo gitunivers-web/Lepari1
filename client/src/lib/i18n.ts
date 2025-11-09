@@ -3486,6 +3486,78 @@ export const translations: Record<Language, TranslationKeys> = {
       step3Desc: 'Once your application is approved, funds are immediately released to your secure Altus Finance Group account. You maintain full control of your funds with 24/7 access from your client dashboard.',
       step4Title: 'Transfer to Your Account - At Your Pace',
       step4Desc: 'Transfer your funds whenever you want to your personal or business bank account directly from your Altus dashboard. Instant or scheduled transfers according to your needs, with no additional fees.',
+      averageTimePrefix: 'Average total time:',
+      averageTimeValue: '2 to 3 weeks from application submission to fund disbursement',
+      requiredDocumentsTitle: 'Required Documents',
+      requiredDocumentsSubtitle: 'Prepare these documents to expedite your application',
+      personalLoanTitle: 'Personal Loan',
+      businessLoanTitle: 'Business Loan',
+      documents: {
+        personal: [
+          'Valid ID (national ID card, passport)',
+          'Proof of address (less than 3 months)',
+          'Last 3 pay slips',
+          'Latest tax assessment',
+          'Bank statements (3 months)',
+          'Project justification (quotes, invoices)'
+        ],
+        professional: [
+          'Kbis less than 3 months old',
+          'Manager\'s ID document',
+          'Company bylaws',
+          'Financial statements (last 3 years)',
+          'Complete tax package',
+          'Professional bank statements (6 months)',
+          'Business plan (startup/takeover)',
+          '3-year financial forecast',
+          'Quotes or proforma invoices (equipment)'
+        ]
+      },
+      tipTitle: 'Tip:',
+      tipMessage: 'Missing documents? Our team will help you complete your file.',
+      tipContactCta: 'Contact us →',
+      eligibilityTitle: 'Eligibility Criteria',
+      eligibilitySubtitle: 'Check if you meet the requirements for your loan',
+      individualsTitle: 'Individuals',
+      professionalsTitle: 'Professionals',
+      requiredTag: 'Required',
+      eligibility: {
+        personal: [
+          { label: 'Adult and French resident', required: true },
+          { label: 'Verifiable regular income', required: true },
+          { label: 'No banking ban', required: true },
+          { label: 'Debt ratio < 35%', required: true },
+          { label: 'Acceptable credit score', required: false }
+        ],
+        professional: [
+          { label: 'Company registered in France', required: true },
+          { label: 'Operating for +6 months', required: true },
+          { label: 'Up-to-date financial statements', required: true },
+          { label: 'No collective proceedings', required: true },
+          { label: 'Personal contribution 10-30%', required: true }
+        ]
+      },
+      securityTitle: 'Security & Guarantees',
+      security: {
+        dataProtectionTitle: 'Your Protected Data',
+        dataProtectionItems: [
+          '256-bit SSL encryption',
+          'GDPR and ACPR compliance',
+          'Secure servers in France',
+          'Two-factor authentication'
+        ],
+        guaranteesTitle: 'Guarantee Organizations',
+        guaranteesItems: [
+          'BPI France (40-70% of loan)',
+          'SIAGI (craftsmen/merchants)',
+          'France Active (social economy)',
+          'Mandatory borrower insurance'
+        ]
+      },
+      ctaTitle: 'Ready to Get Started?',
+      ctaSubtitle: 'Submit your online application in minutes and get a quick response',
+      ctaRequestButton: 'Request a Loan',
+      ctaContactButton: 'Talk to an Advisor'
     },
     products: {
       title: 'Our Loan Solutions',
@@ -6897,6 +6969,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
+      ...translations.en.howItWorks,
       title: 'Como Funciona',
       subtitle: 'Um processo 100% digital ultra-rápido em 4 etapas simples',
       step1Title: 'Solicitação Online - 4 Minutos',
@@ -8536,6 +8609,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
+      ...translations.en.howItWorks,
       title: 'Come funziona',
       subtitle: 'Un processo 100% digitale ultrarapido in 4 semplici passaggi',
       step1Title: 'Richiesta online - 4 minuti',
@@ -10095,6 +10169,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
+      ...translations.en.howItWorks,
       title: 'Wie es funktioniert',
       subtitle: 'Ein 100% digitaler, ultraschneller Prozess in 4 einfachen Schritten',
       step1Title: 'Online-Antrag - 4 Minuten',
