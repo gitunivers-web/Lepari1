@@ -1701,22 +1701,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Crédit Personnel',
             description: 'Financez vos projets personnels avec des taux avantageux',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Rachat de Crédit',
             description: 'Regroupez vos crédits pour simplifier vos remboursements',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Rachat de Leasing',
             description: 'Optimisez vos coûts en rachetant votre leasing',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Rachat Carte de Crédit',
             description: 'Réduisez vos taux d\'intérêt sur vos cartes de crédit',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Crédits Divers',
@@ -3519,22 +3519,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Personal Credit',
             description: 'Finance your personal projects with competitive rates',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Loan Refinancing',
             description: 'Consolidate your loans to simplify repayments',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Lease Refinancing',
             description: 'Optimize your costs by refinancing your lease',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Credit Card Refinancing',
             description: 'Reduce your credit card interest rates',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Various Credits',
@@ -5321,22 +5321,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Crédito Personal',
             description: 'Financie sus proyectos personales con tasas competitivas',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Refinanciación de Préstamos',
             description: 'Agrupe sus préstamos para simplificar los reembolsos',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Refinanciación de Leasing',
             description: 'Optimice sus costos refinanciando su leasing',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Refinanciación de Tarjeta de Crédito',
             description: 'Reduzca las tasas de interés de sus tarjetas de crédito',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Créditos Diversos',
@@ -7118,22 +7118,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Crédito Pessoal',
             description: 'Financie seus projetos pessoais com taxas competitivas',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Refinanciamento de Empréstimos',
             description: 'Consolide seus empréstimos para simplificar os reembolsos',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Refinanciamento de Leasing',
             description: 'Otimize seus custos refinanciando seu leasing',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Refinanciamento de Cartão de Crédito',
             description: 'Reduza as taxas de juros dos seus cartões de crédito',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Créditos Diversos',
@@ -8729,22 +8729,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Credito Personale',
             description: 'Finanzia i tuoi progetti personali con tassi competitivi',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Rifinanziamento Prestiti',
             description: 'Consolida i tuoi prestiti per semplificare i rimborsi',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Rifinanziamento Leasing',
             description: 'Ottimizza i tuoi costi rifinanziando il tuo leasing',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Rifinanziamento Carta di Credito',
             description: 'Riduci i tassi di interesse delle tue carte di credito',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Crediti Vari',
@@ -10342,22 +10342,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Privatkredit',
             description: 'Finanzieren Sie Ihre persönlichen Projekte mit günstigen Zinsen',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Kreditumschuldung',
             description: 'Bündeln Sie Ihre Kredite zur Vereinfachung der Rückzahlungen',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Leasing-Umschuldung',
             description: 'Optimieren Sie Ihre Kosten durch Umschuldung Ihres Leasings',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Kreditkarten-Umschuldung',
             description: 'Reduzieren Sie die Zinsen Ihrer Kreditkarten',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Verschiedene Kredite',
@@ -11955,22 +11955,22 @@ export const translations: Record<Language, TranslationKeys> = {
           {
             title: 'Persoonlijk Krediet',
             description: 'Financier uw persoonlijke projecten met concurrerende tarieven',
-            href: '/products',
+            href: '/loans/personal-credit',
           },
           {
             title: 'Lening Herfinanciering',
             description: 'Consolideer uw leningen om terugbetalingen te vereenvoudigen',
-            href: '/products',
+            href: '/loans/loan-refinancing',
           },
           {
             title: 'Leasing Herfinanciering',
             description: 'Optimaliseer uw kosten door uw leasing te herfinancieren',
-            href: '/products',
+            href: '/loans/lease-refinancing',
           },
           {
             title: 'Creditcard Herfinanciering',
             description: 'Verlaag uw creditcard rentetarieven',
-            href: '/products',
+            href: '/loans/credit-card-refinancing',
           },
           {
             title: 'Diverse Kredieten',

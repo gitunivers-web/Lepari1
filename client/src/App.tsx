@@ -16,6 +16,7 @@ import Contact from '@/pages/Contact';
 import Resources from '@/pages/Resources';
 import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
+import LoanDetail from '@/pages/LoanDetail';
 import Auth from '@/pages/Auth';
 import Verify from '@/pages/Verify';
 import VerifyOtp from '@/pages/VerifyOtp';
@@ -74,6 +75,7 @@ function App() {
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/reset-password/:token" component={ResetPassword} />
             <Route path="/loan-request" component={LoanRequest} />
+            <Route path="/loans/:slug" component={LoanDetail} />
             <Route>
               <SidebarProvider style={style as React.CSSProperties}>
                 <div className="flex h-screen w-full">
