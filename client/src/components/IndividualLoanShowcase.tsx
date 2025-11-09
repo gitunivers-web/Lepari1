@@ -1,93 +1,13 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
-import {
-  Home,
-  Car,
-  Wallet,
-  GraduationCap,
-  Leaf,
-  ArrowRight,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
+import { getIndividualLoans } from '@/lib/loan-catalog';
 
-export default function IndividualLoans() {
+export default function IndividualLoanShowcase() {
   const t = useTranslations();
-
-  const individualLoans = [
-    {
-      icon: Wallet,
-      title: t.individualLoans?.personalLoan || 'Prêt Personnel',
-      description:
-        t.individualLoans?.personalLoanDesc ||
-        'Financement flexible pour tous vos projets personnels',
-      amount: '1 000€ - 75 000€',
-      rate: '0,10% - 7%',
-      duration: '12 - 84 mois',
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50 dark:bg-blue-950/20',
-    },
-    {
-      icon: Home,
-      title: t.individualLoans?.mortgageLoan || 'Prêt Immobilier',
-      description:
-        t.individualLoans?.mortgageLoanDesc ||
-        'Financez l\'achat de votre résidence principale ou secondaire',
-      amount: '50 000€ - 500 000€',
-      rate: '2,5% - 4,5%',
-      duration: '15 - 30 ans',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-    },
-    {
-      icon: Car,
-      title: t.individualLoans?.autoLoan || 'Crédit Auto',
-      description:
-        t.individualLoans?.autoLoanDesc ||
-        'Achetez votre véhicule neuf ou d\'occasion',
-      amount: '5 000€ - 75 000€',
-      rate: '1,9% - 5,5%',
-      duration: '24 - 84 mois',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50 dark:bg-purple-950/20',
-    },
-    {
-      icon: GraduationCap,
-      title: t.individualLoans?.studentLoan || 'Prêt Étudiant',
-      description:
-        t.individualLoans?.studentLoanDesc ||
-        'Financez vos études avec des conditions avantageuses',
-      amount: '1 000€ - 50 000€',
-      rate: '0,9% - 3,5%',
-      duration: '24 - 120 mois',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50 dark:bg-orange-950/20',
-    },
-    {
-      icon: Leaf,
-      title: t.individualLoans?.greenLoan || 'Prêt Vert',
-      description:
-        t.individualLoans?.greenLoanDesc ||
-        'Financez vos projets de rénovation énergétique',
-      amount: '3 000€ - 75 000€',
-      rate: '0,5% - 4,0%',
-      duration: '12 - 180 mois',
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50 dark:bg-emerald-950/20',
-    },
-    {
-      icon: Home,
-      title: t.individualLoans?.renovationLoan || 'Prêt Travaux',
-      description:
-        t.individualLoans?.renovationLoanDesc ||
-        'Rénovez et améliorez votre logement',
-      amount: '3 000€ - 75 000€',
-      rate: '1,5% - 6,0%',
-      duration: '12 - 120 mois',
-      color: 'text-amber-600',
-      bgColor: 'bg-amber-50 dark:bg-amber-950/20',
-    },
-  ];
+  const individualLoans = getIndividualLoans(t);
 
   return (
     <section className="py-24 bg-muted/30">

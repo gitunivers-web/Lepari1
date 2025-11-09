@@ -1,13 +1,12 @@
 import Hero from '@/components/Hero';
 import Header from '@/components/Header';
-import IndividualLoans from '@/components/IndividualLoans';
-import BusinessLoans from '@/components/BusinessLoans';
+import IndividualLoanShowcase from '@/components/IndividualLoanShowcase';
+import BusinessLoanShowcase from '@/components/BusinessLoanShowcase';
 import FeaturesSection from '@/components/FeaturesSection';
 import StatsSection from '@/components/StatsSection';
 import ScrollingTestimonials from '@/components/ScrollingTestimonials';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
-import NotificationBanner from '@/components/NotificationBanner';
 import GuaranteesSection from '@/components/GuaranteesSection';
 import ProcessTimeline from '@/components/ProcessTimeline';
 import SEO from '@/components/SEO';
@@ -28,15 +27,10 @@ export default function Home() {
         structuredData={[organizationSchema, websiteSchema]}
       />
       <Header />
-      <div className="pt-16">
-        <div className="container mx-auto px-4 py-2">
-          <NotificationBanner />
-        </div>
-      </div>
       <Hero />
       <StatsSection />
-      <IndividualLoans />
-      <BusinessLoans />
+      <IndividualLoanShowcase />
+      <BusinessLoanShowcase />
       <GuaranteesSection />
       <ProcessTimeline />
       <FeaturesSection />

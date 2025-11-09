@@ -45,38 +45,6 @@ import UserProfileHeader from '@/components/UserProfileHeader';
 import NotificationBell from '@/components/NotificationBell';
 import SessionMonitor from '@/components/SessionMonitor';
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/how-it-works" component={HowItWorks} />
-      <Route path="/products" component={Products} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/resources" component={Resources} />
-      <Route path="/terms" component={Terms} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/loans" component={IndividualLoans} />
-      <Route path="/transfer/new" component={TransferFlow} />
-      <Route path="/transfer/:id" component={TransferFlow} />
-      <Route path="/transfers" component={Transfers} />
-      <Route path="/accounts" component={BankAccounts} />
-      <Route path="/history" component={History} />
-      <Route path="/settings" component={Settings} />
-      <Route path="/security/2fa" component={TwoFactorSetup} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/admin/users" component={AdminUsers} />
-      <Route path="/admin/loans" component={AdminLoans} />
-      <Route path="/admin/transfers" component={AdminTransfers} />
-      <Route path="/admin/documents" component={AdminDocuments} />
-      <Route path="/admin/settings" component={AdminSettings} />
-      <Route path="/admin/reports" component={AdminReports} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
-
 function App() {
   const style = {
     '--sidebar-width': '16rem',
@@ -124,7 +92,25 @@ function App() {
                       <NotificationBanner />
                     </div>
                     <main className="flex-1 overflow-auto">
-                      <Router />
+                      <Switch>
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/loans" component={IndividualLoans} />
+                        <Route path="/transfer/new" component={TransferFlow} />
+                        <Route path="/transfer/:id" component={TransferFlow} />
+                        <Route path="/transfers" component={Transfers} />
+                        <Route path="/accounts" component={BankAccounts} />
+                        <Route path="/history" component={History} />
+                        <Route path="/settings" component={Settings} />
+                        <Route path="/security/2fa" component={TwoFactorSetup} />
+                        <Route path="/admin" component={AdminDashboard} />
+                        <Route path="/admin/users" component={AdminUsers} />
+                        <Route path="/admin/loans" component={AdminLoans} />
+                        <Route path="/admin/transfers" component={AdminTransfers} />
+                        <Route path="/admin/documents" component={AdminDocuments} />
+                        <Route path="/admin/settings" component={AdminSettings} />
+                        <Route path="/admin/reports" component={AdminReports} />
+                        <Route component={NotFound} />
+                      </Switch>
                     </main>
                   </div>
                 </div>
