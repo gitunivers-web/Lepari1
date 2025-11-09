@@ -11,6 +11,8 @@ import {
   Factory,
   CreditCard,
   Truck,
+  Sparkles,
+  Briefcase,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -102,6 +104,18 @@ export const getIndividualLoans = (t: any): LoanProduct[] => [
     color: 'text-pink-600',
     bgColor: 'bg-pink-50 dark:bg-pink-950/20',
   },
+  {
+    icon: Sparkles,
+    title: t.individualLoans.miscellaneousCredit,
+    titleKey: 'miscellaneousCredit',
+    description: t.individualLoans.miscellaneousCreditDesc,
+    descKey: 'miscellaneousCreditDesc',
+    amount: '€500 - €50,000',
+    rate: '2.9% - 8.9%',
+    duration: `6 - 96 ${t.common.months}`,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-50 dark:bg-amber-950/20',
+  },
 ];
 
 export const getBusinessLoans = (t: any): LoanProduct[] => [
@@ -182,5 +196,18 @@ export const getBusinessLoans = (t: any): LoanProduct[] => [
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-50 dark:bg-indigo-950/20',
     featuresKey: 'vehicleFleetFeatures',
+  },
+  {
+    icon: Briefcase,
+    title: t.businessLoans.smeLoan,
+    titleKey: 'smeLoan',
+    description: t.businessLoans.smeLoanDesc,
+    descKey: 'smeLoanDesc',
+    amount: '€25,000 - €1,000,000',
+    rate: '2.9% - 7.5%',
+    duration: `12 - 120 ${t.common.months}`,
+    color: 'text-rose-600',
+    bgColor: 'bg-rose-50 dark:bg-rose-950/20',
+    featuresKey: 'smeLoanFeatures',
   },
 ];

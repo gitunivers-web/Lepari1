@@ -473,6 +473,8 @@ type TranslationKeys = {
     greenLoanDesc: string;
     renovationLoan: string;
     renovationLoanDesc: string;
+    miscellaneousCredit: string;
+    miscellaneousCreditDesc: string;
     amount: string;
     rate: string;
     duration: string;
@@ -501,6 +503,9 @@ type TranslationKeys = {
     vehicleFleet: string;
     vehicleFleetDesc: string;
     vehicleFleetFeatures: string[];
+    smeLoan: string;
+    smeLoanDesc: string;
+    smeLoanFeatures: string[];
     amount: string;
     rate: string;
     duration: string;
@@ -2193,6 +2198,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Financez travaux de rénovation énergétique : isolation, pompe à chaleur, panneaux solaires. De 7 000€ à 50 000€. Taux bonifiés dès 0,5% TAEG. Éligible aux aides d\'État MaPrimeRénov. Jusqu\'à 30 000€ sans apport.',
       renovationLoan: 'Prêt Travaux',
       renovationLoanDesc: 'Rénovez, agrandissez, embellissez votre logement. De 1 500€ à 75 000€ sur 12 à 120 mois. Taux TAEG de 2,5% à 6,9%. Sans garantie hypothécaire jusqu\'à 50 000€. Déblocage progressif selon avancement des travaux possible.',
+      miscellaneousCredit: 'Crédits Divers',
+      miscellaneousCreditDesc: 'Financez tous vos projets personnels : événements, équipements, loisirs, santé, bien-être. De 500€ à 50 000€ sur 6 à 96 mois. Taux TAEG de 2,9% à 8,9%. Procédure simplifiée, réponse rapide en 24h. Déblocage des fonds en 3 à 5 jours.',
       amount: 'Montant',
       rate: 'Taux TAEG',
       duration: 'Durée',
@@ -2221,6 +2228,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Crédit Véhicule Pro',
       vehicleFleetDesc: 'Financez votre flotte automobile ou véhicules utilitaires',
       vehicleFleetFeatures: ['LOA ou crédit classique', 'Option rachat', 'Assurance incluse'],
+      smeLoan: 'Prêts PME',
+      smeLoanDesc: 'Solutions de financement dédiées aux PME pour croissance, développement et investissements stratégiques',
+      smeLoanFeatures: ['Montants élevés jusqu\'à 1M€', 'Durée flexible 1-10 ans', 'Accompagnement expert'],
       amount: 'Montant',
       rate: 'TAEG',
       duration: 'Durée',
@@ -3929,6 +3939,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Finance energy renovation work: insulation, heat pump, solar panels. From €7,000 to €50,000. Subsidized rates from 0.5% APR. Eligible for state aid MaPrimeRénov. Up to €30,000 without contribution.',
       renovationLoan: 'Home Improvement Loan',
       renovationLoanDesc: 'Renovate, expand, beautify your home. From €1,500 to €75,000 over 12 to 120 months. APR rates from 2.5% to 6.9%. Without mortgage guarantee up to €50,000. Progressive release according to work progress possible.',
+      miscellaneousCredit: 'Miscellaneous Credit',
+      miscellaneousCreditDesc: 'Finance all your personal projects: events, equipment, leisure, health, wellness. From €500 to €50,000 over 6 to 96 months. APR rates from 2.9% to 8.9%. Simplified procedure, quick response in 24h. Fund disbursement in 3 to 5 days.',
       amount: 'Amount',
       rate: 'APR Rate',
       duration: 'Duration',
@@ -3957,6 +3969,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Professional Vehicle Credit',
       vehicleFleetDesc: 'Finance your vehicle fleet or commercial vehicles',
       vehicleFleetFeatures: ['Lease or classic credit', 'Buyback option', 'Insurance included'],
+      smeLoan: 'SME Loans',
+      smeLoanDesc: 'Dedicated financing solutions for SMEs for growth, development and strategic investments',
+      smeLoanFeatures: ['High amounts up to €1M', 'Flexible 1-10 year terms', 'Expert support'],
       amount: 'Amount',
       rate: 'APR',
       duration: 'Duration',
@@ -5731,6 +5746,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Financie trabajos de renovación energética: aislamiento, bomba de calor, paneles solares. De €7,000 a €50,000. Tasas bonificadas desde 0.5% TAE. Elegible para ayudas estatales MaPrimeRénov. Hasta €30,000 sin aporte.',
       renovationLoan: 'Préstamo para Reformas',
       renovationLoanDesc: 'Renueve, amplíe, embellezca su vivienda. De €1,500 a €75,000 de 12 a 120 meses. Tasas TAE de 2.5% a 6.9%. Sin garantía hipotecaria hasta €50,000. Desembolso progresivo según avance de obras posible.',
+      miscellaneousCredit: 'Créditos Diversos',
+      miscellaneousCreditDesc: 'Financie todos sus proyectos personales: eventos, equipos, ocio, salud, bienestar. De €500 a €50,000 de 6 a 96 meses. Tasas TAE de 2.9% a 8.9%. Procedimiento simplificado, respuesta rápida en 24h. Desembolso de fondos en 3 a 5 días.',
       amount: 'Monto',
       rate: 'Tasa TAE',
       duration: 'Duración',
@@ -6852,6 +6869,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Crédito para Vehículos Profesionales',
       vehicleFleetDesc: 'Financie su flota de vehículos o vehículos utilitarios',
       vehicleFleetFeatures: ['Leasing o crédito clásico', 'Opción de recompra', 'Seguro incluido'],
+      smeLoan: 'Préstamos PYME',
+      smeLoanDesc: 'Soluciones de financiamiento dedicadas a PYME para crecimiento, desarrollo e inversiones estratégicas',
+      smeLoanFeatures: ['Montos altos hasta €1M', 'Duración flexible 1-10 años', 'Acompañamiento experto'],
       amount: 'Monto',
       rate: 'TAE',
       duration: 'Duración',
@@ -7457,6 +7477,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Financie obras de reforma energética: isolamento, bomba de calor, painéis solares. De €7.000 a €50.000. Taxas subsidiadas a partir de 0,5% TAE. Elegível para ajuda estatal MaPrimeRénov. Até €30.000 sem contribuição.',
       renovationLoan: 'Empréstimo para Reformas',
       renovationLoanDesc: 'Renove, amplie, embeleze sua casa. De €1.500 a €75.000 de 12 a 120 meses. Taxas TAE de 2,5% a 6,9%. Sem garantia hipotecária até €50.000. Liberação progressiva conforme progresso das obras possível.',
+      miscellaneousCredit: 'Créditos Diversos',
+      miscellaneousCreditDesc: 'Financie todos os seus projetos pessoais: eventos, equipamentos, lazer, saúde, bem-estar. De €500 a €50.000 de 6 a 96 meses. Taxas TAE de 2,9% a 8,9%. Procedimento simplificado, resposta rápida em 24h. Desembolso de fundos em 3 a 5 dias.',
       amount: 'Valor',
       rate: 'Taxa TAE',
       duration: 'Duração',
@@ -8578,6 +8600,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Crédito Veículo Profissional',
       vehicleFleetDesc: 'Financie sua frota ou veículos comerciais',
       vehicleFleetFeatures: ['Leasing ou crédito clássico', 'Opção de recompra', 'Seguro incluído'],
+      smeLoan: 'Empréstimos PME',
+      smeLoanDesc: 'Soluções de financiamento dedicadas a PMEs para crescimento, desenvolvimento e investimentos estratégicos',
+      smeLoanFeatures: ['Valores altos até €1M', 'Duração flexível 1-10 anos', 'Acompanhamento especializado'],
       amount: 'Valor',
       rate: 'TAE',
       duration: 'Duração',
@@ -9150,6 +9175,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Finanzia lavori di ristrutturazione energetica: isolamento, pompa di calore, pannelli solari. Da €7.000 a €50.000. Tassi agevolati dallo 0,5% TAEG. Ammissibile agli aiuti statali. Fino a €30.000 senza apporto.',
       renovationLoan: 'Prestito lavori',
       renovationLoanDesc: 'Rinnova, amplia, abbellisci la tua casa. Da €1.500 a €75.000 da 12 a 120 mesi. Tassi TAEG dal 2,5% al 6,9%. Senza garanzia ipotecaria fino a €50.000. Sblocco progressivo secondo avanzamento dei lavori possibile.',
+      miscellaneousCredit: 'Crediti Diversi',
+      miscellaneousCreditDesc: 'Finanzia tutti i tuoi progetti personali: eventi, attrezzature, tempo libero, salute, benessere. Da €500 a €50.000 da 6 a 96 mesi. Tassi TAEG dal 2,9% all\'8,9%. Procedura semplificata, risposta rapida in 24h. Erogazione fondi in 3-5 giorni.',
       amount: 'Importo',
       rate: 'Tasso TAEG',
       duration: 'Durata',
@@ -10191,6 +10218,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Credito Veicoli Professionali',
       vehicleFleetDesc: 'Finanzia la tua flotta o veicoli commerciali',
       vehicleFleetFeatures: ['Leasing o credito classico', 'Opzione riacquisto', 'Assicurazione inclusa'],
+      smeLoan: 'Prestiti PMI',
+      smeLoanDesc: 'Soluzioni di finanziamento dedicate alle PMI per crescita, sviluppo e investimenti strategici',
+      smeLoanFeatures: ['Importi elevati fino a €1M', 'Durata flessibile 1-10 anni', 'Supporto esperto'],
       amount: 'Importo',
       rate: 'TAEG',
       duration: 'Durata',
@@ -10763,6 +10793,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Finanzieren Sie energetische Renovierungsarbeiten: Isolierung, Wärmepumpe, Solarpaneele. Von €7.000 bis €50.000. Subventionierte Zinsen ab 0,5% effektiver Jahreszins. Berechtigt für staatliche Beihilfen. Bis zu €30.000 ohne Eigenkapital.',
       renovationLoan: 'Renovierungskredit',
       renovationLoanDesc: 'Renovieren, erweitern, verschönern Sie Ihr Zuhause. Von €1.500 bis €75.000 über 12 bis 120 Monate. Effektiver Jahreszins von 2,5% bis 6,9%. Ohne Hypothekengarantie bis €50.000. Schrittweise Freigabe nach Baufortschritt möglich.',
+      miscellaneousCredit: 'Diverse Kredite',
+      miscellaneousCreditDesc: 'Finanzieren Sie alle Ihre persönlichen Projekte: Veranstaltungen, Ausrüstung, Freizeit, Gesundheit, Wohlbefinden. Von €500 bis €50.000 über 6 bis 96 Monate. Effektiver Jahreszins von 2,9% bis 8,9%. Vereinfachtes Verfahren, schnelle Antwort in 24h. Mittelauszahlung in 3-5 Tagen.',
       amount: 'Betrag',
       rate: 'Effektiver Jahreszins',
       duration: 'Laufzeit',
@@ -11804,6 +11836,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Fahrzeugkredit',
       vehicleFleetDesc: 'Finanzieren Sie Ihren Fuhrpark oder Nutzfahrzeuge',
       vehicleFleetFeatures: ['Leasing oder klassischer Kredit', 'Rückkaufoption', 'Versicherung inklusive'],
+      smeLoan: 'KMU-Kredite',
+      smeLoanDesc: 'Dedizierte Finanzierungslösungen für KMU für Wachstum, Entwicklung und strategische Investitionen',
+      smeLoanFeatures: ['Hohe Beträge bis €1M', 'Flexible Laufzeit 1-10 Jahre', 'Fachkundige Betreuung'],
       amount: 'Betrag',
       rate: 'Effektivzins',
       duration: 'Laufzeit',
@@ -12375,6 +12410,8 @@ export const translations: Record<Language, TranslationKeys> = {
       greenLoanDesc: 'Financier energetische renovatiewerkzaamheden: isolatie, warmtepomp, zonnepanelen. Van €7.000 tot €50.000. Gesubsidieerde tarieven vanaf 0,5% JKP. In aanmerking komend voor overheidssteun. Tot €30.000 zonder eigen inbreng.',
       renovationLoan: 'Renovatielening',
       renovationLoanDesc: 'Renoveer, vergroot, verfraai uw woning. Van €1.500 tot €75.000 over 12 tot 120 maanden. JKP tarieven van 2,5% tot 6,9%. Zonder hypothecaire garantie tot €50.000. Geleidelijke vrijgave volgens voortgang van werkzaamheden mogelijk.',
+      miscellaneousCredit: 'Diverse Kredieten',
+      miscellaneousCreditDesc: 'Financier al uw persoonlijke projecten: evenementen, apparatuur, vrijetijd, gezondheid, welzijn. Van €500 tot €50.000 over 6 tot 96 maanden. JKP tarieven van 2,9% tot 8,9%. Vereenvoudigde procedure, snel antwoord in 24u. Uitbetaling middelen in 3-5 dagen.',
       amount: 'Bedrag',
       rate: 'JKP tarief',
       duration: 'Looptijd',
@@ -13386,6 +13423,9 @@ export const translations: Record<Language, TranslationKeys> = {
       vehicleFleet: 'Professioneel Voertuigkrediet',
       vehicleFleetDesc: 'Financier uw wagenpark of bedrijfsvoertuigen',
       vehicleFleetFeatures: ['Leasing of klassiek krediet', 'Terugkoopoptie', 'Verzekering inbegrepen'],
+      smeLoan: 'KMO-Leningen',
+      smeLoanDesc: 'Toegewijde financieringsoplossingen voor KMO\'s voor groei, ontwikkeling en strategische investeringen',
+      smeLoanFeatures: ['Hoge bedragen tot €1M', 'Flexibele looptijd 1-10 jaar', 'Professionele begeleiding'],
       amount: 'Bedrag',
       rate: 'JKP',
       duration: 'Looptijd',
