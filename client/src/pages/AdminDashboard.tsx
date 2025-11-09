@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, ArrowRightLeft, DollarSign, Activity } from "lucide-react";
+import { useTranslations } from "@/lib/i18n";
 
 export default function AdminDashboard() {
+  const t = useTranslations();
+  
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["/api/admin/stats"],
   });
@@ -42,62 +45,62 @@ export default function AdminDashboard() {
   return (
     <div className="p-6 space-y-6" data-testid="page-admin-dashboard">
       <div>
-        <h1 className="text-3xl font-bold mb-2" data-testid="text-page-title">Console Admin</h1>
+        <h1 className="text-3xl font-bold mb-2" data-testid="text-page-title">{t.admin.dashboard.title}</h1>
         <p className="text-muted-foreground" data-testid="text-page-description">
-          Vue d'ensemble de la plateforme et gestion des utilisateurs
+          {t.admin.dashboard.description}
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card data-testid="card-total-users">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Utilisateurs</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.admin.dashboard.totalUsers}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-total-users">{(stats as any)?.totalUsers || 0}</div>
             <p className="text-xs text-muted-foreground" data-testid="text-active-users">
-              {(stats as any)?.activeUsers || 0} actifs, {pendingUsers} en attente
+              {(stats as any)?.activeUsers || 0} {t.admin.dashboard.activeUsers}, {pendingUsers} {t.admin.dashboard.pendingUsers}
             </p>
           </CardContent>
         </Card>
 
         <Card data-testid="card-total-transfers">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Transferts</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.admin.dashboard.transfers}</CardTitle>
             <ArrowRightLeft className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-total-transfers">{(stats as any)?.totalTransfers || 0}</div>
             <p className="text-xs text-muted-foreground" data-testid="text-pending-transfers">
-              {(stats as any)?.pendingTransfers || 0} en cours
+              {(stats as any)?.pendingTransfers || 0} {t.admin.dashboard.transfersPending}
             </p>
           </CardContent>
         </Card>
 
         <Card data-testid="card-total-loans">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prêts</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.admin.dashboard.loans}</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-total-loans">{(stats as any)?.totalLoans || 0}</div>
             <p className="text-xs text-muted-foreground" data-testid="text-active-loans">
-              {(stats as any)?.activeLoans || 0} actifs
+              {(stats as any)?.activeLoans || 0} {t.admin.dashboard.loansActive}
             </p>
           </CardContent>
         </Card>
 
         <Card data-testid="card-total-volume">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Volume Total</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.admin.dashboard.totalVolume}</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-total-volume">
               {totalVolume.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
             </div>
-            <p className="text-xs text-muted-foreground">Transferts totaux</p>
+            <p className="text-xs text-muted-foreground">{t.admin.dashboard.volumeDescription}</p>
           </CardContent>
         </Card>
       </div>
@@ -105,8 +108,8 @@ export default function AdminDashboard() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card data-testid="card-recent-users">
           <CardHeader>
-            <CardTitle>Utilisateurs Récents</CardTitle>
-            <CardDescription>Dernières inscriptions</CardDescription>
+            <CardTitle>{t.admin.dashboard.recentUsers}</CardTitle>
+            <CardDescription>{t.admin.dashboard.recentUsersDescription}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -123,7 +126,7 @@ export default function AdminDashboard() {
                       }`}
                       data-testid={`badge-user-status-${user.id}`}
                     >
-                      {user.status}
+                      {user.status === 'active' ? t.admin.common.status.active : t.admin.common.status.pending}
                     </span>
                   </div>
                 </div>
@@ -134,8 +137,8 @@ export default function AdminDashboard() {
 
         <Card data-testid="card-recent-transfers">
           <CardHeader>
-            <CardTitle>Transferts Récents</CardTitle>
-            <CardDescription>Dernières opérations</CardDescription>
+            <CardTitle>{t.admin.dashboard.recentTransfers}</CardTitle>
+            <CardDescription>{t.admin.dashboard.recentTransfersDescription}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -158,7 +161,10 @@ export default function AdminDashboard() {
                       }`}
                       data-testid={`badge-transfer-status-${transfer.id}`}
                     >
-                      {transfer.status}
+                      {transfer.status === 'completed' ? t.admin.common.status.completed : 
+                       transfer.status === 'in-progress' ? t.admin.common.status.inProgress :
+                       transfer.status === 'suspended' ? t.admin.common.status.suspended :
+                       t.admin.common.status.pending}
                     </span>
                   </div>
                 </div>

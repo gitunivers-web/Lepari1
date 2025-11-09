@@ -8044,6 +8044,18 @@ export const translations: Record<Language, TranslationKeys> = {
       contactUs: 'Contact us',
       helpCenter: 'Help center',
     },
+    admin: {
+      common: {
+        status: {pending: 'Pendente', active: 'Ativo', approved: 'Aprovado', rejected: 'Rejeitado', suspended: 'Suspenso', completed: 'Concluído', signed: 'Assinado', inProgress: 'Em andamento'},
+        actions: {approve: 'Aprovar', reject: 'Rejeitar', delete: 'Excluir', suspend: 'Suspender', save: 'Salvar', download: 'Baixar', upload: 'Carregar', send: 'Enviar', edit: 'Editar', cancel: 'Cancelar', disburse: 'Desembolsar'},
+        labels: {user: 'Usuário', userName: 'Nome do usuário', userEmail: 'Email do usuário', amount: 'Montante', type: 'Tipo', rate: 'Taxa', duration: 'Duração', status: 'Estado', date: 'Data', createdAt: 'Criado', actions: 'Ações', fees: 'Taxas', progress: 'Progresso', codes: 'Códigos', recipient: 'Destinatário', contract: 'Contrato', months: 'meses', total: 'Total', active: 'ativos', pending: 'pendentes', recent: 'Recentes', all: 'Todos', noData: 'Sem dados', loading: 'Carregando...', error: 'Erro', success: 'Sucesso', balance: 'Saldo', loans: 'Empréstimos'},
+        messages: {error: 'Erro', success: 'Sucesso', updated: 'Atualizado', approved: 'Aprovado', rejected: 'Rejeitado', deleted: 'Excluído', disbursed: 'Desembolsado', cannotApprove: 'Não é possível aprovar', cannotReject: 'Não é possível rejeitar', cannotDelete: 'Não é possível excluir', cannotUpdate: 'Não é possível atualizar', loadError: 'Erro ao carregar'},
+        empty: {noResults: 'Sem resultados', noData: 'Nenhum dado disponível'},
+      },
+      dashboard: {title: 'Console de Administração', description: 'Visão geral da plataforma e gestão de usuários', totalUsers: 'Total de Usuários', activeUsers: 'ativos', pendingUsers: 'pendentes', transfers: 'Transferências', transfersPending: 'em andamento', loans: 'Empréstimos', loansActive: 'ativos', totalVolume: 'Volume Total', volumeDescription: 'Transferências totais', recentUsers: 'Usuários Recentes', recentUsersDescription: 'Últimas inscrições', recentTransfers: 'Transferências Recentes', recentTransfersDescription: 'Últimas operações'},
+      loans: {title: 'Gestão de Empréstimos', description: 'Gerenciar todas as solicitações de empréstimos da plataforma', allLoans: 'Todos os Empréstimos', allLoansDescription: 'Lista completa de solicitações de empréstimos', loanApproved: 'Empréstimo aprovado', loanApprovedDesc: 'O empréstimo foi aprovado com sucesso. O contrato foi gerado.', loanRejected: 'Empréstimo rejeitado', loanRejectedDesc: 'O empréstimo foi rejeitado com sucesso', loanDeleted: 'Empréstimo excluído', loanDeletedDesc: 'O empréstimo foi excluído com sucesso', fundsDisbursed: 'Fundos desembolsados', fundsDisbursedDesc: 'Os fundos foram desembolsados ​​com sucesso. O usuário foi notificado.', contractGenerated: '📄 Gerado', contractSigned: '✅ Assinado', approveReason: 'Motivo da aprovação', rejectReason: 'Motivo da rejeição', deleteReason: 'Motivo da exclusão'},
+      transfers: {title: 'Gestão de Transferências', description: 'Aprovar ou suspender solicitações de transferência', allTransfers: 'Todas as Transferências', allTransfersDescription: 'Lista completa de transferências de fundos', transferUpdated: 'Transferência atualizada', transferUpdatedDesc: 'O status da transferência foi atualizado com sucesso'},
+    },
   },
   it: {
     hero: {
@@ -9591,7 +9603,19 @@ export const translations: Record<Language, TranslationKeys> = {
       contactUs: 'Contact us',
       helpCenter: 'Help center',
     },
-  } as TranslationKeys,
+    admin: {
+      common: {
+        status: {pending: 'In sospeso', active: 'Attivo', approved: 'Approvato', rejected: 'Rifiutato', suspended: 'Sospeso', completed: 'Completato', signed: 'Firmato', inProgress: 'In corso'},
+        actions: {approve: 'Approva', reject: 'Rifiuta', delete: 'Elimina', suspend: 'Sospendi', save: 'Salva', download: 'Scarica', upload: 'Carica', send: 'Invia', edit: 'Modifica', cancel: 'Annulla', disburse: 'Erogare'},
+        labels: {user: 'Utente', userName: 'Nome utente', userEmail: 'Email utente', amount: 'Importo', type: 'Tipo', rate: 'Tasso', duration: 'Durata', status: 'Stato', date: 'Data', createdAt: 'Creato', actions: 'Azioni', fees: 'Commissioni', progress: 'Progresso', codes: 'Codici', recipient: 'Destinatario', contract: 'Contratto', months: 'mesi', total: 'Totale', active: 'attivi', pending: 'in sospeso', recent: 'Recenti', all: 'Tutti', noData: 'Nessun dato', loading: 'Caricamento...', error: 'Errore', success: 'Successo', balance: 'Saldo', loans: 'Prestiti'},
+        messages: {error: 'Errore', success: 'Successo', updated: 'Aggiornato', approved: 'Approvato', rejected: 'Rifiutato', deleted: 'Eliminato', disbursed: 'Erogato', cannotApprove: 'Impossibile approvare', cannotReject: 'Impossibile rifiutare', cannotDelete: 'Impossibile eliminare', cannotUpdate: 'Impossibile aggiornare', loadError: 'Errore di caricamento'},
+        empty: {noResults: 'Nessun risultato', noData: 'Nessun dato disponibile'},
+      },
+      dashboard: {title: 'Console di Amministrazione', description: 'Panoramica della piattaforma e gestione utenti', totalUsers: 'Totale Utenti', activeUsers: 'attivi', pendingUsers: 'in sospeso', transfers: 'Trasferimenti', transfersPending: 'in corso', loans: 'Prestiti', loansActive: 'attivi', totalVolume: 'Volume Totale', volumeDescription: 'Trasferimenti totali', recentUsers: 'Utenti Recenti', recentUsersDescription: 'Ultime registrazioni', recentTransfers: 'Trasferimenti Recenti', recentTransfersDescription: 'Ultime operazioni'},
+      loans: {title: 'Gestione Prestiti', description: 'Gestire tutte le richieste di prestito della piattaforma', allLoans: 'Tutti i Prestiti', allLoansDescription: 'Elenco completo delle richieste di prestito', loanApproved: 'Prestito approvato', loanApprovedDesc: 'Il prestito è stato approvato con successo. Il contratto è stato generato.', loanRejected: 'Prestito rifiutato', loanRejectedDesc: 'Il prestito è stato rifiutato con successo', loanDeleted: 'Prestito eliminato', loanDeletedDesc: 'Il prestito è stato eliminato con successo', fundsDisbursed: 'Fondi erogati', fundsDisbursedDesc: 'I fondi sono stati erogati con successo. L\'utente è stato notificato.', contractGenerated: '📄 Generato', contractSigned: '✅ Firmato', approveReason: 'Motivo dell\'approvazione', rejectReason: 'Motivo del rifiuto', deleteReason: 'Motivo dell\'eliminazione'},
+      transfers: {title: 'Gestione Trasferimenti', description: 'Approvare o sospendere richieste di trasferimento', allTransfers: 'Tutti i Trasferimenti', allTransfersDescription: 'Elenco completo dei trasferimenti di fondi', transferUpdated: 'Trasferimento aggiornato', transferUpdatedDesc: 'Lo stato del trasferimento è stato aggiornato con successo'},
+    },
+  },
   de: {
     hero: {
       title: 'Verwirklichen Sie Ihre Projekte mit der Altus Finance Group',
@@ -11108,7 +11132,19 @@ export const translations: Record<Language, TranslationKeys> = {
       contactUs: 'Contact us',
       helpCenter: 'Help center',
     },
-  } as TranslationKeys,
+    admin: {
+      common: {
+        status: {pending: 'Ausstehend', active: 'Aktiv', approved: 'Genehmigt', rejected: 'Abgelehnt', suspended: 'Ausgesetzt', completed: 'Abgeschlossen', signed: 'Unterzeichnet', inProgress: 'In Bearbeitung'},
+        actions: {approve: 'Genehmigen', reject: 'Ablehnen', delete: 'Löschen', suspend: 'Aussetzen', save: 'Speichern', download: 'Herunterladen', upload: 'Hochladen', send: 'Senden', edit: 'Bearbeiten', cancel: 'Abbrechen', disburse: 'Auszahlen'},
+        labels: {user: 'Benutzer', userName: 'Benutzername', userEmail: 'Benutzer-E-Mail', amount: 'Betrag', type: 'Typ', rate: 'Zinssatz', duration: 'Laufzeit', status: 'Status', date: 'Datum', createdAt: 'Erstellt', actions: 'Aktionen', fees: 'Gebühren', progress: 'Fortschritt', codes: 'Codes', recipient: 'Empfänger', contract: 'Vertrag', months: 'Monate', total: 'Gesamt', active: 'aktiv', pending: 'ausstehend', recent: 'Neueste', all: 'Alle', noData: 'Keine Daten', loading: 'Lädt...', error: 'Fehler', success: 'Erfolg', balance: 'Guthaben', loans: 'Kredite'},
+        messages: {error: 'Fehler', success: 'Erfolg', updated: 'Aktualisiert', approved: 'Genehmigt', rejected: 'Abgelehnt', deleted: 'Gelöscht', disbursed: 'Ausgezahlt', cannotApprove: 'Kann nicht genehmigen', cannotReject: 'Kann nicht ablehnen', cannotDelete: 'Kann nicht löschen', cannotUpdate: 'Kann nicht aktualisieren', loadError: 'Ladefehler'},
+        empty: {noResults: 'Keine Ergebnisse', noData: 'Keine Daten verfügbar'},
+      },
+      dashboard: {title: 'Admin-Konsole', description: 'Plattformübersicht und Benutzerverwaltung', totalUsers: 'Benutzer gesamt', activeUsers: 'aktiv', pendingUsers: 'ausstehend', transfers: 'Überweisungen', transfersPending: 'in Bearbeitung', loans: 'Kredite', loansActive: 'aktiv', totalVolume: 'Gesamtvolumen', volumeDescription: 'Überweisungen gesamt', recentUsers: 'Neueste Benutzer', recentUsersDescription: 'Neueste Registrierungen', recentTransfers: 'Neueste Überweisungen', recentTransfersDescription: 'Neueste Transaktionen'},
+      loans: {title: 'Kreditverwaltung', description: 'Alle Kreditanträge der Plattform verwalten', allLoans: 'Alle Kredite', allLoansDescription: 'Vollständige Liste der Kreditanträge', loanApproved: 'Kredit genehmigt', loanApprovedDesc: 'Der Kredit wurde erfolgreich genehmigt. Der Vertrag wurde erstellt.', loanRejected: 'Kredit abgelehnt', loanRejectedDesc: 'Der Kredit wurde erfolgreich abgelehnt', loanDeleted: 'Kredit gelöscht', loanDeletedDesc: 'Der Kredit wurde erfolgreich gelöscht', fundsDisbursed: 'Mittel ausgezahlt', fundsDisbursedDesc: 'Die Mittel wurden erfolgreich ausgezahlt. Der Benutzer wurde benachrichtigt.', contractGenerated: '📄 Erstellt', contractSigned: '✅ Unterzeichnet', approveReason: 'Grund der Genehmigung', rejectReason: 'Grund der Ablehnung', deleteReason: 'Grund der Löschung'},
+      transfers: {title: 'Überweisungsverwaltung', description: 'Überweisungsanträge genehmigen oder aussetzen', allTransfers: 'Alle Überweisungen', allTransfersDescription: 'Vollständige Liste der Geldüberweisungen', transferUpdated: 'Überweisung aktualisiert', transferUpdatedDesc: 'Der Überweisungsstatus wurde erfolgreich aktualisiert'},
+    },
+  },
   nl: {
     hero: {
       title: 'Realiseer uw projecten met Altus Finance Group',
@@ -12624,6 +12660,18 @@ export const translations: Record<Language, TranslationKeys> = {
       notFoundDesc: 'Our team of experts is available Monday to Friday from 9am to 7pm',
       contactUs: 'Contact us',
       helpCenter: 'Help center',
+    },
+    admin: {
+      common: {
+        status: {pending: 'In behandeling', active: 'Actief', approved: 'Goedgekeurd', rejected: 'Afgewezen', suspended: 'Opgeschort', completed: 'Voltooid', signed: 'Ondertekend', inProgress: 'Bezig'},
+        actions: {approve: 'Goedkeuren', reject: 'Afwijzen', delete: 'Verwijderen', suspend: 'Opschorten', save: 'Opslaan', download: 'Downloaden', upload: 'Uploaden', send: 'Versturen', edit: 'Bewerken', cancel: 'Annuleren', disburse: 'Uitbetalen'},
+        labels: {user: 'Gebruiker', userName: 'Gebruikersnaam', userEmail: 'Gebruikers-e-mail', amount: 'Bedrag', type: 'Type', rate: 'Tarief', duration: 'Looptijd', status: 'Status', date: 'Datum', createdAt: 'Aangemaakt', actions: 'Acties', fees: 'Kosten', progress: 'Voortgang', codes: 'Codes', recipient: 'Ontvanger', contract: 'Contract', months: 'maanden', total: 'Totaal', active: 'actief', pending: 'in behandeling', recent: 'Recent', all: 'Alle', noData: 'Geen gegevens', loading: 'Laden...', error: 'Fout', success: 'Succes', balance: 'Saldo', loans: 'Leningen'},
+        messages: {error: 'Fout', success: 'Succes', updated: 'Bijgewerkt', approved: 'Goedgekeurd', rejected: 'Afgewezen', deleted: 'Verwijderd', disbursed: 'Uitbetaald', cannotApprove: 'Kan niet goedkeuren', cannotReject: 'Kan niet afwijzen', cannotDelete: 'Kan niet verwijderen', cannotUpdate: 'Kan niet bijwerken', loadError: 'Fout bij laden'},
+        empty: {noResults: 'Geen resultaten', noData: 'Geen gegevens beschikbaar'},
+      },
+      dashboard: {title: 'Beheerdersconscole', description: 'Platformoverzicht en gebruikersbeheer', totalUsers: 'Totaal aantal gebruikers', activeUsers: 'actief', pendingUsers: 'in behandeling', transfers: 'Overboekingen', transfersPending: 'bezig', loans: 'Leningen', loansActive: 'actief', totalVolume: 'Totaal volume', volumeDescription: 'Totale overboekingen', recentUsers: 'Recente gebruikers', recentUsersDescription: 'Laatste registraties', recentTransfers: 'Recente overboekingen', recentTransfersDescription: 'Laatste transacties'},
+      loans: {title: 'Leningbeheer', description: 'Alle leningaanvragen van het platform beheren', allLoans: 'Alle leningen', allLoansDescription: 'Volledige lijst van leningaanvragen', loanApproved: 'Lening goedgekeurd', loanApprovedDesc: 'De lening is succesvol goedgekeurd. Het contract is gegenereerd.', loanRejected: 'Lening afgewezen', loanRejectedDesc: 'De lening is succesvol afgewezen', loanDeleted: 'Lening verwijderd', loanDeletedDesc: 'De lening is succesvol verwijderd', fundsDisbursed: 'Fondsen uitbetaald', fundsDisbursedDesc: 'De fondsen zijn succesvol uitbetaald. De gebruiker is op de hoogte gesteld.', contractGenerated: '📄 Gegenereerd', contractSigned: '✅ Ondertekend', approveReason: 'Reden voor goedkeuring', rejectReason: 'Reden voor afwijzing', deleteReason: 'Reden voor verwijdering'},
+      transfers: {title: 'Overboekingenbeheer', description: 'Overboekingsaanvragen goedkeuren of opschorten', allTransfers: 'Alle overboekingen', allTransfersDescription: 'Volledige lijst van geldoverboekingen', transferUpdated: 'Overboeking bijgewerkt', transferUpdatedDesc: 'De status van de overboeking is succesvol bijgewerkt'},
     },
   } as TranslationKeys,
 };
