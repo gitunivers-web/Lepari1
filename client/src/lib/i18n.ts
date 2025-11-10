@@ -1377,6 +1377,14 @@ type TranslationKeys = {
     phone: string;
     email: string;
     address: string;
+    hoursTitle: string;
+    hours: {
+      weekdays: string;
+      weekend: string;
+      support: string;
+    };
+    certificationsTitle: string;
+    certifications: string[];
     productsTitle: string;
     products: {
       personal: string;
@@ -3300,6 +3308,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      hoursTitle: 'Horaires d\'ouverture',
+      hours: {
+        weekdays: 'Lun - Ven : 9h00 - 19h00',
+        weekend: 'Sam : 9h00 - 17h00',
+        support: 'Support 24/7',
+      },
+      certificationsTitle: 'Certifications & Sécurité',
+      certifications: [
+        'Régulé par l\'ACPR',
+        'Certifié ISO 27001',
+        'Conforme RGPD',
+        'SSL/TLS Sécurisé',
+        'Membre FBF',
+      ],
       productsTitle: 'Nos Produits',
       products: {
         personal: 'Prêts particuliers',
@@ -5125,6 +5147,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      hoursTitle: 'Opening Hours',
+      hours: {
+        weekdays: 'Mon - Fri: 9:00 AM - 7:00 PM',
+        weekend: 'Sat: 9:00 AM - 5:00 PM',
+        support: '24/7 Support',
+      },
+      certificationsTitle: 'Certifications & Security',
+      certifications: [
+        'Regulated by ACPR',
+        'ISO 27001 Certified',
+        'GDPR Compliant',
+        'SSL/TLS Secured',
+        'FBF Member',
+      ],
       productsTitle: 'Our Products',
       products: {
         personal: 'Personal Loans',
@@ -6850,6 +6886,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 París',
+      hoursTitle: 'Horario de Atención',
+      hours: {
+        weekdays: 'Lun - Vie: 9:00 - 19:00',
+        weekend: 'Sáb: 9:00 - 17:00',
+        support: 'Soporte 24/7',
+      },
+      certificationsTitle: 'Certificaciones y Seguridad',
+      certifications: [
+        'Regulado por ACPR',
+        'Certificado ISO 27001',
+        'Cumplimiento RGPD',
+        'Seguridad SSL/TLS',
+        'Miembro FBF',
+      ],
       productsTitle: 'Nuestros Productos',
       products: {
         personal: 'Préstamos Personales',
@@ -8612,6 +8662,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      hoursTitle: 'Horário de Atendimento',
+      hours: {
+        weekdays: 'Seg - Sex: 9h00 - 19h00',
+        weekend: 'Sáb: 9h00 - 17h00',
+        support: 'Suporte 24/7',
+      },
+      certificationsTitle: 'Certificações e Segurança',
+      certifications: [
+        'Regulado pela ACPR',
+        'Certificado ISO 27001',
+        'Conforme RGPD',
+        'Segurança SSL/TLS',
+        'Membro FBF',
+      ],
       productsTitle: 'Nossos Produtos',
       products: {
         personal: 'Empréstimos Pessoais',
@@ -10261,6 +10325,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Parigi',
+      hoursTitle: 'Orari di Apertura',
+      hours: {
+        weekdays: 'Lun - Ven: 9:00 - 19:00',
+        weekend: 'Sab: 9:00 - 17:00',
+        support: 'Supporto 24/7',
+      },
+      certificationsTitle: 'Certificazioni e Sicurezza',
+      certifications: [
+        'Regolamentato da ACPR',
+        'Certificato ISO 27001',
+        'Conforme RGPD',
+        'Sicurezza SSL/TLS',
+        'Membro FBF',
+      ],
       productsTitle: 'I nostri prodotti',
       products: {
         personal: 'Prestiti personali',
@@ -11910,6 +11988,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Paris',
+      hoursTitle: 'Öffnungszeiten',
+      hours: {
+        weekdays: 'Mo - Fr: 9:00 - 19:00',
+        weekend: 'Sa: 9:00 - 17:00',
+        support: '24/7 Support',
+      },
+      certificationsTitle: 'Zertifizierungen & Sicherheit',
+      certifications: [
+        'Reguliert durch ACPR',
+        'ISO 27001 Zertifiziert',
+        'DSGVO-konform',
+        'SSL/TLS Gesichert',
+        'FBF Mitglied',
+      ],
       productsTitle: 'Unsere Produkte',
       products: {
         personal: 'Privatdarlehen',
@@ -13528,6 +13620,20 @@ export const translations: Record<Language, TranslationKeys> = {
       phone: '+33 1 23 45 67 89',
       email: 'contact@altus-group.fr',
       address: '75 Avenue des Champs-Élysées, 75008 Parijs',
+      hoursTitle: 'Openingstijden',
+      hours: {
+        weekdays: 'Ma - Vr: 9:00 - 19:00',
+        weekend: 'Za: 9:00 - 17:00',
+        support: '24/7 Support',
+      },
+      certificationsTitle: 'Certificeringen & Beveiliging',
+      certifications: [
+        'Gereguleerd door ACPR',
+        'ISO 27001 Gecertificeerd',
+        'AVG Conform',
+        'SSL/TLS Beveiligd',
+        'FBF Lid',
+      ],
       productsTitle: 'Onze Producten',
       products: {
         personal: 'Persoonlijke Leningen',

@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, CheckCircle2 } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 
 export default function Footer() {
@@ -56,7 +56,7 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground mb-3 sm:mb-4">
               {t.footer.description}
             </p>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-sm mb-4">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="h-4 w-4" />
                 <span>{t.footer.phone}</span>
@@ -68,6 +68,16 @@ export default function Footer() {
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 <span>{t.footer.address}</span>
+              </div>
+            </div>
+            
+            {/* Opening Hours */}
+            <div className="mt-4">
+              <h4 className="font-semibold text-sm mb-2">{t.footer.hoursTitle}</h4>
+              <div className="space-y-1 text-xs text-muted-foreground">
+                <p data-testid="text-hours-weekdays">{t.footer.hours.weekdays}</p>
+                <p data-testid="text-hours-weekend">{t.footer.hours.weekend}</p>
+                <p className="text-primary font-medium" data-testid="text-hours-support">{t.footer.hours.support}</p>
               </div>
             </div>
           </div>
@@ -123,6 +133,23 @@ export default function Footer() {
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.name}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Certifications */}
+          <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
+            <h3 className="font-semibold mb-4">{t.footer.certificationsTitle}</h3>
+            <ul className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+              {t.footer.certifications.map((cert, index) => (
+                <li 
+                  key={index} 
+                  className="flex items-center gap-1.5"
+                  data-testid={`text-certification-${index}`}
+                >
+                  <CheckCircle2 className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                  <span>{cert}</span>
                 </li>
               ))}
             </ul>
