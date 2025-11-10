@@ -60,9 +60,9 @@
 
   --muted-foreground: 215 15% 42%;
 
-  --accent: 175 65% 42%;
+  --accent: 205 75% 48%;
 
-  --accent-foreground: 0 0% 100%;
+  --accent-foreground: 215 25% 12%;
 
   --destructive: 358 75% 48%;
 
@@ -71,10 +71,10 @@
   --input: 215 18% 85%;
   --ring: 215 85% 32%;
   --chart-1: 215 85% 32%;
-  --chart-2: 175 65% 42%;
-  --chart-3: 195 70% 38%;
-  --chart-4: 215 65% 48%;
-  --chart-5: 175 55% 52%;
+  --chart-2: 205 75% 48%;
+  --chart-3: 220 70% 55%;
+  --chart-4: 200 65% 45%;
+  --chart-5: 210 60% 50%;
 
   --font-sans: Inter, 'Work Sans', system-ui, -apple-system, sans-serif;
   --font-serif: Georgia, serif;
@@ -179,7 +179,7 @@
 
   --muted-foreground: 215 12% 65%;
 
-  --accent: 175 60% 50%;
+  --accent: 205 70% 55%;
 
   --accent-foreground: 215 35% 8%;
 
@@ -190,10 +190,10 @@
   --input: 215 20% 25%;
   --ring: 215 70% 55%;
   --chart-1: 215 70% 55%;
-  --chart-2: 175 60% 50%;
-  --chart-3: 195 65% 45%;
-  --chart-4: 215 60% 45%;
-  --chart-5: 175 50% 58%;
+  --chart-2: 205 70% 55%;
+  --chart-3: 220 65% 60%;
+  --chart-4: 200 60% 50%;
+  --chart-5: 210 55% 58%;
 
   --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.08);
   --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.12);
