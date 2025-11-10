@@ -6,6 +6,8 @@ export type Language = 'fr' | 'en' | 'es' | 'pt' | 'it' | 'de' | 'nl';
 interface LanguageStore {
   language: Language;
   setLanguage: (lang: Language) => void;
+  isAutoDetected: boolean;
+  setAutoDetected: (value: boolean) => void;
 }
 
 function detectBrowserLanguage(): Language {
@@ -45,17 +47,64 @@ function getInitialLanguage(): Language {
   return detectBrowserLanguage();
 }
 
+// Detect language based on IP geolocation
+export async function detectLanguageFromIP(): Promise<Language | null> {
+  try {
+    const response = await fetch('/api/detect-language');
+    const data = await response.json();
+    
+    if (data.language && ['fr', 'en', 'es', 'pt', 'it', 'de', 'nl'].includes(data.language)) {
+      console.log(`🌍 Language detected from IP: ${data.language} (${data.country || 'Unknown'})`);
+      return data.language as Language;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Failed to detect language from IP:', error);
+    return null;
+  }
+}
+
 export const useLanguage = create<LanguageStore>()(
   persist(
     (set) => ({
       language: getInitialLanguage(),
-      setLanguage: (language) => set({ language }),
+      isAutoDetected: false,
+      setLanguage: (language) => set({ language, isAutoDetected: false }),
+      setAutoDetected: (value) => set({ isAutoDetected: value }),
     }),
     {
       name: 'language-storage',
     }
   )
 );
+
+// Auto-detect language on app initialization
+if (typeof window !== 'undefined') {
+  const stored = localStorage.getItem('language-storage');
+  let hasStoredLanguage = false;
+  
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      hasStoredLanguage = !!parsed.state?.language;
+    } catch (e) {
+      // Ignore
+    }
+  }
+  
+  // Only auto-detect if user hasn't manually selected a language
+  if (!hasStoredLanguage) {
+    detectLanguageFromIP().then((detectedLang) => {
+      if (detectedLang) {
+        useLanguage.setState({ 
+          language: detectedLang, 
+          isAutoDetected: true 
+        });
+      }
+    });
+  }
+}
 
 type TranslationKeys = {
   hero: {
