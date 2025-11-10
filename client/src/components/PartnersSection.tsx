@@ -1,26 +1,14 @@
 import { useTranslations } from '@/lib/i18n';
 import { TrendingUp, Award, Users, Building2 } from 'lucide-react';
-import bnpParibasLogo from '@assets/bank_logos/bnp-paribas.svg';
 import hsbcLogo from '@assets/bank_logos/hsbc.svg';
 import santanderLogo from '@assets/bank_logos/santander.svg';
-import sgLogo from '@assets/stock_images/société_générale_ban_1d3e336c.jpg';
-import caLogo from '@assets/stock_images/crédit_agricole_bank_4465334a.jpg';
-import ingLogo from '@assets/stock_images/ing_bank_official_lo_ebb97638.jpg';
-import dbLogo from '@assets/stock_images/deutsche_bank_offici_74c8fc1e.jpg';
-import csLogo from '@assets/stock_images/credit_suisse_bank_o_47993df2.jpg';
 
 export default function PartnersSection() {
   const t = useTranslations();
 
   const partnerLogos = [
-    { name: 'BNP Paribas', logo: bnpParibasLogo },
-    { name: 'Société Générale', logo: sgLogo },
-    { name: 'Crédit Agricole', logo: caLogo },
     { name: 'HSBC', logo: hsbcLogo },
-    { name: 'ING', logo: ingLogo },
-    { name: 'Deutsche Bank', logo: dbLogo },
     { name: 'Santander', logo: santanderLogo },
-    { name: 'Credit Suisse', logo: csLogo },
   ];
 
   const trustIndicators = [
