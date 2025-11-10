@@ -152,30 +152,6 @@ export default function Header() {
               </div>
               
               <Link 
-                href="/how-it-works" 
-                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
-                onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-how-it-works-mobile"
-              >
-                {t.nav.howItWorks}
-              </Link>
-              <Link 
-                href="/resources" 
-                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
-                onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-faq-mobile"
-              >
-                {t.nav.faq}
-              </Link>
-              <Link 
-                href="/about" 
-                className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
-                onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-about-mobile"
-              >
-                {t.nav.about}
-              </Link>
-              <Link 
                 href="/contact" 
                 className="text-sm font-medium transition-all px-4 py-2 rounded-md hover:bg-primary hover:text-white"
                 onClick={() => setMobileMenuOpen(false)}
@@ -183,15 +159,6 @@ export default function Header() {
               >
                 {t.nav.contact}
               </Link>
-              
-              <a 
-                href={`tel:${t.nav.phone}`} 
-                className="text-sm font-medium text-primary px-4 py-2"
-                onClick={() => setMobileMenuOpen(false)}
-                data-testid="link-phone-mobile"
-              >
-                {t.nav.phone}
-              </a>
               
               <div className="flex items-center gap-2 pt-2 px-4">
                 <LanguageSwitcher scrolled={true} />
