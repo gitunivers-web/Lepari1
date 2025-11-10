@@ -135,7 +135,7 @@ const getContractTemplate = (data: ContractData): string => {
   <div class="header">
     <div class="logo">ALTUS FINANCE GROUP</div>
     <div>Solutions de financement professionnelles</div>
-    <div style="font-size: 9pt; color: #6b7280;">123 Avenue des Champs-Élysées, 75008 Paris • Tél: +33 1 23 45 67 89</div>
+    <div style="font-size: 9pt; color: #6b7280;">19 Rue Sigismond, L-2537 Luxembourg • Tél: +352 40 63 48</div>
   </div>
 
   <h1>CONTRAT DE PRÊT N° ${loan.id}</h1>
@@ -273,15 +273,15 @@ const getContractTemplate = (data: ContractData): string => {
   <div class="article">
     <div class="article-title">Article 9 - Loi applicable et juridiction compétente</div>
     <p>
-      Le présent contrat est régi par le droit français. En cas de litige, les parties s'efforceront de trouver 
-      une solution amiable. À défaut, les tribunaux compétents de Paris seront seuls compétents.
+      Le présent contrat est régi par le droit luxembourgeois. En cas de litige, les parties s'efforceront de trouver 
+      une solution amiable. À défaut, les tribunaux compétents de Luxembourg seront seuls compétents.
     </p>
   </div>
 
   <div class="signature-section">
     <p style="margin-bottom: 30px;">
       <strong>Fait en deux exemplaires originaux,</strong><br>
-      À Paris, le ${contractDate}
+      À Luxembourg, le ${contractDate}
     </p>
 
     <div class="signature-box">
@@ -305,9 +305,9 @@ const getContractTemplate = (data: ContractData): string => {
 
   <div class="footer">
     <p>
-      ALTUS FINANCE GROUP - SAS au capital de 1 000 000 € - RCS Paris 123 456 789<br>
-      Siège social: 123 Avenue des Champs-Élysées, 75008 Paris, France<br>
-      www.altus-group.fr - contact@altus-group.fr
+      ALTUS FINANCE GROUP - S.à r.l. au capital de 1 000 000 € - RCS Luxembourg B123456<br>
+      Siège social: 19 Rue Sigismond, L-2537 Luxembourg<br>
+      www.altusfinancegroup.com - infos@altusfinancegroup.com
     </p>
   </div>
 </body>

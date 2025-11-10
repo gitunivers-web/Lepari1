@@ -133,8 +133,7 @@ export default function Contact() {
                   <Mail className="w-6 h-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">contact@altus-group.com</p>
-                    <p className="text-muted-foreground">support@altus-group.com</p>
+                    <p className="text-muted-foreground">infos@altusfinancegroup.com</p>
                   </div>
                 </div>
               </Card>
@@ -144,7 +143,7 @@ export default function Contact() {
                   <Phone className="w-6 h-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">{t.contact.phone}</h3>
-                    <p className="text-muted-foreground">+33 1 23 45 67 89</p>
+                    <p className="text-muted-foreground">+352 40 63 48</p>
                     <p className="text-sm text-muted-foreground">Lun-Ven 9h-18h</p>
                   </div>
                 </div>
@@ -155,8 +154,8 @@ export default function Contact() {
                   <MapPin className="w-6 h-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Adresse</h3>
-                    <p className="text-muted-foreground">123 Avenue des Champs-Élysées</p>
-                    <p className="text-muted-foreground">75008 Paris, France</p>
+                    <p className="text-muted-foreground">19 Rue Sigismond</p>
+                    <p className="text-muted-foreground">L-2537 Luxembourg</p>
                   </div>
                 </div>
               </Card>

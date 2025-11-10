@@ -12,16 +12,16 @@ export const seoConfig = {
   organization: {
     name: 'Altus Finance Group',
     logo: '/logo.png',
-    telephone: '+33-1-XX-XX-XX-XX',
+    telephone: '+352-40-63-48',
     address: {
-      streetAddress: '123 Avenue des Champs-Élysées',
-      addressLocality: 'Paris',
-      postalCode: '75008',
-      addressCountry: 'FR'
+      streetAddress: '19 Rue Sigismond',
+      addressLocality: 'Luxembourg',
+      postalCode: 'L-2537',
+      addressCountry: 'LU'
     },
     geo: {
-      latitude: 48.8566,
-      longitude: 2.3522
+      latitude: 49.6117,
+      longitude: 6.1319
     },
     sameAs: [
       'https://www.facebook.com/altusfinancegroup',
