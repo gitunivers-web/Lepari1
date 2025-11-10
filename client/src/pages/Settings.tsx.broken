@@ -211,6 +211,9 @@ export default function Settings() {
         throw new Error(t.messages.errorUploadingAvatar);
       }
 
+      const responseData = await response.json();
+      console.log('Upload response:', responseData);
+      
       await queryClient.invalidateQueries({ queryKey: ['/api/user'] });
       await queryClient.refetchQueries({ queryKey: ['/api/user'] });
       
@@ -236,7 +239,7 @@ export default function Settings() {
     return (
       <UserLayout
         title={t.settings.title}
-        description=""
+        description={t.settings.manageAccount}
       >
         <div className="space-y-6">
           <Skeleton className="h-32" />
@@ -250,7 +253,7 @@ export default function Settings() {
   return (
     <UserLayout
       title={t.settings.title}
-      description=""
+      description={t.settings.manageAccount}
       maxWidth="6xl"
     >
       <Card className="mb-6">
@@ -296,11 +299,10 @@ export default function Settings() {
                   </div>
                 )}
               </div>
-              <p className="text-muted-foreground flex items-center gap-2">
                 <Mail className="h-4 w-4" />
                 {user.email}
               </p>
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground pt-2">
                 {user.phone && (
                   <span className="flex items-center gap-2">
                     <Phone className="h-4 w-4" />
@@ -320,99 +322,107 @@ export default function Settings() {
       </Card>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="inline-flex h-12 items-center justify-center rounded-md bg-muted p-1 shadow-sm">
-          <TabsTrigger 
-            value="profile" 
-            className="gap-2 rounded-sm data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all" 
-            data-testid="tab-profile"
-          >
-            <User className="h-4 w-4" />
-            <span>{t.settings.profile}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="notifications" 
-            className="gap-2 rounded-sm data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all" 
-            data-testid="tab-notifications"
-          >
-            <Bell className="h-4 w-4" />
-            <span>{t.settings.notifications}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="security" 
-            className="gap-2 rounded-sm data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all" 
-            data-testid="tab-security"
-          >
-            <Shield className="h-4 w-4" />
-            <span>{t.settings.security}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="appearance" 
-            className="gap-2 rounded-sm data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all" 
-            data-testid="tab-appearance"
-          >
-            <Palette className="h-4 w-4" />
-            <span>{t.settings.appearance}</span>
-          </TabsTrigger>
-        </TabsList>
+          <TabsList className="inline-flex h-12 items-center justify-center rounded-xl bg-muted/50 backdrop-blur-sm p-1.5 shadow-sm border">
+            <TabsTrigger 
+              value="profile" 
+              className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-md transition-all" 
+              data-testid="tab-profile"
+            >
+              <User className="h-4 w-4" />
+              <span>{t.settings.profile}</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="notifications" 
+              className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-md transition-all" 
+              data-testid="tab-notifications"
+            >
+              <Bell className="h-4 w-4" />
+              <span>{t.settings.notifications}</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="security" 
+              className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-md transition-all" 
+              data-testid="tab-security"
+            >
+              <Shield className="h-4 w-4" />
+              <span>{t.settings.security}</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="appearance" 
+              className="gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-md transition-all" 
+              data-testid="tab-appearance"
+            >
+              <Palette className="h-4 w-4" />
+              <span>{t.settings.appearance}</span>
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="profile" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <TabsContent value="profile" className="space-y-6">
+          <Card className="relative border border-blue-200/50 dark:border-blue-500/30 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-transparent dark:from-blue-500/10 dark:via-cyan-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-md bg-primary/10 text-primary">
+                <div className="p-2 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
                   <User className="h-5 w-5" />
                 </div>
-                <CardTitle>{t.settings.personalInfo}</CardTitle>
+                <CardTitle className="text-2xl bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                  {t.settings.personalInfo}
+                </CardTitle>
               </div>
-              <CardDescription>
+              <CardDescription className="text-base">
                 {t.settings.updateInfo}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">{t.settings.fullName}</Label>
+                  <Label htmlFor="fullName" className="text-sm font-medium">{t.settings.fullName}</Label>
                   <Input
                     id="fullName"
                     value={profileData.fullName}
                     onChange={(e) => setProfileData({ ...profileData, fullName: e.target.value })}
+                    className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                     data-testid="input-full-name"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t.settings.email}</Label>
+                  <Label htmlFor="email" className="text-sm font-medium">{t.settings.email}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={profileData.email}
                     onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                    className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                     data-testid="input-email"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">{t.settings.phone}</Label>
+                  <Label htmlFor="phone" className="text-sm font-medium">{t.settings.phone}</Label>
                   <Input
                     id="phone"
                     type="tel"
                     value={profileData.phone}
                     onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                    className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                     data-testid="input-phone"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="company">{t.settings.company}</Label>
+                  <Label htmlFor="company" className="text-sm font-medium">{t.settings.company}</Label>
                   <Input
                     id="company"
                     value={profileData.companyName}
                     onChange={(e) => setProfileData({ ...profileData, companyName: e.target.value })}
+                    className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                     data-testid="input-company"
                   />
                 </div>
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end pt-2">
                 <Button 
                   onClick={handleSaveProfile}
                   disabled={updateProfileMutation.isPending}
+                  className="px-8 h-11 shadow-md hover:shadow-lg transition-all"
                   data-testid="button-save-profile"
                 >
                   {updateProfileMutation.isPending ? t.common.saving : t.settings.saveChanges}
@@ -421,17 +431,20 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t.settings.accountType}</CardTitle>
-              <CardDescription>
+          <Card className="relative border border-violet-200/50 dark:border-violet-500/30 shadow-xl shadow-violet-500/10 dark:shadow-violet-500/20 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-purple-500/5 to-transparent dark:from-violet-500/10 dark:via-purple-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
+              <CardTitle className="text-2xl bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
+                {t.settings.accountType}
+              </CardTitle>
+              <CardDescription className="text-base">
                 {t.settings.yourAccountType} {user.accountType === 'business' ? t.settings.businessAccount : t.settings.individualAccount}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-md">
+            <CardContent className="relative">
+              <div className="flex items-center justify-between p-6 bg-gradient-to-br from-violet-500/10 to-purple-500/10 dark:from-violet-500/20 dark:to-purple-500/20 backdrop-blur-sm rounded-xl border-2 border-violet-300/30 dark:border-violet-500/30 shadow-lg">
                 <div className="space-y-1">
-                  <p className="font-medium">
+                  <p className="text-lg font-semibold">
                     {user.accountType === 'business' ? t.settings.businessAccount : t.settings.individualAccount}
                   </p>
                   <p className="text-sm text-muted-foreground">
@@ -440,7 +453,7 @@ export default function Settings() {
                       : t.settings.individualAccess}
                   </p>
                 </div>
-                <div className="px-3 py-1 bg-primary text-primary-foreground rounded-full text-sm font-medium">
+                <div className="px-4 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 text-white rounded-full text-sm font-semibold shadow-xl shadow-violet-500/30">
                   {user.status === 'active' ? t.common.active : user.status === 'pending' ? t.common.pending : user.status}
                 </div>
               </div>
@@ -449,20 +462,23 @@ export default function Settings() {
         </TabsContent>
 
         <TabsContent value="notifications" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="relative border border-amber-200/50 dark:border-amber-500/30 shadow-xl shadow-amber-500/10 dark:shadow-amber-500/20 hover:shadow-2xl hover:shadow-amber-500/20 dark:hover:shadow-amber-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-yellow-500/5 to-transparent dark:from-amber-500/10 dark:via-yellow-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-md bg-primary/10 text-primary">
+                <div className="p-2 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400">
                   <Bell className="h-5 w-5" />
                 </div>
-                <CardTitle>{t.settings.notificationPreferences}</CardTitle>
+                <CardTitle className="text-2xl bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-400 dark:to-yellow-400 bg-clip-text text-transparent">
+                  {t.settings.notificationPreferences}
+                </CardTitle>
               </div>
-              <CardDescription>
+              <CardDescription className="text-base">
                 {t.settings.chooseNotifications}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 rounded-md hover:bg-muted/50 transition-colors">
+              <div className="flex items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="space-y-0.5">
                   <Label htmlFor="emailAlerts" className="text-base font-medium cursor-pointer">{t.settings.emailAlerts}</Label>
                   <p className="text-sm text-muted-foreground">
@@ -478,8 +494,8 @@ export default function Settings() {
                   data-testid="switch-email-alerts"
                 />
               </div>
-              <Separator />
-              <div className="flex items-center justify-between p-4 rounded-md hover:bg-muted/50 transition-colors">
+              <Separator className="my-2" />
+              <div className="flex items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="space-y-0.5">
                   <Label htmlFor="transferUpdates" className="text-base font-medium cursor-pointer">{t.settings.transferUpdates}</Label>
                   <p className="text-sm text-muted-foreground">
@@ -495,8 +511,8 @@ export default function Settings() {
                   data-testid="switch-transfer-updates"
                 />
               </div>
-              <Separator />
-              <div className="flex items-center justify-between p-4 rounded-md hover:bg-muted/50 transition-colors">
+              <Separator className="my-2" />
+              <div className="flex items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="space-y-0.5">
                   <Label htmlFor="loanReminders" className="text-base font-medium cursor-pointer">{t.settings.loanReminders}</Label>
                   <p className="text-sm text-muted-foreground">
@@ -512,8 +528,8 @@ export default function Settings() {
                   data-testid="switch-loan-reminders"
                 />
               </div>
-              <Separator />
-              <div className="flex items-center justify-between p-4 rounded-md hover:bg-muted/50 transition-colors">
+              <Separator className="my-2" />
+              <div className="flex items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="space-y-0.5">
                   <Label htmlFor="marketingEmails" className="text-base font-medium cursor-pointer">{t.settings.marketingEmails}</Label>
                   <p className="text-sm text-muted-foreground">
@@ -533,9 +549,10 @@ export default function Settings() {
                 <Button 
                   onClick={handleSaveNotifications}
                   disabled={updateNotificationsMutation.isPending}
+                  className="px-8 h-11 shadow-md hover:shadow-lg transition-all"
                   data-testid="button-save-notifications"
                 >
-                  {updateNotificationsMutation.isPending ? t.common.saving : t.settings.saveChanges}
+                  {updateNotificationsMutation.isPending ? t.common.saving : t.settings.savePreferences}
                 </Button>
               </div>
             </CardContent>
@@ -543,46 +560,52 @@ export default function Settings() {
         </TabsContent>
 
         <TabsContent value="security" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="relative border border-green-200/50 dark:border-green-500/30 shadow-xl shadow-green-500/10 dark:shadow-green-500/20 hover:shadow-2xl hover:shadow-green-500/20 dark:hover:shadow-green-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent dark:from-green-500/10 dark:via-emerald-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-md bg-primary/10 text-primary">
+                <div className="p-2 rounded-lg bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400">
                   <Shield className="h-5 w-5" />
                 </div>
-                <CardTitle>{t.settings.changePassword}</CardTitle>
+                <CardTitle className="text-2xl bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                  {t.settings.changePassword}
+                </CardTitle>
               </div>
-              <CardDescription>
+              <CardDescription className="text-base">
                 {t.settings.updatePassword}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">{t.settings.currentPassword}</Label>
+                <Label htmlFor="currentPassword" className="text-sm font-medium">{t.settings.currentPassword}</Label>
                 <Input
                   id="currentPassword"
                   type="password"
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                  className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                   data-testid="input-current-password"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="newPassword">{t.settings.newPassword}</Label>
+                <Label htmlFor="newPassword" className="text-sm font-medium">{t.settings.newPassword}</Label>
                 <Input
                   id="newPassword"
                   type="password"
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                  className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                   data-testid="input-new-password"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">{t.settings.confirmNewPassword}</Label>
+                <Label htmlFor="confirmPassword" className="text-sm font-medium">{t.settings.confirmNewPassword}</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
                   value={passwordData.confirmPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                  className="h-11 transition-all focus:ring-2 focus:ring-primary/20"
                   data-testid="input-confirm-password"
                 />
               </div>
@@ -590,6 +613,7 @@ export default function Settings() {
                 <Button 
                   onClick={handleChangePassword}
                   disabled={changePasswordMutation.isPending}
+                  className="px-8 h-11 shadow-md hover:shadow-lg transition-all"
                   data-testid="button-change-password"
                 >
                   {changePasswordMutation.isPending ? t.common.saving : t.settings.changePassword}
@@ -597,75 +621,170 @@ export default function Settings() {
               </div>
             </CardContent>
           </Card>
+
+          <Card className="relative border border-green-200/50 dark:border-green-500/30 shadow-xl shadow-green-500/10 dark:shadow-green-500/20 hover:shadow-2xl hover:shadow-green-500/20 dark:hover:shadow-green-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent dark:from-green-500/10 dark:via-emerald-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <CardTitle className="text-2xl bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                  {t.settings.twoFactorAuth}
+                </CardTitle>
+              </div>
+              <CardDescription className="text-base">
+                {t.settings.twoFactorAuthDesc}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="relative">
+              <div className="flex flex-col gap-4 p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 rounded-xl border-2 border-green-300/30 dark:border-green-500/30 shadow-lg">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <p className="text-lg font-semibold text-foreground">
+                      {user?.twoFactorEnabled ? t.settings.twoFactorEnabled : t.settings.enable2FA}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {user?.twoFactorEnabled 
+                        ? t.settings.twoFactorEnabledDesc
+                        : t.settings.twoFactorDisabledDesc}
+                    </p>
+                  </div>
+                  {user?.twoFactorEnabled ? (
+                    <Button 
+                      variant="outline" 
+                      className="h-11 px-6 border-red-500/50 text-red-700 dark:text-red-400"
+                      data-testid="button-disable-2fa"
+                      onClick={async () => {
+                        try {
+                          await apiRequest('POST', '/api/2fa/disable');
+                          queryClient.invalidateQueries({ queryKey: ['/api/user'] });
+                          toast({
+                            title: t.settings.disable2FASuccess,
+                            description: t.settings.disable2FASuccessDesc,
+                          });
+                        } catch (error: any) {
+                          toast({
+                            title: t.common.error,
+                            description: error.message || t.settings.disable2FAError,
+                            variant: 'destructive',
+                          });
+                        }
+                      }}
+                    >
+                      {t.settings.disable}
+                    </Button>
+                  ) : (
+                    <Button 
+                      variant="outline" 
+                      className="h-11 px-6 border-green-500/50 text-green-700 dark:text-green-400"
+                      data-testid="button-enable-2fa"
+                      onClick={() => window.location.href = '/security/2fa'}
+                    >
+                      {t.settings.configure}
+                    </Button>
+                  )}
+                </div>
+                {user?.twoFactorEnabled && (
+                  <div 
+                    className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-950/30 border-2 border-green-300 dark:border-green-700 rounded-lg"
+                    role="status"
+                  >
+                    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-green-500 dark:bg-green-600 text-white shadow-sm">
+                      {t.settings.enabled}
+                    </span>
+                    <p className="text-sm font-medium text-green-900 dark:text-green-200 leading-relaxed">
+                      {t.settings.twoFactorActiveMessage}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="appearance" className="space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="relative border border-pink-200/50 dark:border-pink-500/30 shadow-xl shadow-pink-500/10 dark:shadow-pink-500/20 hover:shadow-2xl hover:shadow-pink-500/20 dark:hover:shadow-pink-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-rose-500/5 to-transparent dark:from-pink-500/10 dark:via-rose-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-md bg-primary/10 text-primary">
-                  <Palette className="h-5 w-4" />
+                <div className="p-2 rounded-lg bg-pink-500/10 dark:bg-pink-500/20 text-pink-600 dark:text-pink-400">
+                  <Palette className="h-5 w-5" />
                 </div>
-                <CardTitle>{t.settings.theme}</CardTitle>
+                <CardTitle className="text-2xl bg-gradient-to-r from-pink-600 to-rose-600 dark:from-pink-400 dark:to-rose-400 bg-clip-text text-transparent">
+                  {t.settings.theme}
+                </CardTitle>
               </div>
-              <CardDescription>
+              <CardDescription className="text-base">
                 {t.settings.themeDesc}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { value: 'light', name: t.settings.light },
-                  { value: 'dark', name: t.settings.dark },
-                  { value: 'system', name: language === 'fr' ? 'Système' : 'System' },
-                ].map((themeOption) => (
-                  <button
-                    key={themeOption.value}
-                    onClick={() => setTheme(themeOption.value as any)}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2 ${
-                      theme === themeOption.value
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border'
-                    }`}
-                    data-testid={`button-theme-${themeOption.value}`}
-                  >
-                    <span className="font-medium text-sm">{themeOption.name}</span>
-                    {theme === themeOption.value && (
-                      <CheckCircle2 className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                ))}
+            <CardContent className="relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => setTheme('light')}
+                  className={`flex items-center justify-between p-6 rounded-xl border-2 transition-all ${
+                    theme === 'light'
+                      ? 'border-pink-500 bg-pink-500/10 dark:bg-pink-500/20'
+                      : 'border-muted hover:border-pink-300'
+                  }`}
+                  data-testid="button-theme-light"
+                >
+                  <span className="font-semibold">{t.settings.light}</span>
+                  {theme === 'light' && <CheckCircle2 className="h-5 w-5 text-pink-600" />}
+                </button>
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={`flex items-center justify-between p-6 rounded-xl border-2 transition-all ${
+                    theme === 'dark'
+                      ? 'border-pink-500 bg-pink-500/10 dark:bg-pink-500/20'
+                      : 'border-muted hover:border-pink-300'
+                  }`}
+                  data-testid="button-theme-dark"
+                >
+                  <span className="font-semibold">{t.settings.dark}</span>
+                  {theme === 'dark' && <CheckCircle2 className="h-5 w-5 text-pink-600" />}
+                </button>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t.settings.languageLabel}</CardTitle>
-              <CardDescription>
+          <Card className="relative border border-indigo-200/50 dark:border-indigo-500/30 shadow-xl shadow-indigo-500/10 dark:shadow-indigo-500/20 hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/30 transition-all duration-300 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-transparent dark:from-indigo-500/10 dark:via-purple-500/10 pointer-events-none" />
+            <CardHeader className="relative space-y-1 pb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
+                  <Globe className="h-5 w-5" />
+                </div>
+                <CardTitle className="text-2xl bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                  {t.settings.languageLabel}
+                </CardTitle>
+              </div>
+              <CardDescription className="text-base">
                 {t.settings.languageDesc}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {[
-                  { code: 'fr', name: 'Français' },
-                  { code: 'en', name: 'English' },
-                  { code: 'es', name: 'Español' },
+                  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+                  { code: 'en', name: 'English', flag: '🇬🇧' },
+                  { code: 'es', name: 'Español', flag: '🇪🇸' },
                 ].map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => setLanguage(lang.code as any)}
-                    className={`flex items-center justify-center gap-2 p-3 rounded-md border-2 transition-all hover-elevate active-elevate-2 ${
+                    className={`flex items-center gap-2.5 p-3.5 rounded-lg border-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
                       language === lang.code
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border'
+                        ? 'border-indigo-500 bg-indigo-500/10 dark:bg-indigo-500/20 shadow-md shadow-indigo-500/20'
+                        : 'border-muted hover:border-indigo-300 dark:hover:border-indigo-600'
                     }`}
                     data-testid={`button-lang-${lang.code}`}
                   >
-                    <span className="font-medium text-sm">{lang.name}</span>
+                    <span className="text-2xl leading-none">{lang.flag}</span>
+                    <span className="font-semibold text-sm">{lang.name}</span>
                     {language === lang.code && (
-                      <CheckCircle2 className="h-4 w-4 text-primary" />
+                      <CheckCircle2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400 ml-auto" />
                     )}
                   </button>
                 ))}
@@ -674,6 +793,8 @@ export default function Settings() {
           </Card>
         </TabsContent>
       </Tabs>
-    </UserLayout>
+      </div>
+    </div>
+    </>
   );
 }
