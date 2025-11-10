@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Home, CreditCard, History, User, ArrowLeftRight } from 'lucide-react';
+import { Home, CreditCard, History, Settings, ArrowLeftRight } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 
 export default function MobileBottomNav() {
@@ -33,9 +33,9 @@ export default function MobileBottomNav() {
     },
     {
       label: t.nav.settings,
-      icon: User,
+      icon: Settings,
       href: '/settings',
-      testId: 'nav-profile',
+      testId: 'nav-settings',
     },
   ];
 
