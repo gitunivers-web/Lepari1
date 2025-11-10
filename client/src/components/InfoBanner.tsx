@@ -20,7 +20,7 @@ export default function InfoBanner() {
     },
     {
       icon: Clock,
-      text: "Support client disponible 24/7 pour vous accompagner",
+      text: "Support client réactif - Réponse rapide à vos questions",
     },
   ];
 

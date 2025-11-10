@@ -2511,8 +2511,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Cumulez des points sur chaque transaction',
         global: 'Acceptée mondialement',
         globalDesc: 'Utilisable dans plus de 200 pays et territoires',
-        support: 'Support 24/7',
-        supportDesc: 'Service client disponible à tout moment',
+        support: 'Service client réactif',
+        supportDesc: 'Service client réactif durant nos horaires d\'ouverture',
         maxSecurity: 'Sécurité maximale',
         maxSecurityDesc: 'Numéros temporaires avec protection totale',
         instantActivation: 'Activation instantanée',
@@ -3361,7 +3361,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Lun - Ven : 9h00 - 19h00',
         weekend: 'Sam : 9h00 - 17h00',
-        support: 'Support 24/7',
+        support: 'Service client réactif',
       },
       certificationsTitle: 'Certifications & Sécurité',
       certifications: [
@@ -3409,7 +3409,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'À propos d\'Altus Finance Group - Notre Mission et Nos Valeurs | Solutions de Financement',
-        description: 'Découvrez Altus Finance Group, leader en solutions de prêt professionnel avec plus de 15 ans d\'expérience, 10 000+ clients satisfaits et 500M€ de prêts accordés. Notre mission : rendre le financement accessible à tous.',
+        description: 'Découvrez Altus Finance Group, leader en solutions de prêt professionnel avec plus de 15 ans d\'expérience, 15 000+ clients satisfaits et 500M€ de prêts accordés. Notre mission : rendre le financement accessible à tous.',
         keywords: 'à propos Altus Finance Group, mission Altus Finance Group, valeurs entreprise financement, expérience prêt professionnel, financement entreprise fiable',
       },
       contact: {
@@ -4350,8 +4350,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Earn points on every transaction',
         global: 'Accepted Worldwide',
         globalDesc: 'Usable in over 200 countries and territories',
-        support: '24/7 Support',
-        supportDesc: 'Customer service available at all times',
+        support: 'Responsive support',
+        supportDesc: 'Responsive customer service during business hours',
         maxSecurity: 'Max security',
         maxSecurityDesc: 'Temporary numbers with total protection',
         instantActivation: 'Instant activation',
@@ -5200,7 +5200,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Mon - Fri: 9:00 AM - 7:00 PM',
         weekend: 'Sat: 9:00 AM - 5:00 PM',
-        support: '24/7 Support',
+        support: 'Responsive support',
       },
       certificationsTitle: 'Certifications & Security',
       certifications: [
@@ -5247,7 +5247,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'About Altus Finance Group - Our Mission and Values | Financing Solutions',
-        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 10,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
+        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 15,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
       },
       contact: {
         title: 'Contact Us - Altus Finance Group | Questions About Our Professional Loans',
@@ -6089,8 +6089,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Acumule puntos en cada transacción',
         global: 'Aceptada mundialmente',
         globalDesc: 'Utilizable en más de 200 países y territorios',
-        support: 'Soporte 24/7',
-        supportDesc: 'Servicio al cliente disponible en todo momento',
+        support: 'Soporte reactivo',
+        supportDesc: 'Servicio al cliente receptivo durante horario laboral',
         maxSecurity: 'Seguridad máxima',
         maxSecurityDesc: 'Números temporales con protección total',
         instantActivation: 'Activación instantánea',
@@ -6939,7 +6939,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Lun - Vie: 9:00 - 19:00',
         weekend: 'Sáb: 9:00 - 17:00',
-        support: 'Soporte 24/7',
+        support: 'Soporte reactivo',
       },
       certificationsTitle: 'Certificaciones y Seguridad',
       certifications: [
@@ -7865,8 +7865,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Acumule pontos a cada compra',
         global: 'Aceitação Global',
         globalDesc: 'Aceito em milhões de estabelecimentos em todo o mundo',
-        support: 'Suporte 24/7',
-        supportDesc: 'Assistência dedicada disponível a qualquer momento',
+        support: 'Suporte responsivo',
+        supportDesc: 'Assistência responsiva durante horário comercial',
         maxSecurity: 'Segurança máxima',
         maxSecurityDesc: 'Números temporários com proteção total',
         instantActivation: 'Ativação instantânea',
@@ -8715,7 +8715,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Seg - Sex: 9h00 - 19h00',
         weekend: 'Sáb: 9h00 - 17h00',
-        support: 'Suporte 24/7',
+        support: 'Suporte responsivo',
       },
       certificationsTitle: 'Certificações e Segurança',
       certifications: [
@@ -8762,7 +8762,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'About Altus Finance Group - Our Mission and Values | Financing Solutions',
-        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 10,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
+        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 15,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
       },
       contact: {
         title: 'Contact Us - Altus Finance Group | Questions About Our Professional Loans',
@@ -9528,8 +9528,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Accumula punti ad ogni acquisto',
         global: 'Accettazione globale',
         globalDesc: 'Accettata in milioni di esercizi in tutto il mondo',
-        support: 'Supporto 24/7',
-        supportDesc: 'Assistenza dedicata disponibile in qualsiasi momento',
+        support: 'Supporto reattivo',
+        supportDesc: 'Assistenza reattiva durante orario lavorativo',
         maxSecurity: 'Massima sicurezza',
         maxSecurityDesc: 'Numeri temporanei con protezione totale',
         instantActivation: 'Attivazione istantanea',
@@ -10378,7 +10378,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Lun - Ven: 9:00 - 19:00',
         weekend: 'Sab: 9:00 - 17:00',
-        support: 'Supporto 24/7',
+        support: 'Supporto reattivo',
       },
       certificationsTitle: 'Certificazioni e Sicurezza',
       certifications: [
@@ -10425,7 +10425,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'About Altus Finance Group - Our Mission and Values | Financing Solutions',
-        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 10,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
+        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 15,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
       },
       contact: {
         title: 'Contact Us - Altus Finance Group | Questions About Our Professional Loans',
@@ -11191,8 +11191,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Sammeln Sie Punkte bei jedem Einkauf',
         global: 'Globale Akzeptanz',
         globalDesc: 'Akzeptiert bei Millionen von Händlern weltweit',
-        support: '24/7-Support',
-        supportDesc: 'Dedizierter Support jederzeit verfügbar',
+        support: 'Reaktiver Support',
+        supportDesc: 'Reaktiver Support während der Geschäftszeiten',
         maxSecurity: 'Maximale Sicherheit',
         maxSecurityDesc: 'Temporäre Nummern mit vollständigem Schutz',
         instantActivation: 'Sofortige Aktivierung',
@@ -12041,7 +12041,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Mo - Fr: 9:00 - 19:00',
         weekend: 'Sa: 9:00 - 17:00',
-        support: '24/7 Support',
+        support: 'Responsive support',
       },
       certificationsTitle: 'Zertifizierungen & Sicherheit',
       certifications: [
@@ -12088,7 +12088,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'About Altus Finance Group - Our Mission and Values | Financing Solutions',
-        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 10,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
+        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 15,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
       },
       contact: {
         title: 'Contact Us - Altus Finance Group | Questions About Our Professional Loans',
@@ -12853,8 +12853,8 @@ export const translations: Record<Language, TranslationKeys> = {
         rewardsDesc: 'Verzamel punten bij elke aankoop',
         global: 'Wereldwijde acceptatie',
         globalDesc: 'Geaccepteerd bij miljoenen winkels wereldwijd',
-        support: '24/7 ondersteuning',
-        supportDesc: 'Toegewijde ondersteuning op elk moment beschikbaar',
+        support: 'Reactieve ondersteuning',
+        supportDesc: 'Reactieve ondersteuning tijdens kantooruren',
         maxSecurity: 'Maximale beveiliging',
         maxSecurityDesc: 'Tijdelijke nummers met volledige bescherming',
         instantActivation: 'Directe activering',
@@ -13673,7 +13673,7 @@ export const translations: Record<Language, TranslationKeys> = {
       hours: {
         weekdays: 'Ma - Vr: 9:00 - 19:00',
         weekend: 'Za: 9:00 - 17:00',
-        support: '24/7 Support',
+        support: 'Responsive support',
       },
       certificationsTitle: 'Certificeringen & Beveiliging',
       certifications: [
@@ -13720,7 +13720,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       about: {
         title: 'About Altus Finance Group - Our Mission and Values | Financing Solutions',
-        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 10,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
+        description: 'Discover Altus Finance Group, leader in professional loan solutions with over 15 years of experience, 15,000+ satisfied clients and €500M in loans granted. Our mission: make financing accessible to all.',
       },
       contact: {
         title: 'Contact Us - Altus Finance Group | Questions About Our Professional Loans',
