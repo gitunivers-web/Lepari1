@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { LoanRequestModal } from '@/components/LoanRequestModal';
+import { useState } from 'react';
 
 function DashboardSkeleton() {
   return (
@@ -58,6 +60,7 @@ export default function Dashboard() {
   const { data: dashboardData, isLoading: isDashboardLoading } = useDashboard();
   const { data: repaymentsData, isLoading: isRepaymentsLoading } = useUpcomingRepaymentsChart();
   const { data: user } = useUser();
+  const [loanModalOpen, setLoanModalOpen] = useState(false);
   
   const mockCashflowData = getMockCashflowData(t);
   
@@ -320,12 +323,15 @@ export default function Dashboard() {
               {t.dashboard.newTransfer}
             </Button>
           </Link>
-          <Link href="/loan-request">
-            <Button variant="outline" className="gap-2" data-testid="button-request-loan">
-              <Plus className="w-4 h-4" />
-              {t.dashboard.requestLoan}
-            </Button>
-          </Link>
+          <Button 
+            variant="outline" 
+            className="gap-2" 
+            onClick={() => setLoanModalOpen(true)}
+            data-testid="button-request-loan"
+          >
+            <Plus className="w-4 h-4" />
+            {t.dashboard.requestLoan}
+          </Button>
           <Link href="/accounts">
             <Button variant="outline" className="gap-2" data-testid="button-manage-accounts">
               <Wallet className="w-4 h-4" />
@@ -569,11 +575,15 @@ export default function Dashboard() {
               {dashboardData.loans.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">{t.dashboard.noActiveLoans}</p>
-                  <Link href="/loan-request">
-                    <Button variant="outline" size="sm" className="mt-4" data-testid="button-request-first-loan">
-                      {t.dashboard.requestLoan}
-                    </Button>
-                  </Link>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-4" 
+                    onClick={() => setLoanModalOpen(true)}
+                    data-testid="button-request-first-loan"
+                  >
+                    {t.dashboard.requestLoan}
+                  </Button>
                 </div>
               )}
             </div>
@@ -626,6 +636,14 @@ export default function Dashboard() {
           </Card>
         )}
       </div>
+
+      {user && (
+        <LoanRequestModal 
+          open={loanModalOpen} 
+          onOpenChange={setLoanModalOpen} 
+          user={user} 
+        />
+      )}
     </div>
   );
 }

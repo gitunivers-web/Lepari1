@@ -1606,28 +1606,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/loans", requireAuth, requireCSRF, loanLimiter, async (req, res) => {
     try {
       const loanRequestSchema = z.object({
-        loanType: z.enum([
-          'personal', 'auto', 'mortgage', 'green', 'renovation', 'student',
-          'business', 'cashFlow', 'equipment', 'commercialProperty', 'lineOfCredit', 'vehicleFleet'
-        ]),
-        amount: z.string().refine((val) => {
-          const num = parseFloat(val);
-          return !isNaN(num) && num > 0 && num <= 500000;
-        }, 'Le montant doit être entre 0 et 500,000 EUR'),
-        duration: z.number().int().min(6).max(240),
+        loanType: z.string(),
+        amount: z.number().min(1000).max(2000000),
+        duration: z.number().int().min(6).max(360),
+        documents: z.record(z.string()).optional(),
       });
 
-      const { loanType, amount, duration } = loanRequestSchema.parse(req.body);
+      const { loanType, amount, duration, documents } = loanRequestSchema.parse(req.body);
       
-      const interestRate = await calculateInterestRate(loanType, parseFloat(amount));
+      const interestRate = await calculateInterestRate(loanType, amount);
       
       const validated = insertLoanSchema.parse({
         userId: req.session.userId!,
         loanType,
-        amount,
+        amount: amount.toString(),
         duration,
         interestRate: interestRate.toString(),
         status: 'pending',
+        documents: documents || null,
       });
       
       const loan = await storage.createLoan(validated);

@@ -50,6 +50,7 @@ export const loans = pgTable("loans", {
   interestRate: decimal("interest_rate", { precision: 5, scale: 2 }).notNull(),
   duration: integer("duration").notNull(),
   status: text("status").notNull().default("pending"),
+  documents: json("documents"),
   approvedAt: timestamp("approved_at"),
   approvedBy: varchar("approved_by"),
   rejectedAt: timestamp("rejected_at"),
