@@ -1946,6 +1946,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const transfer = await storage.createTransfer(validated);
       
+      await notifyAdminsNewTransfer(
+        user.id,
+        user.fullName,
+        transfer.id,
+        validated.amount,
+        validated.recipient
+      );
+      
       await storage.createFee({
         userId: req.session.userId!,
         feeType: 'Frais de transfert',
@@ -1984,6 +1992,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       await notifyTransferInitiated(req.session.userId!, transfer.id, amount.toString(), recipient);
+
+      const user = await storage.getUser(req.session.userId!);
+      if (user) {
+        await notifyAdminsNewTransfer(
+          user.id,
+          user.fullName,
+          transfer.id,
+          amount.toString(),
+          recipient
+        );
+      }
 
       const expiresAt = new Date();
       expiresAt.setMinutes(expiresAt.getMinutes() + 15);
