@@ -33,7 +33,8 @@ import {
 import cloudinary from "./config/cloudinary";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+  // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
+  // app.use('/uploads', express.static(...)); // ❌ SUPPRIMÉ - Exposition publique dangereuse
 
   const generateCSRFToken = (): string => {
     return randomBytes(32).toString('hex');
@@ -106,7 +107,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const generalApiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 200,
+    max: 100,
     message: { error: 'Trop de requêtes. Veuillez ralentir.' },
     standardHeaders: true,
     legacyHeaders: false,
@@ -1409,20 +1410,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = kycUploadSchema.parse(req.body);
 
-      const uploadPromise = new Promise<string>((resolve, reject) => {
+      const uploadPromise = new Promise<{ url: string; publicId: string }>((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           {
             folder: 'kyc_documents',
             resource_type: fileType.ext === 'pdf' ? 'raw' : 'image',
-            public_id: `kyc_${req.session.userId}_${Date.now()}`,
-            use_filename: true,
+            public_id: `kyc_${randomUUID()}`,
+            use_filename: false,
             unique_filename: true,
+            type: 'authenticated',
           },
           (error: any, result: any) => {
             if (error) {
               reject(error);
             } else if (result) {
-              resolve(result.secure_url);
+              resolve({ url: result.secure_url, publicId: result.public_id });
             } else {
               reject(new Error('Upload failed without error or result'));
             }
@@ -1432,9 +1434,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fs.createReadStream(req.file!.path).pipe(uploadStream);
       });
 
-      const cloudinaryUrl = await uploadPromise;
+      const { url: cloudinaryUrl, publicId: cloudinaryPublicId } = await uploadPromise;
 
-      await fs.promises.unlink(req.file.path);
+      try {
+        await fs.promises.unlink(req.file.path);
+      } catch (cleanupError) {
+        console.error('Error deleting temp KYC file:', cleanupError);
+      }
 
       const document = await storage.createKycDocument({
         userId: req.session.userId!,
@@ -1443,6 +1449,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         loanType: validatedData.loanType,
         status: 'pending',
         fileUrl: cloudinaryUrl,
+        cloudinaryPublicId: cloudinaryPublicId,
         fileName: req.file.originalname,
         fileSize: req.file.size,
       });
@@ -1840,10 +1847,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Type de fichier invalide. Seuls les PDF sont acceptés.' });
       }
 
-      const signedContractUrl = `/uploads/signed-contracts/${req.file.filename}`;
+      const uploadPromise = new Promise<{ url: string; publicId: string }>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'signed_contracts',
+            resource_type: 'raw',
+            public_id: `contract_${req.params.id}_${randomUUID()}`,
+            type: 'authenticated',
+          },
+          (error: any, result: any) => {
+            if (error) {
+              reject(error);
+            } else if (result) {
+              resolve({ url: result.secure_url, publicId: result.public_id });
+            } else {
+              reject(new Error('Upload failed without error or result'));
+            }
+          }
+        );
+        
+        fs.createReadStream(req.file!.path).pipe(uploadStream);
+      });
+
+      const { url: signedContractUrl, publicId: signedContractPublicId } = await uploadPromise;
+
+      try {
+        await fs.promises.unlink(req.file.path);
+      } catch (cleanupError) {
+        console.error('Error deleting temp file:', cleanupError);
+      }
       
       const updated = await storage.updateLoan(req.params.id, {
         signedContractUrl,
+        signedContractCloudinaryPublicId: signedContractPublicId,
         status: 'signed',
       });
 

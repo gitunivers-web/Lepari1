@@ -123,7 +123,7 @@ const sessionStore = process.env.DATABASE_URL
   ? new PgSession({
       pool: new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+        ssl: process.env.NODE_ENV === 'production' ? true : false,
       }),
       tableName: 'user_sessions',
       createTableIfMissing: true,
@@ -151,7 +151,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  if (IS_PRODUCTION) {
+  if (process.env.NODE_ENV === 'development') {
     console.log(`[REQUEST DEBUG] ${req.method} ${req.path}`);
     console.log(`[REQUEST DEBUG] Origin: ${req.headers.origin || 'NO ORIGIN'}`);
     console.log(`[REQUEST DEBUG] Cookie Header: ${req.headers.cookie ? 'PRESENT' : 'MISSING'}`);
