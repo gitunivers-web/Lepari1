@@ -1516,27 +1516,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      if (document.fileUrl.startsWith('http://') || document.fileUrl.startsWith('https://')) {
-        return res.redirect(document.fileUrl);
-      }
+      if (!document.cloudinaryPublicId) {
+        if (document.fileUrl.startsWith('http://') || document.fileUrl.startsWith('https://')) {
+          return res.redirect(document.fileUrl);
+        }
 
-      const filePath = path.join(uploadsDir, document.fileUrl);
-      
-      if (!fs.existsSync(filePath)) {
-        console.error(`[KYC DOWNLOAD ERROR] File not found: ${filePath}`);
-        console.error(`[KYC DOWNLOAD ERROR] Document ID: ${document.id}, FileUrl: ${document.fileUrl}`);
-        return res.status(404).json({ 
-          error: 'Le fichier n\'est pas disponible sur le serveur. Il a peut-être été supprimé ou n\'a jamais été stocké correctement. Veuillez contacter le support ou re-télécharger le document.' 
+        const filePath = path.join(uploadsDir, document.fileUrl);
+        
+        if (!fs.existsSync(filePath)) {
+          console.error(`[KYC DOWNLOAD ERROR] File not found: ${filePath}`);
+          console.error(`[KYC DOWNLOAD ERROR] Document ID: ${document.id}, FileUrl: ${document.fileUrl}`);
+          return res.status(404).json({ 
+            error: 'Le fichier n\'est pas disponible sur le serveur. Il a peut-être été supprimé ou n\'a jamais été stocké correctement. Veuillez contacter le support ou re-télécharger le document.' 
+          });
+        }
+
+        return res.download(filePath, document.fileName, (err) => {
+          if (err) {
+            console.error('Error downloading file:', err);
+            if (!res.headersSent) {
+              res.status(500).json({ error: 'Erreur lors du téléchargement du fichier' });
+            }
+          }
         });
       }
 
-      res.download(filePath, document.fileName, (err) => {
-        if (err) {
-          console.error('Error downloading file:', err);
-          if (!res.headersSent) {
-            res.status(500).json({ error: 'Erreur lors du téléchargement du fichier' });
-          }
+      const signedUrl = cloudinary.utils.private_download_url(
+        document.cloudinaryPublicId,
+        document.fileUrl.includes('.pdf') ? 'raw' : 'image',
+        {
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          attachment: true,
+          resource_type: document.fileUrl.includes('.pdf') ? 'raw' : 'image',
         }
+      );
+
+      await storage.createAuditLog({
+        actorId: req.session.userId!,
+        actorRole: req.session.userRole || 'user',
+        action: 'download_kyc_document',
+        entityType: 'kyc_document',
+        entityId: document.id,
+        ipAddress: req.ip || req.headers['x-forwarded-for'] as string || 'unknown',
+        userAgent: req.headers['user-agent'] || 'unknown',
+        metadata: { 
+          documentType: document.documentType,
+          fileName: document.fileName,
+          ownerId: document.userId
+        },
+      });
+
+      res.json({ 
+        downloadUrl: signedUrl,
+        expiresIn: 3600,
+        fileName: document.fileName 
       });
     } catch (error) {
       console.error('KYC download error:', error);
@@ -1921,6 +1954,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.error('Signed contract upload error:', error);
+      res.status(500).json({ error: 'Erreur lors du téléchargement du contrat signé' });
+    }
+  });
+
+  app.get("/api/loans/:id/signed-contract/download", requireAuth, async (req, res) => {
+    try {
+      const loan = await storage.getLoan(req.params.id);
+      
+      if (!loan) {
+        return res.status(404).json({ error: 'Prêt non trouvé' });
+      }
+
+      if (loan.userId !== req.session.userId) {
+        const user = await storage.getUser(req.session.userId!);
+        if (!user || user.role !== 'admin') {
+          return res.status(403).json({ error: 'Accès refusé' });
+        }
+      }
+
+      if (!loan.signedContractUrl) {
+        return res.status(404).json({ error: 'Aucun contrat signé trouvé pour ce prêt' });
+      }
+
+      if (!loan.signedContractCloudinaryPublicId) {
+        if (loan.signedContractUrl.startsWith('http://') || loan.signedContractUrl.startsWith('https://')) {
+          return res.redirect(loan.signedContractUrl);
+        }
+
+        const filePath = path.join(signedContractsDir, loan.signedContractUrl);
+        
+        if (!fs.existsSync(filePath)) {
+          console.error(`[CONTRACT DOWNLOAD ERROR] File not found: ${filePath}`);
+          return res.status(404).json({ 
+            error: 'Le contrat signé n\'est pas disponible. Veuillez contacter le support.' 
+          });
+        }
+
+        return res.download(filePath, `contrat_signe_${loan.id}.pdf`, (err) => {
+          if (err) {
+            console.error('Error downloading contract:', err);
+            if (!res.headersSent) {
+              res.status(500).json({ error: 'Erreur lors du téléchargement du contrat' });
+            }
+          }
+        });
+      }
+
+      const signedUrl = cloudinary.utils.private_download_url(
+        loan.signedContractCloudinaryPublicId,
+        'raw',
+        {
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          attachment: true,
+          resource_type: 'raw',
+        }
+      );
+
+      await storage.createAuditLog({
+        actorId: req.session.userId!,
+        actorRole: req.session.userRole || 'user',
+        action: 'download_signed_contract',
+        entityType: 'loan',
+        entityId: loan.id,
+        ipAddress: req.ip || req.headers['x-forwarded-for'] as string || 'unknown',
+        userAgent: req.headers['user-agent'] || 'unknown',
+        metadata: { 
+          loanAmount: loan.amount,
+          loanStatus: loan.status,
+          ownerId: loan.userId
+        },
+      });
+
+      res.json({ 
+        downloadUrl: signedUrl,
+        expiresIn: 3600,
+        fileName: `contrat_signe_${loan.id}.pdf`
+      });
+    } catch (error) {
+      console.error('Contract download error:', error);
       res.status(500).json({ error: 'Erreur lors du téléchargement du contrat signé' });
     }
   });
