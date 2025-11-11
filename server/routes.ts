@@ -1406,13 +1406,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = kycUploadSchema.parse(req.body);
 
+      const uploadPromise = new Promise<string>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'kyc_documents',
+            resource_type: fileType.ext === 'pdf' ? 'raw' : 'image',
+            public_id: `kyc_${req.session.userId}_${Date.now()}`,
+            use_filename: true,
+            unique_filename: true,
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else if (result) {
+              resolve(result.secure_url);
+            } else {
+              reject(new Error('Upload failed without error or result'));
+            }
+          }
+        );
+        
+        fs.createReadStream(req.file!.path).pipe(uploadStream);
+      });
+
+      const cloudinaryUrl = await uploadPromise;
+
+      await fs.promises.unlink(req.file.path);
+
       const document = await storage.createKycDocument({
         userId: req.session.userId!,
         loanId: validatedData.loanId || null,
         documentType: validatedData.documentType,
         loanType: validatedData.loanType,
         status: 'pending',
-        fileUrl: req.file.filename,
+        fileUrl: cloudinaryUrl,
         fileName: req.file.originalname,
         fileSize: req.file.size,
       });
