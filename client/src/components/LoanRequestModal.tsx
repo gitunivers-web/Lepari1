@@ -34,7 +34,8 @@ type LoanRequestForm = z.infer<ReturnType<typeof createLoanRequestSchema>>;
 
 export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalProps) {
   const { toast } = useToast();
-  const t = useTranslations('dialogs.loanRequestModal');
+  const translations = useTranslations();
+  const t = translations.dialogs.loanRequestModal;
   const [uploadedDocuments, setUploadedDocuments] = useState<Record<string, File>>({});
   const [selectedLoanType, setSelectedLoanType] = useState<string | null>(null);
 
@@ -43,7 +44,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
   const requiredDocuments = getRequiredDocuments(accountType);
 
   const loanRequestSchema = useMemo(
-    () => createLoanRequestSchema(t('validationError')),
+    () => createLoanRequestSchema(t.validationError),
     [t]
   );
 
@@ -73,8 +74,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
     },
     onSuccess: () => {
       toast({
-        title: t('requestSent'),
-        description: t('requestSentDescription'),
+        title: t.requestSent,
+        description: t.requestSentDescription,
       });
       queryClient.invalidateQueries({ queryKey: ['/api/dashboard'] });
       onOpenChange(false);
@@ -84,8 +85,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
     },
     onError: (error: any) => {
       toast({
-        title: t('error'),
-        description: error.message || t('errorDescription'),
+        title: t.error,
+        description: error.message || t.errorDescription,
         variant: 'destructive',
       });
     },
@@ -96,8 +97,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
 
     if (file.size > 10 * 1024 * 1024) {
       toast({
-        title: t('fileTooLarge'),
-        description: t('fileTooLargeDescription'),
+        title: t.fileTooLarge,
+        description: t.fileTooLargeDescription,
         variant: 'destructive',
       });
       return;
@@ -124,8 +125,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
 
     if (missingDocs.length > 0) {
       toast({
-        title: t('missingDocuments'),
-        description: `${t('missingDocumentsPrefix')} ${missingDocs.map(d => d.label).join(', ')}`,
+        title: t.missingDocuments,
+        description: `${t.missingDocumentsPrefix} ${missingDocs.map(d => d.label).join(', ')}`,
         variant: 'destructive',
       });
       return;
@@ -151,9 +152,9 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" data-testid="dialog-loan-request">
         <DialogHeader>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle>{t.title}</DialogTitle>
           <DialogDescription>
-            {t('description')}
+            {t.description}
           </DialogDescription>
         </DialogHeader>
 
@@ -164,7 +165,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
               name="loanType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('loanType')}</FormLabel>
+                  <FormLabel>{t.loanType}</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value);
@@ -177,7 +178,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                   >
                     <FormControl>
                       <SelectTrigger data-testid="select-loan-type">
-                        <SelectValue placeholder={t('selectLoanTypePlaceholder')} />
+                        <SelectValue placeholder={t.selectLoanTypePlaceholder} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -200,7 +201,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('loanAmount')}</FormLabel>
+                      <FormLabel>{t.loanAmount}</FormLabel>
                       <FormControl>
                         <div className="space-y-4">
                           <div className="flex items-center gap-4">
@@ -239,7 +240,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                   name="duration"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('durationMonths')}</FormLabel>
+                      <FormLabel>{t.durationMonths}</FormLabel>
                       <FormControl>
                         <div className="space-y-4">
                           <div className="flex items-center gap-4">
@@ -251,7 +252,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                               max={limits.maxDuration}
                               data-testid="input-loan-duration"
                             />
-                            <span className="text-sm text-muted-foreground whitespace-nowrap">{t('months')}</span>
+                            <span className="text-sm text-muted-foreground whitespace-nowrap">{t.months}</span>
                           </div>
                           <Slider
                             value={[field.value]}
@@ -262,8 +263,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                             className="w-full"
                           />
                           <div className="flex justify-between text-xs text-muted-foreground">
-                            <span>{limits.minDuration} {t('months')}</span>
-                            <span>{limits.maxDuration} {t('months')}</span>
+                            <span>{limits.minDuration} {t.months}</span>
+                            <span>{limits.maxDuration} {t.months}</span>
                           </div>
                         </div>
                       </FormControl>
@@ -274,11 +275,11 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
 
                 <div className="bg-muted/50 p-4 rounded-md space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">{t('interestRate')}</span>
+                    <span className="text-sm text-muted-foreground">{t.interestRate}</span>
                     <span className="font-semibold">{interestRate.toFixed(2)}%</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">{t('estimatedMonthlyPayment')}</span>
+                    <span className="text-sm text-muted-foreground">{t.estimatedMonthlyPayment}</span>
                     <span className="font-semibold text-lg">{monthlyPayment.toFixed(2)}€</span>
                   </div>
                 </div>
@@ -288,9 +289,9 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
             {selectedLoanType && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold mb-3">{t('requiredDocuments')}</h3>
+                  <h3 className="font-semibold mb-3">{t.requiredDocuments}</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    {t('requiredDocumentsDescription')}
+                    {t.requiredDocumentsDescription}
                   </p>
                 </div>
 
@@ -300,8 +301,8 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-sm font-medium">{doc.label}</span>
-                          {doc.required && <Badge variant="destructive" className="h-5 text-xs">{t('required')}</Badge>}
-                          {!doc.required && <Badge variant="secondary" className="h-5 text-xs">{t('optional')}</Badge>}
+                          {doc.required && <Badge variant="destructive" className="h-5 text-xs">{t.required}</Badge>}
+                          {!doc.required && <Badge variant="secondary" className="h-5 text-xs">{t.optional}</Badge>}
                         </div>
                         {uploadedDocuments[doc.id] && (
                           <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
@@ -332,7 +333,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                             >
                               <span className="cursor-pointer">
                                 <Upload className="w-4 h-4 mr-2" />
-                                {t('attach')}
+                                {t.attach}
                               </span>
                             </Button>
                             <input
@@ -360,7 +361,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                 onClick={() => onOpenChange(false)}
                 data-testid="button-cancel-loan-request"
               >
-                {t('cancel')}
+                {t.cancel}
               </Button>
               <Button
                 type="submit"
@@ -368,7 +369,7 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
                 data-testid="button-submit-loan-request"
               >
                 {createLoanMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                {t('submit')}
+                {t.submit}
               </Button>
             </div>
           </form>
