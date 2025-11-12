@@ -190,9 +190,14 @@ export default function Auth() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-[#002d52] dark:via-[#003d6f] dark:to-[#004b87] flex items-center justify-center p-3 sm:p-4 md:p-6">
       <Card className="w-full max-w-2xl shadow-2xl">
         <CardHeader className="text-center space-y-2 px-4 sm:px-6">
-          <CardTitle className="text-2xl sm:text-3xl font-bold text-primary">
-            {t.auth.title}
-          </CardTitle>
+          <div className="flex justify-center mb-2">
+            <img 
+              src="/logo.png" 
+              alt="Altus Finance Group" 
+              className="h-24 sm:h-28 w-auto"
+              data-testid="img-logo-auth"
+            />
+          </div>
           <CardDescription className="text-sm sm:text-base">
             {t.auth.subtitle}
           </CardDescription>
