@@ -2404,7 +2404,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const events = await storage.getTransferEvents(req.params.id);
-      const codes = await storage.getTransferValidationCodes(req.params.id);
+      
+      let codes = [];
+      if (transfer.loanId) {
+        codes = await storage.getLoanTransferCodes(transfer.loanId);
+      }
 
       res.json({ transfer, events, codes });
     } catch (error) {
