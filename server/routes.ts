@@ -3293,9 +3293,9 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         userId: req.session.userId!,
         type: 'admin_message_sent',
         title: 'Codes de transfert générés',
-        message: `Les codes de transfert pour ${userName} ont été générés et sont prêts à l'usage.`,
-        severity: 'info',
-        metadata: { loanId: loan.id, userName, codesCount: 5 },
+        message: `Les codes de transfert pour ${userName} (Prêt ${loan.amount} EUR) ont été générés avec succès et sont prêts à l'usage. ${generatedCodes.length} codes créés.`,
+        severity: 'success',
+        metadata: { loanId: loan.id, userName, codesCount: generatedCodes.length, amount: loan.amount },
       });
 
       await storage.createAuditLog({
