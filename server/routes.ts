@@ -1547,7 +1547,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         'raw',
         {
           expires_at: Math.floor(Date.now() / 1000) + 3600,
-          attachment: true,
+          attachment: false,
           resource_type: 'raw',
         }
       );
@@ -1567,11 +1567,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
       });
 
-      res.json({ 
-        downloadUrl: signedUrl,
-        expiresIn: 3600,
-        fileName: document.fileName 
-      });
+      res.redirect(signedUrl);
     } catch (error) {
       console.error('KYC download error:', error);
       res.status(500).json({ error: 'Erreur lors du téléchargement du document' });
