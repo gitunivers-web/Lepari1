@@ -36,9 +36,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 export default function AdminUsers() {
   const { toast } = useToast();
   const [suspendDialogOpen, setSuspendDialogOpen] = useState(false);
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string>("");
   const [suspendReason, setSuspendReason] = useState("");
   const [suspendUntil, setSuspendUntil] = useState("");
+  const [bulkDeleteReason, setBulkDeleteReason] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
 
   const { data: users, isLoading } = useQuery({
@@ -109,12 +111,14 @@ export default function AdminUsers() {
   });
 
   const bulkDeleteUserMutation = useMutation({
-    mutationFn: async (userIds: string[]) => {
-      return await apiRequest("POST", "/api/admin/users/bulk-delete", { userIds });
+    mutationFn: async ({ userIds, reason }: { userIds: string[]; reason: string }) => {
+      return await apiRequest("POST", "/api/admin/users/bulk-delete", { userIds, reason });
     },
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
       setSelectedUsers(new Set());
+      setBulkDeleteReason("");
+      setBulkDeleteDialogOpen(false);
       toast({
         title: "Suppression réussie",
         description: data.message || "Les utilisateurs ont été supprimés avec succès",
@@ -157,10 +161,22 @@ export default function AdminUsers() {
       });
       return;
     }
+    setBulkDeleteDialogOpen(true);
+  };
 
-    if (confirm(`Êtes-vous sûr de vouloir supprimer ${selectedUsers.size} utilisateur(s) ?`)) {
-      bulkDeleteUserMutation.mutate(Array.from(selectedUsers));
+  const handleBulkDeleteConfirm = () => {
+    if (!bulkDeleteReason.trim() || bulkDeleteReason.length < 5) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez fournir une justification (minimum 5 caractères)",
+        variant: "destructive",
+      });
+      return;
     }
+    bulkDeleteUserMutation.mutate({ 
+      userIds: Array.from(selectedUsers),
+      reason: bulkDeleteReason 
+    });
   };
 
   const handleSuspend = (userId: string) => {
@@ -411,6 +427,51 @@ export default function AdminUsers() {
           </CardContent>
         </Card>
         </div>
+
+        <Dialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
+          <DialogContent data-testid="dialog-bulk-delete-users">
+            <DialogHeader>
+              <DialogTitle>Supprimer {selectedUsers.size} utilisateur(s)</DialogTitle>
+              <DialogDescription>
+                Cette action est irréversible. Veuillez fournir une justification pour cette suppression en masse.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="bulk-delete-reason">Justification de suppression *</Label>
+                <Textarea
+                  id="bulk-delete-reason"
+                  placeholder="Ex: Comptes dupliqués, inactifs, frauduleux, etc."
+                  value={bulkDeleteReason}
+                  onChange={(e) => setBulkDeleteReason(e.target.value)}
+                  rows={4}
+                  data-testid="input-bulk-delete-reason-users"
+                />
+                <p className="text-sm text-muted-foreground">Minimum 5 caractères</p>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setBulkDeleteDialogOpen(false);
+                  setBulkDeleteReason("");
+                }}
+                data-testid="button-cancel-bulk-delete-users"
+              >
+                Annuler
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleBulkDeleteConfirm}
+                disabled={bulkDeleteUserMutation.isPending || !bulkDeleteReason.trim() || bulkDeleteReason.length < 5}
+                data-testid="button-confirm-bulk-delete-users"
+              >
+                Supprimer {selectedUsers.size} utilisateur(s)
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </AdminLayout>
     </>
   );

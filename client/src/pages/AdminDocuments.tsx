@@ -55,8 +55,10 @@ export default function AdminDocuments() {
   const { toast } = useToast();
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<KycDocument | null>(null);
   const [rejectNotes, setRejectNotes] = useState("");
+  const [bulkDeleteReason, setBulkDeleteReason] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedDocuments, setSelectedDocuments] = useState<Set<string>>(new Set());
 
@@ -128,12 +130,14 @@ export default function AdminDocuments() {
   });
 
   const bulkDeleteMutation = useMutation({
-    mutationFn: async (documentIds: string[]) => {
-      return await apiRequest("POST", "/api/admin/kyc/documents/bulk-delete", { documentIds });
+    mutationFn: async ({ documentIds, reason }: { documentIds: string[]; reason: string }) => {
+      return await apiRequest("POST", "/api/admin/kyc/documents/bulk-delete", { documentIds, reason });
     },
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/kyc/documents"] });
       setSelectedDocuments(new Set());
+      setBulkDeleteReason("");
+      setBulkDeleteDialogOpen(false);
       toast({
         title: "Suppression réussie",
         description: data.message || "Les documents ont été supprimés avec succès",
@@ -175,10 +179,22 @@ export default function AdminDocuments() {
       });
       return;
     }
+    setBulkDeleteDialogOpen(true);
+  };
 
-    if (confirm(`Êtes-vous sûr de vouloir supprimer ${selectedDocuments.size} document(s) ?`)) {
-      bulkDeleteMutation.mutate(Array.from(selectedDocuments));
+  const handleBulkDeleteConfirm = () => {
+    if (!bulkDeleteReason.trim() || bulkDeleteReason.length < 5) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez fournir une justification (minimum 5 caractères)",
+        variant: "destructive",
+      });
+      return;
     }
+    bulkDeleteMutation.mutate({ 
+      documentIds: Array.from(selectedDocuments),
+      reason: bulkDeleteReason 
+    });
   };
 
   const handleRejectConfirm = () => {
@@ -475,6 +491,51 @@ export default function AdminDocuments() {
               data-testid="button-confirm-reject"
             >
               Rejeter
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
+        <DialogContent data-testid="dialog-bulk-delete-documents">
+          <DialogHeader>
+            <DialogTitle>Supprimer {selectedDocuments.size} document(s)</DialogTitle>
+            <DialogDescription>
+              Cette action est irréversible. Veuillez fournir une justification pour cette suppression en masse.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="bulk-delete-reason">Justification de suppression *</Label>
+              <Textarea
+                id="bulk-delete-reason"
+                placeholder="Ex: Documents dupliqués, expirés, frauduleux, etc."
+                value={bulkDeleteReason}
+                onChange={(e) => setBulkDeleteReason(e.target.value)}
+                rows={4}
+                data-testid="input-bulk-delete-reason"
+              />
+              <p className="text-sm text-muted-foreground">Minimum 5 caractères</p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setBulkDeleteDialogOpen(false);
+                setBulkDeleteReason("");
+              }}
+              data-testid="button-cancel-bulk-delete"
+            >
+              Annuler
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleBulkDeleteConfirm}
+              disabled={bulkDeleteMutation.isPending || !bulkDeleteReason.trim() || bulkDeleteReason.length < 5}
+              data-testid="button-confirm-bulk-delete"
+            >
+              Supprimer {selectedDocuments.size} document(s)
             </Button>
           </DialogFooter>
         </DialogContent>

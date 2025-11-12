@@ -14,6 +14,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,6 +40,8 @@ export default function AdminLoans() {
   const [approveReason, setApproveReason] = useState("");
   const [rejectReason, setRejectReason] = useState("");
   const [deleteReason, setDeleteReason] = useState("");
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+  const [bulkDeleteReason, setBulkDeleteReason] = useState("");
   const [selectedLoans, setSelectedLoans] = useState<Set<string>>(new Set());
 
   const { data: loans, isLoading } = useQuery({
@@ -126,12 +136,14 @@ export default function AdminLoans() {
   });
 
   const bulkDeleteLoanMutation = useMutation({
-    mutationFn: async (loanIds: string[]) => {
-      return await apiRequest("POST", "/api/admin/loans/bulk-delete", { loanIds, reason: "Suppression en masse" });
+    mutationFn: async ({ loanIds, reason }: { loanIds: string[]; reason: string }) => {
+      return await apiRequest("POST", "/api/admin/loans/bulk-delete", { loanIds, reason });
     },
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/loans"] });
       setSelectedLoans(new Set());
+      setBulkDeleteReason("");
+      setBulkDeleteDialogOpen(false);
       toast({
         title: "Suppression réussie",
         description: data.message || "Les prêts ont été supprimés avec succès",
@@ -174,10 +186,22 @@ export default function AdminLoans() {
       });
       return;
     }
+    setBulkDeleteDialogOpen(true);
+  };
 
-    if (confirm(`Êtes-vous sûr de vouloir supprimer ${selectedLoans.size} prêt(s) ?`)) {
-      bulkDeleteLoanMutation.mutate(Array.from(selectedLoans));
+  const handleBulkDeleteConfirm = () => {
+    if (!bulkDeleteReason.trim() || bulkDeleteReason.length < 5) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez fournir une justification (minimum 5 caractères)",
+        variant: "destructive",
+      });
+      return;
     }
+    bulkDeleteLoanMutation.mutate({ 
+      loanIds: Array.from(selectedLoans),
+      reason: bulkDeleteReason 
+    });
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -705,6 +729,51 @@ export default function AdminLoans() {
         </CardContent>
       </Card>
       </div>
+
+      <Dialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
+        <DialogContent data-testid="dialog-bulk-delete-loans">
+          <DialogHeader>
+            <DialogTitle>Supprimer {selectedLoans.size} prêt(s)</DialogTitle>
+            <DialogDescription>
+              Cette action est irréversible. Veuillez fournir une justification pour cette suppression en masse.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="bulk-delete-reason-loans">Justification de suppression *</Label>
+              <Textarea
+                id="bulk-delete-reason-loans"
+                placeholder="Ex: Prêts annulés, frauduleux, doublons, etc."
+                value={bulkDeleteReason}
+                onChange={(e) => setBulkDeleteReason(e.target.value)}
+                rows={4}
+                data-testid="input-bulk-delete-reason-loans"
+              />
+              <p className="text-sm text-muted-foreground">Minimum 5 caractères</p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setBulkDeleteDialogOpen(false);
+                setBulkDeleteReason("");
+              }}
+              data-testid="button-cancel-bulk-delete-loans"
+            >
+              Annuler
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleBulkDeleteConfirm}
+              disabled={bulkDeleteLoanMutation.isPending || !bulkDeleteReason.trim() || bulkDeleteReason.length < 5}
+              data-testid="button-confirm-bulk-delete-loans"
+            >
+              Supprimer {selectedLoans.size} prêt(s)
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }

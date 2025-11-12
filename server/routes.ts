@@ -1683,9 +1683,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const bulkDeleteSchema = z.object({
         documentIds: z.array(z.string()).min(1, 'Au moins un document doit être sélectionné'),
+        reason: z.string().min(5, 'Une justification de suppression est requise (minimum 5 caractères)'),
       });
       
-      const { documentIds } = bulkDeleteSchema.parse(req.body);
+      const { documentIds, reason } = bulkDeleteSchema.parse(req.body);
       
       const results = {
         success: [] as string[],
@@ -1711,7 +1712,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               action: 'kyc_document_bulk_deleted',
               entityType: 'kyc_document',
               entityId: id,
-              metadata: { userId: document.userId, documentType: document.documentType }
+              metadata: { userId: document.userId, documentType: document.documentType, reason, totalDeleted: documentIds.length }
             });
           } else {
             results.failed.push(id);
@@ -2827,9 +2828,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const bulkDeleteSchema = z.object({
         userIds: z.array(z.string()).min(1, 'Au moins un utilisateur doit être sélectionné'),
+        reason: z.string().min(5, 'Une justification de suppression est requise (minimum 5 caractères)'),
       });
       
-      const { userIds } = bulkDeleteSchema.parse(req.body);
+      const { userIds, reason } = bulkDeleteSchema.parse(req.body);
       
       const results = {
         success: [] as string[],
@@ -2849,7 +2851,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               action: 'user_bulk_deleted',
               entityType: 'user',
               entityId: id,
-              metadata: null
+              metadata: { reason, totalDeleted: userIds.length }
             });
           } else {
             results.failed.push(id);
@@ -3255,7 +3257,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const bulkDeleteSchema = z.object({
         loanIds: z.array(z.string()).min(1, 'Au moins un prêt doit être sélectionné'),
-        reason: z.string().optional(),
+        reason: z.string().min(5, 'Une justification de suppression est requise (minimum 5 caractères)'),
       });
       
       const { loanIds, reason } = bulkDeleteSchema.parse(req.body);
@@ -3284,7 +3286,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               action: 'loan_bulk_deleted',
               entityType: 'loan',
               entityId: id,
-              metadata: { amount: loan.amount, loanType: loan.loanType, reason }
+              metadata: { amount: loan.amount, loanType: loan.loanType, reason, totalDeleted: loanIds.length }
             });
           } else {
             results.failed.push(id);
