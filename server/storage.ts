@@ -113,6 +113,7 @@ export interface IStorage {
   createValidationCode(code: InsertTransferValidationCode): Promise<TransferValidationCode>;
   getTransferValidationCodes(transferId: string): Promise<TransferValidationCode[]>;
   validateCode(transferId: string, code: string, sequence: number, codeType?: string): Promise<TransferValidationCode | undefined>;
+  validateLoanCode(loanId: string, code: string, sequence: number): Promise<TransferValidationCode | undefined>;
   
   createTransferEvent(event: InsertTransferEvent): Promise<TransferEvent>;
   getTransferEvents(transferId: string): Promise<TransferEvent[]>;
@@ -1780,6 +1781,38 @@ export class DatabaseStorage implements IStorage {
         await tx.update(fees)
           .set({ isPaid: true, paidAt: new Date() })
           .where(eq(fees.id, validationCode.feeId));
+      }
+      
+      return updated[0];
+    });
+  }
+
+  async validateLoanCode(loanId: string, code: string, sequence: number): Promise<TransferValidationCode | undefined> {
+    return await db.transaction(async (tx) => {
+      const result = await tx.select()
+        .from(transferValidationCodes)
+        .where(eq(transferValidationCodes.loanId, loanId));
+      
+      const validationCode = result.find(
+        (vc) => vc.code === code && vc.sequence === sequence && !vc.consumedAt
+      );
+      
+      if (!validationCode) {
+        return undefined;
+      }
+      
+      const updated = await tx.update(transferValidationCodes)
+        .set({ consumedAt: new Date() })
+        .where(
+          and(
+            eq(transferValidationCodes.id, validationCode.id),
+            isNull(transferValidationCodes.consumedAt)
+          )
+        )
+        .returning();
+      
+      if (updated.length === 0) {
+        return undefined;
       }
       
       return updated[0];

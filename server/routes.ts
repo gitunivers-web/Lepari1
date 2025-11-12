@@ -2460,15 +2460,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ error: 'Accès refusé' });
       }
 
-      const validatedCode = await storage.validateCode(transfer.id, code, sequence);
+      if (!transfer.loanId) {
+        return res.status(400).json({ 
+          error: 'Ce transfert n\'est pas associé à un prêt. Impossible de valider les codes.' 
+        });
+      }
+
+      const validatedCode = await storage.validateLoanCode(transfer.loanId, code, sequence);
       if (!validatedCode) {
         await storage.createTransferEvent({
           transferId: transfer.id,
           eventType: 'validation_failed',
-          message: 'Code de validation incorrect ou expiré',
-          metadata: { sequence },
+          message: 'Code de validation incorrect ou déjà utilisé',
+          metadata: { sequence, loanId: transfer.loanId },
         });
-        return res.status(400).json({ error: 'Invalid or expired code' });
+        return res.status(400).json({ error: 'Code de validation incorrect ou déjà utilisé' });
       }
 
       const newCodesValidated = transfer.codesValidated + 1;
