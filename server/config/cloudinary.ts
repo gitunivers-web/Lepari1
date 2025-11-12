@@ -1,5 +1,6 @@
+import { v2 as cloudinary } from 'cloudinary';
+
 let cloudinaryConfigured = false;
-let cloudinary: any = null;
 
 if (process.env.CLOUDINARY_URL?.startsWith('cloudinary://') || 
     (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)) {
@@ -7,9 +8,6 @@ if (process.env.CLOUDINARY_URL?.startsWith('cloudinary://') ||
   delete process.env.CLOUDINARY_URL;
   
   try {
-    const { v2 } = require('cloudinary');
-    cloudinary = v2;
-    
     if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
       cloudinary.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
