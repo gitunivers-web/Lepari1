@@ -8,6 +8,7 @@ export type NotificationType =
   | 'loan_rejected'
   | 'loan_contract_generated'
   | 'loan_contract_signed'
+  | 'loan_funds_available'
   | 'loan_disbursed'
   | 'transfer_initiated'
   | 'transfer_completed'
@@ -63,6 +64,17 @@ export async function notifyLoanRejected(userId: string, loanId: string, reason:
     message: `Your loan application has been rejected.`,
     severity: 'error',
     metadata: { loanId, reason },
+  });
+}
+
+export async function notifyLoanFundsAvailable(userId: string, loanId: string, amount: string) {
+  return await createUserNotification({
+    userId,
+    type: 'loan_funds_available',
+    title: 'Fonds disponibles',
+    message: `Vos fonds sont désormais disponibles. Vous pouvez initier votre transfert.`,
+    severity: 'success',
+    metadata: { loanId, amount },
   });
 }
 

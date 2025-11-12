@@ -18,6 +18,7 @@ import { generateTwoFactorSecret, generateQRCode, verifyTwoFactorToken } from ".
 import { 
   notifyLoanApproved, 
   notifyLoanRejected, 
+  notifyLoanFundsAvailable,
   notifyLoanDisbursed, 
   notifyLoanRequest,
   notifyLoanContractGenerated,
@@ -3181,6 +3182,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: firstError.message });
       }
       res.status(500).json({ error: 'Failed to reject loan' });
+    }
+  });
+
+  app.post("/api/admin/loans/:id/confirm-contract", requireAdmin, requireCSRF, adminLimiter, async (req, res) => {
+    try {
+      const loan = await storage.getLoan(req.params.id);
+      if (!loan) {
+        return res.status(404).json({ error: 'Prêt non trouvé' });
+      }
+
+      if (loan.status !== 'approved' && loan.status !== 'signed') {
+        return res.status(400).json({ 
+          error: 'Impossible de confirmer le contrat: Le prêt doit être en statut approuvé ou signé. Statut actuel: ' + loan.status 
+        });
+      }
+
+      if (loan.contractStatus !== 'awaiting_admin_review') {
+        return res.status(400).json({ 
+          error: 'Impossible de confirmer le contrat: Le contrat doit être en attente de validation. Statut actuel: ' + loan.contractStatus 
+        });
+      }
+
+      if (!loan.signedContractUrl) {
+        return res.status(400).json({ 
+          error: 'Impossible de confirmer le contrat: Aucun contrat signé trouvé' 
+        });
+      }
+
+      const updatedLoan = await storage.markLoanFundsAvailable(req.params.id, req.session.userId!);
+      
+      if (!updatedLoan) {
+        return res.status(500).json({ error: 'Erreur lors de la mise à jour du prêt' });
+      }
+
+      const generatedCodes = await storage.generateLoanTransferCodes(req.params.id, loan.userId, 5);
+
+      await storage.createTransaction({
+        userId: loan.userId,
+        type: 'credit',
+        amount: loan.amount,
+        description: `Déblocage des fonds - Prêt ${loan.loanType} approuvé`,
+      });
+
+      const user = await storage.getUser(loan.userId);
+      const userName = user?.fullName || 'Utilisateur';
+
+      await storage.createAdminMessage({
+        userId: loan.userId,
+        transferId: null,
+        subject: 'Fonds disponibles - Contrat validé',
+        content: `Vos fonds sont désormais disponibles. Vous pouvez initier votre transfert.`,
+        severity: 'success',
+      });
+
+      await notifyLoanFundsAvailable(loan.userId, loan.id, loan.amount);
+
+      await storage.createNotification({
+        userId: req.session.userId!,
+        type: 'admin_message_sent',
+        title: 'Codes de transfert générés',
+        message: `Les codes de transfert pour ${userName} ont été générés et sont prêts à l'usage.`,
+        severity: 'info',
+        metadata: { loanId: loan.id, userName, codesCount: 5 },
+      });
+
+      await storage.createAuditLog({
+        actorId: req.session.userId!,
+        actorRole: 'admin',
+        action: 'confirm_loan_contract',
+        entityType: 'loan',
+        entityId: req.params.id,
+        metadata: { amount: loan.amount, loanType: loan.loanType, codesGenerated: generatedCodes.length },
+      });
+
+      res.json({ 
+        loan: updatedLoan,
+        codes: generatedCodes,
+        message: 'Contrat confirmé avec succès. Les fonds sont maintenant disponibles pour l\'utilisateur.'
+      });
+    } catch (error) {
+      console.error('Failed to confirm loan contract:', error);
+      res.status(500).json({ error: 'Erreur lors de la confirmation du contrat' });
     }
   });
 

@@ -1866,31 +1866,36 @@ export class DatabaseStorage implements IStorage {
   }
 
   async generateLoanTransferCodes(loanId: string, userId: string, count: number = 5): Promise<TransferValidationCode[]> {
-    const codes: TransferValidationCode[] = [];
-    
-    for (let i = 1; i <= count; i++) {
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
+    return await db.transaction(async (tx) => {
+      await tx.delete(transferValidationCodes)
+        .where(eq(transferValidationCodes.loanId, loanId));
+      
+      const codes: TransferValidationCode[] = [];
       const expiresAt = new Date();
-      expiresAt.setMinutes(expiresAt.getMinutes() + 30);
+      expiresAt.setDate(expiresAt.getDate() + 7);
       
-      const result = await db.insert(transferValidationCodes)
-        .values({
-          loanId,
-          transferId: null,
-          code,
-          deliveryMethod: 'admin_only',
-          codeType: 'initial',
-          sequence: i,
-          expiresAt,
-        })
-        .returning();
-      
-      if (result[0]) {
-        codes.push(result[0]);
+      for (let i = 1; i <= count; i++) {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        const result = await tx.insert(transferValidationCodes)
+          .values({
+            loanId,
+            transferId: null,
+            code,
+            deliveryMethod: 'admin_only',
+            codeType: 'initial',
+            sequence: i,
+            expiresAt,
+          })
+          .returning();
+        
+        if (result[0]) {
+          codes.push(result[0]);
+        }
       }
-    }
-    
-    return codes;
+      
+      return codes;
+    });
   }
 
   async getLoanTransferCodes(loanId: string): Promise<TransferValidationCode[]> {
