@@ -229,7 +229,7 @@ export default function Auth() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t.auth.email}</FormLabel>
+                        <FormLabel className="text-foreground font-semibold">{t.auth.email}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -252,7 +252,7 @@ export default function Auth() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t.auth.password}</FormLabel>
+                        <FormLabel className="text-foreground font-semibold">{t.auth.password}</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
