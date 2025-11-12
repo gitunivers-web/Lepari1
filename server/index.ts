@@ -222,8 +222,63 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  app.get("/health", (_req, res) => {
-    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+  app.get("/health", async (req, res) => {
+    try {
+      const checks = {
+        status: "ok",
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        database: sessionStore ? 'connected' : 'not_configured',
+        session: {
+          configured: !!sessionStore,
+          cookieDomain: COOKIE_DOMAIN || 'none',
+          secure: IS_PRODUCTION,
+          sameSite: IS_PRODUCTION ? 'none' : 'lax',
+        },
+        cors: {
+          allowedOrigins: allowedOrigins.length > 0 ? allowedOrigins : ['development-mode'],
+          frontendUrl: process.env.FRONTEND_URL || 'not_set',
+        }
+      };
+
+      if (sessionStore) {
+        try {
+          await new Promise((resolve, reject) => {
+            sessionStore.length?.((err: any, length?: number) => {
+              if (err) reject(err);
+              else resolve(length);
+            });
+          });
+          checks.database = 'healthy';
+        } catch (error) {
+          checks.database = 'unhealthy';
+          checks.status = 'degraded';
+        }
+      }
+
+      const statusCode = checks.status === 'ok' ? 200 : 503;
+      res.status(statusCode).json(checks);
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        timestamp: new Date().toISOString(),
+        error: 'Health check failed'
+      });
+    }
+  });
+
+  app.get("/api/session-check", (req, res) => {
+    const hasSession = !!req.session?.id;
+    const isAuthenticated = !!req.session?.userId;
+    
+    res.json({
+      hasSession,
+      isAuthenticated,
+      sessionId: hasSession ? req.session!.id.substring(0, 8) + '...' : null,
+      cookiesPresent: !!req.headers.cookie,
+      origin: req.headers.origin || 'no-origin',
+      timestamp: new Date().toISOString(),
+    });
   });
 
   if (process.env.NODE_ENV === "development") {
