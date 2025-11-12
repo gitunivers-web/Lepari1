@@ -1711,10 +1711,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
         duration,
         interestRate: interestRate.toString(),
         status: 'pending',
-        documents: documents || null,
+        documents: null,
       });
       
       const loan = await storage.createLoan(validated);
+      
+      const uploadedDocuments: any[] = [];
+      
+      try {
+        if (documents && Object.keys(documents).length > 0) {
+          for (const [documentType, dataUrl] of Object.entries(documents)) {
+            if (!dataUrl || !dataUrl.startsWith('data:')) {
+              throw new Error(`Invalid document format for ${documentType}`);
+            }
+
+            const matches = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+            if (!matches) {
+              throw new Error(`Invalid base64 format for ${documentType}`);
+            }
+
+            const mimeType = matches[1];
+            const base64Data = matches[2];
+            const buffer = Buffer.from(base64Data, 'base64');
+
+            const maxSize = 10 * 1024 * 1024;
+            if (buffer.length > maxSize) {
+              throw new Error(`Document ${documentType} exceeds maximum size of 10MB`);
+            }
+
+            const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
+            if (!allowedMimes.includes(mimeType)) {
+              throw new Error(`Invalid file type for ${documentType}. Allowed: PDF, JPEG, PNG, WEBP`);
+            }
+
+            const extension = mimeType.split('/')[1].replace('jpeg', 'jpg');
+            const fileName = `${documentType}.${extension}`;
+            const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
+
+            const uploadResult = await new Promise<{ url: string; publicId: string }>((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                  folder: 'kyc_documents',
+                  resource_type: resourceType,
+                  public_id: `kyc_${randomUUID()}`,
+                  use_filename: false,
+                  unique_filename: true,
+                  type: 'authenticated',
+                },
+                (error: any, result: any) => {
+                  if (error) {
+                    reject(error);
+                  } else if (result) {
+                    resolve({ url: result.secure_url, publicId: result.public_id });
+                  } else {
+                    reject(new Error('Upload failed without error or result'));
+                  }
+                }
+              );
+              
+              const stream = require('stream');
+              const bufferStream = new stream.PassThrough();
+              bufferStream.end(buffer);
+              bufferStream.pipe(uploadStream);
+            });
+
+            const kycDocument = await storage.createKycDocument({
+              userId: req.session.userId!,
+              loanId: loan.id,
+              documentType,
+              loanType,
+              status: 'pending',
+              fileUrl: uploadResult.url,
+              fileName,
+              fileSize: buffer.length.toString(),
+              cloudinaryPublicId: uploadResult.publicId,
+            });
+
+            uploadedDocuments.push({
+              documentType,
+              fileUrl: uploadResult.url,
+              fileName,
+              cloudinaryPublicId: uploadResult.publicId,
+            });
+
+            await notifyAdminsNewKycDocument(
+              req.session.userId!,
+              user?.fullName || 'Utilisateur',
+              kycDocument.id,
+              documentType,
+              loanType
+            );
+          }
+
+          await storage.updateLoan(loan.id, {
+            documents: uploadedDocuments.length > 0 ? uploadedDocuments : null,
+          });
+        }
+      } catch (uploadError: any) {
+        console.error('Document upload error:', uploadError);
+        
+        for (const doc of uploadedDocuments) {
+          try {
+            await cloudinary.uploader.destroy(doc.cloudinaryPublicId);
+          } catch (cleanupError) {
+            console.error('Failed to cleanup Cloudinary document:', cleanupError);
+          }
+        }
+
+        await storage.deleteLoan(loan.id);
+
+        return res.status(500).json({ 
+          error: uploadError.message || 'Erreur lors de l\'upload des documents. Veuillez réessayer.' 
+        });
+      }
       
       await notifyLoanRequest(req.session.userId!, loan.id, amount.toString(), loanType);
 
@@ -1743,7 +1852,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         action: 'loan_request_submitted',
         entityType: 'loan',
         entityId: loan.id,
-        metadata: { amount, loanType, duration },
+        metadata: { amount, loanType, duration, documentsCount: uploadedDocuments.length },
       });
       
       res.status(201).json({ 
