@@ -1679,6 +1679,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/admin/kyc/documents/bulk-delete", requireAuth, requireAdmin, requireCSRF, adminLimiter, async (req, res) => {
+    try {
+      const bulkDeleteSchema = z.object({
+        documentIds: z.array(z.string()).min(1, 'Au moins un document doit être sélectionné'),
+      });
+      
+      const { documentIds } = bulkDeleteSchema.parse(req.body);
+      
+      const results = {
+        success: [] as string[],
+        failed: [] as string[],
+      };
+
+      for (const id of documentIds) {
+        try {
+          const document = await storage.getKycDocument(id);
+          if (!document) {
+            results.failed.push(id);
+            continue;
+          }
+
+          const deleted = await storage.deleteKycDocument(id);
+          
+          if (deleted) {
+            results.success.push(id);
+            
+            await storage.createAuditLog({
+              actorId: req.session.userId!,
+              actorRole: 'admin',
+              action: 'kyc_document_bulk_deleted',
+              entityType: 'kyc_document',
+              entityId: id,
+              metadata: { userId: document.userId, documentType: document.documentType }
+            });
+          } else {
+            results.failed.push(id);
+          }
+        } catch (error) {
+          console.error(`Error deleting document ${id}:`, error);
+          results.failed.push(id);
+        }
+      }
+
+      res.json({ 
+        message: `${results.success.length} document(s) supprimé(s) avec succès`,
+        results 
+      });
+    } catch (error: any) {
+      if (error.name === 'ZodError') {
+        const firstError = error.errors[0];
+        return res.status(400).json({ error: firstError.message });
+      }
+      console.error('Bulk delete KYC documents error:', error);
+      res.status(500).json({ error: 'Erreur lors de la suppression des documents' });
+    }
+  });
+
   app.get("/api/loans", requireAuth, async (req, res) => {
     try {
       const loans = await storage.getUserLoans(req.session.userId!);
