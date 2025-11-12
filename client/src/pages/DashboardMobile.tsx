@@ -18,6 +18,7 @@ import {
 import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import MobileSidebar from '@/components/MobileSidebar';
+import { LoanRequestModal } from '@/components/LoanRequestModal';
 import { useState } from 'react';
 
 function DashboardMobileSkeleton() {
@@ -40,6 +41,7 @@ export default function DashboardMobile() {
   const { data: dashboardData, isLoading, error: dashboardError } = useDashboard();
   const t = useTranslations();
   const [hasNotifications] = useState(true);
+  const [loanModalOpen, setLoanModalOpen] = useState(false);
 
   if (isLoading) {
     return <DashboardMobileSkeleton />;
@@ -426,11 +428,14 @@ export default function DashboardMobile() {
         {/* Quick Actions */}
         <motion.div className="grid grid-cols-2 gap-3 pt-2" variants={itemVariants}>
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button variant="outline" className="w-full shadow-sm" asChild data-testid="button-request-loan">
-              <Link href="/loans/new">
-                <CreditCard className="w-4 h-4 mr-2" />
-                {t.dashboard.requestLoan}
-              </Link>
+            <Button 
+              variant="outline" 
+              className="w-full shadow-sm" 
+              onClick={() => setLoanModalOpen(true)}
+              data-testid="button-request-loan"
+            >
+              <CreditCard className="w-4 h-4 mr-2" />
+              {t.dashboard.requestLoan}
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -449,17 +454,24 @@ export default function DashboardMobile() {
             <Card className="bg-white dark:bg-card shadow-md">
               <CardContent className="p-8 text-center">
                 <p className="text-sm text-muted-foreground mb-4">{t.dashboard.noRecentTransactions}</p>
-                <Button asChild>
-                  <Link href="/loans/new">
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    {t.dashboard.requestLoan}
-                  </Link>
+                <Button onClick={() => setLoanModalOpen(true)}>
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  {t.dashboard.requestLoan}
                 </Button>
               </CardContent>
             </Card>
           </motion.div>
         )}
       </motion.div>
+
+      {/* Loan Request Modal */}
+      {user && (
+        <LoanRequestModal 
+          open={loanModalOpen} 
+          onOpenChange={setLoanModalOpen} 
+          user={user} 
+        />
+      )}
     </div>
   );
 }
