@@ -407,7 +407,7 @@ export default function AdminLoans() {
                       </>
                     )}
 
-                    {(loan as any).contractStatus === 'awaiting_admin_review' && loan.signedContractUrl && (
+                    {(loan as any).contractStatus === 'awaiting_admin_review' && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
@@ -639,7 +639,7 @@ export default function AdminLoans() {
                         </>
                       )}
 
-                      {(loan as any).contractStatus === 'awaiting_admin_review' && loan.signedContractUrl && (
+                      {(loan as any).contractStatus === 'awaiting_admin_review' && (
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
