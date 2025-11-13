@@ -364,10 +364,10 @@ export default function AdminDocuments() {
                       <TableCell>
                         <div>
                           <div className="font-medium text-gray-900 dark:text-white" data-testid={`text-user-name-${doc.id}`}>
-                            {doc.user.fullName}
+                            {doc.user?.fullName || 'Utilisateur supprimé'}
                           </div>
                           <div className="text-sm text-gray-500 dark:text-gray-400" data-testid={`text-user-email-${doc.id}`}>
-                            {doc.user.email}
+                            {doc.user?.email || 'N/A'}
                           </div>
                         </div>
                       </TableCell>
@@ -548,7 +548,7 @@ export default function AdminDocuments() {
             <DialogDescription>
               {selectedDocument && (
                 <div className="space-y-2">
-                  <p><strong>Utilisateur:</strong> {selectedDocument.user.fullName} ({selectedDocument.user.email})</p>
+                  <p><strong>Utilisateur:</strong> {selectedDocument.user?.fullName || 'Utilisateur supprimé'} ({selectedDocument.user?.email || 'N/A'})</p>
                   <p><strong>Type:</strong> {selectedDocument.documentType}</p>
                   <p><strong>Fichier:</strong> {selectedDocument.fileName}</p>
                   <p><strong>Taille:</strong> {formatFileSize(selectedDocument.fileSize)}</p>
