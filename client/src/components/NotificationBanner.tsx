@@ -12,6 +12,7 @@ export interface Notification {
   link?: {
     text: string;
     href: string;
+    target?: string;
   };
 }
 
@@ -103,6 +104,7 @@ export default function NotificationBanner() {
               {notification.link && (
                 <a
                   href={notification.link.href}
+                  target={notification.link.target || '_self'}
                   className="text-sm font-semibold underline hover:no-underline whitespace-nowrap"
                   data-testid={`link-notification-${notification.id}`}
                 >

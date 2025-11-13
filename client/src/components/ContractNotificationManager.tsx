@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNotifications } from './NotificationBanner';
 import { useTranslations } from '@/lib/i18n';
+import { getApiUrl } from '@/lib/queryClient';
 
 interface Loan {
   id: string;
@@ -61,7 +62,8 @@ export default function ContractNotificationManager() {
         dismissible: false,
         link: {
           text: 'Voir le contrat',
-          href: '/loans',
+          href: getApiUrl(`/api/loans/${loan.id}/contract`),
+          target: '_blank',
         },
       });
     });
