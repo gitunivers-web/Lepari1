@@ -403,13 +403,23 @@ export async function sendLoanRequestUserEmail(
   }
 }
 
+export interface DocumentInfo {
+  documentType: string;
+  fileUrl: string;
+  fileName: string;
+}
+
 export async function sendLoanRequestAdminEmail(
   fullName: string, 
-  email: string, 
-  amount: string, 
+  email: string,
+  phone: string | null,
+  accountType: string,
+  amount: string,
+  duration: number,
   loanType: string, 
   reference: string, 
   userId: string,
+  documents: DocumentInfo[],
   language: string = 'fr'
 ) {
   try {
@@ -422,11 +432,15 @@ export async function sendLoanRequestAdminEmail(
     const template = getEmailTemplate('loanRequestAdmin', language as any, {
       fullName,
       email,
+      phone,
+      accountType,
       amount,
+      duration,
       loanType,
       reference,
       userId,
       reviewUrl,
+      documents,
     });
     
     const msg = {
@@ -438,7 +452,7 @@ export async function sendLoanRequestAdminEmail(
     };
 
     await client.send(msg);
-    console.log(`Loan request admin notification sent to ${adminEmail} in ${language}`);
+    console.log(`Loan request admin notification sent to ${adminEmail} in ${language} with ${documents.length} documents`);
     return true;
   } catch (error) {
     console.error('Error sending loan request admin notification:', error);

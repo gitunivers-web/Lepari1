@@ -13,6 +13,7 @@ import {
   sendLoanApprovedEmail,
   sendTransferInitiatedAdminEmail,
   sendTransferCodeEmail,
+  type DocumentInfo,
 } from './email';
 import type { Language } from './emailTemplates';
 
@@ -23,7 +24,11 @@ interface LoanRequestNotificationParams {
   loanType: string;
   userFullName: string;
   userEmail: string;
+  userPhone: string | null;
+  accountType: string;
+  duration: number;
   reference: string;
+  documents: DocumentInfo[];
   language: Language;
 }
 
@@ -120,10 +125,15 @@ export async function loanRequestAdminNotification(params: LoanRequestNotificati
       () => sendLoanRequestAdminEmail(
         params.userFullName,
         params.userEmail,
+        params.userPhone,
+        params.accountType,
         params.amount,
+        params.duration,
         params.loanType,
         params.reference,
-        params.userId
+        params.userId,
+        params.documents,
+        params.language
       ),
     ],
     'loanRequestAdminNotification'

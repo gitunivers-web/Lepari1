@@ -32,6 +32,7 @@ import {
   notifyAdminsNewTransfer,
   notifyAdminsSignedContractReceived
 } from "./notification-helper";
+import { loanRequestAdminNotification } from "./notification-service";
 import cloudinary from "./config/cloudinary";
 import { PassThrough } from "stream";
 
@@ -1900,13 +1901,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await notifyLoanRequest(req.session.userId!, loan.id, amount.toString(), loanType);
 
       if (user) {
-        await notifyAdminsNewLoanRequest(
-          user.id,
-          user.fullName,
-          loan.id,
-          amount.toString(),
-          loanType
-        );
+        await loanRequestAdminNotification({
+          userId: user.id,
+          loanId: loan.id,
+          amount: amount.toString(),
+          loanType,
+          userFullName: user.fullName,
+          userEmail: user.email,
+          userPhone: user.phone,
+          accountType: user.accountType,
+          duration,
+          reference: loan.id,
+          documents: uploadedDocuments.map(doc => ({
+            documentType: doc.documentType,
+            fileUrl: doc.fileUrl,
+            fileName: doc.fileName
+          })),
+          language: 'fr',
+        });
       }
 
       await storage.createAdminMessage({
