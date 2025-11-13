@@ -41,8 +41,9 @@ export default function ActiveLoans({ loans }: ActiveLoansProps) {
     setDetailsOpen(true);
   };
 
-  const activeLoansCount = loans.filter(l => l.status === 'active').length;
-  const displayedLoans = loans.slice(0, 2);
+  const activeAndApprovedLoans = loans.filter(l => l.status === 'active' || l.status === 'approved');
+  const activeLoansCount = activeAndApprovedLoans.length;
+  const displayedLoans = activeAndApprovedLoans.slice(0, 2);
 
   return (
     <>

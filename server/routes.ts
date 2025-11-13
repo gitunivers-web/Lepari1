@@ -1102,6 +1102,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           nextPaymentDate: formatDate(loan.nextPaymentDate),
           totalRepaid: parseFloat(loan.totalRepaid),
           status: loan.status,
+          contractUrl: loan.contractUrl,
+          signedContractUrl: loan.signedContractUrl,
         })),
         transfers: data.transfers.map(transfer => ({
           id: transfer.id,

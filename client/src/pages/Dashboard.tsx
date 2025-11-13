@@ -14,7 +14,8 @@ import {
   Clock,
   ArrowRight,
   Plus,
-  Send
+  Send,
+  FileSignature
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -624,15 +625,28 @@ export default function Dashboard() {
             </div>
 
             <div className="space-y-3">
-              {dashboardData.loans.filter(loan => loan.status === 'active').slice(0, 5).map((loan) => {
+              {dashboardData.loans.filter(loan => loan.status === 'active' || loan.status === 'approved').slice(0, 5).map((loan) => {
                 const progress = loan.totalRepaid ? (Number(loan.totalRepaid) / Number(loan.amount)) * 100 : 0;
+                const needsSignature = loan.status === 'approved' && loan.contractUrl && !loan.signedContractUrl;
                 
                 return (
                   <div 
                     key={loan.id} 
-                    className="p-4 rounded-lg hover-elevate bg-muted/30"
+                    className={`p-4 rounded-lg hover-elevate ${
+                      needsSignature 
+                        ? 'bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-300 dark:border-yellow-700 ring-2 ring-yellow-400/50 dark:ring-yellow-600/50' 
+                        : 'bg-muted/30'
+                    }`}
                     data-testid={`loan-item-${loan.id}`}
                   >
+                    {needsSignature && (
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Badge className="bg-yellow-600 hover:bg-yellow-700 text-white text-[10px] px-1.5 py-0 h-5 animate-pulse">
+                          <FileSignature className="h-3 w-3 mr-1" />
+                          {t.dashboard.contractToSign}
+                        </Badge>
+                      </div>
+                    )}
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
@@ -670,7 +684,7 @@ export default function Dashboard() {
                 );
               })}
 
-              {dashboardData.loans.filter(loan => loan.status === 'active').length === 0 && (
+              {dashboardData.loans.filter(loan => loan.status === 'active' || loan.status === 'approved').length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">{t.dashboard.noActiveLoans}</p>
                   <Button 

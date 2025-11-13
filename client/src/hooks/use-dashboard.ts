@@ -15,6 +15,8 @@ export interface DashboardData {
     nextPaymentDate: string | null;
     totalRepaid: number;
     status: string;
+    contractUrl?: string | null;
+    signedContractUrl?: string | null;
   }>;
   transfers: Array<{
     id: string;
