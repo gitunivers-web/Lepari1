@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNotifications } from './NotificationBanner';
 import { useTranslations } from '@/lib/i18n';
@@ -18,6 +18,14 @@ export default function ContractNotificationManager() {
     queryKey: ['/api/loans'],
   });
   const { addNotification, removeNotification, notifications } = useNotifications();
+  const [downloadedContracts, setDownloadedContracts] = useState<Set<string>>(() => {
+    const stored = localStorage.getItem('downloaded-contracts');
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  });
+
+  useEffect(() => {
+    localStorage.setItem('downloaded-contracts', JSON.stringify(Array.from(downloadedContracts)));
+  }, [downloadedContracts]);
 
   useEffect(() => {
     if (!loans) return;
@@ -26,7 +34,8 @@ export default function ContractNotificationManager() {
       (loan) =>
         loan.status === 'approved' &&
         loan.contractUrl &&
-        !loan.signedContractUrl
+        !loan.signedContractUrl &&
+        !downloadedContracts.has(loan.id)
     );
 
     const loanIdsNeedingSignature = new Set(loansNeedingSignature.map(l => l.id));
@@ -64,7 +73,6 @@ export default function ContractNotificationManager() {
           text: 'Voir le contrat',
           onClick: async () => {
             try {
-              // Génère un lien signé temporaire (valide 5 min)
               const response = await fetch(getApiUrl(`/api/contracts/${loan.id}/link`), {
                 credentials: 'include',
               });
@@ -78,8 +86,10 @@ export default function ContractNotificationManager() {
 
               const { signedUrl } = await response.json();
               
-              // Ouvre le lien signé dans un nouvel onglet
               window.open(signedUrl, '_blank');
+              
+              setDownloadedContracts(prev => new Set(prev).add(loan.id));
+              removeNotification(notificationId);
             } catch (error) {
               console.error('Erreur téléchargement contrat:', error);
               alert('Erreur lors du téléchargement du contrat. Veuillez réessayer.');
@@ -88,7 +98,7 @@ export default function ContractNotificationManager() {
         },
       });
     });
-  }, [loans, addNotification, removeNotification, notifications]);
+  }, [loans, addNotification, removeNotification, notifications, downloadedContracts]);
 
   return null;
 }

@@ -56,11 +56,11 @@ export default function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <div className="px-4 py-6 mb-4 flex items-center justify-center" data-testid="sidebar-logo">
+        <div className="px-4 py-3 mb-2 flex items-center justify-center" data-testid="sidebar-logo">
           <img 
             src={logoUrl} 
             alt="Altus Finance Group Logo" 
-            className="w-48 h-48 object-contain"
+            className="w-32 h-32 object-contain"
           />
         </div>
 
