@@ -20,9 +20,12 @@ export interface Notification {
 interface NotificationStore {
   notifications: Notification[];
   dismissedIds: string[];
+  currentUserId: string | null;
   dismissNotification: (id: string) => void;
   addNotification: (notification: Notification) => void;
   removeNotification: (id: string) => void;
+  clearAllNotifications: () => void;
+  setCurrentUserId: (userId: string | null) => void;
 }
 
 export const useNotifications = create<NotificationStore>()(
@@ -30,6 +33,7 @@ export const useNotifications = create<NotificationStore>()(
     (set) => ({
       notifications: [],
       dismissedIds: [],
+      currentUserId: null,
       dismissNotification: (id) =>
         set((state) => ({
           dismissedIds: [...state.dismissedIds, id],
@@ -42,6 +46,22 @@ export const useNotifications = create<NotificationStore>()(
         set((state) => ({
           notifications: state.notifications.filter((n) => n.id !== id),
         })),
+      clearAllNotifications: () =>
+        set({
+          notifications: [],
+          dismissedIds: [],
+        }),
+      setCurrentUserId: (userId) =>
+        set((state) => {
+          if (state.currentUserId !== userId) {
+            return {
+              currentUserId: userId,
+              notifications: [],
+              dismissedIds: [],
+            };
+          }
+          return { currentUserId: userId };
+        }),
     }),
     {
       name: 'notification-storage',
