@@ -1763,7 +1763,7 @@ export class DatabaseStorage implements IStorage {
         (vc) => vc.code === code && vc.sequence === sequence && vc.codeType === codeType && !vc.consumedAt
       );
       
-      if (!validationCode || new Date() > validationCode.expiresAt) {
+      if (!validationCode) {
         return undefined;
       }
       
