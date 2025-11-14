@@ -10,12 +10,14 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2 } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 import { useLocation } from 'wouter';
 import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl } from '@/hooks/use-user';
 import { Skeleton } from '@/components/ui/skeleton';
 import logoUrl from '@assets/Logo_1762619815448.jpeg';
+import { useQuery } from '@tanstack/react-query';
 
 export default function AppSidebar() {
   const t = useTranslations();
@@ -30,14 +32,37 @@ export default function AppSidebar() {
     setLocation('/');
   };
 
+  const { data: loans } = useQuery<any[]>({
+    queryKey: ['/api/loans'],
+    enabled: !isAdminPath,
+  });
+
+  const { data: transfers } = useQuery<any[]>({
+    queryKey: ['/api/transfers'],
+    enabled: !isAdminPath,
+  });
+
+  const pendingLoansCount = loans?.filter(l => l.status === 'pending').length || 0;
+  const pendingTransfersCount = transfers?.filter(t => t.status === 'pending').length || 0;
+
   const loanMenuItems = [
-    { title: t.nav.myLoans || 'Mes prêts', url: '/loans', icon: CreditCard },
+    { 
+      title: t.nav.myLoans || 'Mes prêts', 
+      url: '/loans', 
+      icon: CreditCard,
+      badge: pendingLoansCount > 0 ? pendingLoansCount : undefined,
+    },
     { title: t.nav.contracts || 'Contrats', url: '/contracts', icon: FileText },
   ];
 
   const generalMenuItems = [
     { title: t.nav.dashboard, url: '/dashboard', icon: Home },
-    { title: t.nav.transfers, url: '/transfers', icon: ArrowRightLeft },
+    { 
+      title: t.nav.transfers, 
+      url: '/transfers', 
+      icon: ArrowRightLeft,
+      badge: pendingTransfersCount > 0 ? pendingTransfersCount : undefined,
+    },
     { title: t.bankAccounts.title, url: '/accounts', icon: Building2 },
     { title: t.nav.history, url: '/history', icon: History },
     { title: t.nav.settings, url: '/settings', icon: Settings },
@@ -53,23 +78,27 @@ export default function AppSidebar() {
   ];
 
   return (
-    <Sidebar>
-      <SidebarContent>
-        <div className="px-4 py-3 mb-2 flex items-center justify-center" data-testid="sidebar-logo">
-          <img 
-            src={logoUrl} 
-            alt="Altus Finance Group Logo" 
-            className="w-32 h-32 object-contain"
-          />
+    <Sidebar className="border-r border-sidebar-border bg-sidebar backdrop-blur-xl">
+      <SidebarContent className="px-3 py-4">
+        {/* Logo Section - Premium fintech */}
+        <div className="px-3 py-4 mb-6 flex items-center justify-center" data-testid="sidebar-logo">
+          <div className="relative">
+            <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
+            <img 
+              src={logoUrl} 
+              alt="Altus Finance Group Logo" 
+              className="relative w-24 h-24 object-contain"
+            />
+          </div>
         </div>
 
         {(isAdminPath && isAdmin) ? (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-sm font-semibold px-4 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider px-3 py-2 text-muted-foreground">
               Administration
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="space-y-1">
                 {adminMenuItems.map((item) => {
                   const isActive = location === item.url;
                   return (
@@ -78,9 +107,17 @@ export default function AppSidebar() {
                         isActive={isActive}
                         onClick={() => setLocation(item.url)}
                         data-testid={`button-${item.url.slice(1).replace(/\//g, '-')}`}
+                        className={`group relative overflow-hidden rounded-xl transition-all duration-200 ${
+                          isActive 
+                            ? 'bg-primary text-primary-foreground shadow-md' 
+                            : 'hover:bg-sidebar-accent'
+                        }`}
                       >
-                        <item.icon size={20} />
-                        <span>{item.title}</span>
+                        <item.icon className="w-5 h-5" />
+                        <span className="font-medium">{item.title}</span>
+                        {isActive && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-foreground rounded-r-full" />
+                        )}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -91,11 +128,11 @@ export default function AppSidebar() {
         ) : (
           <>
             <SidebarGroup>
-              <SidebarGroupLabel className="text-sm font-semibold px-4 py-2">
+              <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider px-3 py-2 text-muted-foreground">
                 {t.nav.loansSection || 'Prêts'}
               </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="space-y-1">
                   {loanMenuItems.map((item) => {
                     const isActive = location === item.url;
                     
@@ -105,9 +142,22 @@ export default function AppSidebar() {
                           isActive={isActive}
                           onClick={() => setLocation(item.url)}
                           data-testid={`button-${item.url.slice(1).replace(/\//g, '-')}`}
+                          className={`group relative overflow-hidden rounded-xl transition-all duration-200 ${
+                            isActive 
+                              ? 'bg-primary text-primary-foreground shadow-md' 
+                              : 'hover:bg-sidebar-accent'
+                          }`}
                         >
-                          <item.icon size={20} />
-                          <span>{item.title}</span>
+                          <item.icon className="w-5 h-5" />
+                          <span className="font-medium flex-1">{item.title}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="ml-auto h-5 px-2 text-xs">
+                              {item.badge}
+                            </Badge>
+                          )}
+                          {isActive && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-foreground rounded-r-full" />
+                          )}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     );
@@ -117,11 +167,11 @@ export default function AppSidebar() {
             </SidebarGroup>
 
             <SidebarGroup>
-              <SidebarGroupLabel className="text-sm font-semibold px-4 py-2">
+              <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider px-3 py-2 text-muted-foreground">
                 {t.nav.dashboard}
               </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="space-y-1">
                   {generalMenuItems.map((item) => {
                     const isActive = location === item.url;
                     return (
@@ -130,9 +180,22 @@ export default function AppSidebar() {
                           isActive={isActive}
                           onClick={() => setLocation(item.url)}
                           data-testid={`button-${item.url.slice(1)}`}
+                          className={`group relative overflow-hidden rounded-xl transition-all duration-200 ${
+                            isActive 
+                              ? 'bg-primary text-primary-foreground shadow-md' 
+                              : 'hover:bg-sidebar-accent'
+                          }`}
                         >
-                          <item.icon size={20} />
-                          <span>{item.title}</span>
+                          <item.icon className="w-5 h-5" />
+                          <span className="font-medium flex-1">{item.title}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="ml-auto h-5 px-2 text-xs">
+                              {item.badge}
+                            </Badge>
+                          )}
+                          {isActive && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-foreground rounded-r-full" />
+                          )}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     );
@@ -143,31 +206,37 @@ export default function AppSidebar() {
           </>
         )}
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
+      
+      {/* Footer - Premium fintech user profile */}
+      <SidebarFooter className="px-3 pb-4 border-t border-sidebar-border bg-sidebar/50 backdrop-blur-sm">
+        <SidebarMenu className="space-y-2 pt-3">
           <SidebarMenuItem>
             {isUserLoading ? (
-              <div className="flex items-center gap-3 px-4 py-3">
-                <Skeleton className="h-10 w-10 rounded-full" />
+              <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-sidebar-accent/50">
+                <Skeleton className="h-11 w-11 rounded-xl" />
                 <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-3 w-16" />
+                  <Skeleton className="h-4 w-28" />
+                  <Skeleton className="h-3 w-20" />
                 </div>
               </div>
             ) : user ? (
-              <div className="flex items-center gap-3 px-4 py-3 bg-sidebar-accent rounded-md mx-2">
-                <Avatar className="bg-accent">
+              <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 backdrop-blur-sm">
+                <Avatar className="h-11 w-11 border-2 border-primary/20 shadow-sm">
                   {profilePhotoUrl ? (
                     <AvatarImage 
                       src={profilePhotoUrl} 
                       alt={user.fullName} 
                     />
                   ) : null}
-                  <AvatarFallback className="bg-transparent text-white font-bold" data-testid="text-user-initials">{getUserInitials(user.fullName)}</AvatarFallback>
+                  <AvatarFallback className="bg-primary text-primary-foreground font-bold text-sm" data-testid="text-user-initials">
+                    {getUserInitials(user.fullName)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold truncate" data-testid="text-user-name">{user.fullName}</p>
-                  <p className="text-xs text-sidebar-foreground/80 truncate" data-testid="text-user-account-type">
+                  <p className="text-sm font-bold truncate text-foreground" data-testid="text-user-name">
+                    {user.fullName}
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate" data-testid="text-user-account-type">
                     {getAccountTypeLabel(user.accountType)}
                   </p>
                 </div>
@@ -178,9 +247,10 @@ export default function AppSidebar() {
             <SidebarMenuButton
               onClick={handleLogout}
               data-testid="button-logout"
+              className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all duration-200"
             >
-              <LogOut />
-              <span>{t.nav.logout}</span>
+              <LogOut className="w-5 h-5" />
+              <span className="font-medium">{t.nav.logout}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

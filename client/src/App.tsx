@@ -51,6 +51,7 @@ import MobileBottomNav from '@/components/MobileBottomNav';
 import ContractNotificationManager from '@/components/ContractNotificationManager';
 import UserSessionTracker from '@/components/UserSessionTracker';
 import { LoanDialogProvider } from '@/contexts/LoanDialogContext';
+import { ScrollingInfoBanner } from '@/components/fintech';
 
 function App() {
   const style = {
@@ -90,19 +91,29 @@ function App() {
                   <div className="flex h-screen w-full">
                     <AppSidebar />
                     <div className="flex flex-col flex-1">
-                      <header className="flex items-center justify-between p-4 border-b bg-white dark:bg-slate-900 sticky top-0 z-50">
-                        <SidebarTrigger data-testid="button-sidebar-toggle" />
-                        <div className="flex items-center gap-3">
-                          <LanguageSwitcher />
-                          <ThemeToggle />
-                          <NotificationBell />
-                          <UserProfileHeader />
+                      {/* Fintech Premium Header */}
+                      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl shadow-sm">
+                        <div className="flex items-center justify-between px-6 py-4">
+                          <SidebarTrigger data-testid="button-sidebar-toggle" className="hover:bg-muted rounded-xl transition-colors" />
+                          <div className="flex items-center gap-3">
+                            <LanguageSwitcher />
+                            <ThemeToggle />
+                            <NotificationBell />
+                            <UserProfileHeader />
+                          </div>
+                        </div>
+                        {/* Scrolling Info Banner */}
+                        <div className="px-6 pb-4">
+                          <ScrollingInfoBanner />
                         </div>
                       </header>
-                      <div className="px-4 pt-4">
+                      
+                      {/* Legacy Notification Banner (if needed) */}
+                      <div className="hidden">
                         <NotificationBanner />
                       </div>
-                      <main className="flex-1 overflow-auto pb-20 md:pb-0 bg-white dark:bg-slate-950">
+                      
+                      <main className="flex-1 overflow-auto pb-20 md:pb-0 bg-background">
                         <Switch>
                           <Route path="/dashboard" component={DashboardWrapper} />
                           <Route path="/loans" component={IndividualLoans} />

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LIGHT MODE - Ultra-Modern Banking Palette */
+/* LIGHT MODE - Fintech Premium 2025 (Stripe/Revolut/N26/Qonto inspired) */
 :root {
   --button-outline: rgba(0,0,0, .08);
   --badge-outline: rgba(0,0,0, .04);
@@ -14,55 +14,56 @@
   --elevate-1: rgba(0,0,0, .02);
   --elevate-2: rgba(0,0,0, .06);
 
-  --background: 0 0% 100%;
+  /* ===== FINTECH PREMIUM PALETTE 2025 ===== */
+  --background: 0 0% 99%;           /* Ultra blanc cassé pour moins de fatigue */
 
-  --foreground: 220 25% 10%;
+  --foreground: 220 40% 12%;        /* Indigo très foncé pour texte principal */
 
-  --border: 220 15% 88%;
+  --border: 220 18% 92%;            /* Bordures très discrètes */
 
-  --card: 0 0% 100%;
+  --card: 0 0% 100%;                /* Cards blanc pur */
 
-  --card-foreground: 220 25% 10%;
+  --card-foreground: 220 40% 12%;
 
-  --card-border: 220 12% 90%;
+  --card-border: 220 15% 94%;       /* Bordures card ultra subtiles */
 
-  --sidebar: 220 20% 98%;
+  --sidebar: 248 60% 98%;           /* Sidebar blanc légèrement teinté indigo */
 
-  --sidebar-foreground: 220 25% 10%;
+  --sidebar-foreground: 220 40% 12%;
 
-  --sidebar-border: 220 15% 92%;
+  --sidebar-border: 248 25% 94%;
 
-  --sidebar-primary: 220 100% 50%;
+  --sidebar-primary: 248 95% 63%;   /* Indigo fintech (like Stripe) */
 
   --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 220 30% 94%;
+  --sidebar-accent: 248 70% 96%;    /* Hover subtil indigo */
 
-  --sidebar-accent-foreground: 220 100% 50%;
+  --sidebar-accent-foreground: 248 95% 63%;
 
-  --sidebar-ring: 220 100% 50%;
+  --sidebar-ring: 248 95% 63%;
 
   --popover: 0 0% 100%;
 
-  --popover-foreground: 220 25% 10%;
+  --popover-foreground: 220 40% 12%;
 
-  --popover-border: 220 15% 90%;
+  --popover-border: 220 15% 94%;
 
-  --primary: 220 100% 50%;
+  --primary: 248 95% 63%;           /* Indigo principal (Stripe-like) */
 
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 15% 93%;
+  --secondary: 220 15% 95%;
 
-  --secondary-foreground: 220 25% 10%;
+  --secondary-foreground: 220 40% 12%;
 
-  --muted: 220 10% 96%;
+  --muted: 220 12% 97%;             /* Background très léger */
 
-  --muted-foreground: 220 12% 42%;
+  --muted-foreground: 220 18% 48%;  /* Texte secondaire lisible */
 
-  --accent: 210 100% 93%;
+  --accent: 166 76% 46%;            /* Vert succès fintech (N26/Revolut) */
 
-  --accent-foreground: 220 100% 50%;
+  --accent-foreground: 0 0% 100%;
 
   --gold: 43 96% 56%;
 
@@ -72,27 +73,31 @@
 
   --destructive-foreground: 0 0% 100%;
 
-  --input: 220 15% 85%;
-  --ring: 220 100% 50%;
-  --chart-1: 220 100% 50%;
-  --chart-2: 210 90% 55%;
-  --chart-3: 230 80% 60%;
-  --chart-4: 200 75% 50%;
-  --chart-5: 240 70% 55%;
+  --input: 220 15% 92%;
+  --ring: 248 95% 63%;
+  --chart-1: 248 95% 63%;           /* Indigo */
+  --chart-2: 200 95% 58%;           /* Cyan fintech */
+  --chart-3: 166 76% 46%;           /* Vert */
+  --chart-4: 280 85% 65%;           /* Violet */
+  --chart-5: 32 95% 60%;            /* Orange */
 
-  --font-sans: Inter, 'Work Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  --radius: 0.75rem; /* 12px */
-  --dashboard-radius: 0.75rem; /* 12px */
-  --shadow-2xs: 0px 1px 2px 0px hsl(210 8% 12% / 0.02);
-  --shadow-xs: 0px 1px 3px 0px hsl(210 8% 12% / 0.04);
-  --shadow-sm: 0px 2px 4px 0px hsl(210 8% 12% / 0.04), 0px 1px 2px -1px hsl(210 8% 12% / 0.02);
-  --shadow: 0px 4px 6px -1px hsl(210 8% 12% / 0.06), 0px 2px 4px -1px hsl(210 8% 12% / 0.04);
-  --shadow-md: 0px 6px 12px -2px hsl(210 8% 12% / 0.08), 0px 3px 6px -2px hsl(210 8% 12% / 0.04);
-  --shadow-lg: 0px 10px 20px -4px hsl(210 8% 12% / 0.10), 0px 4px 8px -2px hsl(210 8% 12% / 0.06);
-  --shadow-xl: 0px 20px 32px -8px hsl(210 8% 12% / 0.14), 0px 8px 16px -4px hsl(210 8% 12% / 0.08);
-  --shadow-2xl: 0px 32px 48px -12px hsl(210 8% 12% / 0.18);
+  
+  /* ===== FINTECH PREMIUM RADIUS ===== */
+  --radius: 0.875rem;               /* 14px - Stripe-like */
+  --dashboard-radius: 1.25rem;      /* 20px - Cards premium */
+  
+  /* ===== FINTECH PREMIUM SHADOWS ===== */
+  --shadow-2xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.03);
+  --shadow-xs: 0px 1px 3px 0px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0px 2px 6px -1px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.04);
+  --shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.08), 0px 2px 4px -1px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0px 8px 16px -4px rgba(16, 24, 40, 0.10), 0px 4px 8px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0px 12px 24px -6px rgba(16, 24, 40, 0.12), 0px 6px 12px -3px rgba(16, 24, 40, 0.08);
+  --shadow-xl: 0px 20px 40px -8px rgba(16, 24, 40, 0.16), 0px 10px 20px -4px rgba(16, 24, 40, 0.10);
+  --shadow-2xl: 0px 32px 64px -12px rgba(16, 24, 40, 0.20);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -127,6 +132,7 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
+/* DARK MODE - Fintech Premium 2025 */
 .dark {
   --button-outline: rgba(255,255,255, .08);
   --badge-outline: rgba(255,255,255, .04);
@@ -134,83 +140,84 @@
   --opaque-button-border-intensity: 10;  /* In terms of percentages */
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(255,255,255, .03);
-  --elevate-2: rgba(255,255,255, .07);
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .08);
 
-  --background: 220 40% 8%;
+  /* ===== DARK MODE FINTECH PREMIUM ===== */
+  --background: 222 47% 7%;           /* Indigo très foncé (Stripe dark mode) */
 
-  --foreground: 220 15% 95%;
+  --foreground: 220 15% 96%;          /* Texte presque blanc */
 
-  --border: 220 25% 18%;
+  --border: 222 35% 15%;              /* Bordures subtiles dark */
 
-  --card: 220 35% 12%;
+  --card: 222 40% 10%;                /* Cards légèrement plus claires */
 
-  --card-foreground: 220 15% 95%;
+  --card-foreground: 220 15% 96%;
 
-  --card-border: 220 25% 20%;
+  --card-border: 222 30% 17%;
 
-  --sidebar: 220 38% 10%;
+  --sidebar: 222 50% 8%;              /* Sidebar encore plus foncée */
 
-  --sidebar-foreground: 220 15% 95%;
+  --sidebar-foreground: 220 15% 96%;
 
-  --sidebar-border: 220 25% 22%;
+  --sidebar-border: 222 35% 16%;
 
-  --sidebar-primary: 220 90% 60%;
+  --sidebar-primary: 248 85% 68%;     /* Indigo lumineux en dark */
 
   --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 220 30% 18%;
+  --sidebar-accent: 248 40% 18%;      /* Hover subtil */
 
-  --sidebar-accent-foreground: 220 15% 95%;
+  --sidebar-accent-foreground: 248 85% 68%;
 
-  --sidebar-ring: 220 90% 60%;
+  --sidebar-ring: 248 85% 68%;
 
-  --popover: 220 35% 12%;
+  --popover: 222 40% 10%;
 
-  --popover-foreground: 220 15% 95%;
+  --popover-foreground: 220 15% 96%;
 
-  --popover-border: 220 25% 22%;
+  --popover-border: 222 30% 18%;
 
-  --primary: 220 90% 60%;
+  --primary: 248 85% 68%;             /* Indigo lumineux */
 
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 25% 20%;
+  --secondary: 222 30% 18%;
 
-  --secondary-foreground: 220 15% 95%;
+  --secondary-foreground: 220 15% 96%;
 
-  --muted: 220 20% 16%;
+  --muted: 222 35% 14%;
 
-  --muted-foreground: 220 12% 65%;
+  --muted-foreground: 220 15% 70%;
 
-  --accent: 210 80% 55%;
+  --accent: 166 65% 52%;              /* Vert succès lumineux */
 
-  --accent-foreground: 220 40% 8%;
+  --accent-foreground: 222 47% 7%;
 
-  --gold: 43 90% 60%;
+  --gold: 43 85% 65%;
 
-  --gold-foreground: 220 40% 8%;
+  --gold-foreground: 222 47% 7%;
 
-  --destructive: 358 70% 58%;
+  --destructive: 358 65% 62%;
 
   --destructive-foreground: 0 0% 100%;
 
-  --input: 220 20% 25%;
-  --ring: 220 90% 60%;
-  --chart-1: 220 90% 60%;
-  --chart-2: 210 85% 60%;
-  --chart-3: 230 75% 65%;
-  --chart-4: 200 70% 55%;
-  --chart-5: 240 65% 60%;
+  --input: 222 30% 22%;
+  --ring: 248 85% 68%;
+  --chart-1: 248 85% 68%;             /* Indigo */
+  --chart-2: 200 85% 65%;             /* Cyan */
+  --chart-3: 166 65% 52%;             /* Vert */
+  --chart-4: 280 75% 70%;             /* Violet */
+  --chart-5: 32 85% 65%;              /* Orange */
 
-  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.08);
-  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.12);
-  --shadow-sm: 0px 2px 4px 0px hsl(0 0% 0% / 0.14), 0px 1px 2px -1px hsl(0 0% 0% / 0.08);
-  --shadow: 0px 4px 6px -1px hsl(0 0% 0% / 0.18), 0px 2px 4px -1px hsl(0 0% 0% / 0.12);
-  --shadow-md: 0px 6px 12px -2px hsl(0 0% 0% / 0.22), 0px 3px 6px -2px hsl(0 0% 0% / 0.14);
-  --shadow-lg: 0px 10px 20px -4px hsl(0 0% 0% / 0.28), 0px 4px 8px -2px hsl(0 0% 0% / 0.18);
-  --shadow-xl: 0px 20px 32px -8px hsl(0 0% 0% / 0.36), 0px 8px 16px -4px hsl(0 0% 0% / 0.24);
-  --shadow-2xl: 0px 32px 48px -12px hsl(0 0% 0% / 0.42);
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
+  --shadow-xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.22);
+  --shadow-sm: 0px 2px 6px -1px rgba(0, 0, 0, 0.26), 0px 1px 3px 0px rgba(0, 0, 0, 0.14);
+  --shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.30), 0px 2px 4px -1px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0px 8px 16px -4px rgba(0, 0, 0, 0.36), 0px 4px 8px -2px rgba(0, 0, 0, 0.22);
+  --shadow-lg: 0px 12px 24px -6px rgba(0, 0, 0, 0.42), 0px 6px 12px -3px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0px 20px 40px -8px rgba(0, 0, 0, 0.50), 0px 10px 20px -4px rgba(0, 0, 0, 0.34);
+  --shadow-2xl: 0px 32px 64px -12px rgba(0, 0, 0, 0.60);
 
 }
 
