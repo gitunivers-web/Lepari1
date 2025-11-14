@@ -43,7 +43,7 @@ export default function TransferFlow() {
 
   const { data: activeLoans } = useQuery<any[]>({
     queryKey: ['/api/loans'],
-    select: (loans) => loans.filter(loan => loan.status === 'active' && loan.contractStatus === 'completed'),
+    select: (loans) => loans.filter(loan => loan.status === 'active'),
   });
 
   const { data: transferData, refetch: refetchTransfer } = useQuery<TransferDetailsResponse>({
