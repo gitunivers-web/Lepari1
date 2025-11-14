@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,6 +9,7 @@ import { useTranslations } from '@/lib/i18n';
 import { FileText, Download, Upload, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 import { SignedContractUpload } from '@/components/SignedContractUpload';
 import { getApiUrl } from '@/lib/queryClient';
+import { SectionTitle, GlassPanel, DashboardCard, CONTRACT_STATUS_CONFIG } from '@/components/fintech';
 
 interface Loan {
   id: string;
@@ -73,11 +74,12 @@ export default function Contracts() {
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-8 space-y-6">
-        <Skeleton className="h-10 w-64" />
+      <div className="p-6 md:p-8 space-y-8">
+        <Skeleton className="h-12 w-64" />
+        <Skeleton className="h-16 w-full" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-64" />
+            <Skeleton key={i} className="h-80" />
           ))}
         </div>
       </div>
@@ -85,130 +87,153 @@ export default function Contracts() {
   }
 
   return (
-    <div className="p-6 md:p-8 space-y-6">
-      <div>
-        <h1 className="text-3xl md:text-4xl font-semibold mb-2">
-          {t.contracts?.title || 'Gestion des Contrats'}
-        </h1>
-        <p className="text-muted-foreground">
-          {t.contracts?.description || 'Téléchargez, signez et renvoyez vos contrats de prêt en toute sécurité.'}
-        </p>
-      </div>
+    <div className="p-6 md:p-8 space-y-8 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
+      <SectionTitle
+        title={t.contracts?.title || 'Gestion des Contrats'}
+        subtitle={t.contracts?.description || 'Téléchargez, signez et renvoyez vos contrats de prêt en toute sécurité'}
+      />
 
       <Tabs defaultValue="pending" className="w-full" data-testid="tabs-contracts">
-        <TabsList className="grid w-full grid-cols-3 max-w-2xl">
-          <TabsTrigger value="pending" data-testid="tab-pending-contracts">
-            <AlertCircle className="h-4 w-4 mr-2" />
-            {t.contracts?.tabPending || 'À signer'}
-            {contractsToSign.length > 0 && (
-              <Badge variant="destructive" className="ml-2">
-                {contractsToSign.length}
-              </Badge>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="review" data-testid="tab-review-contracts">
-            <Clock className="h-4 w-4 mr-2" />
-            {t.contracts?.tabReview || 'En vérification'}
-            {contractsAwaitingReview.length > 0 && (
+        <GlassPanel className="p-1">
+          <TabsList className="grid w-full grid-cols-3 bg-transparent gap-1">
+            <TabsTrigger 
+              value="pending" 
+              data-testid="tab-pending-contracts"
+              className="gap-2 data-[state=active]:bg-destructive/90 data-[state=active]:text-destructive-foreground data-[state=active]:shadow-lg transition-all duration-300 data-[state=active]:-translate-y-0.5 rounded-md"
+            >
+              <AlertCircle className="h-4 w-4" />
+              <span className="text-xs sm:text-sm">{t.contracts?.tabPending || 'À signer'}</span>
+              {contractsToSign.length > 0 && (
+                <Badge variant="secondary" className="ml-2 bg-destructive-foreground/20">
+                  {contractsToSign.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="review" 
+              data-testid="tab-review-contracts"
+              className="gap-2 data-[state=active]:bg-primary/90 data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg transition-all duration-300 data-[state=active]:-translate-y-0.5 rounded-md"
+            >
+              <Clock className="h-4 w-4" />
+              <span className="text-xs sm:text-sm">{t.contracts?.tabReview || 'En vérification'}</span>
+              {contractsAwaitingReview.length > 0 && (
+                <Badge variant="secondary" className="ml-2">
+                  {contractsAwaitingReview.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="completed" 
+              data-testid="tab-completed-contracts"
+              className="gap-2 data-[state=active]:bg-accent/90 data-[state=active]:text-accent-foreground data-[state=active]:shadow-lg transition-all duration-300 data-[state=active]:-translate-y-0.5 rounded-md"
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              <span className="text-xs sm:text-sm">{t.contracts?.tabCompleted || 'Terminés'}</span>
               <Badge variant="secondary" className="ml-2">
-                {contractsAwaitingReview.length}
+                {contractsSigned.length}
               </Badge>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="completed" data-testid="tab-completed-contracts">
-            <CheckCircle2 className="h-4 w-4 mr-2" />
-            {t.contracts?.tabCompleted || 'Terminés'}
-            <Badge variant="secondary" className="ml-2">
-              {contractsSigned.length}
-            </Badge>
-          </TabsTrigger>
-        </TabsList>
+            </TabsTrigger>
+          </TabsList>
+        </GlassPanel>
 
-        <TabsContent value="pending" className="mt-6 space-y-6">
+        <TabsContent value="pending" className="mt-6 space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           {contractsToSign.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {contractsToSign.map((loan) => (
-                <Card key={loan.id} data-testid={`card-contract-pending-${loan.id}`}>
-                  <CardHeader>
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <CardTitle className="text-xl mb-1">
-                          {t.contracts?.loanNumber || 'Prêt'} #{loan.id.substring(0, 8)}
-                        </CardTitle>
-                        <CardDescription>
-                          {t.contracts?.approvedOn || 'Approuvé le'} {formatDate(loan.approvedAt)}
-                        </CardDescription>
-                      </div>
-                      <Badge variant="destructive">
-                        <AlertCircle className="h-3 w-3 mr-1" />
-                        {t.contracts?.actionRequired || 'Action requise'}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">
-                          {t.loan?.amount || 'Montant'}
-                        </p>
-                        <p className="text-lg font-semibold">{formatCurrency(loan.amount)}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">
-                          {t.loan?.interestRate || 'Taux d\'intérêt'}
-                        </p>
-                        <p className="text-lg font-semibold">{loan.interestRate}%</p>
-                      </div>
-                    </div>
-
-                    <div className="bg-muted/50 p-4 rounded-md space-y-3">
-                      <div className="flex items-start gap-2">
-                        <FileText className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+              {contractsToSign.map((loan) => {
+                const StatusIcon = CONTRACT_STATUS_CONFIG.awaiting_user_signature.icon;
+                return (
+                  <DashboardCard 
+                    key={loan.id} 
+                    data-testid={`card-contract-pending-${loan.id}`}
+                    className="bg-gradient-to-br from-destructive/5 to-transparent"
+                  >
+                    <div className="space-y-6">
+                      <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <p className="font-medium mb-1">
-                            {t.contracts?.step1 || '1. Télécharger le contrat'}
+                          <h3 className="text-xl font-semibold mb-1">
+                            {t.contracts?.loanNumber || 'Prêt'} #{loan.id.substring(0, 8)}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {t.contracts?.approvedOn || 'Approuvé le'} {formatDate(loan.approvedAt)}
                           </p>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {t.contracts?.step1Description || 'Téléchargez et lisez attentivement votre contrat de prêt.'}
+                        </div>
+                        <Badge variant="destructive" className="shadow-sm">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {t.contracts?.actionRequired || 'Action requise'}
+                        </Badge>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 bg-muted/30 rounded-xl">
+                          <p className="text-sm text-muted-foreground mb-1">
+                            {t.loan?.amount || 'Montant'}
                           </p>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleDownloadContract(loan.id)}
-                            data-testid={`button-download-contract-${loan.id}`}
-                          >
-                            <Download className="h-4 w-4 mr-2" />
-                            {t.contracts?.downloadContract || 'Télécharger le contrat'}
-                          </Button>
+                          <p className="text-xl font-bold">{formatCurrency(loan.amount)}</p>
+                        </div>
+                        <div className="p-4 bg-muted/30 rounded-xl">
+                          <p className="text-sm text-muted-foreground mb-1">
+                            {t.loan?.interestRate || 'Taux'}
+                          </p>
+                          <p className="text-xl font-bold">{loan.interestRate}%</p>
                         </div>
                       </div>
 
-                      <div className="flex items-start gap-2 pt-3 border-t">
-                        <Upload className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                        <div className="flex-1">
-                          <p className="font-medium mb-1">
-                            {t.contracts?.step2 || '2. Signer et renvoyer'}
-                          </p>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {t.contracts?.step2Description || 'Signez le contrat et renvoyez-le au format PDF.'}
-                          </p>
-                          <div className="max-w-xs">
-                            <SignedContractUpload 
-                              loanId={loan.id} 
-                              loanAmount={loan.amount}
-                            />
+                      <GlassPanel intensity="medium" className="p-5 space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 rounded-lg bg-primary/10">
+                            <FileText className="h-5 w-5 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium mb-1">
+                              {t.contracts?.step1 || '1. Télécharger le contrat'}
+                            </p>
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {t.contracts?.step1Description || 'Téléchargez et lisez attentivement votre contrat de prêt.'}
+                            </p>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleDownloadContract(loan.id)}
+                              className="hover-elevate"
+                              data-testid={`button-download-contract-${loan.id}`}
+                            >
+                              <Download className="h-4 w-4 mr-2" />
+                              {t.contracts?.downloadContract || 'Télécharger'}
+                            </Button>
                           </div>
                         </div>
-                      </div>
+
+                        <div className="flex items-start gap-3 pt-4 border-t">
+                          <div className="p-2 rounded-lg bg-accent/10">
+                            <Upload className="h-5 w-5 text-accent" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium mb-1">
+                              {t.contracts?.step2 || '2. Signer et renvoyer'}
+                            </p>
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {t.contracts?.step2Description || 'Signez le contrat et renvoyez-le au format PDF.'}
+                            </p>
+                            <div className="max-w-xs">
+                              <SignedContractUpload 
+                                loanId={loan.id} 
+                                loanAmount={loan.amount}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </GlassPanel>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  </DashboardCard>
+                );
+              })}
             </div>
           ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <FileText className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+            <Card className="border-dashed">
+              <CardContent className="py-16 text-center">
+                <div className="inline-flex p-4 rounded-full bg-muted/50 mb-4">
+                  <FileText className="h-12 w-12 text-muted-foreground/50" />
+                </div>
                 <p className="text-lg font-medium mb-2">
                   {t.contracts?.noPendingContracts || 'Aucun contrat en attente'}
                 </p>
@@ -220,41 +245,54 @@ export default function Contracts() {
           )}
         </TabsContent>
 
-        <TabsContent value="review" className="mt-6 space-y-6">
+        <TabsContent value="review" className="mt-6 space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           {contractsAwaitingReview.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {contractsAwaitingReview.map((loan) => (
-                <Card key={loan.id} data-testid={`card-contract-review-${loan.id}`}>
-                  <CardHeader>
+                <DashboardCard 
+                  key={loan.id} 
+                  data-testid={`card-contract-review-${loan.id}`}
+                  className="bg-gradient-to-br from-primary/5 to-transparent"
+                >
+                  <div className="space-y-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <CardTitle className="text-xl mb-1">
+                        <h3 className="text-xl font-semibold mb-1">
                           {t.contracts?.loanNumber || 'Prêt'} #{loan.id.substring(0, 8)}
-                        </CardTitle>
-                        <CardDescription>
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
                           {formatCurrency(loan.amount)} • {loan.interestRate}% • {loan.duration} mois
-                        </CardDescription>
+                        </p>
                       </div>
-                      <Badge variant="secondary">
+                      <Badge variant="secondary" className="shadow-sm">
                         <Clock className="h-3 w-3 mr-1" />
                         {t.contracts?.inReview || 'En vérification'}
                       </Badge>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-md">
-                      <p className="text-sm">
-                        {t.contracts?.reviewMessage || 'Votre contrat signé a été reçu et est en cours de vérification par notre équipe. Vous serez notifié dès que les fonds seront débloqués.'}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
+
+                    <GlassPanel intensity="medium" className="p-5 bg-primary/5 border-primary/20">
+                      <div className="flex gap-3">
+                        <div className="p-2 rounded-lg bg-primary/10 h-fit">
+                          <Clock className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium mb-1">Vérification en cours</p>
+                          <p className="text-sm text-muted-foreground">
+                            {t.contracts?.reviewMessage || 'Votre contrat signé a été reçu et est en cours de vérification par notre équipe. Vous serez notifié dès que les fonds seront débloqués.'}
+                          </p>
+                        </div>
+                      </div>
+                    </GlassPanel>
+                  </div>
+                </DashboardCard>
               ))}
             </div>
           ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Clock className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+            <Card className="border-dashed">
+              <CardContent className="py-16 text-center">
+                <div className="inline-flex p-4 rounded-full bg-muted/50 mb-4">
+                  <Clock className="h-12 w-12 text-muted-foreground/50" />
+                </div>
                 <p className="text-lg font-medium mb-2">
                   {t.contracts?.noReviewContracts || 'Aucun contrat en vérification'}
                 </p>
@@ -266,56 +304,63 @@ export default function Contracts() {
           )}
         </TabsContent>
 
-        <TabsContent value="completed" className="mt-6 space-y-6">
+        <TabsContent value="completed" className="mt-6 space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           {contractsSigned.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {contractsSigned.map((loan) => (
-                <Card key={loan.id} data-testid={`card-contract-completed-${loan.id}`}>
-                  <CardHeader>
+                <DashboardCard 
+                  key={loan.id} 
+                  data-testid={`card-contract-completed-${loan.id}`}
+                  className="bg-gradient-to-br from-accent/5 to-transparent"
+                >
+                  <div className="space-y-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <CardTitle className="text-xl mb-1">
+                        <h3 className="text-xl font-semibold mb-1">
                           {t.contracts?.loanNumber || 'Prêt'} #{loan.id.substring(0, 8)}
-                        </CardTitle>
-                        <CardDescription>
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
                           {formatCurrency(loan.amount)} • {loan.interestRate}% • {loan.duration} mois
-                        </CardDescription>
+                        </p>
                       </div>
-                      <Badge variant="default">
+                      <Badge variant="default" className="shadow-sm bg-accent/90 text-accent-foreground">
                         <CheckCircle2 className="h-3 w-3 mr-1" />
                         {t.contracts?.signed || 'Signé'}
                       </Badge>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {loan.contractUrl && (
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="w-full"
-                        onClick={() => handleDownloadContract(loan.id)}
-                        data-testid={`button-download-original-${loan.id}`}
-                      >
-                        <Download className="h-4 w-4 mr-2" />
-                        {t.contracts?.downloadOriginal || 'Télécharger le contrat original'}
-                      </Button>
-                    )}
-                    {loan.signedContractUrl && (
-                      <div className="bg-green-50 dark:bg-green-950/30 p-3 rounded-md">
-                        <p className="text-sm flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                          {t.contracts?.signedSuccess || 'Contrat signé et validé avec succès'}
-                        </p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+
+                    <div className="space-y-3">
+                      {loan.contractUrl && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full hover-elevate"
+                          onClick={() => handleDownloadContract(loan.id)}
+                          data-testid={`button-download-original-${loan.id}`}
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          {t.contracts?.downloadOriginal || 'Télécharger le contrat original'}
+                        </Button>
+                      )}
+                      {loan.signedContractUrl && (
+                        <GlassPanel intensity="medium" className="p-4 bg-accent/5 border-accent/20">
+                          <p className="text-sm flex items-center gap-2">
+                            <CheckCircle2 className="h-4 w-4 text-accent flex-shrink-0" />
+                            <span>{t.contracts?.signedSuccess || 'Contrat signé et validé avec succès'}</span>
+                          </p>
+                        </GlassPanel>
+                      )}
+                    </div>
+                  </div>
+                </DashboardCard>
               ))}
             </div>
           ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <CheckCircle2 className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+            <Card className="border-dashed">
+              <CardContent className="py-16 text-center">
+                <div className="inline-flex p-4 rounded-full bg-muted/50 mb-4">
+                  <CheckCircle2 className="h-12 w-12 text-muted-foreground/50" />
+                </div>
                 <p className="text-lg font-medium mb-2">
                   {t.contracts?.noCompletedContracts || 'Aucun contrat signé'}
                 </p>

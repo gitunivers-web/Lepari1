@@ -5,6 +5,7 @@ import { useUser, getAccountTypeLabel } from '@/hooks/use-user';
 import { Info } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 import LoanOffersCatalog from '@/components/LoanOffersCatalog';
+import { SectionTitle, GlassPanel } from '@/components/fintech';
 
 export default function LoanRequestDashboard() {
   const t = useTranslations();
@@ -16,22 +17,27 @@ export default function LoanRequestDashboard() {
   };
 
   return (
-    <div className="p-6 md:p-8 space-y-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="heading-loan-request">
-          {t.loanOffers.pageTitle}
-        </h1>
-        <p className="text-lg text-muted-foreground mb-6">
-          {t.loanOffers.pageSubtitle}
-        </p>
+    <div className="p-6 md:p-8 space-y-8 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
+      <div className="max-w-6xl mx-auto space-y-6">
+        <SectionTitle
+          title={t.loanOffers.pageTitle}
+          subtitle={t.loanOffers.pageSubtitle}
+        />
 
         {user && (
-          <Alert className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 mb-8">
-            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <AlertDescription className="text-sm">
-              {t.loanOffers.accountInfo.replace('{accountType}', getAccountTypeLabel(user.accountType))}
-            </AlertDescription>
-          </Alert>
+          <GlassPanel intensity="medium" className="p-6">
+            <div className="flex gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 h-fit">
+                <Info className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold mb-1">Informations de votre compte</h3>
+                <p className="text-sm text-muted-foreground">
+                  {t.loanOffers.accountInfo.replace('{accountType}', getAccountTypeLabel(user.accountType))}
+                </p>
+              </div>
+            </div>
+          </GlassPanel>
         )}
       </div>
 

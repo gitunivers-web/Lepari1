@@ -374,7 +374,7 @@ export default function Settings() {
         <TabsContent value="profile" className="space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           <DashboardCard
             title={t.settings.personalInfo}
-            description={t.settings.updateInfo}
+            subtitle={t.settings.updateInfo}
             icon={User}
           >
             <div className="space-y-6">
@@ -453,7 +453,7 @@ export default function Settings() {
         <TabsContent value="notifications" className="space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           <DashboardCard
             title={t.settings.notificationPreferences}
-            description={t.settings.chooseNotifications}
+            subtitle={t.settings.chooseNotifications}
             icon={Bell}
           >
             <div className="space-y-6">
@@ -555,7 +555,7 @@ export default function Settings() {
         <TabsContent value="security" className="space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           <DashboardCard
             title={t.settings.changePassword}
-            description={t.settings.updatePassword}
+            subtitle={t.settings.updatePassword}
             icon={Shield}
           >
             <div className="space-y-6">
@@ -621,7 +621,7 @@ export default function Settings() {
         <TabsContent value="appearance" className="space-y-6 motion-safe:animate-in motion-safe:fade-in-50 motion-safe:slide-in-from-bottom-4 duration-300">
           <DashboardCard
             title={t.settings.appearance}
-            description="Personnalisez l'apparence de votre interface"
+            subtitle="Personnalisez l'apparence de votre interface"
             icon={Palette}
           >
             <div className="space-y-6">
@@ -639,7 +639,7 @@ export default function Settings() {
                   >
                     <div className="space-y-2">
                       <div className="text-lg font-medium">{t.settings.lightMode}</div>
-                      <div className="text-sm text-muted-foreground">{t.settings.lightModeDesc}</div>
+                      <div className="text-sm text-muted-foreground">Interface claire et lumineuse</div>
                     </div>
                   </button>
                   <button
@@ -653,7 +653,7 @@ export default function Settings() {
                   >
                     <div className="space-y-2">
                       <div className="text-lg font-medium">{t.settings.darkMode}</div>
-                      <div className="text-sm text-muted-foreground">{t.settings.darkModeDesc}</div>
+                      <div className="text-sm text-muted-foreground">Interface sombre et reposante</div>
                     </div>
                   </button>
                 </div>
@@ -662,7 +662,7 @@ export default function Settings() {
               <Separator />
 
               <div className="space-y-4">
-                <Label className="text-base font-medium">{t.settings.language}</Label>
+                <Label className="text-base font-medium">Langue</Label>
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setLanguage('fr')}
