@@ -1984,7 +1984,10 @@ export class DatabaseStorage implements IStorage {
         .for('update');
 
       if (existingActiveTransfers.length > 0) {
-        throw new Error('Un transfert est déjà en cours pour ce prêt');
+        const existingTransfer = existingActiveTransfers[0];
+        const error = new Error('Un transfert est déjà en cours pour ce prêt') as any;
+        error.existingTransferId = existingTransfer.id;
+        throw error;
       }
 
       const transferResult = await tx.insert(transfers).values(insertTransfer).returning();

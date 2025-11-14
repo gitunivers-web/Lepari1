@@ -61,11 +61,32 @@ export default function TransferFlow() {
   const initiateMutation = useMutation({
     mutationFn: async (data: any) => {
       const response = await apiRequest('POST', '/api/transfers/initiate', data);
-      return await response.json();
+      const result = await response.json();
+      
+      if (!response.ok && result.redirect && result.existingTransferId) {
+        return { redirect: true, existingTransferId: result.existingTransferId };
+      }
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to initiate transfer');
+      }
+      
+      return result;
     },
     onSuccess: (data: any) => {
       if (verificationIntervalRef.current) clearInterval(verificationIntervalRef.current);
       if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+      
+      if (data.redirect && data.existingTransferId) {
+        toast({
+          title: 'Transfert en cours',
+          description: 'Un transfert est déjà en cours pour ce prêt. Redirection...',
+        });
+        setTimeout(() => {
+          setLocation(`/transfer/${data.existingTransferId}`);
+        }, 1000);
+        return;
+      }
       
       setTransferId(data.transfer.id);
       toast({

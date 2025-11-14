@@ -2330,8 +2330,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: `Transfert initié avec succès. L'administrateur vous transmettra les codes de validation un par un. Ces codes sont uniques et ne peuvent être utilisés que pour ce transfert.`,
         codesRequired: codesCount,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Transfer initiation error:', error);
+      
+      if (error.existingTransferId) {
+        return res.status(409).json({ 
+          error: 'Un transfert est déjà en cours pour ce prêt',
+          existingTransferId: error.existingTransferId,
+          redirect: true
+        });
+      }
+      
       res.status(400).json({ error: 'Failed to initiate transfer' });
     }
   });
