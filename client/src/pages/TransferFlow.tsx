@@ -52,6 +52,12 @@ export default function TransferFlow() {
     refetchInterval: step === 'progress' ? 3000 : false,
   });
 
+  useEffect(() => {
+    if (activeLoans && activeLoans.length > 0 && !amount) {
+      setAmount(parseFloat(activeLoans[0].amount).toString());
+    }
+  }, [activeLoans]);
+
   const initiateMutation = useMutation({
     mutationFn: async (data: any) => {
       const response = await apiRequest('POST', '/api/transfers/initiate', data);
