@@ -9512,7 +9512,6 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
-      ...howItWorksEN,
       title: 'Como Funciona',
       subtitle: 'Um processo 100% digital ultra-rápido em 4 etapas simples',
       step1Title: 'Registro - 3 Minutos',
@@ -9522,12 +9521,104 @@ export const translations: Record<Language, TranslationKeys> = {
       step2Desc: 'Faça login no seu painel de cliente pessoal seguro. Você encontrará todas as ferramentas necessárias para gerenciar suas finanças e enviar solicitações de empréstimo. Acesso 24/7 de qualquer dispositivo.',
       step2Duration: 'Instante',
       step3Title: 'Solicitação e análise - Resposta instantânea',
-      step3Desc: 'Envie sua solicitação de empréstimo diretamente do seu painel de usuário. Preencha o formulário com o valor desejado e carregue seus documentos justificativos. Graças à nossa tecnologia de análise em tempo real, você recebe uma resposta em minutos até 24 horas no máximo.',
+      step3Desc: 'Envie sua solicitação de empréstimo diretamente do seu painel de usuário. Preencha o formulário com o valor desejado e carregue seus documentos justificativos. Graças à nossa tecnologia de análise em tempo real, você recebe uma resposta de princípio em minutos até 24 horas no máximo.',
       step3Duration: '< 24h',
       step4Title: 'Liberação imediata - Fundos disponíveis instantaneamente',
       step4Desc: 'Assim que sua solicitação for aprovada, assine eletronicamente seu contrato do seu painel. Os fundos são liberados imediatamente em sua conta segura Altus Finance Group. Você pode então transferi-los para sua conta bancária pessoal ou empresarial instantaneamente e sem taxas adicionais.',
       step4Duration: 'Imediato',
+      averageTimePrefix: 'Tempo total médio:',
       averageTimeValue: '24 horas no máximo desde a apresentação da solicitação até a liberação dos fundos',
+      requiredDocumentsTitle: 'Documentos necessários',
+      requiredDocumentsSubtitle: 'Prepare estes documentos para acelerar sua solicitação',
+      personalLoanTitle: 'Empréstimo Pessoal',
+      businessLoanTitle: 'Empréstimo Empresarial',
+      documents: {
+        personal: [
+          'Documento de identidade válido (carteira de identidade, passaporte)',
+          'Comprovante de residência (menos de 3 meses)',
+          'Os 3 últimos contracheques',
+          'Última declaração de imposto de renda',
+          'Extratos bancários (3 meses)',
+          'Justificativa do projeto (orçamentos, faturas)'
+        ],
+        professional: [
+          'Registro comercial com menos de 3 meses',
+          'Documento de identidade do diretor',
+          'Estatutos da empresa',
+          'Balanços financeiros (últimos 3 anos)',
+          'Pacote fiscal completo',
+          'Extratos bancários comerciais (6 meses)',
+          'Plano de negócios (criação/aquisição)',
+          'Previsão financeira de 3 anos',
+          'Orçamentos ou faturas pro forma (equipamentos)'
+        ]
+      },
+      tipTitle: 'Dica:',
+      tipMessage: 'Documentos faltando? Nossa equipe ajudará você a completar seu arquivo.',
+      tipContactCta: 'Entre em contato →',
+      eligibilityTitle: 'Critérios de elegibilidade',
+      eligibilitySubtitle: 'Verifique se você atende aos requisitos para seu empréstimo',
+      individualsTitle: 'Particulares',
+      professionalsTitle: 'Profissionais',
+      requiredTag: 'Obrigatório',
+      eligibility: {
+        personal: [
+          { label: 'Maior de idade e residente português', required: true },
+          { label: 'Renda regular verificável', required: true },
+          { label: 'Sem interdição bancária', required: true },
+          { label: 'Taxa de endividamento < 35%', required: true },
+          { label: 'Pontuação de crédito aceitável', required: false }
+        ],
+        professional: [
+          { label: 'Empresa registrada em Portugal', required: true },
+          { label: 'Em atividade há +6 meses', required: true },
+          { label: 'Balanços financeiros atualizados', required: true },
+          { label: 'Sem processo coletivo', required: true },
+          { label: 'Contribuição pessoal 10-30%', required: true }
+        ]
+      },
+      stepsSimpleTitle: '4 etapas simples',
+      stepsSimpleSubtitle: 'Da solicitação à liberação dos fundos com total facilidade',
+      securityTitle: 'Segurança e Garantias',
+      securitySubtitle: 'Sua segurança é nossa prioridade absoluta',
+      securityFeatures: [
+        {
+          title: 'Criptografia SSL 256-bit',
+          description: 'Todos os seus dados são protegidos por criptografia militar'
+        },
+        {
+          title: 'Certificação ISO 27001',
+          description: 'Conformidade com padrões internacionais de segurança'
+        },
+        {
+          title: 'Proteção de dados RGPD',
+          description: 'Respeito total à sua privacidade e dados'
+        },
+        {
+          title: 'Autenticação de dois fatores',
+          description: 'Proteção reforçada da sua conta'
+        }
+      ],
+      security: {
+        dataProtectionTitle: 'Seus Dados Protegidos',
+        dataProtectionItems: [
+          'Criptografia SSL 256 bits',
+          'Conformidade RGPD e ACPR',
+          'Servidores seguros em Portugal',
+          'Autenticação de dois fatores'
+        ],
+        guaranteesTitle: 'Organismos de Garantia',
+        guaranteesItems: [
+          'BPI Portugal (40-70% do empréstimo)',
+          'IAPMEI (artesãos/comerciantes)',
+          'Economia Social (economia social)',
+          'Seguro do tomador obrigatório'
+        ]
+      },
+      ctaTitle: 'Pronto para começar?',
+      ctaSubtitle: 'Envie sua solicitação online em minutos e obtenha uma resposta rápida',
+      ctaRequestButton: 'Solicitar um empréstimo',
+      ctaContactButton: 'Falar com um consultor'
     },
     products: {
       title: 'Nossas Soluções de Empréstimos',
@@ -11666,7 +11757,6 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
-      ...howItWorksEN,
       title: 'Come funziona',
       subtitle: 'Un processo 100% digitale ultrarapido in 4 semplici passaggi',
       step1Title: 'Registrazione - 3 minuti',
@@ -11676,12 +11766,104 @@ export const translations: Record<Language, TranslationKeys> = {
       step2Desc: 'Accedi al tuo pannello cliente personale sicuro. Troverai tutti gli strumenti necessari per gestire le tue finanze e inviare richieste di prestito. Accesso 24/7 da qualsiasi dispositivo.',
       step2Duration: 'Istantaneo',
       step3Title: 'Richiesta e analisi - Risposta istantanea',
-      step3Desc: 'Invia la tua richiesta di prestito direttamente dal tuo pannello utente. Compila il modulo con l\'importo desiderato e carica i tuoi documenti giustificativi. Grazie alla nostra tecnologia di analisi in tempo reale, ricevi una risposta entro minuti fino a 24 ore massimo.',
+      step3Desc: 'Invia la tua richiesta di prestito direttamente dal tuo pannello utente. Compila il modulo con l\'importo desiderato e carica i tuoi documenti giustificativi. Grazie alla nostra tecnologia di analisi in tempo reale, ricevi una risposta di principio entro minuti fino a 24 ore massimo.',
       step3Duration: '< 24h',
       step4Title: 'Sblocco immediato - Fondi disponibili istantaneamente',
       step4Desc: 'Una volta approvata la tua richiesta, firma elettronicamente il tuo contratto dal tuo pannello. I fondi vengono sbloccati immediatamente sul tuo conto sicuro Altus Finance Group. Puoi quindi trasferirli sul tuo conto bancario personale o aziendale istantaneamente e senza costi aggiuntivi.',
       step4Duration: 'Immediato',
+      averageTimePrefix: 'Tempo totale medio:',
       averageTimeValue: '24 ore massimo dalla presentazione della richiesta allo sblocco dei fondi',
+      requiredDocumentsTitle: 'Documenti richiesti',
+      requiredDocumentsSubtitle: 'Prepara questi documenti per accelerare la tua richiesta',
+      personalLoanTitle: 'Prestito Personale',
+      businessLoanTitle: 'Prestito Aziendale',
+      documents: {
+        personal: [
+          'Documento d\'identità valido (carta d\'identità, passaporto)',
+          'Attestazione di residenza (meno di 3 mesi)',
+          'Gli ultimi 3 cedolini paga',
+          'Ultima dichiarazione dei redditi',
+          'Estratti conto bancari (3 mesi)',
+          'Giustificazione del progetto (preventivi, fatture)'
+        ],
+        professional: [
+          'Visura camerale con meno di 3 mesi',
+          'Documento d\'identità del dirigente',
+          'Statuto della società',
+          'Bilanci finanziari (ultimi 3 anni)',
+          'Pacchetto fiscale completo',
+          'Estratti conto bancari aziendali (6 mesi)',
+          'Business plan (creazione/acquisizione)',
+          'Previsione finanziaria a 3 anni',
+          'Preventivi o fatture proforma (attrezzature)'
+        ]
+      },
+      tipTitle: 'Suggerimento:',
+      tipMessage: 'Documenti mancanti? Il nostro team ti aiuterà a completare il tuo dossier.',
+      tipContactCta: 'Contattaci →',
+      eligibilityTitle: 'Criteri di ammissibilità',
+      eligibilitySubtitle: 'Verifica se soddisfi i requisiti per il tuo prestito',
+      individualsTitle: 'Privati',
+      professionalsTitle: 'Professionisti',
+      requiredTag: 'Obbligatorio',
+      eligibility: {
+        personal: [
+          { label: 'Maggiorenne e residente italiano', required: true },
+          { label: 'Reddito regolare verificabile', required: true },
+          { label: 'Nessuna interdizione bancaria', required: true },
+          { label: 'Tasso di indebitamento < 35%', required: true },
+          { label: 'Punteggio di credito accettabile', required: false }
+        ],
+        professional: [
+          { label: 'Azienda registrata in Italia', required: true },
+          { label: 'In attività da +6 mesi', required: true },
+          { label: 'Bilanci finanziari aggiornati', required: true },
+          { label: 'Nessuna procedura collettiva', required: true },
+          { label: 'Contributo personale 10-30%', required: true }
+        ]
+      },
+      stepsSimpleTitle: '4 passaggi semplici',
+      stepsSimpleSubtitle: 'Dalla richiesta allo sblocco dei fondi con totale facilità',
+      securityTitle: 'Sicurezza e Garanzie',
+      securitySubtitle: 'La tua sicurezza è la nostra priorità assoluta',
+      securityFeatures: [
+        {
+          title: 'Crittografia SSL 256-bit',
+          description: 'Tutti i tuoi dati sono protetti da crittografia militare'
+        },
+        {
+          title: 'Certificazione ISO 27001',
+          description: 'Conformità agli standard di sicurezza internazionali'
+        },
+        {
+          title: 'Protezione dati GDPR',
+          description: 'Rispetto totale della tua privacy e dei tuoi dati'
+        },
+        {
+          title: 'Autenticazione a due fattori',
+          description: 'Protezione rafforzata del tuo account'
+        }
+      ],
+      security: {
+        dataProtectionTitle: 'I Tuoi Dati Protetti',
+        dataProtectionItems: [
+          'Crittografia SSL 256 bit',
+          'Conformità GDPR e ACPR',
+          'Server sicuri in Italia',
+          'Autenticazione a due fattori'
+        ],
+        guaranteesTitle: 'Organismi di Garanzia',
+        guaranteesItems: [
+          'CDP Italia (40-70% del prestito)',
+          'Confidi (artigiani/commercianti)',
+          'Economia Sociale (economia sociale)',
+          'Assicurazione del mutuatario obbligatoria'
+        ]
+      },
+      ctaTitle: 'Pronto per iniziare?',
+      ctaSubtitle: 'Invia la tua richiesta online in pochi minuti e ottieni una risposta rapida',
+      ctaRequestButton: 'Richiedere un prestito',
+      ctaContactButton: 'Parlare con un consulente'
     },
     products: {
       title: 'Le nostre soluzioni di prestito',
@@ -13669,7 +13851,6 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     howItWorks: {
-      ...howItWorksEN,
       title: 'Wie es funktioniert',
       subtitle: 'Ein 100% digitaler, ultraschneller Prozess in 4 einfachen Schritten',
       step1Title: 'Registrierung - 3 Minuten',
@@ -13684,7 +13865,99 @@ export const translations: Record<Language, TranslationKeys> = {
       step4Title: 'Sofortige Freigabe - Gelder sofort verfügbar',
       step4Desc: 'Sobald Ihr Antrag genehmigt ist, unterschreiben Sie Ihren Vertrag elektronisch über Ihr Dashboard. Die Mittel werden sofort auf Ihr sicheres Altus Finance Group-Konto freigegeben. Sie können diese dann sofort und ohne zusätzliche Gebühren auf Ihr persönliches oder geschäftliches Bankkonto überweisen.',
       step4Duration: 'Sofort',
+      averageTimePrefix: 'Durchschnittliche Gesamtzeit:',
       averageTimeValue: 'Maximal 24 Stunden von der Antragstellung bis zur Freigabe der Mittel',
+      requiredDocumentsTitle: 'Erforderliche Dokumente',
+      requiredDocumentsSubtitle: 'Bereiten Sie diese Dokumente vor, um Ihren Antrag zu beschleunigen',
+      personalLoanTitle: 'Privatkredit',
+      businessLoanTitle: 'Geschäftskredit',
+      documents: {
+        personal: [
+          'Gültiger Personalausweis (Personalausweis, Reisepass)',
+          'Wohnsitznachweis (weniger als 3 Monate)',
+          'Die letzten 3 Gehaltsabrechnungen',
+          'Letzter Steuerbescheid',
+          'Kontoauszüge (3 Monate)',
+          'Projektbegründung (Kostenvoranschläge, Rechnungen)'
+        ],
+        professional: [
+          'Handelsregisterauszug weniger als 3 Monate alt',
+          'Personalausweis des Geschäftsführers',
+          'Gesellschaftssatzung',
+          'Finanzbilanzen (letzte 3 Jahre)',
+          'Vollständiges Steuerpaket',
+          'Geschäftliche Kontoauszüge (6 Monate)',
+          'Businessplan (Gründung/Übernahme)',
+          'Finanzprognose für 3 Jahre',
+          'Kostenvoranschläge oder Proformarechnungen (Ausrüstung)'
+        ]
+      },
+      tipTitle: 'Tipp:',
+      tipMessage: 'Fehlende Dokumente? Unser Team hilft Ihnen, Ihr Dossier zu vervollständigen.',
+      tipContactCta: 'Kontaktieren Sie uns →',
+      eligibilityTitle: 'Zulassungskriterien',
+      eligibilitySubtitle: 'Prüfen Sie, ob Sie die Voraussetzungen für Ihren Kredit erfüllen',
+      individualsTitle: 'Privatpersonen',
+      professionalsTitle: 'Unternehmen',
+      requiredTag: 'Erforderlich',
+      eligibility: {
+        personal: [
+          { label: 'Volljährig und deutscher Einwohner', required: true },
+          { label: 'Regelmäßiges nachweisbares Einkommen', required: true },
+          { label: 'Keine Banksperre', required: true },
+          { label: 'Verschuldungsgrad < 35%', required: true },
+          { label: 'Akzeptable Kreditwürdigkeit', required: false }
+        ],
+        professional: [
+          { label: 'In Deutschland registriertes Unternehmen', required: true },
+          { label: 'Seit +6 Monaten aktiv', required: true },
+          { label: 'Aktuelle Finanzbilanzen', required: true },
+          { label: 'Keine Insolvenzverfahren', required: true },
+          { label: 'Eigenbeitrag 10-30%', required: true }
+        ]
+      },
+      stepsSimpleTitle: '4 einfache Schritte',
+      stepsSimpleSubtitle: 'Vom Antrag bis zur Freigabe der Mittel mit völliger Leichtigkeit',
+      securityTitle: 'Sicherheit und Garantien',
+      securitySubtitle: 'Ihre Sicherheit ist unsere absolute Priorität',
+      securityFeatures: [
+        {
+          title: '256-Bit-SSL-Verschlüsselung',
+          description: 'Alle Ihre Daten sind durch militärische Verschlüsselung geschützt'
+        },
+        {
+          title: 'ISO 27001 Zertifizierung',
+          description: 'Einhaltung internationaler Sicherheitsstandards'
+        },
+        {
+          title: 'DSGVO-Datenschutz',
+          description: 'Vollständige Achtung Ihrer Privatsphäre und Daten'
+        },
+        {
+          title: 'Zwei-Faktor-Authentifizierung',
+          description: 'Verstärkter Schutz Ihres Kontos'
+        }
+      ],
+      security: {
+        dataProtectionTitle: 'Ihre Geschützten Daten',
+        dataProtectionItems: [
+          '256-Bit-SSL-Verschlüsselung',
+          'DSGVO- und ACPR-Konformität',
+          'Sichere Server in Deutschland',
+          'Zwei-Faktor-Authentifizierung'
+        ],
+        guaranteesTitle: 'Garantieorganisationen',
+        guaranteesItems: [
+          'KfW Deutschland (40-70% des Kredits)',
+          'Bürgschaftsbanken (Handwerker/Händler)',
+          'Sozialwirtschaft (Sozialwirtschaft)',
+          'Pflichtversicherung des Kreditnehmers'
+        ]
+      },
+      ctaTitle: 'Bereit anzufangen?',
+      ctaSubtitle: 'Reichen Sie Ihren Online-Antrag in wenigen Minuten ein und erhalten Sie eine schnelle Antwort',
+      ctaRequestButton: 'Einen Kredit beantragen',
+      ctaContactButton: 'Mit einem Berater sprechen'
     },
     products: {
       title: 'Unsere Kreditlösungen',
@@ -15828,22 +16101,73 @@ export const translations: Record<Language, TranslationKeys> = {
     },
     howItWorks: {
       title: 'Hoe het werkt',
-      subtitle: 'Een 100% digitaal, ultrasnelprocess in 4 eenvoudige stappen',
-      step1Title: 'Online aanvraag - 4 minuten',
-      step1Desc: 'Vul ons beveiligde formulier in met uw persoonlijke of zakelijke informatie. Geen noodzaak om te reizen, alles gebeurt online met directe identiteitsverificatie (KYC) en vereenvoudigde documentupload.',
-      step1Duration: '4 min',
-      step2Title: 'Ultrasnelle reactie - Van enkele minuten tot 24u',
-      step2Desc: 'Onze kredietbeoordelingstechnologie analyseert uw financieel profiel, uw inkomsten en uw geschiedenis in realtime. Dankzij onze geavanceerde algoritmen en integratie met kredietbureaus geven we u een principieel antwoord in enkele minuten tot maximaal 24u.',
-      step2Duration: 'Van enkele minuten tot 24u',
-      step3Title: 'Vrijgave van middelen - Direct',
-      step3Desc: 'Zodra uw aanvraag is goedgekeurd, worden de middelen direct vrijgegeven op uw beveiligde Altus Finance Group-account. U behoudt de volledige controle over uw middelen met 24/7 toegang via uw klantgebied.',
-      step3Duration: 'Direct',
-      step4Title: 'Overschrijving naar uw rekening - In uw tempo',
-      step4Desc: 'Maak uw middelen over wanneer u wilt naar uw persoonlijke of zakelijke bankrekening rechtstreeks vanuit uw Altus Finance Group-gebied. Directe of geplande overschrijvingen volgens uw behoeften, zonder extra kosten.',
-      step4Duration: 'In uw tempo',
-      averageTimeValue: 'Maximaal 24 uur van de indiening van de aanvraag tot de vrijgave van middelen',
+      subtitle: 'Een 100% digitaal, ultrasnelproces in 4 eenvoudige stappen',
+      step1Title: 'Registratie - 3 minuten',
+      step1Desc: 'Maak uw Altus Finance Group-account in enkele minuten aan. Voer uw persoonlijke of zakelijke informatie veilig in. Directe identiteitsverificatie (KYC) garandeert de veiligheid van uw account.',
+      step1Duration: '3 min',
+      step2Title: 'Inloggen - Toegang tot uw dashboard',
+      step2Desc: 'Log in op uw beveiligd persoonlijk klantdashboard. U vindt er alle benodigde tools om uw financiën te beheren en leningaanvragen in te dienen. 24/7 toegang vanaf elk apparaat.',
+      step2Duration: 'Direct',
+      step3Title: 'Aanvraag en analyse - Directe reactie',
+      step3Desc: 'Dien uw leningaanvraag rechtstreeks in vanaf uw gebruikersdashboard. Vul het formulier in met het gewenste bedrag en upload uw ondersteunende documenten. Dankzij onze realtime analysetechnologie ontvangt u binnen enkele minuten tot maximaal 24 uur een antwoord in principe.',
+      step3Duration: '< 24u',
+      step4Title: 'Directe vrijgave - Fondsen direct beschikbaar',
+      step4Desc: 'Zodra uw aanvraag is goedgekeurd, ondertekent u uw contract elektronisch vanuit uw dashboard. De middelen worden direct vrijgegeven op uw beveiligde Altus Finance Group-account. U kunt ze vervolgens direct en zonder extra kosten overmaken naar uw persoonlijke of zakelijke bankrekening.',
+      step4Duration: 'Direct',
+      averageTimePrefix: 'Gemiddelde totale tijd:',
+      averageTimeValue: 'Maximaal 24 uur van indiening aanvraag tot vrijgave van middelen',
+      requiredDocumentsTitle: 'Vereiste documenten',
+      requiredDocumentsSubtitle: 'Bereid deze documenten voor om uw aanvraag te versnellen',
+      personalLoanTitle: 'Persoonlijke Lening',
+      businessLoanTitle: 'Zakelijke Lening',
+      documents: {
+        personal: [
+          'Geldig identiteitsbewijs (identiteitskaart, paspoort)',
+          'Bewijs van verblijf (minder dan 3 maanden)',
+          'De laatste 3 loonstroken',
+          'Laatste belastingaangifte',
+          'Bankafschriften (3 maanden)',
+          'Projectjustificatie (offertes, facturen)'
+        ],
+        professional: [
+          'KvK-uittreksel jonger dan 3 maanden',
+          'Identiteitsbewijs van de directeur',
+          'Statuten van het bedrijf',
+          'Financiële balansen (laatste 3 jaar)',
+          'Volledig fiscaal pakket',
+          'Zakelijke bankafschriften (6 maanden)',
+          'Businessplan (oprichting/overname)',
+          'Financiële prognose voor 3 jaar',
+          'Offertes of proforma facturen (uitrusting)'
+        ]
+      },
+      tipTitle: 'Tip:',
+      tipMessage: 'Ontbrekende documenten? Ons team helpt u uw dossier te voltooien.',
+      tipContactCta: 'Neem contact op →',
+      eligibilityTitle: 'Toelatingscriterial',
+      eligibilitySubtitle: 'Controleer of u voldoet aan de voorwaarden voor uw lening',
+      individualsTitle: 'Particulieren',
+      professionalsTitle: 'Bedrijven',
+      requiredTag: 'Verplicht',
+      eligibility: {
+        personal: [
+          { label: 'Meerderjarig en Nederlandse inwoner', required: true },
+          { label: 'Regelmatig verifieerbaar inkomen', required: true },
+          { label: 'Geen bankverbod', required: true },
+          { label: 'Schuldgraad < 35%', required: true },
+          { label: 'Acceptabele kredietscore', required: false }
+        ],
+        professional: [
+          { label: 'Bedrijf geregistreerd in Nederland', required: true },
+          { label: 'Actief sinds +6 maanden', required: true },
+          { label: 'Actuele financiële balansen', required: true },
+          { label: 'Geen collectieve procedures', required: true },
+          { label: 'Persoonlijke bijdrage 10-30%', required: true }
+        ]
+      },
       stepsSimpleTitle: '4 eenvoudige stappen',
       stepsSimpleSubtitle: 'Van aanvraag tot vrijgave van fondsen met volledig gemak',
+      securityTitle: 'Veiligheid en Garanties',
       securitySubtitle: 'Uw veiligheid is onze absolute prioriteit',
       securityFeatures: [
         {
@@ -15863,6 +16187,26 @@ export const translations: Record<Language, TranslationKeys> = {
           description: 'Versterkte bescherming van uw account'
         }
       ],
+      security: {
+        dataProtectionTitle: 'Uw Beschermde Gegevens',
+        dataProtectionItems: [
+          '256-bit SSL-versleuteling',
+          'AVG- en ACPR-naleving',
+          'Beveiligde servers in Nederland',
+          'Twee-factor authenticatie'
+        ],
+        guaranteesTitle: 'Garantie-organisaties',
+        guaranteesItems: [
+          'BOM Nederland (40-70% van de lening)',
+          'Borgstellingskrediet (ambachtslieden/handelaars)',
+          'Sociale Economie (sociale economie)',
+          'Verplichte lener verzekering'
+        ]
+      },
+      ctaTitle: 'Klaar om te beginnen?',
+      ctaSubtitle: 'Dien uw online aanvraag in enkele minuten in en krijg een snel antwoord',
+      ctaRequestButton: 'Een lening aanvragen',
+      ctaContactButton: 'Praten met een adviseur'
     },
     products: {
       title: 'Onze leningoplossingen',
