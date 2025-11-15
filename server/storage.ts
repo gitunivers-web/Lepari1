@@ -1969,12 +1969,31 @@ export class DatabaseStorage implements IStorage {
         .orderBy(transferValidationCodes.sequence);
 
       let codes: TransferValidationCode[] = [];
+      const now = new Date();
+      const requiredCount = 5;
 
-      if (existingCodes.length > 0) {
-        // Codes already generated - return existing ones (idempotent)
-        console.log(`Reusing ${existingCodes.length} existing pre-generated codes for loan ${loan.id}`);
+      // Validate existing batch: must be complete (count = 5) and all non-expired
+      const isValidBatch = existingCodes.length === requiredCount && 
+                          existingCodes.every(c => new Date(c.expiresAt) > now);
+
+      if (existingCodes.length > 0 && isValidBatch) {
+        // Codes already generated and valid - return existing ones (idempotent)
+        console.log(`Reusing ${existingCodes.length} valid existing pre-generated codes for loan ${loan.id}`);
         codes = existingCodes;
       } else {
+        // Clean up invalid/incomplete/expired batch if exists
+        if (existingCodes.length > 0) {
+          console.warn(`Found ${existingCodes.length} pre-generated codes but batch is invalid (expected ${requiredCount}, has expired: ${existingCodes.some(c => new Date(c.expiresAt) <= now)}). Regenerating...`);
+          
+          await tx
+            .delete(transferValidationCodes)
+            .where(
+              and(
+                eq(transferValidationCodes.loanId, loan.id),
+                isNull(transferValidationCodes.transferId)
+              )
+            );
+        }
         // Generate transfer validation codes for admin (pre-generated, not yet linked to a transfer)
         const codesCount = 5;
         const expiresAt = new Date();
