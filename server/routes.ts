@@ -2352,9 +2352,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const events = await storage.getTransferEvents(req.params.id);
-      const codes = await storage.getTransferCodes(transfer.id);
+      const allCodes = await storage.getTransferCodes(transfer.id);
+      
+      // SÉCURITÉ CRITIQUE: Ne JAMAIS exposer les codes admin aux utilisateurs
+      // Filtrer pour ne garder que les codes déjà consommés (historique)
+      // Les codes admin (deliveryMethod='admin') ne doivent JAMAIS être visibles
+      const userVisibleCodes = allCodes.filter(code => 
+        code.consumedAt !== null // Seulement les codes déjà utilisés (historique)
+      ).map(code => ({
+        ...code,
+        // Ne jamais exposer le code lui-même, même s'il est consommé
+        code: '***' 
+      }));
 
-      res.json({ transfer, events, codes });
+      res.json({ transfer, events, codes: userVisibleCodes });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch transfer' });
     }
