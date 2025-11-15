@@ -549,6 +549,7 @@ type TranslationKeys = {
     responseTime: string;
     businessHours: string;
     addressLabel: string;
+    addressStreet: string;
     addressFull: string;
     formTitle: string;
     formSubtitle: string;
@@ -2670,6 +2671,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Réponse sous 24h',
       businessHours: 'Lun-Ven 9h-18h',
       addressLabel: 'Adresse',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxembourg',
       formTitle: 'Envoyez-nous un message',
       formSubtitle: 'Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais',
@@ -4977,6 +4979,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Response within 24h',
       businessHours: 'Mon-Fri 9am-6pm',
       addressLabel: 'Address',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxembourg',
       formTitle: 'Send us a message',
       formSubtitle: 'Fill out the form below and we will get back to you as soon as possible',
@@ -7352,6 +7355,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Respuesta en 24h',
       businessHours: 'Lun-Vie 9h-18h',
       addressLabel: 'Dirección',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxemburgo',
       formTitle: 'Envíenos un mensaje',
       formSubtitle: 'Complete el formulario a continuación y le responderemos lo antes posible',
@@ -9739,6 +9743,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Resposta em 24h',
       businessHours: 'Seg-Sex 9h-18h',
       addressLabel: 'Endereço',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxemburgo',
       formTitle: 'Envie-nos uma mensagem',
       formSubtitle: 'Preencha o formulário abaixo e responderemos o mais breve possível',
@@ -12003,6 +12008,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Risposta entro 24h',
       businessHours: 'Lun-Ven 9h-18h',
       addressLabel: 'Indirizzo',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Lussemburgo',
       formTitle: 'Inviaci un messaggio',
       formSubtitle: 'Compila il modulo qui sotto e ti risponderemo il prima possibile',
@@ -14116,6 +14122,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Antwort innerhalb von 24h',
       businessHours: 'Mo-Fr 9-18 Uhr',
       addressLabel: 'Adresse',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxemburg',
       formTitle: 'Senden Sie uns eine Nachricht',
       formSubtitle: 'Füllen Sie das untenstehende Formular aus und wir werden uns so schnell wie möglich bei Ihnen melden',
@@ -16384,6 +16391,7 @@ export const translations: Record<Language, TranslationKeys> = {
       responseTime: 'Antwoord binnen 24u',
       businessHours: 'Ma-Vr 9u-18u',
       addressLabel: 'Adres',
+      addressStreet: '19 Rue Sigismond',
       addressFull: 'L-2537 Luxemburg',
       formTitle: 'Stuur ons een bericht',
       formSubtitle: 'Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met u op',

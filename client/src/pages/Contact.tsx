@@ -46,7 +46,7 @@ export default function Contact() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de l\'envoi du message');
+        throw new Error(data.error || t.contact.errorSending);
       }
 
       toast({
@@ -56,8 +56,8 @@ export default function Contact() {
       setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
       toast({
-        title: 'Erreur',
-        description: error instanceof Error ? error.message : 'Erreur lors de l\'envoi du message',
+        title: t.contact.errorTitle,
+        description: error instanceof Error ? error.message : t.contact.errorSending,
         variant: 'destructive',
       });
     } finally {
@@ -68,23 +68,23 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
+      title: t.contact.emailLabel,
       value: "infos@altusfinancegroup.com",
-      detail: "Réponse sous 24h",
+      detail: t.contact.responseTime,
       color: "from-blue-500 to-indigo-600"
     },
     {
       icon: Phone,
       title: t.contact.phone,
       value: "+352 40 63 48",
-      detail: "Lun-Ven 9h-18h",
+      detail: t.contact.businessHours,
       color: "from-indigo-500 to-purple-600"
     },
     {
       icon: MapPin,
-      title: "Adresse",
-      value: "19 Rue Sigismond",
-      detail: "L-2537 Luxembourg",
+      title: t.contact.addressLabel,
+      value: t.contact.addressStreet,
+      detail: t.contact.addressFull,
       color: "from-purple-500 to-pink-600"
     }
   ];
@@ -118,7 +118,7 @@ export default function Contact() {
           >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-indigo-100 mb-6">
               <MessageCircle className="w-4 h-4 text-indigo-600 mr-2" />
-              <span className="text-sm font-semibold text-indigo-600">Disponibles 24/7</span>
+              <span className="text-sm font-semibold text-indigo-600">{t.contact.available247}</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent">
@@ -166,8 +166,8 @@ export default function Contact() {
             >
               <Card className="p-10 bg-white shadow-2xl border-0">
                 <div className="mb-8">
-                  <h2 className="text-3xl font-bold mb-3 text-gray-900">Envoyez-nous un message</h2>
-                  <p className="text-gray-600">Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais</p>
+                  <h2 className="text-3xl font-bold mb-3 text-gray-900">{t.contact.formTitle}</h2>
+                  <p className="text-gray-600">{t.contact.formSubtitle}</p>
                 </div>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -183,7 +183,7 @@ export default function Contact() {
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         required
                         className="h-12"
-                        placeholder="Votre nom complet"
+                        placeholder={t.contact.namePlaceholder}
                       />
                     </div>
                     
@@ -199,7 +199,7 @@ export default function Contact() {
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         required
                         className="h-12"
-                        placeholder="votre@email.com"
+                        placeholder={t.contact.emailPlaceholder}
                       />
                     </div>
                   </div>
@@ -215,7 +215,7 @@ export default function Contact() {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="h-12"
-                      placeholder="+352 XX XX XX"
+                      placeholder={t.contact.phonePlaceholder}
                     />
                   </div>
                   
@@ -230,7 +230,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
-                      placeholder="Comment pouvons-nous vous aider ?"
+                      placeholder={t.contact.messagePlaceholder}
                     />
                   </div>
                   
@@ -294,8 +294,8 @@ export default function Contact() {
                     <Clock className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-green-900">Nous sommes disponibles</p>
-                    <p className="text-sm text-green-700">Réponse garantie sous 24h</p>
+                    <p className="font-semibold text-green-900">{t.contact.weAreAvailable}</p>
+                    <p className="text-sm text-green-700">{t.contact.responseGuaranteed}</p>
                   </div>
                 </div>
               </Card>
@@ -317,16 +317,16 @@ export default function Contact() {
           >
             <Sparkles className="w-12 h-12 text-white mx-auto mb-6" />
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Besoin d'un financement rapide ?
+              {t.contact.ctaTitle}
             </h2>
             <p className="text-xl text-white/90 mb-10">
-              Démarrez votre demande dès maintenant et obtenez une réponse en moins de 24h
+              {t.contact.ctaSubtitle}
             </p>
             <a 
               href="/loan-request" 
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-600 font-semibold text-lg rounded-xl hover:bg-gray-100 transition-colors"
             >
-              Demander un financement
+              {t.contact.ctaButton}
             </a>
           </motion.div>
         </div>
