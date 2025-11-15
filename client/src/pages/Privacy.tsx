@@ -32,7 +32,7 @@ export default function Privacy() {
                 {t.legal.privacyTitle}
               </h1>
               <p className="text-lg text-muted-foreground">
-                Protection et confidentialité de vos données
+                {t.legal.privacySubtitle}
               </p>
             </div>
             

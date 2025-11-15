@@ -32,7 +32,7 @@ export default function Terms() {
                 {t.legal.termsTitle}
               </h1>
               <p className="text-lg text-muted-foreground">
-                Dernière mise à jour : Novembre 2025
+                {t.legal.lastUpdatedNovember2025}
               </p>
             </div>
             

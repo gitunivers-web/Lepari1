@@ -19,35 +19,35 @@ export default function About() {
   const values = [
     {
       icon: Shield,
-      title: "Confiance & Transparence",
-      description: "Des processus clairs, des taux transparents, aucun frais caché. Votre confiance est notre priorité.",
+      title: t.about.values.items.value1Title,
+      description: t.about.values.items.value1Desc,
       color: "from-blue-500 to-indigo-600"
     },
     {
       icon: Target,
-      title: "Excellence & Précision",
-      description: "Chaque dossier est traité avec rigueur et expertise pour vous garantir les meilleures conditions.",
+      title: t.about.values.items.value2Title,
+      description: t.about.values.items.value2Desc,
       color: "from-indigo-500 to-purple-600"
     },
     {
       icon: Heart,
-      title: "Écoute & Proximité",
-      description: "Une équipe dédiée à votre écoute, disponible 24/7 pour répondre à toutes vos questions.",
+      title: t.about.values.items.value3Title,
+      description: t.about.values.items.value3Desc,
       color: "from-purple-500 to-pink-600"
     },
     {
       icon: Zap,
-      title: "Rapidité & Efficacité",
-      description: "Des décisions rapides, des déblocages immédiats. Votre temps est précieux.",
+      title: t.about.values.items.value4Title,
+      description: t.about.values.items.value4Desc,
       color: "from-pink-500 to-rose-600"
     }
   ];
 
   const achievements = [
-    { label: "Certification ISO 27001", status: "Sécurité des données" },
-    { label: "Membre de l'ABBL", status: "Association des Banques" },
-    { label: "Agrément CSSF", status: "Régulateur financier" },
-    { label: "Label Excellence", status: "Service client premium" }
+    { label: t.about.achievements.item1Label, status: t.about.achievements.item1Status },
+    { label: t.about.achievements.item2Label, status: t.about.achievements.item2Status },
+    { label: t.about.achievements.item3Label, status: t.about.achievements.item3Status },
+    { label: t.about.achievements.item4Label, status: t.about.achievements.item4Status }
   ];
 
   return (
@@ -79,7 +79,7 @@ export default function About() {
           >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-indigo-100 mb-6">
               <Award className="w-4 h-4 text-indigo-600 mr-2" />
-              <span className="text-sm font-semibold text-indigo-600">Leader du Financement Professionnel</span>
+              <span className="text-sm font-semibold text-indigo-600">{t.about.badge}</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent">
@@ -102,9 +102,9 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Des chiffres qui parlent</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.about.statsSection.title}</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Notre croissance reflète la confiance que nos clients nous accordent
+              {t.about.statsSection.subtitle}
             </p>
           </motion.div>
 
@@ -196,9 +196,9 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Nos valeurs</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.about.values.title}</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Les principes qui guident chacune de nos actions
+              {t.about.values.subtitle}
             </p>
           </motion.div>
 
@@ -241,17 +241,17 @@ export default function About() {
             transition={{ duration: 0.7 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Rejoignez des milliers d'entreprises satisfaites
+              {t.about.cta.title}
             </h2>
             <p className="text-xl text-white/90 mb-10">
-              Faites confiance à l'expertise ALTUS pour financer vos projets les plus ambitieux
+              {t.about.cta.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/loan-request" className="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors">
-                Demander un financement
+              <a href="/loan-request" className="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors" data-testid="link-loan-request">
+                {t.about.cta.button1}
               </a>
-              <a href="/contact" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
-                Nous contacter
+              <a href="/contact" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-colors" data-testid="link-contact">
+                {t.about.cta.button2}
               </a>
             </div>
           </motion.div>

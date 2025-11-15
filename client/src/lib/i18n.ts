@@ -448,6 +448,7 @@ type TranslationKeys = {
   about: {
     title: string;
     subtitle: string;
+    badge: string;
     mission: string;
     missionText: string;
     stats: {
@@ -455,6 +456,40 @@ type TranslationKeys = {
       loansProvided: string;
       successRate: string;
       yearsExperience: string;
+    };
+    statsSection: {
+      title: string;
+      subtitle: string;
+    };
+    values: {
+      title: string;
+      subtitle: string;
+      items: {
+        value1Title: string;
+        value1Desc: string;
+        value2Title: string;
+        value2Desc: string;
+        value3Title: string;
+        value3Desc: string;
+        value4Title: string;
+        value4Desc: string;
+      };
+    };
+    achievements: {
+      item1Label: string;
+      item1Status: string;
+      item2Label: string;
+      item2Status: string;
+      item3Label: string;
+      item3Status: string;
+      item4Label: string;
+      item4Status: string;
+    };
+    cta: {
+      title: string;
+      subtitle: string;
+      button1: string;
+      button2: string;
     };
   };
   howItWorks: {
@@ -579,6 +614,8 @@ type TranslationKeys = {
     termsTitle: string;
     privacyTitle: string;
     lastUpdated: string;
+    lastUpdatedNovember2025: string;
+    privacySubtitle: string;
     terms: {
       section1Title: string;
       section1Content: string;
@@ -2511,6 +2548,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'À propos d\'Altus Finance Group',
       subtitle: 'Votre partenaire de confiance pour le financement des particuliers et professionnels',
+      badge: 'Leader du Financement Professionnel',
       mission: 'Notre Mission',
       missionText: 'Chez Altus Finance Group, nous démocratisons l\'accès au financement pour tous. Que vous soyez un particulier avec un projet personnel ou une entreprise en développement, nous proposons des solutions de crédit modernes, transparentes et adaptées à vos besoins. Notre technologie de pointe nous permet d\'analyser rapidement votre situation et de vous proposer des offres personnalisées avec des taux compétitifs. Nous croyons en la transparence totale : pas de frais cachés, des conditions claires et un accompagnement à chaque étape.',
       stats: {
@@ -2518,6 +2556,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Prêts accordés',
         successRate: 'Taux de satisfaction',
         yearsExperience: 'Années d\'expérience',
+      },
+      statsSection: {
+        title: 'Des chiffres qui parlent',
+        subtitle: 'Notre croissance reflète la confiance que nos clients nous accordent',
+      },
+      values: {
+        title: 'Nos valeurs',
+        subtitle: 'Les principes qui guident chacune de nos actions',
+        items: {
+          value1Title: 'Confiance & Transparence',
+          value1Desc: 'Des processus clairs, des taux transparents, aucun frais caché. Votre confiance est notre priorité.',
+          value2Title: 'Excellence & Précision',
+          value2Desc: 'Chaque dossier est traité avec rigueur et expertise pour vous garantir les meilleures conditions.',
+          value3Title: 'Écoute & Proximité',
+          value3Desc: 'Une équipe dédiée à votre écoute, disponible 24/7 pour répondre à toutes vos questions.',
+          value4Title: 'Rapidité & Efficacité',
+          value4Desc: 'Des décisions rapides, des déblocages immédiats. Votre temps est précieux.',
+        },
+      },
+      achievements: {
+        item1Label: 'Certification ISO 27001',
+        item1Status: 'Sécurité des données',
+        item2Label: 'Membre de l\'ABBL',
+        item2Status: 'Association des Banques',
+        item3Label: 'Agrément CSSF',
+        item3Status: 'Régulateur financier',
+        item4Label: 'Label Excellence',
+        item4Status: 'Service client premium',
+      },
+      cta: {
+        title: 'Rejoignez des milliers d\'entreprises satisfaites',
+        subtitle: 'Faites confiance à l\'expertise ALTUS pour financer vos projets les plus ambitieux',
+        button1: 'Demander un financement',
+        button2: 'Nous contacter',
       },
     },
     howItWorks: {
@@ -2740,6 +2812,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Conditions d\'Utilisation',
       privacyTitle: 'Politique de Confidentialité',
       lastUpdated: 'Dernière mise à jour : Janvier 2025',
+      lastUpdatedNovember2025: 'Dernière mise à jour : Novembre 2025',
+      privacySubtitle: 'Protection et confidentialité de vos données',
       terms: {
         section1Title: '1. Acceptation des Conditions',
         section1Content: 'En accédant et en utilisant les services de Altus Finance Group, vous acceptez et acceptez d\'être lié par les termes et dispositions de cet accord.',
@@ -4822,6 +4896,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'About Altus Finance Group',
       subtitle: 'Your trusted partner for financing individuals and businesses',
+      badge: 'Leader in Professional Financing',
       mission: 'Our Mission',
       missionText: 'At Altus Finance Group, we democratize access to financing for everyone. Whether you\'re an individual with a personal project or a growing business, we offer modern, transparent credit solutions tailored to your needs. Our cutting-edge technology enables us to quickly analyze your situation and offer personalized deals with competitive rates. We believe in total transparency: no hidden fees, clear terms, and support at every step.',
       stats: {
@@ -4829,6 +4904,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Loans provided',
         successRate: 'Satisfaction rate',
         yearsExperience: 'Years of experience',
+      },
+      statsSection: {
+        title: 'Numbers that speak for themselves',
+        subtitle: 'Our growth reflects the trust our clients place in us',
+      },
+      values: {
+        title: 'Our values',
+        subtitle: 'The principles that guide each of our actions',
+        items: {
+          value1Title: 'Trust & Transparency',
+          value1Desc: 'Clear processes, transparent rates, no hidden fees. Your trust is our priority.',
+          value2Title: 'Excellence & Precision',
+          value2Desc: 'Every case is handled with rigor and expertise to guarantee you the best conditions.',
+          value3Title: 'Listening & Proximity',
+          value3Desc: 'A dedicated team listening to you, available 24/7 to answer all your questions.',
+          value4Title: 'Speed & Efficiency',
+          value4Desc: 'Fast decisions, immediate solutions. Your time is precious.',
+        },
+      },
+      achievements: {
+        item1Label: 'ISO 27001 Certification',
+        item1Status: 'Data Security',
+        item2Label: 'Member of ABBL',
+        item2Status: 'Luxembourg Bankers\' Association',
+        item3Label: 'CSSF Approval',
+        item3Status: 'Financial Regulator',
+        item4Label: 'Excellence Label',
+        item4Status: 'Premium Customer Service',
+      },
+      cta: {
+        title: 'Join thousands of satisfied companies',
+        subtitle: 'Trust ALTUS expertise to finance your most ambitious projects',
+        button1: 'Request financing',
+        button2: 'Contact us',
       },
     },
     howItWorks: {
@@ -5049,6 +5158,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Terms of Service',
       privacyTitle: 'Privacy Policy',
       lastUpdated: 'Last updated: January 2025',
+      lastUpdatedNovember2025: 'Last updated: November 2025',
+      privacySubtitle: 'Protection and confidentiality of your data',
       terms: {
         section1Title: '1. Acceptance of Terms',
         section1Content: 'By accessing and using Altus Finance Group\'s services, you accept and agree to be bound by the terms and provision of this agreement.',
@@ -7197,6 +7308,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'Acerca de Altus Finance Group',
       subtitle: 'Su socio de confianza para financiar particulares y empresas',
+      badge: 'Líder en Financiación Profesional',
       mission: 'Nuestra Misión',
       missionText: 'En Altus Finance Group, democratizamos el acceso al financiamiento para todos. Ya sea que sea un particular con un proyecto personal o una empresa en desarrollo, ofrecemos soluciones de crédito modernas, transparentes y adaptadas a sus necesidades. Nuestra tecnología de vanguardia nos permite analizar rápidamente su situación y ofrecerle ofertas personalizadas con tasas competitivas. Creemos en la transparencia total: sin cargos ocultos, condiciones claras y acompañamiento en cada paso.',
       stats: {
@@ -7204,6 +7316,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Préstamos otorgados',
         successRate: 'Tasa de satisfacción',
         yearsExperience: 'Años de experiencia',
+      },
+      statsSection: {
+        title: 'Cifras que hablan por sí mismas',
+        subtitle: 'Nuestro crecimiento refleja la confianza que nuestros clientes nos brindan',
+      },
+      values: {
+        title: 'Nuestros valores',
+        subtitle: 'Los principios que guían cada una de nuestras acciones',
+        items: {
+          value1Title: 'Confianza y Transparencia',
+          value1Desc: 'Procesos claros, tarifas transparentes, sin cargos ocultos. Su confianza es nuestra prioridad.',
+          value2Title: 'Excelencia y Precisión',
+          value2Desc: 'Cada expediente se trata con rigor y experiencia para garantizarle las mejores condiciones.',
+          value3Title: 'Escucha y Proximidad',
+          value3Desc: 'Un equipo dedicado a escucharte, disponible 24/7 para responder a todas tus preguntas.',
+          value4Title: 'Rapidez y Eficiencia',
+          value4Desc: 'Decisiones rápidas, desbloqueos inmediatos. Tu tiempo es valioso.',
+        },
+      },
+      achievements: {
+        item1Label: 'Certificación ISO 27001',
+        item1Status: 'Seguridad de datos',
+        item2Label: 'Miembro de ABBL',
+        item2Status: 'Asociación de Bancos de Luxemburgo',
+        item3Label: 'Aprobación CSSF',
+        item3Status: 'Regulador Financiero',
+        item4Label: 'Sello de Excelencia',
+        item4Status: 'Servicio al Cliente Premium',
+      },
+      cta: {
+        title: 'Únase a miles de empresas satisfechas',
+        subtitle: 'Confíe en la experiencia de ALTUS para financiar sus proyectos más ambiciosos',
+        button1: 'Solicitar financiación',
+        button2: 'Contactar',
       },
     },
     howItWorks: {
@@ -7426,6 +7572,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Términos de Servicio',
       privacyTitle: 'Política de Privacidad',
       lastUpdated: 'Última actualización: Enero 2025',
+      lastUpdatedNovember2025: 'Última actualización: noviembre de 2025',
+      privacySubtitle: 'Protección y confidencialidad de sus datos',
       terms: {
         section1Title: '1. Aceptación de Términos',
         section1Content: 'Al acceder y utilizar los servicios de Altus Finance Group, acepta y está de acuerdo en estar sujeto a los términos y disposiciones de este acuerdo.',
@@ -9586,6 +9734,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'Sobre Altus Finance Group',
       subtitle: 'Seu parceiro de confiança para financiar particulares e empresas',
+      badge: 'Líder em Financiamento Profissional',
       mission: 'Nossa Missão',
       missionText: 'Na Altus Finance Group, democratizamos o acesso ao financiamento para todos. Seja você um particular com um projeto pessoal ou uma empresa em desenvolvimento, oferecemos soluções de crédito modernas, transparentes e adaptadas às suas necessidades. Nossa tecnologia de ponta nos permite analisar rapidamente sua situação e oferecer ofertas personalizadas com taxas competitivas. Acreditamos na transparência total: sem taxas ocultas, condições claras e suporte em cada etapa.',
       stats: {
@@ -9593,6 +9742,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Empréstimos concedidos',
         successRate: 'Taxa de satisfação',
         yearsExperience: 'Anos de experiência',
+      },
+      statsSection: {
+        title: 'Números que falam por si',
+        subtitle: 'Nosso crescimento reflete a confiança que nossos clientes depositam em nós',
+      },
+      values: {
+        title: 'Nossos valores',
+        subtitle: 'Os princípios que guiam cada uma de nossas ações',
+        items: {
+          value1Title: 'Confiança e Transparência',
+          value1Desc: 'Processos claros, taxas transparentes, sem taxas ocultas. A sua confiança é a nossa prioridade.',
+          value2Title: 'Excelência e Precisão',
+          value2Desc: 'Cada caso é tratado com rigor e expertise para lhe garantir as melhores condições.',
+          value3Title: 'Escuta e Proximidade',
+          value3Desc: 'Uma equipe dedicada a ouvi-lo, disponível 24/7 para responder a todas as suas perguntas.',
+          value4Title: 'Rapidez e Eficiência',
+          value4Desc: 'Decisões rápidas, desbloqueios imediatos. Seu tempo é precioso.',
+        },
+      },
+      achievements: {
+        item1Label: 'Certificação ISO 27001',
+        item1Status: 'Segurança de dados',
+        item2Label: 'Membro da ABBL',
+        item2Status: 'Associação de Bancos do Luxemburgo',
+        item3Label: 'Aprovação CSSF',
+        item3Status: 'Regulador Financeiro',
+        item4Label: 'Selo de Excelência',
+        item4Status: 'Serviço ao Cliente Premium',
+      },
+      cta: {
+        title: 'Junte-se a milhares de empresas satisfeitas',
+        subtitle: 'Confie na expertise da ALTUS para financiar os seus projetos mais ambiciosos',
+        button1: 'Solicitar financiamento',
+        button2: 'Contactar',
       },
     },
     howItWorks: {
@@ -9815,6 +9998,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Termos de Serviço',
       privacyTitle: 'Política de Privacidade',
       lastUpdated: 'Última atualização: Janeiro 2025',
+      lastUpdatedNovember2025: 'Última atualização: novembro de 2025',
+      privacySubtitle: 'Proteção e confidencialidade dos seus dados',
       terms: {
         section1Title: '1. Aceitação dos Termos',
         section1Content: 'Ao acessar e usar os serviços da Altus Finance Group, você aceita e concorda em ficar vinculado aos termos e disposições deste acordo.',
@@ -11852,6 +12037,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'Chi siamo - Altus Finance Group',
       subtitle: 'Il tuo partner di fiducia per il finanziamento di privati e aziende',
+      badge: 'Leader nel Finanziamento Professionale',
       mission: 'La nostra missione',
       missionText: 'In Altus Finance Group, democratizziamo l\'accesso al finanziamento per tutti. Che tu sia un privato con un progetto personale o un\'azienda in sviluppo, offriamo soluzioni di credito moderne, trasparenti e adattate alle tue esigenze. La nostra tecnologia all\'avanguardia ci permette di analizzare rapidamente la tua situazione e proporti offerte personalizzate con tassi competitivi. Crediamo nella totale trasparenza: nessuna commissione nascosta, condizioni chiare e accompagnamento in ogni fase.',
       stats: {
@@ -11859,6 +12045,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Prestiti erogati',
         successRate: 'Tasso di soddisfazione',
         yearsExperience: 'Anni di esperienza',
+      },
+      statsSection: {
+        title: 'Numeri che parlano da soli',
+        subtitle: 'La nostra crescita riflette la fiducia che i nostri clienti ripongono in noi',
+      },
+      values: {
+        title: 'I nostri valori',
+        subtitle: 'I principi che guidano ognuna delle nostre azioni',
+        items: {
+          value1Title: 'Fiducia e Trasparenza',
+          value1Desc: 'Processi chiari, tariffe trasparenti, nessun costo nascosto. La vostra fiducia è la nostra priorità.',
+          value2Title: 'Eccellenza e Precisione',
+          value2Desc: 'Ogni pratica è trattata con rigore ed esperienza per garantirvi le migliori condizioni.',
+          value3Title: 'Ascolto e Vicinanza',
+          value3Desc: 'Un team dedicato ad ascoltarvi, disponibile 24/7 per rispondere a tutte le vostre domande.',
+          value4Title: 'Rapidità ed Efficienza',
+          value4Desc: 'Decisioni rapide, sblocchi immediati. Il tuo tempo è prezioso.',
+        },
+      },
+      achievements: {
+        item1Label: 'Certificazione ISO 27001',
+        item1Status: 'Sicurezza dei dati',
+        item2Label: 'Membro dell\'ABBL',
+        item2Status: 'Associazione delle Banche del Lussemburgo',
+        item3Label: 'Approvazione CSSF',
+        item3Status: 'Autorità di Regolamentazione Finanziaria',
+        item4Label: 'Marchio di Eccellenza',
+        item4Status: 'Servizio Clienti Premium',
+      },
+      cta: {
+        title: 'Unisciti a migliaia di aziende soddisfatte',
+        subtitle: 'Affidati all\'esperienza di ALTUS per finanziare i tuoi progetti più ambiziosi',
+        button1: 'Richiedi finanziamento',
+        button2: 'Contattaci',
       },
     },
     howItWorks: {
@@ -12081,6 +12301,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Condizioni d\'uso',
       privacyTitle: 'Politica sulla privacy',
       lastUpdated: 'Ultimo aggiornamento: Gennaio 2025',
+      lastUpdatedNovember2025: 'Ultimo aggiornamento: novembre 2025',
+      privacySubtitle: 'Protezione e riservatezza dei vostri dati',
       terms: {
         section1Title: '1. Accettazione delle condizioni',
         section1Content: 'Accedendo e utilizzando i servizi di Altus Finance Group, accetti e accetti di essere vincolato dai termini e dalle disposizioni di questo accordo.',
@@ -14122,6 +14344,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'Über die Altus Finance Group',
       subtitle: 'Ihr vertrauenswürdiger Partner für die Finanzierung von Privat- und Geschäftskunden',
+      badge: 'Marktführer in Unternehmensfinanzierung',
       mission: 'Unsere Mission',
       missionText: 'Bei der Altus Finance Group demokratisieren wir den Zugang zu Finanzierung für alle. Ob Sie eine Privatperson mit einem persönlichen Projekt oder ein wachsendes Unternehmen sind, wir bieten moderne, transparente und auf Ihre Bedürfnisse zugeschnittene Kreditlösungen. Unsere fortschrittliche Technologie ermöglicht es uns, Ihre Situation schnell zu analysieren und Ihnen personalisierte Angebote mit wettbewerbsfähigen Zinsen zu unterbreiten. Wir glauben an totale Transparenz: keine versteckten Gebühren, klare Bedingungen und Begleitung bei jedem Schritt.',
       stats: {
@@ -14129,6 +14352,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Gewährte Kredite',
         successRate: 'Zufriedenheitsrate',
         yearsExperience: 'Jahre Erfahrung',
+      },
+      statsSection: {
+        title: 'Zahlen, die für sich sprechen',
+        subtitle: 'Unser Wachstum spiegelt das Vertrauen wider, das unsere Kunden uns entgegenbringen',
+      },
+      values: {
+        title: 'Unsere Werte',
+        subtitle: 'Die Prinzipien, die jede unserer Handlungen leiten',
+        items: {
+          value1Title: 'Vertrauen und Transparenz',
+          value1Desc: 'Klare Prozesse, transparente Gebühren, keine versteckten Kosten. Ihr Vertrauen ist unsere Priorität.',
+          value2Title: 'Exzellenz und Präzision',
+          value2Desc: 'Jeder Fall wird mit Sorgfalt und Fachkompetenz bearbeitet, um Ihnen die besten Bedingungen zu garantieren.',
+          value3Title: 'Zuhören und Nähe',
+          value3Desc: 'Ein engagiertes Team, das Ihnen zuhört, 24/7 verfügbar, um alle Ihre Fragen zu beantworten.',
+          value4Title: 'Schnelligkeit und Effizienz',
+          value4Desc: 'Schnelle Entscheidungen, sofortige Lösungen. Ihre Zeit ist wertvoll.',
+        },
+      },
+      achievements: {
+        item1Label: 'ISO 27001 Zertifizierung',
+        item1Status: 'Datensicherheit',
+        item2Label: 'Mitglied der ABBL',
+        item2Status: 'Luxemburgische Bankenvereinigung',
+        item3Label: 'CSSF-Zulassung',
+        item3Status: 'Finanzaufsichtsbehörde',
+        item4Label: 'Exzellenz-Label',
+        item4Status: 'Premium-Kundenservice',
+      },
+      cta: {
+        title: 'Schließen Sie sich Tausenden zufriedener Unternehmen an',
+        subtitle: 'Vertrauen Sie auf die Expertise von ALTUS, um Ihre ehrgeizigsten Projekte zu finanzieren',
+        button1: 'Finanzierung beantragen',
+        button2: 'Kontakt',
       },
     },
     howItWorks: {
@@ -14351,6 +14608,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Nutzungsbedingungen',
       privacyTitle: 'Datenschutzrichtlinie',
       lastUpdated: 'Zuletzt aktualisiert: Januar 2025',
+      lastUpdatedNovember2025: 'Zuletzt aktualisiert: November 2025',
+      privacySubtitle: 'Schutz und Vertraulichkeit Ihrer Daten',
       terms: {
         section1Title: '1. Annahme der Bedingungen',
         section1Content: 'Durch den Zugriff auf und die Nutzung der Dienste der Altus Finance Group stimmen Sie zu und erklären sich damit einverstanden, an die Bedingungen dieser Vereinbarung gebunden zu sein.',
@@ -16392,6 +16651,7 @@ export const translations: Record<Language, TranslationKeys> = {
     about: {
       title: 'Over Altus Finance Group',
       subtitle: 'Uw betrouwbare partner voor de financiering van particulieren en bedrijven',
+      badge: 'Leider in Professionele Financiering',
       mission: 'Onze missie',
       missionText: 'Bij Altus Finance Group democratiseren we de toegang tot financiering voor iedereen. Of u nu een particulier bent met een persoonlijk project of een groeiend bedrijf, we bieden moderne, transparante en op uw behoeften afgestemde kredietoplossingen. Onze geavanceerde technologie stelt ons in staat om uw situatie snel te analyseren en u gepersonaliseerde aanbiedingen met concurrerende tarieven voor te stellen. We geloven in totale transparantie: geen verborgen kosten, duidelijke voorwaarden en begeleiding bij elke stap.',
       stats: {
@@ -16399,6 +16659,40 @@ export const translations: Record<Language, TranslationKeys> = {
         loansProvided: 'Verstrekte leningen',
         successRate: 'Tevredenheidspercentage',
         yearsExperience: 'Jaren ervaring',
+      },
+      statsSection: {
+        title: 'Cijfers die voor zich spreken',
+        subtitle: 'Onze groei weerspiegelt het vertrouwen dat onze klanten in ons stellen',
+      },
+      values: {
+        title: 'Onze waarden',
+        subtitle: 'De principes die elk van onze acties sturen',
+        items: {
+          value1Title: 'Vertrouwen en Transparantie',
+          value1Desc: 'Duidelijke processen, transparante tarieven, geen verborgen kosten. Uw vertrouwen is onze prioriteit.',
+          value2Title: 'Excellentie en Precisie',
+          value2Desc: 'Elk dossier wordt met nauwkeurigheid en expertise behandeld om u de beste voorwaarden te garanderen.',
+          value3Title: 'Luisteren en Nabijheid',
+          value3Desc: 'Een toegewijd team dat naar u luistert, 24/7 beschikbaar om al uw vragen te beantwoorden.',
+          value4Title: 'Snelheid en Efficiëntie',
+          value4Desc: 'Snelle beslissingen, directe oplossingen. Uw tijd is kostbaar.',
+        },
+      },
+      achievements: {
+        item1Label: 'ISO 27001 Certificering',
+        item1Status: 'Gegevensbeveiliging',
+        item2Label: 'Lid van ABBL',
+        item2Status: 'Luxemburgse Bankiersvereniging',
+        item3Label: 'CSSF-goedkeuring',
+        item3Status: 'Financiële Toezichthouder',
+        item4Label: 'Excellentielabel',
+        item4Status: 'Premium Klantenservice',
+      },
+      cta: {
+        title: 'Sluit u aan bij duizenden tevreden bedrijven',
+        subtitle: 'Vertrouw op de expertise van ALTUS om uw meest ambitieuze projecten te financieren',
+        button1: 'Financiering aanvragen',
+        button2: 'Contact',
       },
     },
     howItWorks: {
@@ -16621,6 +16915,8 @@ export const translations: Record<Language, TranslationKeys> = {
       termsTitle: 'Gebruiksvoorwaarden',
       privacyTitle: 'Privacybeleid',
       lastUpdated: 'Laatst bijgewerkt: januari 2025',
+      lastUpdatedNovember2025: 'Laatst bijgewerkt: november 2025',
+      privacySubtitle: 'Bescherming en vertrouwelijkheid van uw gegevens',
       terms: {
         section1Title: '1. Aanvaarding van voorwaarden',
         section1Content: 'Door toegang te krijgen tot en gebruik te maken van de diensten van Altus Finance Group, gaat u akkoord en stemt u ermee in gebonden te zijn aan de voorwaarden van deze overeenkomst.',
