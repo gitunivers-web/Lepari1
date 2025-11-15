@@ -670,6 +670,12 @@ type TranslationKeys = {
     satisfaction: string;
     years: string;
   };
+  officialStats: {
+    clients: string;
+    funded: string;
+    satisfaction: string;
+    countries: string;
+  };
   partners: {
     title: string;
     subtitle: string;
@@ -2812,6 +2818,12 @@ export const translations: Record<Language, TranslationKeys> = {
       funded: 'Prêts Accordés',
       satisfaction: 'Taux de Satisfaction',
       years: 'Années d\'Expérience',
+    },
+    officialStats: {
+      clients: 'Clients accompagnés',
+      funded: 'Montants financés',
+      satisfaction: 'Taux de satisfaction',
+      countries: 'Pays couverts',
     },
     partners: {
       title: 'Nos Partenaires Financiers',
@@ -5062,6 +5074,12 @@ export const translations: Record<Language, TranslationKeys> = {
       satisfaction: 'Satisfaction Rate',
       years: 'Years of Experience',
     },
+    officialStats: {
+      clients: 'Clients served',
+      funded: 'Amount funded',
+      satisfaction: 'Satisfaction rate',
+      countries: 'Countries covered',
+    },
     partners: {
       title: 'Our Financial Partners',
       subtitle: 'We collaborate with a wide network of leading banks and financial institutions to guarantee you the best conditions',
@@ -7268,6 +7286,12 @@ export const translations: Record<Language, TranslationKeys> = {
       funded: 'Préstamos Otorgados',
       satisfaction: 'Tasa de Satisfacción',
       years: 'Años de Experiencia',
+    },
+    officialStats: {
+      clients: 'Clientes acompañados',
+      funded: 'Importes financiados',
+      satisfaction: 'Tasa de satisfacción',
+      countries: 'Países cubiertos',
     },
     partners: {
       title: 'Nuestros Socios Financieros',
@@ -9526,6 +9550,12 @@ export const translations: Record<Language, TranslationKeys> = {
       satisfaction: 'Taxa de Satisfação',
       years: 'Anos de Experiência',
     },
+    officialStats: {
+      clients: 'Clientes acompanhados',
+      funded: 'Valores financiados',
+      satisfaction: 'Taxa de satisfação',
+      countries: 'Países cobertos',
+    },
     partners: {
       title: 'Nossos Parceiros Financeiros',
       subtitle: 'Colaboramos com uma ampla rede de bancos e instituições financeiras de primeira linha para garantir as melhores condições',
@@ -11660,6 +11690,12 @@ export const translations: Record<Language, TranslationKeys> = {
       satisfaction: 'Tasso di soddisfazione',
       years: 'Anni di esperienza',
     },
+    officialStats: {
+      clients: 'Clienti accompagnati',
+      funded: 'Importi finanziati',
+      satisfaction: 'Tasso di soddisfazione',
+      countries: 'Paesi coperti',
+    },
     partners: {
       title: 'I Nostri Partner Finanziari',
       subtitle: 'Collaboriamo con un ampio network di banche e istituzioni finanziarie di primo livello per garantirti le migliori condizioni',
@@ -13642,6 +13678,12 @@ export const translations: Record<Language, TranslationKeys> = {
       funded: 'Gewährte Kredite',
       satisfaction: 'Zufriedenheitsrate',
       years: 'Jahre Erfahrung',
+    },
+    officialStats: {
+      clients: 'Begleitete Kunden',
+      funded: 'Finanzierte Beträge',
+      satisfaction: 'Zufriedenheitsrate',
+      countries: 'Abgedeckte Länder',
     },
     partners: {
       title: 'Unsere Finanzpartner',
@@ -15779,6 +15821,12 @@ export const translations: Record<Language, TranslationKeys> = {
       funded: 'Verstrekte leningen',
       satisfaction: 'Tevredenheidspercentage',
       years: 'Jaren ervaring',
+    },
+    officialStats: {
+      clients: 'Begeleide klanten',
+      funded: 'Gefinancierde bedragen',
+      satisfaction: 'Tevredenheidspercentage',
+      countries: 'Gedekte landen',
     },
     partners: {
       title: 'Onze Financiële Partners',

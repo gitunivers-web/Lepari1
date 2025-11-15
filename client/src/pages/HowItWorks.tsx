@@ -20,7 +20,7 @@ import {
   Sparkles,
   CheckCircle2
 } from 'lucide-react';
-import { OFFICIAL_STATS } from '@/lib/constants';
+import { getOfficialStats } from '@/lib/constants';
 
 export default function HowItWorks() {
   const t = useTranslations();
@@ -125,7 +125,7 @@ export default function HowItWorks() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto"
           >
-            {OFFICIAL_STATS.map((stat, index) => {
+            {getOfficialStats(t).map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center">

@@ -10,7 +10,7 @@ import { getIndividualLoans, getBusinessLoans } from '@/lib/loan-catalog';
 import { loanProductSchema } from '@/lib/seo-data';
 import { getProductsSEOByLocale } from '@/lib/seo-keywords';
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
-import { OFFICIAL_STATS } from '@/lib/constants';
+import { getOfficialStats } from '@/lib/constants';
 
 export default function Products() {
   const t = useTranslations();
@@ -69,7 +69,7 @@ export default function Products() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto"
           >
-            {OFFICIAL_STATS.map((stat, index) => {
+            {getOfficialStats(t).map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center">

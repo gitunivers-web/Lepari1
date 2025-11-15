@@ -5,7 +5,7 @@ import { useTranslations } from '@/lib/i18n';
 import { Card } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { organizationSchema, breadcrumbSchema } from '@/lib/seo-data';
-import { OFFICIAL_STATS } from '@/lib/constants';
+import { getOfficialStats } from '@/lib/constants';
 import { Shield, Target, Heart, Zap, Award, CheckCircle2 } from 'lucide-react';
 
 export default function About() {
@@ -109,7 +109,7 @@ export default function About() {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {OFFICIAL_STATS.map((stat, index) => {
+            {getOfficialStats(t).map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <motion.div

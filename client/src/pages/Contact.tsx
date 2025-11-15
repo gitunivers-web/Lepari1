@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, MessageCircle, Send, Sparkles } from 'lucide-react';
 import { contactPageSchema, breadcrumbSchema } from '@/lib/seo-data';
-import { OFFICIAL_STATS } from '@/lib/constants';
+import { getOfficialStats } from '@/lib/constants';
 
 export default function Contact() {
   const t = useTranslations();
@@ -136,7 +136,7 @@ export default function Contact() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto"
           >
-            {OFFICIAL_STATS.map((stat, index) => {
+            {getOfficialStats(t).map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center">
