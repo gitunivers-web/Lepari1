@@ -1422,31 +1422,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = kycUploadSchema.parse(req.body);
 
-      const uploadPromise = new Promise<{ url: string; publicId: string }>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            folder: 'kyc_documents',
-            resource_type: 'raw',
-            public_id: `kyc_${randomUUID()}`,
-            use_filename: false,
-            unique_filename: true,
-            type: 'upload',
-          },
-          (error: any, result: any) => {
-            if (error) {
-              reject(error);
-            } else if (result) {
-              resolve({ url: result.secure_url, publicId: result.public_id });
-            } else {
-              reject(new Error('Upload failed without error or result'));
-            }
-          }
-        );
-        
-        fs.createReadStream(req.file!.path).pipe(uploadStream);
-      });
-
-      const { url: cloudinaryUrl, publicId: cloudinaryPublicId } = await uploadPromise;
+      // Sauvegarder le fichier dans le système de fichiers local
+      const kycDocumentsDir = path.join(process.cwd(), 'uploads', 'kyc_documents');
+      await fs.promises.mkdir(kycDocumentsDir, { recursive: true });
+      
+      const uniqueFileName = `${randomUUID()}_${req.file.originalname}`;
+      const finalFilePath = path.join(kycDocumentsDir, uniqueFileName);
+      await fs.promises.copyFile(req.file.path, finalFilePath);
+      
+      const fileUrl = `/uploads/kyc_documents/${uniqueFileName}`;
 
       try {
         await fs.promises.unlink(req.file.path);
@@ -1460,8 +1444,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         documentType: validatedData.documentType,
         loanType: validatedData.loanType,
         status: 'pending',
-        fileUrl: cloudinaryUrl,
-        cloudinaryPublicId: cloudinaryPublicId,
+        fileUrl: fileUrl,
+        cloudinaryPublicId: null,
         fileName: req.file.originalname,
         fileSize: req.file.size,
       });
@@ -1681,34 +1665,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
               // Valider et nettoyer le fichier
               const cleanedFile = await validateAndCleanFile(tempFilePath, fileName);
-              console.log(`✓ Document cleaned and validated before upload: ${cleanedFile.filename}`);
+              console.log(`✓ Document cleaned and validated: ${cleanedFile.filename}`);
 
-              // Uploader le fichier nettoyé sur Cloudinary
-              const uploadResult = await new Promise<{ url: string; publicId: string }>((resolve, reject) => {
-                const uploadStream = cloudinary.uploader.upload_stream(
-                  {
-                    folder: 'kyc_documents',
-                    resource_type: 'raw',
-                    public_id: `kyc_${randomUUID()}`,
-                    use_filename: false,
-                    unique_filename: true,
-                    type: 'upload',
-                  },
-                  (error: any, result: any) => {
-                    if (error) {
-                      reject(error);
-                    } else if (result) {
-                      resolve({ url: result.secure_url, publicId: result.public_id });
-                    } else {
-                      reject(new Error('Upload failed without error or result'));
-                    }
-                  }
-                );
-                
-                const bufferStream = new PassThrough();
-                bufferStream.end(cleanedFile.buffer);
-                bufferStream.pipe(uploadStream);
-              });
+              // Sauvegarder le fichier nettoyé dans le système de fichiers local
+              const kycDocumentsDir = path.join(process.cwd(), 'uploads', 'kyc_documents');
+              await fs.promises.mkdir(kycDocumentsDir, { recursive: true });
+              
+              const uniqueFileName = `${randomUUID()}_${cleanedFile.filename}`;
+              const finalFilePath = path.join(kycDocumentsDir, uniqueFileName);
+              await fs.promises.writeFile(finalFilePath, cleanedFile.buffer);
+              
+              const fileUrl = `/uploads/kyc_documents/${uniqueFileName}`;
 
               const kycDocument = await storage.createKycDocument({
                 userId: req.session.userId!,
@@ -1716,17 +1683,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 documentType,
                 loanType,
                 status: 'pending',
-                fileUrl: uploadResult.url,
+                fileUrl: fileUrl,
                 fileName: cleanedFile.filename,
                 fileSize: cleanedFile.buffer.length,
-                cloudinaryPublicId: uploadResult.publicId,
+                cloudinaryPublicId: null,
               });
 
               uploadedDocuments.push({
                 documentType,
-                fileUrl: uploadResult.url,
+                fileUrl: fileUrl,
                 fileName: cleanedFile.filename,
-                cloudinaryPublicId: uploadResult.publicId,
               });
 
               await notifyAdminsNewKycDocument(
@@ -1750,11 +1716,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (uploadError: any) {
         console.error('Document upload error:', uploadError);
         
+        // Nettoyer les fichiers locaux en cas d'erreur
         for (const doc of uploadedDocuments) {
           try {
-            await cloudinary.uploader.destroy(doc.cloudinaryPublicId);
+            const filePath = path.join(process.cwd(), doc.fileUrl);
+            if (fs.existsSync(filePath)) {
+              await fs.promises.unlink(filePath);
+            }
           } catch (cleanupError) {
-            console.error('Failed to cleanup Cloudinary document:', cleanupError);
+            console.error('Failed to cleanup local document:', cleanupError);
           }
         }
 

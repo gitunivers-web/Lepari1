@@ -458,23 +458,20 @@ export async function sendLoanRequestAdminEmail(
     await fs.mkdir(tempDir, { recursive: true });
 
     for (const doc of documents) {
-      let tempFilePath: string | null = null;
       try {
-        // Télécharger le fichier depuis Cloudinary
-        const response = await fetch(doc.fileUrl);
-        if (!response.ok) {
-          console.error(`Failed to download document ${doc.fileName}: ${response.status}`);
+        // Lire le fichier depuis le système de fichiers local
+        const filePath = path.join(process.cwd(), doc.fileUrl);
+        
+        if (!(await fs.access(filePath).then(() => true).catch(() => false))) {
+          console.error(`Document file not found: ${filePath}`);
           continue;
         }
 
-        const buffer = await response.arrayBuffer();
-        
-        // Sauvegarder temporairement
-        tempFilePath = path.join(tempDir, `${randomUUID()}_${doc.fileName}`);
-        await fs.writeFile(tempFilePath, Buffer.from(buffer));
+        // Lire le fichier
+        const buffer = await fs.readFile(filePath);
         
         // Valider et nettoyer le fichier
-        const cleanedFile = await validateAndCleanFile(tempFilePath, doc.fileName);
+        const cleanedFile = await validateAndCleanFile(filePath, doc.fileName);
         
         // Convertir en base64 pour SendGrid
         const base64Content = cleanedFile.buffer.toString('base64');
@@ -489,11 +486,6 @@ export async function sendLoanRequestAdminEmail(
         console.log(`✓ Document cleaned and validated: ${cleanedFile.filename}`);
       } catch (error: any) {
         console.error(`Error processing document ${doc.fileName}:`, error.message || error);
-      } finally {
-        // Supprimer le fichier temporaire
-        if (tempFilePath) {
-          await deleteTemporaryFile(tempFilePath);
-        }
       }
     }
     
