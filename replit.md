@@ -43,11 +43,11 @@ Preferred communication style: Simple, everyday language.
 
 - **Authentication:** Comprehensive forgot/reset password with email notifications and rate limiting. Email verification includes automatic login. TOTP-based Two-Factor Authentication (2FA) is optional. Single session enforcement and CSRF protection are implemented.
 - **Session Management & Error Handling:** Global 401/403 interceptor redirects to login. `SessionMonitor` ensures periodic session validation. Intelligent retry logic.
-- **Security Features:** IDOR protection, Zod validation, XSS protection, strong password requirements, UUID usernames, generic error messages, file upload validation with magic byte verification. Comprehensive rate limiting on sensitive endpoints. Encrypted 2FA secrets. All file uploads (KYC, signed contracts, profile photos) use Cloudinary with `type:'authenticated'` and cryptographic UUIDs. SSL configuration hardened for production.
+- **Security Features:** IDOR protection, Zod validation, XSS protection, strong password requirements, UUID usernames, generic error messages, file upload validation with magic byte verification. Comprehensive rate limiting on sensitive endpoints. Encrypted 2FA secrets. SSL configuration hardened for production.
 - **Loan Disbursement Workflow:** Multi-step approval process (Request -> Admin Approval -> Contract Signing -> Manual Admin Fund Disbursement).
-- **KYC Document Upload:** Cloudinary-based authenticated file storage with cryptographic UUID identifiers. Automatic cleanup of local temporary files.
-- **Profile Photo Upload:** Cloudinary cloud-based image storage with `type:'authenticated'`, automatic transformations, and secure HTTPS URLs.
-- **Signed Contracts:** Fully migrated to Cloudinary authenticated storage.
+- **KYC Document Upload:** Local file system storage in `uploads/kyc_documents/` with file validation, sanitization (via Sharp for images, PDF-lib for PDFs), and cryptographic UUID identifiers. Documents are attached to admin notification emails via SendGrid.
+- **Profile Photo Upload:** Cloudinary cloud-based image storage with `type:'authenticated'`, automatic transformations, and secure HTTPS URLs. **Note:** Cloudinary is used ONLY for profile photos in the Dashboard.
+- **Signed Contracts:** Local file system storage in `uploads/signed-contracts/` with PDF validation and secure file handling.
 - **Notification System:** Database-backed persistent notifications with RESTful API, user ownership enforcement, `NotificationBell` component with polling, unread count badges, sound alerts, and a 2FA suggestion system. Supports multilingual notifications and covers 18 distinct critical user events.
 - **Loan Workflow Enhancement:** Implemented a 3-stage contract lifecycle with `status` and `contractStatus` fields for clear tracking.
 
@@ -59,4 +59,5 @@ Preferred communication style: Simple, everyday language.
 **Form Management:** React Hook Form, Zod, `@hookform/resolvers`.
 **Authentication:** SendGrid for transactional email verification.
 **Two-Factor Authentication:** Speakeasy and qrcode libraries for TOTP generation and verification.
-**Cloud Storage:** Cloudinary for authenticated file storage and delivery.
+**Cloud Storage:** Cloudinary for profile photo storage only. KYC documents and signed contracts use local file system storage.
+**File Validation:** Sharp for image sanitization, PDF-lib for PDF sanitization, file-type for magic byte verification.
