@@ -66,7 +66,24 @@ export default function Contracts() {
 
   const handleDownloadContract = async (loanId: string) => {
     try {
-      window.open(getApiUrl(`/api/loans/${loanId}/contract/download`), '_blank');
+      const url = getApiUrl(`/api/loans/${loanId}/contract/download`);
+      const response = await fetch(url, {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement du contrat');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = `contrat_pret_${loanId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
       console.error('Error downloading contract:', error);
     }
