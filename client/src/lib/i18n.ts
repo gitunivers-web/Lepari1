@@ -519,6 +519,12 @@ type TranslationKeys = {
     equipmentFinancingDesc: string;
     invoiceFactoring: string;
     invoiceFactoringDesc: string;
+    premiumFinancingTitle: string;
+    forIndividuals: string;
+    forBusinesses: string;
+    rate: string;
+    amount: string;
+    duration: string;
   };
   contact: {
     title: string;
@@ -2607,6 +2613,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Financez vos équipements professionnels, véhicules utilitaires, machines, outils. De 20 000€ à 300 000€ sur 2 à 5 ans. Taux de 3,9% à 7,5% APR. L\'équipement peut servir de garantie, facilitant l\'obtention du prêt.',
       invoiceFactoring: 'Affacturage / Cession de Créances',
       invoiceFactoringDesc: 'Transformez vos factures clients en liquidités immédiates pour améliorer votre cash-flow. Avance jusqu\'à 90% du montant des factures sous 24-48h. Frais de 1% à 3% selon volume et délai. Idéal pour les entreprises B2B.',
+      premiumFinancingTitle: 'Solutions de Financement Premium',
+      forIndividuals: 'Pour Particuliers',
+      forBusinesses: 'Pour Professionnels',
+      rate: 'Taux',
+      amount: 'Montant',
+      duration: 'Durée',
     },
     contact: {
       title: 'Contactez-nous',
@@ -4862,6 +4874,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Finance your professional equipment, utility vehicles, machines, tools. From €20,000 to €300,000 over 2 to 5 years. Rates from 3.9% to 7.5% APR. Equipment can serve as collateral, facilitating loan approval.',
       invoiceFactoring: 'Invoice Factoring / Receivables',
       invoiceFactoringDesc: 'Turn your customer invoices into immediate cash to improve cash flow. Advance up to 90% of invoice amounts within 24-48h. Fees from 1% to 3% depending on volume and delay. Ideal for B2B companies.',
+      premiumFinancingTitle: 'Premium Financing Solutions',
+      forIndividuals: 'For Individuals',
+      forBusinesses: 'For Businesses',
+      rate: 'Rate',
+      amount: 'Amount',
+      duration: 'Duration',
     },
     contact: {
       title: 'Contact Us',
@@ -7204,6 +7222,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Financie sus equipos profesionales, vehículos utilitarios, maquinaria, herramientas. De €20,000 a €300,000 de 2 a 5 años. Tasas de 3.9% a 7.5% TAE. El equipo puede servir como garantía, facilitando la aprobación del préstamo.',
       invoiceFactoring: 'Factoraje / Cesión de Créditos',
       invoiceFactoringDesc: 'Convierta sus facturas de clientes en efectivo inmediato para mejorar su flujo de caja. Anticipo hasta el 90% del monto de facturas en 24-48h. Tarifas del 1% al 3% según volumen y plazo. Ideal para empresas B2B.',
+      premiumFinancingTitle: 'Soluciones de Financiamiento Premium',
+      forIndividuals: 'Para Particulares',
+      forBusinesses: 'Para Profesionales',
+      rate: 'Tasa',
+      amount: 'Monto',
+      duration: 'Duración',
     },
     contact: {
       title: 'Contáctenos',
@@ -9467,6 +9491,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Financie seus equipamentos profissionais, veículos utilitários, máquinas, ferramentas. De €20.000 a €300.000 de 2 a 5 anos. Taxas de 3,9% a 7,5% TAE. O equipamento pode servir como garantia, facilitando a aprovação do empréstimo.',
       invoiceFactoring: 'Factoring / Cessão de Créditos',
       invoiceFactoringDesc: 'Transforme suas faturas de clientes em dinheiro imediato para melhorar seu fluxo de caixa. Antecipação de até 90% do valor das faturas em 24-48h. Taxas de 1% a 3% dependendo do volume e prazo. Ideal para empresas B2B.',
+      premiumFinancingTitle: 'Soluções de Financiamento Premium',
+      forIndividuals: 'Para Particulares',
+      forBusinesses: 'Para Profissionais',
+      rate: 'Taxa',
+      amount: 'Montante',
+      duration: 'Duração',
     },
     contact: {
       title: 'Contate-nos',
@@ -11607,6 +11637,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Finanzia le tue attrezzature professionali, veicoli commerciali, macchinari, strumenti. Da €20.000 a €300.000 da 2 a 5 anni. Tassi dal 3,9% al 7,5% APR. L\'attrezzatura può servire come garanzia, facilitando l\'ottenimento del prestito.',
       invoiceFactoring: 'Factoring / Cessione crediti',
       invoiceFactoringDesc: 'Trasforma le tue fatture clienti in liquidità immediata per migliorare il tuo cash-flow. Anticipo fino al 90% dell\'importo delle fatture entro 24-48h. Costi dall\'1% al 3% secondo volume e scadenza. Ideale per aziende B2B.',
+      premiumFinancingTitle: 'Soluzioni di Finanziamento Premium',
+      forIndividuals: 'Per Privati',
+      forBusinesses: 'Per Professionisti',
+      rate: 'Tasso',
+      amount: 'Importo',
+      duration: 'Durata',
     },
     contact: {
       title: 'Contattaci',
@@ -13596,6 +13632,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Finanzieren Sie Ihre professionelle Ausrüstung, Nutzfahrzeuge, Maschinen, Werkzeuge. Von €20.000 bis €300.000 über 2 bis 5 Jahre. Zinsen von 3,9% bis 7,5% effektiver Jahreszins. Die Ausrüstung kann als Sicherheit dienen und die Kreditvergabe erleichtern.',
       invoiceFactoring: 'Factoring / Forderungsverkauf',
       invoiceFactoringDesc: 'Verwandeln Sie Ihre Kundenrechnungen in sofortige Liquidität, um Ihren Cashflow zu verbessern. Vorschuss von bis zu 90% des Rechnungsbetrags innerhalb von 24-48h. Kosten von 1% bis 3% je nach Volumen und Fälligkeit. Ideal für B2B-Unternehmen.',
+      premiumFinancingTitle: 'Premium-Finanzierungslösungen',
+      forIndividuals: 'Für Privatpersonen',
+      forBusinesses: 'Für Unternehmen',
+      rate: 'Zinssatz',
+      amount: 'Betrag',
+      duration: 'Laufzeit',
     },
     contact: {
       title: 'Kontaktieren Sie uns',
@@ -15760,6 +15802,12 @@ export const translations: Record<Language, TranslationKeys> = {
       equipmentFinancingDesc: 'Financier uw professionele apparatuur, bedrijfsvoertuigen, machines, gereedschap. Van €20.000 tot €300.000 over 2 tot 5 jaar. Tarieven van 3,9% tot 7,5% JKP. De apparatuur kan dienen als zekerheid, waardoor het verkrijgen van de lening wordt vergemakkelijkt.',
       invoiceFactoring: 'Factoring / Factuurcessie',
       invoiceFactoringDesc: 'Zet uw klantfacturen om in directe liquiditeit om uw cashflow te verbeteren. Voorschot tot 90% van het factuurbedrag binnen 24-48u. Kosten van 1% tot 3% volgens volume en termijn. Ideaal voor B2B-bedrijven.',
+      premiumFinancingTitle: 'Premium Financieringsoplossingen',
+      forIndividuals: 'Voor Particulieren',
+      forBusinesses: 'Voor Bedrijven',
+      rate: 'Tarief',
+      amount: 'Bedrag',
+      duration: 'Looptijd',
     },
     contact: {
       title: 'Neem contact met ons op',

@@ -51,7 +51,7 @@ export default function Products() {
           >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-indigo-100 mb-6">
               <Sparkles className="w-4 h-4 text-indigo-600 mr-2" />
-              <span className="text-sm font-semibold text-indigo-600">Solutions de Financement Premium</span>
+              <span className="text-sm font-semibold text-indigo-600">{t.products.premiumFinancingTitle}</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent">
@@ -96,7 +96,7 @@ export default function Products() {
             className="text-center mb-16"
           >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm mb-4">
-              Pour Particuliers
+              {t.products.forIndividuals}
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4" data-testid="heading-individual-loans">
               {t.individualLoans.title}
@@ -129,15 +129,15 @@ export default function Products() {
                     
                     <div className="space-y-3 mb-8 pb-6 border-t pt-6">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Montant</span>
+                        <span className="text-sm text-gray-500">{t.products.amount}</span>
                         <span className="font-bold text-gray-900">{product.amount}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Taux</span>
+                        <span className="text-sm text-gray-500">{t.products.rate}</span>
                         <span className="font-bold text-indigo-600">{product.rate}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Durée</span>
+                        <span className="text-sm text-gray-500">{t.products.duration}</span>
                         <span className="font-bold text-gray-900">{product.duration}</span>
                       </div>
                     </div>
@@ -173,7 +173,7 @@ export default function Products() {
             className="text-center mb-16"
           >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm mb-4">
-              Pour Professionnels
+              {t.products.forBusinesses}
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4" data-testid="heading-business-loans">
               {t.products.businessTitle}
@@ -207,15 +207,15 @@ export default function Products() {
                     
                     <div className="space-y-3 mb-8 pb-8 border-t border-b pt-8">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Montant</span>
+                        <span className="text-sm text-gray-500">{t.products.amount}</span>
                         <span className="font-bold text-gray-900">{product.amount}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Taux</span>
+                        <span className="text-sm text-gray-500">{t.products.rate}</span>
                         <span className="font-bold text-indigo-600">{product.rate}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">Durée</span>
+                        <span className="text-sm text-gray-500">{t.products.duration}</span>
                         <span className="font-bold text-gray-900">{product.duration}</span>
                       </div>
                     </div>
