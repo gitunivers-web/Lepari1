@@ -495,6 +495,7 @@ type TranslationKeys = {
   howItWorks: {
     title: string;
     subtitle: string;
+    digitalProcess: string;
     step1Title: string;
     step1Desc: string;
     step1Duration: string;
@@ -529,7 +530,11 @@ type TranslationKeys = {
       personal: Array<{ label: string; required: boolean }>;
       professional: Array<{ label: string; required: boolean }>;
     };
+    stepsSimpleTitle: string;
+    stepsSimpleSubtitle: string;
     securityTitle: string;
+    securitySubtitle: string;
+    securityFeatures: Array<{ title: string; description: string }>;
     security: {
       dataProtectionTitle: string;
       dataProtectionItems: string[];
@@ -2595,6 +2600,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Comment ça marche',
       subtitle: 'Un processus 100% digital ultra-rapide en 4 étapes simples',
+      digitalProcess: 'Processus 100% Numérique',
       step1Title: 'Inscription - 3 minutes',
       step1Desc: 'Créez votre compte Altus Finance Group en quelques minutes. Renseignez vos informations personnelles ou professionnelles de manière sécurisée. La vérification d\'identité instantanée (KYC) garantit la sécurité de votre compte.',
       step1Duration: '3 min',
@@ -4943,6 +4949,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'How It Works',
       subtitle: 'An ultra-fast 100% digital process in 4 simple steps',
+      digitalProcess: '100% Digital Process',
       step1Title: 'Online Application - 4 Minutes',
       step1Desc: 'Complete our secure form with your personal or business information. No need to travel, everything is done online with instant identity verification (KYC) and simplified document upload.',
       step1Duration: '3 min',
@@ -7355,6 +7362,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Cómo Funciona',
       subtitle: 'Un proceso 100% digital ultra-rápido en 4 pasos simples',
+      digitalProcess: 'Proceso 100% Digital',
       step1Title: 'Registro - 3 Minutos',
       step1Desc: 'Cree su cuenta Altus Finance Group en solo minutos. Ingrese su información personal o empresarial de forma segura. La verificación de identidad instantánea (KYC) garantiza la seguridad de su cuenta.',
       step1Duration: '3 min',
@@ -9781,6 +9789,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Como Funciona',
       subtitle: 'Um processo 100% digital ultra-rápido em 4 etapas simples',
+      digitalProcess: 'Processo 100% Digital',
       step1Title: 'Registro - 3 Minutos',
       step1Desc: 'Crie sua conta Altus Finance Group em apenas minutos. Insira suas informações pessoais ou empresariais de forma segura. A verificação de identidade instantânea (KYC) garante a segurança da sua conta.',
       step1Duration: '3 min',
@@ -12084,6 +12093,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Come funziona',
       subtitle: 'Un processo 100% digitale ultrarapido in 4 semplici passaggi',
+      digitalProcess: 'Processo 100% Digitale',
       step1Title: 'Registrazione - 3 minuti',
       step1Desc: 'Crea il tuo account Altus Finance Group in pochi minuti. Inserisci le tue informazioni personali o aziendali in modo sicuro. La verifica d\'identità istantanea (KYC) garantisce la sicurezza del tuo account.',
       step1Duration: '3 min',
@@ -14391,6 +14401,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Wie es funktioniert',
       subtitle: 'Ein 100% digitaler, ultraschneller Prozess in 4 einfachen Schritten',
+      digitalProcess: '100% Digitaler Prozess',
       step1Title: 'Registrierung - 3 Minuten',
       step1Desc: 'Erstellen Sie Ihr Altus Finance Group-Konto in wenigen Minuten. Geben Sie Ihre persönlichen oder geschäftlichen Informationen sicher ein. Die sofortige Identitätsprüfung (KYC) gewährleistet die Sicherheit Ihres Kontos.',
       step1Duration: '3 min',
@@ -16698,6 +16709,7 @@ export const translations: Record<Language, TranslationKeys> = {
     howItWorks: {
       title: 'Hoe het werkt',
       subtitle: 'Een 100% digitaal, ultrasnelproces in 4 eenvoudige stappen',
+      digitalProcess: '100% Digitaal Proces',
       step1Title: 'Registratie - 3 minuten',
       step1Desc: 'Maak uw Altus Finance Group-account in enkele minuten aan. Voer uw persoonlijke of zakelijke informatie veilig in. Directe identiteitsverificatie (KYC) garandeert de veiligheid van uw account.',
       step1Duration: '3 min',
