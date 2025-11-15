@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Menu, X, ChevronDown, Globe, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, X, ChevronDown, Globe, Sparkles, ChevronRight, Home, FileText, HelpCircle, Info, Shield, Lock } from 'lucide-react';
 import { useTranslations, useLanguage, type Language } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -18,12 +18,9 @@ const languages: { code: Language; name: string; flag: string }[] = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
-  const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement>(null);
-  const langMenuRef = useRef<HTMLDivElement>(null);
   const t = useTranslations();
   const { language, setLanguage } = useLanguage();
   const [, setLocation] = useLocation();
@@ -41,9 +38,6 @@ export default function Header() {
     const handleClickOutside = (event: MouseEvent) => {
       if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
         setMoreMenuOpen(false);
-      }
-      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
-        setLangMenuOpen(false);
       }
     };
 
@@ -66,20 +60,19 @@ export default function Header() {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (moreMenuOpen) setMoreMenuOpen(false);
-        if (langMenuOpen) setLangMenuOpen(false);
+        if (mobileMenuOpen) setMobileMenuOpen(false);
       }
     };
 
-    if (moreMenuOpen || langMenuOpen) {
+    if (moreMenuOpen || mobileMenuOpen) {
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }
-  }, [moreMenuOpen, langMenuOpen]);
+  }, [moreMenuOpen, mobileMenuOpen]);
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
     setMobileMoreOpen(false);
-    setMobileLangOpen(false);
   };
 
   const currentLang = languages.find(lang => lang.code === language) || languages[0];
@@ -88,11 +81,12 @@ export default function Header() {
     <>
       <header className={`fixed top-[85px] left-0 w-full z-[9999] transition-all duration-500 ${
         scrolled 
-          ? 'h-[68px] bg-white/90 backdrop-blur-xl shadow-lg border-b border-gray-200/50' 
-          : 'h-[80px] bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100'
+          ? 'h-[68px] bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/50 dark:border-gray-700/50' 
+          : 'h-[80px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-gray-800'
       }`}>
         <div className="max-w-7xl mx-auto h-full px-6 lg:px-8 flex items-center justify-between">
           
+          {/* Logo */}
           <Link href="/">
             <div className={`flex items-center gap-3 cursor-pointer group transition-all duration-300 ${
               scrolled ? 'scale-95' : 'scale-100'
@@ -104,7 +98,7 @@ export default function Header() {
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
               </div>
               <div className="hidden lg:block">
-                <span className="font-bold text-xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent group-hover:from-primary group-hover:via-primary/80 group-hover:to-primary transition-all duration-300">
+                <span className="font-bold text-xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent group-hover:from-primary group-hover:via-primary/80 group-hover:to-primary transition-all duration-300">
                   Altus Finance Group
                 </span>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground/70 font-medium">
@@ -115,11 +109,12 @@ export default function Header() {
             </div>
           </Link>
 
+          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             <a 
               href="/"
               onClick={(e) => { e.preventDefault(); setLocation('/'); }} 
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
+              className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
               data-testid="link-home-desktop"
             >
               {t.nav.home}
@@ -129,7 +124,7 @@ export default function Header() {
             <a 
               href="/products"
               onClick={(e) => { e.preventDefault(); setLocation('/products'); }} 
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
+              className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
               data-testid="link-loans-desktop"
             >
               {t.nav.products}
@@ -139,7 +134,7 @@ export default function Header() {
             <a 
               href="/how-it-works"
               onClick={(e) => { e.preventDefault(); setLocation('/how-it-works'); }} 
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
+              className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
               data-testid="link-how-it-works-desktop"
             >
               {t.nav.howItWorks}
@@ -149,7 +144,7 @@ export default function Header() {
             <a 
               href="/contact"
               onClick={(e) => { e.preventDefault(); setLocation('/contact'); }} 
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
+              className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative" 
               data-testid="link-contact-desktop"
             >
               {t.nav.contact}
@@ -159,7 +154,7 @@ export default function Header() {
             <div className="relative" ref={moreMenuRef}>
               <button
                 onClick={() => setMoreMenuOpen(!moreMenuOpen)}
-                className="flex items-center gap-1 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative"
+                className="flex items-center gap-1 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 group relative"
                 data-testid="button-more-menu"
               >
                 {t.nav.more}
@@ -168,13 +163,13 @@ export default function Header() {
               </button>
 
               {moreMenuOpen && (
-                <div className="absolute top-full right-0 mt-3 w-64 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 py-2 animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+                <div className="absolute top-full right-0 mt-3 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 py-2 animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
                   <a
                     href="/resources"
                     onClick={(e) => { e.preventDefault(); setLocation('/resources'); setMoreMenuOpen(false); }}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLocation('/resources'); setMoreMenuOpen(false); } }}
-                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
+                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
                     data-testid="link-faq-dropdown"
                   >
                     <span className="flex items-center gap-2">
@@ -186,7 +181,7 @@ export default function Header() {
                     href="/about"
                     onClick={(e) => { e.preventDefault(); setLocation('/about'); setMoreMenuOpen(false); }}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLocation('/about'); setMoreMenuOpen(false); } }}
-                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
+                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
                     data-testid="link-about-dropdown"
                   >
                     <span className="flex items-center gap-2">
@@ -198,7 +193,7 @@ export default function Header() {
                     href="/terms"
                     onClick={(e) => { e.preventDefault(); setLocation('/terms'); setMoreMenuOpen(false); }}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLocation('/terms'); setMoreMenuOpen(false); } }}
-                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
+                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
                     data-testid="link-terms-dropdown"
                   >
                     <span className="flex items-center gap-2">
@@ -210,7 +205,7 @@ export default function Header() {
                     href="/privacy"
                     onClick={(e) => { e.preventDefault(); setLocation('/privacy'); setMoreMenuOpen(false); }}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLocation('/privacy'); setMoreMenuOpen(false); } }}
-                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
+                    className="relative block px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary transition-all duration-300 group"
                     data-testid="link-privacy-dropdown"
                   >
                     <span className="flex items-center gap-2">
@@ -223,45 +218,28 @@ export default function Header() {
             </div>
           </nav>
 
+          {/* Desktop Language Selector (Horizontal Scroll) + CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <div className="relative" ref={langMenuRef}>
-              <button
-                onClick={() => setLangMenuOpen(!langMenuOpen)}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-primary/5 rounded-lg transition-all duration-300 group"
-                data-testid="button-language-selector"
-              >
-                <Globe className="w-4 h-4 group-hover:text-primary transition-colors" />
-                <span className="text-lg">{currentLang.flag}</span>
-                <span className="group-hover:text-primary transition-colors">{currentLang.name}</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${langMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {langMenuOpen && (
-                <div className="absolute top-full right-0 mt-3 w-52 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 py-2 animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        setLanguage(lang.code);
-                        setLangMenuOpen(false);
-                      }}
-                      className={`relative w-full flex items-center gap-3 px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                        language === lang.code
-                          ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg'
-                          : 'text-gray-700 hover:bg-primary/10 hover:text-primary'
-                      }`}
-                      data-testid={`button-language-${lang.code}`}
-                    >
-                      <span className="text-lg">{lang.flag}</span>
-                      <span>{lang.name}</span>
-                      {language === lang.code && (
-                        <span className="ml-auto w-2 h-2 rounded-full bg-white" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
+            {/* Horizontal Language Selector */}
+            <div className="flex items-center gap-2 px-3 py-2 bg-gray-50/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+              <Globe className="w-4 h-4 text-gray-600 dark:text-gray-400 flex-shrink-0" />
+              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hidden max-w-[280px]">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 flex-shrink-0 ${
+                      language === lang.code
+                        ? 'bg-[#005DFF] text-white shadow-md scale-105'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200/60 dark:hover:bg-slate-700/60'
+                    }`}
+                    data-testid={`button-language-${lang.code}`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <Link href="/login">
@@ -276,9 +254,10 @@ export default function Header() {
             </Link>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden text-gray-800 hover:text-[#005DFF] transition-colors"
+            className="lg:hidden text-gray-800 dark:text-gray-200 hover:text-[#005DFF] transition-colors"
             data-testid="button-mobile-menu"
             aria-label="Menu"
           >
@@ -287,126 +266,137 @@ export default function Header() {
         </div>
       </header>
 
+      {/* Premium Mobile Drawer - Fintech 2025 Style */}
       {mobileMenuOpen && (
         <>
+          {/* Backdrop with blur */}
           <div 
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[99998] animate-in fade-in duration-300 lg:hidden"
             onClick={closeMobileMenu}
           />
           
-          <div className="fixed top-0 right-0 h-full w-full max-w-[350px] bg-white z-[99999] shadow-2xl animate-in slide-in-from-right duration-300 ease-out lg:hidden">
-            <div className="flex flex-col h-full">
-              <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                <span className="font-semibold text-lg text-gray-900">Menu</span>
+          {/* Premium Drawer */}
+          <div className="fixed top-0 right-0 bottom-0 w-full max-w-[380px] z-[99999] animate-in slide-in-from-right duration-400 ease-out lg:hidden">
+            <div className="h-full w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-2xl rounded-l-3xl flex flex-col">
+              
+              {/* Header with title and close button */}
+              <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-gradient-to-b from-white/95 to-white/80 dark:from-slate-900/95 dark:to-slate-900/80 backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white tracking-tight">Menu</h2>
                 <button
                   onClick={closeMobileMenu}
-                  className="text-gray-700 hover:text-[#005DFF] transition-colors"
+                  className="p-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 hover:text-[#005DFF] transition-all duration-200"
                   data-testid="button-close-menu"
                   aria-label="Fermer"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto py-4 px-4">
-                <nav className="space-y-1">
+              {/* Content area with generous spacing */}
+              <div className="flex-1 overflow-y-auto px-6 py-6">
+                <nav className="space-y-2">
+                  {/* Home */}
                   <Link href="/" onClick={closeMobileMenu}>
-                    <span className="block px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-home-mobile">
-                      {t.nav.home}
-                    </span>
+                    <div className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-white hover:bg-gradient-to-r hover:from-[#005DFF]/10 hover:to-transparent rounded-xl transition-all duration-300 cursor-pointer group" data-testid="link-home-mobile">
+                      <Home className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-[#005DFF] transition-colors" />
+                      <span>{t.nav.home}</span>
+                    </div>
                   </Link>
 
+                  {/* Products */}
                   <Link href="/products" onClick={closeMobileMenu}>
-                    <span className="block px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-loans-mobile">
-                      {t.nav.products}
-                    </span>
+                    <div className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-white hover:bg-gradient-to-r hover:from-[#005DFF]/10 hover:to-transparent rounded-xl transition-all duration-300 cursor-pointer group" data-testid="link-loans-mobile">
+                      <FileText className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-[#005DFF] transition-colors" />
+                      <span>{t.nav.products}</span>
+                    </div>
                   </Link>
 
+                  {/* How it works */}
                   <Link href="/how-it-works" onClick={closeMobileMenu}>
-                    <span className="block px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-how-it-works-mobile">
-                      {t.nav.howItWorks}
-                    </span>
+                    <div className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-white hover:bg-gradient-to-r hover:from-[#005DFF]/10 hover:to-transparent rounded-xl transition-all duration-300 cursor-pointer group" data-testid="link-how-it-works-mobile">
+                      <HelpCircle className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-[#005DFF] transition-colors" />
+                      <span>{t.nav.howItWorks}</span>
+                    </div>
                   </Link>
 
+                  {/* Contact */}
                   <Link href="/contact" onClick={closeMobileMenu}>
-                    <span className="block px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-contact-mobile">
-                      {t.nav.contact}
-                    </span>
+                    <div className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-white hover:bg-gradient-to-r hover:from-[#005DFF]/10 hover:to-transparent rounded-xl transition-all duration-300 cursor-pointer group" data-testid="link-contact-mobile">
+                      <Info className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-[#005DFF] transition-colors" />
+                      <span>{t.nav.contact}</span>
+                    </div>
                   </Link>
 
-                  <div className="pt-3 mt-3">
+                  {/* More dropdown */}
+                  <div className="pt-2 mt-2 border-t border-gray-200/50 dark:border-gray-700/50">
                     <Collapsible open={mobileMoreOpen} onOpenChange={setMobileMoreOpen}>
-                      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors" data-testid="button-more-mobile">
-                        <span>{t.nav.moreInfo}</span>
-                        <ChevronRight className={`w-4 h-4 transition-transform ${mobileMoreOpen ? 'rotate-90' : ''}`} />
+                      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-3.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-[#005DFF]/10 hover:to-transparent rounded-xl transition-all duration-300 group" data-testid="button-more-mobile">
+                        <span className="flex items-center gap-3">
+                          <Shield className="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-[#005DFF] transition-colors" />
+                          <span>{t.nav.moreInfo}</span>
+                        </span>
+                        <ChevronRight className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${mobileMoreOpen ? 'rotate-90' : ''}`} />
                       </CollapsibleTrigger>
-                      <CollapsibleContent className="mt-1 space-y-1">
+                      <CollapsibleContent className="mt-2 ml-12 space-y-1.5">
                         <Link href="/resources" onClick={closeMobileMenu}>
-                          <span className="block px-4 py-2.5 ml-4 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-faq-mobile">
+                          <div className="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-400 hover:text-[#005DFF] dark:hover:text-[#005DFF] hover:bg-gray-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors cursor-pointer" data-testid="link-faq-mobile">
                             {t.nav.faq}
-                          </span>
+                          </div>
                         </Link>
-
                         <Link href="/about" onClick={closeMobileMenu}>
-                          <span className="block px-4 py-2.5 ml-4 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-about-mobile">
+                          <div className="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-400 hover:text-[#005DFF] dark:hover:text-[#005DFF] hover:bg-gray-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors cursor-pointer" data-testid="link-about-mobile">
                             {t.nav.about}
-                          </span>
+                          </div>
                         </Link>
-
                         <Link href="/terms" onClick={closeMobileMenu}>
-                          <span className="block px-4 py-2.5 ml-4 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-terms-mobile">
+                          <div className="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-400 hover:text-[#005DFF] dark:hover:text-[#005DFF] hover:bg-gray-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors cursor-pointer" data-testid="link-terms-mobile">
                             {t.footer.legalLinks.terms}
-                          </span>
+                          </div>
                         </Link>
-
                         <Link href="/privacy" onClick={closeMobileMenu}>
-                          <span className="block px-4 py-2.5 ml-4 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors cursor-pointer" data-testid="link-privacy-mobile">
+                          <div className="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-400 hover:text-[#005DFF] dark:hover:text-[#005DFF] hover:bg-gray-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors cursor-pointer" data-testid="link-privacy-mobile">
                             {t.footer.legalLinks.privacy}
-                          </span>
+                          </div>
                         </Link>
                       </CollapsibleContent>
                     </Collapsible>
                   </div>
 
-                  <div className="pt-3 mt-3">
-                    <Collapsible open={mobileLangOpen} onOpenChange={setMobileLangOpen}>
-                      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#005DFF] rounded-lg transition-colors" data-testid="button-language-mobile">
-                        <div className="flex items-center gap-2">
-                          <Globe className="w-4 h-4" />
-                          <span>{t.nav.language}</span>
-                          <span className="text-lg">{currentLang.flag}</span>
-                          <span className="text-sm font-medium">{currentLang.name}</span>
-                        </div>
-                        <ChevronRight className={`w-4 h-4 transition-transform ${mobileLangOpen ? 'rotate-90' : ''}`} />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="mt-1 space-y-1">
+                  {/* Horizontal Language Selector - Mobile */}
+                  <div className="pt-4 mt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+                    <div className="px-4 py-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Globe className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                        <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">{t.nav.language}</span>
+                      </div>
+                      
+                      {/* Horizontal scroll language buttons */}
+                      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hidden pb-2">
                         {languages.map((lang) => (
                           <button
                             key={lang.code}
-                            onClick={() => {
-                              setLanguage(lang.code);
-                              setMobileLangOpen(false);
-                            }}
-                            className={`w-full flex items-center gap-2 px-4 py-2.5 ml-4 rounded-lg text-sm font-medium transition-colors ${
+                            onClick={() => setLanguage(lang.code)}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 flex-shrink-0 ${
                               language === lang.code
-                                ? 'bg-[#005DFF] text-white'
-                                : 'text-gray-700 hover:bg-gray-50 hover:text-[#005DFF]'
+                                ? 'bg-[#005DFF] text-white shadow-lg scale-105'
+                                : 'bg-gray-100/80 dark:bg-slate-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-slate-700/80'
                             }`}
                             data-testid={`button-language-${lang.code}-mobile`}
                           >
-                            <span className="text-lg">{lang.flag}</span>
+                            <span className="text-base">{lang.flag}</span>
                             <span>{lang.name}</span>
                           </button>
                         ))}
-                      </CollapsibleContent>
-                    </Collapsible>
+                      </div>
+                    </div>
                   </div>
                 </nav>
               </div>
 
-              <div className="p-6 border-t border-gray-100">
+              {/* Footer with CTA button */}
+              <div className="sticky bottom-0 px-6 py-5 bg-gradient-to-t from-white/95 to-white/80 dark:from-slate-900/95 dark:to-slate-900/80 backdrop-blur-xl border-t border-gray-200/30 dark:border-gray-700/30">
                 <Link href="/login" onClick={closeMobileMenu}>
-                  <button className="w-full px-6 py-3.5 bg-[#005DFF] hover:bg-[#0044FF] text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300" data-testid="button-mon-espace-mobile">
+                  <button className="w-full px-6 py-4 bg-gradient-to-r from-[#005DFF] to-[#0044FF] hover:from-[#0044FF] hover:to-[#0033DD] text-white font-bold text-base rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]" data-testid="button-mon-espace-mobile">
                     {t.hero.cta2}
                   </button>
                 </Link>

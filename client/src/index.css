@@ -413,6 +413,16 @@
     animation: progress-glow 2.2s linear infinite;
   }
 
+  /* Scrollbar-hidden utility for horizontal language selector */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Dashboard card styling */
   .dashboard-card {
     @apply bg-white dark:bg-slate-900 shadow-sm;
