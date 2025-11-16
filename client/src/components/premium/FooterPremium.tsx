@@ -19,17 +19,9 @@ export default function FooterPremium() {
       { label: t.nav.contact, href: "/contact" },
       { label: t.nav.resources, href: "/resources" }
     ],
-    resources: [
-      { label: t.footer.helpLinks.support, href: "/contact" },
-      { label: t.footer.helpLinks.userGuide, href: "/how-it-works" },
-      { label: t.footer.helpLinks.simulator, href: "/resources" },
-      { label: t.nav.faq, href: "/resources" }
-    ],
     legal: [
       { label: t.footer.legalLinks.terms, href: "/terms" },
-      { label: t.footer.legalLinks.privacy, href: "/privacy" },
-      { label: t.footer.legalLinks.cgu, href: "/terms" },
-      { label: t.footer.legalLinks.cookies, href: "/privacy" }
+      { label: t.footer.legalLinks.privacy, href: "/privacy" }
     ]
   };
   
@@ -37,7 +29,7 @@ export default function FooterPremium() {
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand column */}
           <div className="lg:col-span-2">
             <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
@@ -106,17 +98,17 @@ export default function FooterPremium() {
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Legal */}
           <div>
-            <h3 className="font-bold text-lg mb-4">{t.footer.helpTitle}</h3>
+            <h3 className="font-bold text-lg mb-4">{t.footer.legalTitle || 'Légal'}</h3>
             <ul className="space-y-3">
-              {footerLinks.resources.map((link, index) => (
+              {footerLinks.legal.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.href}
                     onClick={(e) => { e.preventDefault(); setLocation(link.href); }} 
                     className="text-gray-400 hover:text-white transition-colors text-sm" 
-                    data-testid={`link-footer-resource-${index}`}
+                    data-testid={`link-footer-legal-nav-${index}`}
                   >
                     {link.label}
                   </a>
@@ -149,21 +141,6 @@ export default function FooterPremium() {
             <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors" aria-label="Instagram" data-testid="link-instagram">
               <Instagram className="h-5 w-5 text-gray-400 hover:text-white transition-colors" />
             </a>
-          </div>
-
-          {/* Legal links */}
-          <div className="flex flex-wrap gap-4 text-sm">
-            {footerLinks.legal.map((link, index) => (
-              <a 
-                key={index} 
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); setLocation(link.href); }} 
-                className="text-gray-400 hover:text-white transition-colors" 
-                data-testid={`link-footer-legal-${index}`}
-              >
-                {link.label}
-              </a>
-            ))}
           </div>
         </div>
       </div>
