@@ -1,12 +1,13 @@
-# Guide de Déploiement - Altus Group
+# Guide de Déploiement - Altus Finance Group
 
 ## 📋 Vue d'ensemble
 
 Ce guide vous explique comment déployer votre application en production avec :
-- **Frontend** : Vercel → `altusfinancegroup.com`
-- **Backend** : Render → `api.altusfinancegroup.com`
-- **Base de données** : PostgreSQL (Neon, Render PostgreSQL, ou autre)
+- **Frontend** : Vercel → `altusfinancesgroup.com` (déjà configuré ✓)
+- **Backend** : Render → `api.altusfinancesgroup.com`
+- **Base de données** : PostgreSQL (Render PostgreSQL ou Neon)
 - **Emails** : SendGrid
+- **Architecture** : Frontend/Backend séparés avec communication sécurisée via CORS
 
 ---
 
@@ -20,20 +21,30 @@ Créez ces variables d'environnement dans votre projet Render :
 # Base de données PostgreSQL
 DATABASE_URL=postgresql://user:password@host:5432/database_name
 
-# Session (OBLIGATOIRE - Générez une clé secrète forte)
+# Session (OBLIGATOIRE - Générez une clé secrète forte avec: openssl rand -base64 32)
 SESSION_SECRET=votre_cle_secrete_forte_et_aleatoire_32_caracteres_minimum
+
+# Cookie configuration (IMPORTANT pour le domaine personnalisé)
+COOKIE_DOMAIN=.altusfinancesgroup.com
 
 # SendGrid pour les emails
 SENDGRID_API_KEY=SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-SENDGRID_FROM_EMAIL=noreply@votredomaine.com
-SENDGRID_FROM_NAME=Altus Group
+SENDGRID_FROM_EMAIL=noreply@altusfinancesgroup.com
+SENDGRID_FROM_NAME=Altus Finance Group
 
 # Environnement
 NODE_ENV=production
 
-# URL du frontend (pour les liens dans les emails)
-FRONTEND_URL=https://votre-app.vercel.app
+# URL du frontend (pour CORS et liens dans les emails)
+FRONTEND_URL=https://altusfinancesgroup.com
+
+# Port (Render le configure automatiquement)
+PORT=5000
 ```
+
+⚠️ **IMPORTANT** : 
+- `COOKIE_DOMAIN` doit commencer par un point (`.altusfinancesgroup.com`) pour fonctionner avec les sous-domaines
+- `SESSION_SECRET` doit être une chaîne aléatoire forte (minimum 32 caractères)
 
 ### Frontend (Vercel)
 
@@ -41,13 +52,18 @@ Créez ces variables d'environnement dans **Vercel → Project Settings → Envi
 
 ```bash
 # URL du backend API (OBLIGATOIRE)
-VITE_API_URL=https://api.altusfinancegroup.com
+VITE_API_URL=https://api.altusfinancesgroup.com
 
 # URL du site pour SEO et Open Graph (RECOMMANDÉ)
-VITE_SITE_URL=https://altusfinancegroup.com
+VITE_SITE_URL=https://altusfinancesgroup.com
+
+# Nom de l'application
+VITE_APP_NAME=Altus Finance Group
 ```
 
-⚠️ **IMPORTANT** : Ces variables doivent être préfixées par `VITE_` pour être accessibles dans le code frontend.
+⚠️ **IMPORTANT** : 
+- Ces variables doivent être préfixées par `VITE_` pour être accessibles dans le code frontend
+- Après avoir ajouté/modifié ces variables, redéployez votre application sur Vercel
 
 ---
 
@@ -157,6 +173,31 @@ SENDGRID_FROM_NAME=Altus Group
 
 ---
 
+## 🌐 Configuration DNS pour le domaine personnalisé
+
+Votre domaine `altusfinancesgroup.com` est déjà configuré sur Vercel pour le frontend. Vous devez maintenant ajouter le sous-domaine API.
+
+### Configuration DNS chez Vercel
+
+1. **Accédez à votre projet Vercel**
+   - Dashboard → Votre projet → **Settings** → **Domains**
+
+2. **Ajoutez le sous-domaine API**
+   - Dans la section DNS ou Domains, ajoutez un enregistrement **CNAME** :
+     ```
+     Type: CNAME
+     Name: api
+     Value: [votre-service].onrender.com (vous l'obtiendrez après avoir créé le service Render)
+     TTL: Auto ou 3600
+     ```
+
+3. **Vérification de la configuration actuelle**
+   - `altusfinancesgroup.com` → Vercel (Frontend) ✓
+   - `www.altusfinancesgroup.com` → Vercel (Frontend) ✓
+   - `api.altusfinancesgroup.com` → Render (Backend) ← À configurer
+
+---
+
 ## 🚀 Déployer le Backend sur Render
 
 ### 1. Préparer le dépôt
@@ -169,11 +210,14 @@ Assurez-vous que votre code est sur GitHub, GitLab ou Bitbucket.
 2. Cliquez sur **New +** → **Web Service**
 3. Connectez votre dépôt Git
 4. Configuration :
-   - **Name** : `altus-group-backend`
+   - **Name** : `altus-finance-backend`
+   - **Region** : Frankfurt (EU) ou Oregon (US West) selon votre audience
    - **Environment** : `Node`
-   - **Build Command** : `npm install && npm run build`
-   - **Start Command** : `npm run start`
-   - **Plan** : Choisissez selon vos besoins (Gratuit disponible)
+   - **Build Command** : `npm install`
+   - **Start Command** : `npm start`
+   - **Plan** : **Starter ($7/mois)** recommandé pour éviter le "cold start" du plan gratuit
+   
+   ⚠️ **Note sur le plan gratuit** : Les services gratuits Render s'endorment après 15 minutes d'inactivité et prennent ~30 secondes à redémarrer. Pour une application de production, le plan Starter est recommandé.
 
 ### 3. Variables d'environnement
 
@@ -188,9 +232,28 @@ Ajoutez toutes les variables listées dans la section "Backend" ci-dessus.
   3. Démarrer le serveur
   4. Initialiser la base de données
 
-### 5. Noter l'URL
+### 5. Configurer le domaine personnalisé
 
-Une fois déployé, notez l'URL de votre backend (ex: `https://altus-group-backend.onrender.com`)
+1. **Dans le dashboard de votre service Render** :
+   - Allez dans **Settings** → **Custom Domains**
+   - Cliquez sur **Add Custom Domain**
+   - Entrez : `api.altusfinancesgroup.com`
+   - Render va vérifier et vous indiquer si la configuration DNS est correcte
+
+2. **Retournez sur Vercel pour configurer le DNS** :
+   - Ajoutez l'enregistrement CNAME (voir section DNS ci-dessus)
+   - Utilisez la valeur fournie par Render (ex: `altus-finance-backend.onrender.com`)
+
+3. **Vérification SSL** :
+   - Une fois le domaine vérifié, Render provisionne automatiquement un certificat SSL
+   - Cela peut prendre quelques minutes
+   - Votre API sera accessible via `https://api.altusfinancesgroup.com`
+
+### 6. Noter les URLs
+
+Une fois déployé :
+- **URL Render** : `https://altus-finance-backend.onrender.com` (utilisable mais pas jolie)
+- **URL personnalisée** : `https://api.altusfinancesgroup.com` (recommandé pour production)
 
 ---
 
@@ -261,37 +324,118 @@ app.use(cors({
 
 ---
 
+## 🔒 Configuration CORS (Déjà intégrée)
+
+Votre backend a déjà une configuration CORS sécurisée intégrée dans `server/index.ts`. Voici ce qui est automatiquement géré :
+
+### En Production
+Le backend accepte uniquement les requêtes provenant de :
+- `https://altusfinancesgroup.com`
+- `https://www.altusfinancesgroup.com`
+- La valeur de `FRONTEND_URL` (variable d'environnement)
+
+### Cookies et Sessions
+- **Cookies sécurisés** : `secure: true` (HTTPS obligatoire)
+- **HttpOnly** : Protection contre XSS
+- **SameSite** : `none` (permet la communication cross-domain)
+- **Domain** : `.altusfinancesgroup.com` (partage entre domaines)
+- **Credentials** : `true` (autorise l'envoi de cookies)
+
+⚠️ **Aucune modification nécessaire** - Le code détecte automatiquement l'environnement et applique la bonne configuration !
+
+---
+
 ## ✅ Checklist de Déploiement
+
+### Préparation
+- [ ] Code poussé sur GitHub/GitLab
+- [ ] Compte Render créé
+- [ ] Compte SendGrid créé (ou configuration email)
+- [ ] Domaine `altusfinancesgroup.com` déjà sur Vercel ✓
 
 ### Backend (Render)
 
-- [ ] Base de données PostgreSQL créée
+**Création du service :**
+- [ ] Service web créé sur Render
+- [ ] Dépôt Git connecté
+- [ ] Build Command : `npm install`
+- [ ] Start Command : `npm start`
+
+**Base de données :**
+- [ ] PostgreSQL créée sur Render (ou Neon)
+- [ ] `DATABASE_URL` copiée et configurée
+
+**Variables d'environnement :**
+- [ ] `NODE_ENV=production`
+- [ ] `SESSION_SECRET` générée (`openssl rand -base64 32`)
+- [ ] `COOKIE_DOMAIN=.altusfinancesgroup.com`
+- [ ] `FRONTEND_URL=https://altusfinancesgroup.com`
+- [ ] `SENDGRID_API_KEY` configurée
+- [ ] `SENDGRID_FROM_EMAIL` configurée
 - [ ] `DATABASE_URL` configurée
-- [ ] `SESSION_SECRET` générée et ajoutée
-- [ ] Compte SendGrid créé
-- [ ] `SENDGRID_API_KEY` ajoutée
-- [ ] Email expéditeur vérifié
-- [ ] `NODE_ENV=production` configuré
-- [ ] Service déployé et fonctionne
-- [ ] URL du backend notée
+
+**Domaine personnalisé :**
+- [ ] Domaine `api.altusfinancesgroup.com` ajouté dans Render
+- [ ] Enregistrement CNAME configuré chez Vercel
+- [ ] Certificat SSL provisionné par Render
+- [ ] API accessible via `https://api.altusfinancesgroup.com`
 
 ### Frontend (Vercel)
 
+**Configuration (si pas déjà fait) :**
 - [ ] Projet importé sur Vercel
+- [ ] Framework : Vite détecté
 - [ ] Build réussi
-- [ ] URL du frontend notée
-- [ ] Application accessible publiquement
+
+**Variables d'environnement :**
+- [ ] `VITE_API_URL=https://api.altusfinancesgroup.com`
+- [ ] `VITE_SITE_URL=https://altusfinancesgroup.com`
+- [ ] Application redéployée après ajout des variables
+
+**Domaine :**
+- [ ] `altusfinancesgroup.com` configuré ✓
+- [ ] `www.altusfinancesgroup.com` configuré ✓
+- [ ] SSL actif ✓
 
 ### Tests Post-Déploiement
 
+**Test 1 : Santé du backend**
+- [ ] Accéder à `https://api.altusfinancesgroup.com/health`
+- [ ] Vérifier réponse JSON avec `status: "ok"`
+- [ ] Vérifier `database: "connected"`
+- [ ] Vérifier CORS configuration
+
+**Test 2 : Frontend accessible**
+- [ ] Accéder à `https://altusfinancesgroup.com`
+- [ ] Page se charge correctement
+- [ ] Pas d'erreur dans la console du navigateur
+
+**Test 3 : Communication Frontend ↔ Backend**
+- [ ] Ouvrir DevTools → Console
+- [ ] Exécuter : `fetch('https://api.altusfinancesgroup.com/health', {credentials: 'include'}).then(r => r.json()).then(console.log)`
+- [ ] Vérifier qu'il n'y a pas d'erreur CORS
+- [ ] Réponse reçue avec succès
+
+**Test 4 : Authentification complète**
 - [ ] S'inscrire avec un vrai email
 - [ ] Recevoir l'email de vérification
-- [ ] Vérifier l'email via le lien
+- [ ] Cliquer sur le lien de vérification
 - [ ] Recevoir l'email de bienvenue
 - [ ] Se connecter avec les identifiants
+
+**Test 5 : Sessions et cookies**
+- [ ] Après connexion, ouvrir DevTools → Application → Cookies
+- [ ] Vérifier cookie `sessionId` présent
+- [ ] Domain : `.altusfinancesgroup.com`
+- [ ] Secure : `✓`
+- [ ] HttpOnly : `✓`
+- [ ] SameSite : `None`
+
+**Test 6 : Fonctionnalités métier**
 - [ ] Naviguer dans le dashboard
 - [ ] Créer un prêt de test
-- [ ] Tester un transfert
+- [ ] Effectuer un transfert
+- [ ] Vérifier que les données sont persistées (rafraîchir la page)
 
 ---
 
