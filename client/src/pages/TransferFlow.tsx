@@ -349,11 +349,10 @@ export default function TransferFlow() {
                 <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-2">
-                    Aucun prêt disponible pour transfert
+                    {t.transferFlow.alerts.noLoansTitle}
                   </h3>
                   <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                    Vous n'avez actuellement aucun prêt approuvé avec des fonds disponibles pour effectuer un transfert. 
-                    Veuillez vous assurer que votre prêt est approuvé par l'administrateur et que les fonds ont été débloqués.
+                    {t.transferFlow.alerts.noLoansDescription}
                   </p>
                 </div>
               </div>

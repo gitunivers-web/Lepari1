@@ -1,47 +1,49 @@
 import { useState, useEffect } from 'react';
 import { Info, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { useTranslations } from '@/lib/i18n';
 
 interface InfoMessage {
   id: string;
-  text: string;
+  textKey: 'message1' | 'message2' | 'message3' | 'message4';
   type: 'info' | 'warning' | 'success' | 'update';
 }
 
-const messages: InfoMessage[] = [
+const messageConfigs: InfoMessage[] = [
   {
     id: '1',
-    text: 'Votre espace reste accessible pendant les mises à jour système',
+    textKey: 'message1',
     type: 'info',
   },
   {
     id: '2',
-    text: 'Les virements sont traités sous 24h ouvrées',
+    textKey: 'message2',
     type: 'update',
   },
   {
     id: '3',
-    text: 'Sécurité renforcée - Activez l\'authentification à deux facteurs',
+    textKey: 'message3',
     type: 'warning',
   },
   {
     id: '4',
-    text: 'Nouveau - Consultez vos contrats signés dans la section Contrats',
+    textKey: 'message4',
     type: 'success',
   },
 ];
 
 export function ScrollingInfoBanner() {
+  const t = useTranslations();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % messages.length);
+      setCurrentIndex((prev) => (prev + 1) % messageConfigs.length);
     }, 5000);
 
     return () => clearInterval(timer);
   }, []);
 
-  const currentMessage = messages[currentIndex];
+  const currentMessage = messageConfigs[currentIndex];
 
   const getIcon = () => {
     switch (currentMessage.type) {
@@ -76,10 +78,10 @@ export function ScrollingInfoBanner() {
     >
       <div className="flex-shrink-0">{getIcon()}</div>
       <p className="text-sm font-medium flex-1 min-w-0">
-        {currentMessage.text}
+        {t.infoBanner.messages[currentMessage.textKey]}
       </p>
       <div className="flex gap-1">
-        {messages.map((_, index) => (
+        {messageConfigs.map((_, index) => (
           <div
             key={index}
             className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
