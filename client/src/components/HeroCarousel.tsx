@@ -22,7 +22,7 @@ export default function HeroCarousel() {
   const currentSlides = t.hero.slides.slice(0, slideImages.length);
 
   return (
-    <div className="relative h-[500px] md:h-[550px] w-full overflow-hidden">
+    <div className="relative h-[500px] md:h-[550px] w-full overflow-hidden mt-[165px]">
       {/* Slides */}
       {currentSlides.map((_, i) => (
         <div
