@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient, apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, FileSignature, Check, X } from 'lucide-react';
-import { useTranslation } from '@/lib/i18n';
+import { useTranslations } from '@/lib/i18n';
 
 async function uploadSignedContract(loanId: string, file: File): Promise<any> {
   const formData = new FormData();
@@ -21,7 +21,7 @@ interface SignedContractUploadProps {
 }
 
 export function SignedContractUpload({ loanId, loanAmount }: SignedContractUploadProps) {
-  const t = useTranslation();
+  const t = useTranslations();
   const { toast } = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
