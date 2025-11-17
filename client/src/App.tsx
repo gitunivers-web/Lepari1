@@ -112,7 +112,7 @@ function App() {
                         <NotificationBanner />
                       </div>
                       
-                      <main className="flex-1 overflow-auto pb-20 md:pb-0 bg-background">
+                      <main className="flex-1 overflow-auto bg-background">
                         <Switch>
                           <Route path="/dashboard" component={DashboardWrapper} />
                           <Route path="/loans" component={IndividualLoans} />
