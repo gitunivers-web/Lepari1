@@ -1,8 +1,8 @@
 export const seoConfig = {
   siteUrl: import.meta.env.VITE_SITE_URL || 'http://localhost:5000',
-  siteName: 'Altus Finance Group',
-  defaultTitle: 'Altus Finance Group - Professional Loan Solutions | Business Financing',
-  defaultDescription: 'Altus Finance Group offers professional loan solutions tailored to your business. Quickly access funds with competitive rates and a transparent approval process.',
+  siteName: 'Altus Finances Group',
+  defaultTitle: 'Altus Finances Group - Professional Loan Solutions | Business Financing',
+  defaultDescription: 'Altus Finances Group offers professional loan solutions tailored to your business. Quickly access funds with competitive rates and a transparent approval process.',
   defaultKeywords: 'business loan, enterprise financing, professional loan, quick loan, competitive rate, SME financing, business credit, financing solution, personal loan, car loan, mortgage, student loan, consumer credit, renovation loan, revolving credit, no doc loan, professional financing, enterprise funding',
   defaultImage: '/og-image.jpg',
   twitterHandle: '@altusfinancegroup',
@@ -10,7 +10,7 @@ export const seoConfig = {
   locale: 'en_US',
   alternateLangs: ['fr', 'es', 'pt', 'it', 'de'],
   organization: {
-    name: 'Altus Finance Group',
+    name: 'Altus Finances Group',
     logo: '/logo.png',
     telephone: '+352-40-63-48',
     address: {

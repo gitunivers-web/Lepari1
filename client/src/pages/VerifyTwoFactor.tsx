@@ -59,7 +59,7 @@ export default function VerifyTwoFactor() {
   return (
     <>
       <SEO 
-        title="Vérification 2FA | Altus Finance Group"
+        title="Vérification 2FA | Altus Finances Group"
         description="Vérification à deux facteurs"
       />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">

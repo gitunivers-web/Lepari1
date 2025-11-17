@@ -309,7 +309,7 @@ export async function sendContactFormEmail(name: string, email: string, phone: s
               
               <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                 <p style="color: #6b7280; font-size: 13px; margin: 0;">
-                  Ce message a été envoyé depuis le formulaire de contact du site Altus Finance Group.
+                  Ce message a été envoyé depuis le formulaire de contact du site Altus Finances Group.
                 </p>
               </div>
             </td>
@@ -341,7 +341,7 @@ Message :
 ${message}
 
 ---
-Ce message a été envoyé depuis le formulaire de contact du site Altus Finance Group.
+Ce message a été envoyé depuis le formulaire de contact du site Altus Finances Group.
 ALTUS FINANCE GROUP
 © ${new Date().getFullYear()} Tous droits réservés.
     `;

@@ -3,8 +3,8 @@ import QRCode from 'qrcode';
 
 export function generateTwoFactorSecret(email: string): { secret: string; otpauthUrl: string } {
   const secret = speakeasy.generateSecret({
-    name: `Altus Finance Group (${email})`,
-    issuer: 'Altus Finance Group',
+    name: `Altus Finances Group (${email})`,
+    issuer: 'Altus Finances Group',
     length: 32,
   });
 

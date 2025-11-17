@@ -1,6 +1,6 @@
 # Composants UI Premium Altus 2025
 
-Bibliothèque de composants UI premium pour Altus Finance Group, conçue avec un design niveau banque privée 2025.
+Bibliothèque de composants UI premium pour Altus Finances Group, conçue avec un design niveau banque privée 2025.
 
 ## Installation
 

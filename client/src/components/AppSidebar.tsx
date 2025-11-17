@@ -86,7 +86,7 @@ export default function AppSidebar() {
             <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
             <img 
               src={logoUrl} 
-              alt="Altus Finance Group Logo" 
+              alt="Altus Finances Group Logo" 
               className="relative w-24 h-24 object-contain"
             />
           </div>

@@ -27,9 +27,9 @@ export default function TopbarPremium({ onMenuClick, rightNode }: Props) {
           )}
 
           <div className="flex items-center gap-3">
-            <img src="/logo-altus.svg" className="h-8" alt="Altus Finance Group" data-testid="img-logo" />
+            <img src="/logo-altus.svg" className="h-8" alt="Altus Finances Group" data-testid="img-logo" />
             <span className="font-semibold text-lg text-altus-ink hidden md:inline" data-testid="text-brand-name">
-              Altus Finance Group
+              Altus Finances Group
             </span>
           </div>
         </div>
