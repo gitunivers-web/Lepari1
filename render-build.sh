@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Build script pour Render.com avec support Puppeteer/Chromium
-# Note: Render installe automatiquement les dépendances npm en premier
-# Assurez-vous que NPM_CONFIG_PRODUCTION=false est défini dans les variables d'environnement
+# Build script pour le BACKEND sur Render.com
+# Architecture: Frontend (Vercel) + Backend (Render)
+# Ce script installe uniquement Chrome/Chromium pour la génération PDF
 
 set -e
 
@@ -12,3 +12,4 @@ echo "🔧 Installation de Chrome via Puppeteer..."
 npx puppeteer browsers install chrome
 
 echo "✅ Chrome installé avec succès!"
+echo "📦 Le backend sera compilé avec esbuild (pas de Vite nécessaire)"
