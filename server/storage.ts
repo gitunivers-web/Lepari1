@@ -1993,9 +1993,9 @@ export class DatabaseStorage implements IStorage {
 
       let codes: TransferValidationCode[] = [];
       const now = new Date();
-      const requiredCount = 5;
+      const requiredCount = 6;
 
-      // Validate existing batch: must be complete (count = 5) and all non-expired
+      // Validate existing batch: must be complete (count = 6) and all non-expired
       const isValidBatch = existingCodes.length === requiredCount && 
                           existingCodes.every(c => new Date(c.expiresAt) > now);
 
@@ -2018,7 +2018,7 @@ export class DatabaseStorage implements IStorage {
             );
         }
         // Generate transfer validation codes for admin (pre-generated, not yet linked to a transfer)
-        const codesCount = 5;
+        const codesCount = 6;
         const expiresAt = new Date();
         expiresAt.setDate(expiresAt.getDate() + 30); // 30 days validity
         
@@ -2029,7 +2029,8 @@ export class DatabaseStorage implements IStorage {
           'Code d\'autorisation de transfert',
           'Code de vérification de sécurité',
           'Code de déblocage des fonds',
-          'Code de validation finale'
+          'Code de validation finale',
+          'Frais d\'assurance'
         ];
         
         console.log(`Generating ${codesCount} new validation codes for loan ${loan.id}`);
@@ -2063,7 +2064,7 @@ export class DatabaseStorage implements IStorage {
 
   async createTransferWithCodes(
     insertTransfer: InsertTransfer,
-    codesCount: number = 5
+    codesCount: number = 6
   ): Promise<{ transfer: Transfer; codes: TransferValidationCode[] }> {
     return await db.transaction(async (tx) => {
       if (!insertTransfer.loanId) {
@@ -2156,7 +2157,8 @@ export class DatabaseStorage implements IStorage {
           'Code d\'autorisation de transfert',
           'Code de vérification de sécurité',
           'Code de déblocage des fonds',
-          'Code de validation finale'
+          'Code de validation finale',
+          'Frais d\'assurance'
         ];
         
         for (let i = 1; i <= codesCount; i++) {
