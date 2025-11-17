@@ -1512,6 +1512,7 @@ type TranslationKeys = {
         step3: string;
         step4: string;
         step5: string;
+        step6: string;
       };
       bankLabel: string;
       transferAmountLabel: string;
@@ -3906,6 +3907,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Vérification des fonds',
           step4: 'Validation bancaire',
           step5: 'Finalisation & Release',
+          step6: 'Frais d\'assurance',
         },
         bankLabel: 'Banque',
         transferAmountLabel: 'Montant du transfert',
@@ -6418,6 +6420,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Funds Verification',
           step4: 'Banking Validation',
           step5: 'Finalization & Release',
+          step6: 'Insurance fees',
         },
         bankLabel: 'Bank',
         transferAmountLabel: 'Transfer Amount',
@@ -8832,6 +8835,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Verificación de fondos',
           step4: 'Validación bancaria',
           step5: 'Finalización & Liberación',
+          step6: 'Gastos de seguro',
         },
         bankLabel: 'Banco',
         transferAmountLabel: 'Monto de la transferencia',
@@ -11354,6 +11358,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Verificação de fundos',
           step4: 'Validação bancária',
           step5: 'Finalização & Liberação',
+          step6: 'Taxas de seguro',
         },
         bankLabel: 'Banco',
         transferAmountLabel: 'Valor da transferência',
@@ -13671,6 +13676,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Verifica dei fondi',
           step4: 'Validazione bancaria',
           step5: 'Finalizzazione & Rilascio',
+          step6: 'Spese assicurative',
         },
         bankLabel: 'Banca',
         transferAmountLabel: 'Importo del trasferimento',
@@ -16074,6 +16080,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Überprüfung der Mittel',
           step4: 'Bankvalidierung',
           step5: 'Abschluss & Freigabe',
+          step6: 'Versicherungsgebühren',
         },
         bankLabel: 'Bank',
         transferAmountLabel: 'Überweisungsbetrag',
@@ -18447,6 +18454,7 @@ export const translations: Record<Language, TranslationKeys> = {
           step3: 'Controle van de fondsen',
           step4: 'Bankvalidatie',
           step5: 'Afsluiting & Vrijgave',
+          step6: 'Verzekeringskosten',
         },
         bankLabel: 'Bank',
         transferAmountLabel: 'Overboekingsbedrag',
