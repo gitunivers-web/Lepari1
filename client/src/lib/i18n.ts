@@ -1465,6 +1465,8 @@ type TranslationKeys = {
       step2: string;
       step3: string;
       step4: string;
+      step5: string;
+      step6: string;
     };
     validation: {
       title: string;
@@ -3860,6 +3862,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Validation du montant et des frais',
         step3: 'Contrôle de sécurité anti-fraude',
         step4: 'Préparation du transfert sécurisé',
+        step5: 'Vérification des frais d\'assurance',
+        step6: 'Finalisation de la sécurisation',
       },
       validation: {
         title: 'Validation du transfert',
@@ -6373,6 +6377,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Amount and fees validation',
         step3: 'Anti-fraud security check',
         step4: 'Secure transfer preparation',
+        step5: 'Insurance fees verification',
+        step6: 'Finalization of securing',
       },
       validation: {
         title: 'Transfer Validation',
@@ -8788,6 +8794,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Validación de monto y tarifas',
         step3: 'Control de seguridad antifraude',
         step4: 'Preparación de transferencia segura',
+        step5: 'Verificación de gastos de seguro',
+        step6: 'Finalización de la seguridad',
       },
       validation: {
         title: 'Validación de Transferencia',
@@ -11311,6 +11319,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Validação do valor e taxas',
         step3: 'Controle de segurança antifraude',
         step4: 'Preparação da transferência segura',
+        step5: 'Verificação de taxas de seguro',
+        step6: 'Finalização da segurança',
       },
       validation: {
         title: 'Validação da Transferência',
@@ -13629,6 +13639,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Convalida dell\'importo e delle commissioni',
         step3: 'Controllo di sicurezza antifrode',
         step4: 'Preparazione del trasferimento sicuro',
+        step5: 'Verifica delle spese assicurative',
+        step6: 'Finalizzazione della sicurezza',
       },
       validation: {
         title: 'Convalida del trasferimento',
@@ -16033,6 +16045,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Validierung von Betrag und Gebühren',
         step3: 'Sicherheitskontrolle gegen Betrug',
         step4: 'Vorbereitung der sicheren Überweisung',
+        step5: 'Überprüfung der Versicherungsgebühren',
+        step6: 'Abschluss der Sicherung',
       },
       validation: {
         title: 'Überweisungsvalidierung',
@@ -18407,6 +18421,8 @@ export const translations: Record<Language, TranslationKeys> = {
         step2: 'Validatie van bedrag en kosten',
         step3: 'Veiligheidscontrole tegen fraude',
         step4: 'Voorbereiding van veilige overschrijving',
+        step5: 'Verificatie van verzekeringskosten',
+        step6: 'Voltooiing van de beveiliging',
       },
       validation: {
         title: 'Validatie van overschrijving',

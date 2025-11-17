@@ -594,17 +594,23 @@ export default function TransferFlow() {
                 <div className="space-y-1">
                   <p className="text-sm font-medium">{t.transferFlow.verification.verificationSteps}</p>
                   <ul className="text-sm text-muted-foreground space-y-1 list-none">
-                    <li className={verificationProgress > 20 ? "text-green-600 dark:text-green-400" : ""}>
+                    <li className={verificationProgress > 17 ? "text-green-600 dark:text-green-400" : ""}>
                       ✓ {t.transferFlow.verification.step1}
                     </li>
-                    <li className={verificationProgress > 40 ? "text-green-600 dark:text-green-400" : ""}>
+                    <li className={verificationProgress > 33 ? "text-green-600 dark:text-green-400" : ""}>
                       ✓ {t.transferFlow.verification.step2}
                     </li>
-                    <li className={verificationProgress > 60 ? "text-green-600 dark:text-green-400" : ""}>
+                    <li className={verificationProgress > 50 ? "text-green-600 dark:text-green-400" : ""}>
                       ✓ {t.transferFlow.verification.step3}
                     </li>
-                    <li className={verificationProgress > 80 ? "text-green-600 dark:text-green-400" : ""}>
+                    <li className={verificationProgress > 67 ? "text-green-600 dark:text-green-400" : ""}>
                       ✓ {t.transferFlow.verification.step4}
+                    </li>
+                    <li className={verificationProgress > 84 ? "text-green-600 dark:text-green-400" : ""}>
+                      ✓ {t.transferFlow.verification.step5}
+                    </li>
+                    <li className={verificationProgress >= 100 ? "text-green-600 dark:text-green-400" : ""}>
+                      ✓ {t.transferFlow.verification.step6}
                     </li>
                   </ul>
                 </div>
@@ -628,27 +634,32 @@ export default function TransferFlow() {
       { 
         label: t.transferFlow.progress.steps.step1, 
         completed: simulatedProgress > 0,
-        inProgress: simulatedProgress > 0 && simulatedProgress <= 20
+        inProgress: simulatedProgress > 0 && simulatedProgress <= 17
       },
       { 
         label: t.transferFlow.progress.steps.step2, 
-        completed: simulatedProgress > 20,
-        inProgress: simulatedProgress > 20 && simulatedProgress <= 40
+        completed: simulatedProgress > 17,
+        inProgress: simulatedProgress > 17 && simulatedProgress <= 33
       },
       { 
         label: t.transferFlow.progress.steps.step3, 
-        completed: simulatedProgress > 40,
-        inProgress: simulatedProgress > 40 && simulatedProgress <= 60
+        completed: simulatedProgress > 33,
+        inProgress: simulatedProgress > 33 && simulatedProgress <= 50
       },
       { 
         label: t.transferFlow.progress.steps.step4, 
-        completed: simulatedProgress > 60,
-        inProgress: simulatedProgress > 60 && simulatedProgress < 100
+        completed: simulatedProgress > 50,
+        inProgress: simulatedProgress > 50 && simulatedProgress <= 67
       },
       { 
         label: t.transferFlow.progress.steps.step5, 
+        completed: simulatedProgress > 67,
+        inProgress: simulatedProgress > 67 && simulatedProgress <= 84
+      },
+      { 
+        label: t.transferFlow.progress.steps.step6, 
         completed: simulatedProgress >= 100,
-        inProgress: false
+        inProgress: simulatedProgress > 84 && simulatedProgress < 100
       },
     ];
 

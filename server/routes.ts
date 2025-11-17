@@ -2300,7 +2300,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const settingFee = await storage.getAdminSetting('default_transfer_fee');
       const feeAmount = (settingFee?.settingValue as any)?.amount || 25;
       
-      const codesCount = 5;
+      const codesCount = 6;
       
       const { transfer, codes: generatedCodes } = await storage.createTransferWithCodes({
         userId: req.session.userId!,
