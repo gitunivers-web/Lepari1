@@ -47,7 +47,6 @@ import NotificationBanner from '@/components/NotificationBanner';
 import UserProfileHeader from '@/components/UserProfileHeader';
 import NotificationBell from '@/components/NotificationBell';
 import SessionMonitor from '@/components/SessionMonitor';
-import MobileBottomNav from '@/components/MobileBottomNav';
 import ContractNotificationManager from '@/components/ContractNotificationManager';
 import UserSessionTracker from '@/components/UserSessionTracker';
 import { LoanDialogProvider } from '@/contexts/LoanDialogContext';
@@ -135,7 +134,6 @@ function App() {
                           <Route component={NotFound} />
                         </Switch>
                       </main>
-                      <MobileBottomNav />
                     </div>
                   </div>
                 </SidebarProvider>
