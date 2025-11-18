@@ -1593,12 +1593,7 @@ export class DatabaseStorage implements IStorage {
             db
               .select()
               .from(transfers)
-              .where(
-                and(
-                  eq(transfers.loanId, loans.id),
-                  inArray(transfers.status, ['pending', 'in-progress'])
-                )
-              )
+              .where(eq(transfers.loanId, loans.id))
           )
         )
       );
