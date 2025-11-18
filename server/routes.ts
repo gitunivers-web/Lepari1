@@ -56,11 +56,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
 
     if (!req.session || !req.session.csrfToken) {
+      console.error('[CSRF-ERROR] Session invalide ou token manquant', {
+        hasSession: !!req.session,
+        sessionId: req.session?.id,
+        path: req.path,
+        method: req.method,
+        userId: req.session?.userId
+      });
       return res.status(403).json({ error: 'Session invalide - token CSRF manquant' });
     }
 
     const token = req.headers['x-csrf-token'] || req.body._csrf;
     if (!token || token !== req.session.csrfToken) {
+      console.error('[CSRF-ERROR] Token CSRF invalide', {
+        tokenProvided: !!token,
+        path: req.path,
+        method: req.method,
+        userId: req.session?.userId,
+        sessionId: req.session?.id
+      });
       return res.status(403).json({ error: 'Token CSRF invalide ou manquant' });
     }
 
@@ -89,6 +103,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     message: { error: 'Trop de transferts initiés. Veuillez réessayer dans 1 heure.' },
     standardHeaders: true,
     legacyHeaders: false,
+    handler: (req, res) => {
+      console.error('[RATE-LIMIT] Limite de transferts dépassée', {
+        ip: req.ip,
+        userId: req.session?.userId,
+        path: req.path,
+        timestamp: new Date().toISOString()
+      });
+      res.status(429).json({ 
+        error: 'Trop de transferts initiés. Veuillez réessayer dans 1 heure.' 
+      });
+    },
   });
 
   const uploadLimiter = rateLimit({
@@ -270,17 +295,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const requireAuth = async (req: any, res: any, next: any) => {
     if (!req.session || !req.session.userId) {
+      console.error('[AUTH-ERROR] Session ou userId manquant', {
+        hasSession: !!req.session,
+        hasUserId: !!req.session?.userId,
+        path: req.path,
+        method: req.method,
+        sessionId: req.session?.id
+      });
       return res.status(401).json({ error: 'Authentification requise' });
     }
 
     try {
       const user = await storage.getUser(req.session.userId);
       if (!user) {
+        console.error('[AUTH-ERROR] Utilisateur non trouvé dans la BD', {
+          userId: req.session.userId,
+          path: req.path,
+          sessionId: req.session.id
+        });
         req.session.destroy(() => {});
         return res.status(401).json({ error: 'Session invalide' });
       }
 
       if (user.activeSessionId && user.activeSessionId !== req.session.id) {
+        console.warn('[AUTH-ERROR] Session dupliquée détectée', {
+          userId: user.id,
+          currentSessionId: req.session.id,
+          activeSessionId: user.activeSessionId,
+          path: req.path
+        });
         req.session.destroy(() => {});
         return res.status(401).json({ 
           error: 'Votre compte est connecté sur un autre appareil. Veuillez vous reconnecter.',
@@ -289,6 +332,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       if (user.status === 'blocked') {
+        console.warn('[AUTH-ERROR] Compte bloqué', {
+          userId: user.id,
+          email: user.email,
+          path: req.path
+        });
         return res.status(403).json({ 
           error: 'Compte bloqué. Veuillez contacter le support.'
         });
@@ -296,6 +344,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       if (user.status === 'suspended') {
         if (!user.suspendedUntil || new Date() < user.suspendedUntil) {
+          console.warn('[AUTH-ERROR] Compte suspendu', {
+            userId: user.id,
+            email: user.email,
+            suspendedUntil: user.suspendedUntil,
+            path: req.path
+          });
           return res.status(403).json({ 
             error: 'Compte suspendu',
             suspendedUntil: user.suspendedUntil,
@@ -305,10 +359,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       if (user.status === 'inactive') {
+        console.warn('[AUTH-ERROR] Compte inactif', {
+          userId: user.id,
+          email: user.email,
+          path: req.path
+        });
         return res.status(403).json({ error: 'Compte inactif' });
       }
 
       if (!user.emailVerified) {
+        console.warn('[AUTH-ERROR] Email non vérifié', {
+          userId: user.id,
+          email: user.email,
+          path: req.path
+        });
         return res.status(403).json({ 
           error: 'Email non vérifié. Veuillez vérifier votre email avant de continuer.' 
         });
@@ -316,7 +380,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       next();
     } catch (error) {
-      console.error('Error in requireAuth:', error);
+      console.error('[AUTH-ERROR] Exception dans requireAuth:', {
+        error,
+        userId: req.session?.userId,
+        path: req.path,
+        stack: (error as Error).stack
+      });
       res.status(500).json({ error: 'Erreur serveur' });
     }
   };
