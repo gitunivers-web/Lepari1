@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -35,10 +35,17 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
     externalAccountId: '',
   });
 
-  const { data: availableLoans, isLoading: isLoadingLoans } = useQuery<Loan[]>({
+  const { data: availableLoans, isLoading: isLoadingLoans, refetch } = useQuery<Loan[]>({
     queryKey: ['/api/loans/available-for-transfer'],
     enabled: open,
   });
+
+  useEffect(() => {
+    if (open) {
+      queryClient.invalidateQueries({ queryKey: ['/api/loans/available-for-transfer'] });
+      refetch();
+    }
+  }, [open, queryClient, refetch]);
 
   const createTransferMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
@@ -74,6 +81,34 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
       toast({
         title: 'Prêt requis',
         description: 'Veuillez sélectionner un prêt pour initier le transfert',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!formData.amount || formData.amount.trim() === '') {
+      toast({
+        title: 'Montant requis',
+        description: 'Veuillez entrer un montant pour le transfert',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const amountNum = parseFloat(formData.amount);
+    if (isNaN(amountNum) || amountNum <= 0) {
+      toast({
+        title: 'Montant invalide',
+        description: 'Le montant doit être un nombre positif supérieur à zéro',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!formData.recipient || formData.recipient.trim() === '') {
+      toast({
+        title: 'Bénéficiaire requis',
+        description: 'Veuillez entrer le nom du bénéficiaire',
         variant: 'destructive',
       });
       return;
@@ -121,7 +156,11 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
                   </SelectTrigger>
                   <SelectContent>
                     {availableLoans.map((loan) => (
-                      <SelectItem key={loan.id} value={loan.id}>
+                      <SelectItem 
+                        key={loan.id} 
+                        value={loan.id}
+                        data-testid={`option-loan-${loan.id}`}
+                      >
                         {loan.loanType} - {formatCurrency(loan.amount)}
                       </SelectItem>
                     ))}
@@ -148,7 +187,7 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
                   id="amount"
                   type="number"
                   step="0.01"
-                  min="0"
+                  min="0.01"
                   placeholder={t.dialogs?.transfer?.amountPlaceholder || '1000.00'}
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
