@@ -1,11 +1,42 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useTranslations } from "@/lib/i18n";
+import { useEffect, useState } from "react";
 
 export default function CircularTransferProgress({ percent }: { percent: number }) {
   const t = useTranslations();
   const r = 52;
   const circumference = 2 * Math.PI * r;
   const progress = (percent / 100) * circumference;
+  
+  // Animation progressive du nombre affiché
+  const [displayedPercent, setDisplayedPercent] = useState(0);
+  
+  useEffect(() => {
+    // Animation fluide du compteur de pourcentage
+    let startPercent = displayedPercent;
+    const targetPercent = percent;
+    const duration = Math.abs(targetPercent - startPercent) * 20; // Plus le saut est grand, plus l'animation est longue
+    const startTime = Date.now();
+    
+    const animationInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Fonction d'easing pour une animation plus fluide
+      const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+      const easedProgress = easeOutCubic(progress);
+      
+      const currentValue = startPercent + (targetPercent - startPercent) * easedProgress;
+      setDisplayedPercent(currentValue);
+      
+      if (progress >= 1) {
+        clearInterval(animationInterval);
+        setDisplayedPercent(targetPercent);
+      }
+    }, 16); // ~60fps
+    
+    return () => clearInterval(animationInterval);
+  }, [percent]);
 
   return (
     <div className="flex flex-col items-center gap-4 p-8 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 w-full max-w-md mx-auto">
@@ -47,9 +78,11 @@ export default function CircularTransferProgress({ percent }: { percent: number 
           </defs>
         </svg>
 
-        {/* Pourcentage centré */}
+        {/* Pourcentage centré avec animation */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-3xl font-bold text-gray-800 dark:text-gray-100">{Math.round(percent)}%</span>
+          <span className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+            {Math.round(displayedPercent)}%
+          </span>
         </div>
       </div>
 
