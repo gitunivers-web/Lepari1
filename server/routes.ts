@@ -3008,6 +3008,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
       const account = await storage.createExternalAccount({
         userId: req.session.userId!,
         bankName: req.body.bankName,
+        bankCountry: req.body.bankCountry || null,
         iban: req.body.iban,
         bic: req.body.bic,
         accountLabel: req.body.accountLabel,

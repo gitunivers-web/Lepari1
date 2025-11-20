@@ -81,6 +81,7 @@ export const externalAccounts = pgTable("external_accounts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull(),
   bankName: text("bank_name").notNull(),
+  bankCountry: text("bank_country"),
   iban: text("iban").notNull(),
   bic: text("bic"),
   accountLabel: text("account_label").notNull(),
