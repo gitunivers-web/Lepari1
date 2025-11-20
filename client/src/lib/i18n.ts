@@ -1612,6 +1612,7 @@ type TranslationKeys = {
       studentLoan: { title: string; description: string; features: string[] };
       greenLoan: { title: string; description: string; features: string[] };
       renovationLoan: { title: string; description: string; features: string[] };
+      diverseLoan: { title: string; description: string; features: string[] };
       businessLoan: { title: string; description: string; features: string[] };
       cashFlowCredit: { title: string; description: string; features: string[] };
       equipmentFinancing: { title: string; description: string; features: string[] };
@@ -4034,6 +4035,11 @@ export const translations: Record<Language, TranslationKeys> = {
           title: 'Prêt Travaux',
           description: 'Rénovez et améliorez votre logement',
           features: ['Sans hypothèque jusqu\'à 75k€', 'Déblocage progressif possible', 'Déduction fiscale possible'],
+        },
+        diverseLoan: {
+          title: 'Crédits Divers',
+          description: 'Financez tous vos projets personnels : événements, équipements, loisirs, santé, bien-être',
+          features: ['Procédure simplifiée', 'Réponse rapide en 24h', 'Déblocage des fonds en 3 à 5 jours'],
         },
         businessLoan: {
           title: 'Prêt Professionnel',
@@ -6552,6 +6558,11 @@ export const translations: Record<Language, TranslationKeys> = {
           description: 'Renovate and improve your home',
           features: ['No mortgage up to 75k', 'Progressive disbursement possible', 'Possible tax deduction'],
         },
+        diverseLoan: {
+          title: 'Miscellaneous Loans',
+          description: 'Finance all your personal projects: events, equipment, leisure, health, wellness',
+          features: ['Simplified procedure', 'Quick response in 24h', 'Funds disbursement in 3 to 5 days'],
+        },
         businessLoan: {
           title: 'Business Loan',
           description: 'Financing for your business projects, development and cash flow',
@@ -8970,6 +8981,11 @@ export const translations: Record<Language, TranslationKeys> = {
           title: 'Préstamo para Reformas',
           description: 'Renueve y mejore su vivienda',
           features: ['Sin hipoteca hasta 75k€', 'Desembolso progresivo posible', 'Deducción fiscal posible'],
+        },
+        diverseLoan: {
+          title: 'Créditos Diversos',
+          description: 'Financie todos sus proyectos personales: eventos, equipos, ocio, salud, bienestar',
+          features: ['Procedimiento simplificado', 'Respuesta rápida en 24h', 'Desembolso de fondos en 3 a 5 días'],
         },
         businessLoan: {
           title: 'Préstamo Empresarial',
@@ -11498,6 +11514,11 @@ export const translations: Record<Language, TranslationKeys> = {
           description: 'Renove e melhore sua residência',
           features: ['Sem hipoteca até 75k€', 'Liberação progressiva possível', 'Dedução fiscal possível'],
         },
+        diverseLoan: {
+          title: 'Créditos Diversos',
+          description: 'Financie todos os seus projetos pessoais: eventos, equipamentos, lazer, saúde, bem-estar',
+          features: ['Procedimento simplificado', 'Resposta rápida em 24h', 'Liberação de fundos em 3 a 5 dias'],
+        },
         businessLoan: {
           title: 'Empréstimo Empresarial',
           description: 'Financiamento para seus projetos empresariais, desenvolvimento e tesouraria',
@@ -13819,6 +13840,11 @@ export const translations: Record<Language, TranslationKeys> = {
           title: 'Prestito Ristrutturazione',
           description: 'Rinnova e migliora la tua abitazione',
           features: ['Senza ipoteca fino a 75k€', 'Erogazione progressiva possibile', 'Deduzione fiscale possibile'],
+        },
+        diverseLoan: {
+          title: 'Crediti Diversi',
+          description: 'Finanzia tutti i tuoi progetti personali: eventi, attrezzature, tempo libero, salute, benessere',
+          features: ['Procedura semplificata', 'Risposta rapida in 24h', 'Erogazione fondi in 3-5 giorni'],
         },
         businessLoan: {
           title: 'Prestito Aziendale',
@@ -16228,6 +16254,11 @@ export const translations: Record<Language, TranslationKeys> = {
           description: 'Renovieren und verbessern Sie Ihr Zuhause',
           features: ['Keine Hypothek bis 75k€', 'Stufenweise Auszahlung möglich', 'Steuerabzug möglich'],
         },
+        diverseLoan: {
+          title: 'Diverse Kredite',
+          description: 'Finanzieren Sie alle Ihre persönlichen Projekte: Veranstaltungen, Ausrüstung, Freizeit, Gesundheit, Wohlbefinden',
+          features: ['Vereinfachtes Verfahren', 'Schnelle Antwort in 24h', 'Mittelauszahlung in 3-5 Tagen'],
+        },
         businessLoan: {
           title: 'Geschäftskredit',
           description: 'Finanzierung für Ihre Unternehmensprojekte, Entwicklung und Liquidität',
@@ -18605,6 +18636,11 @@ export const translations: Record<Language, TranslationKeys> = {
           title: 'Renovatielening',
           description: 'Renoveer en verbeter uw woning',
           features: ['Geen hypotheek tot 75k€', 'Geleidelijke uitbetaling mogelijk', 'Mogelijke belastingaftrek'],
+        },
+        diverseLoan: {
+          title: 'Diverse Leningen',
+          description: 'Financier al uw persoonlijke projecten: evenementen, apparatuur, vrije tijd, gezondheid, welzijn',
+          features: ['Vereenvoudigde procedure', 'Snel antwoord in 24u', 'Uitbetaling binnen 3-5 dagen'],
         },
         businessLoan: {
           title: 'Zakelijke Lening',

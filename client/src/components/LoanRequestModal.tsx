@@ -191,17 +191,29 @@ export function LoanRequestModal({ open, onOpenChange, user }: LoanRequestModalP
 
   const limits = loanType ? getLoanOfferLimits(loanType, accountType) : null;
   
-  // Déterminer si on doit utiliser des années (pour les prêts immobiliers et long terme)
+  // Déterminer si on doit utiliser des années :
+  // 1. Pour les prêts immobiliers et prêts à long terme connus qui utilisent toujours des années
+  // 2. OU si la durée maximale est >= 120 mois (10 ans) pour une meilleure UX
+  const longTermLoanTypes = ['mortgage-loan', 'commercial-property-loan'];
   const useYears = loanType && (
-    loanType.includes('mortgage') || 
-    loanType.includes('commercial-property') ||
-    (limits && limits.maxDuration >= 180) // 15 ans ou plus
+    longTermLoanTypes.includes(loanType) || (limits && limits.maxDuration >= 120)
   );
   
   // Convertir la durée en unité appropriée pour l'affichage
   const displayDuration = useYears ? Math.round(duration / 12) : duration;
-  const displayMinDuration = useYears && limits ? Math.round(limits.minDuration / 12) : limits?.minDuration || 1;
-  const displayMaxDuration = useYears && limits ? Math.round(limits.maxDuration / 12) : limits?.maxDuration || 360;
+  
+  // Valeurs par défaut sûres : si limits est null, utiliser des defaults raisonnables
+  // Pour les années: 5-30 ans (équivalent à 60-360 mois)
+  // Pour les mois: 6-360 mois
+  const defaultMinMonths = useYears ? 60 : 6;
+  const defaultMaxMonths = useYears ? 360 : 360;
+  
+  const displayMinDuration = useYears 
+    ? Math.round((limits?.minDuration || defaultMinMonths) / 12)
+    : (limits?.minDuration || defaultMinMonths);
+  const displayMaxDuration = useYears 
+    ? Math.round((limits?.maxDuration || defaultMaxMonths) / 12)
+    : (limits?.maxDuration || defaultMaxMonths);
   
   const interestRate = loanType ? calculateInterestRate(loanType, amount, duration, accountType) : 0;
 

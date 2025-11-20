@@ -1,4 +1,4 @@
-import { Wallet, Home, Car, GraduationCap, Leaf, Hammer, Building2, TrendingUp, Wrench, Factory, CreditCard, Truck } from 'lucide-react';
+import { Wallet, Home, Car, GraduationCap, Leaf, Hammer, Building2, TrendingUp, Wrench, Factory, CreditCard, Truck, Sparkles } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type LoanOfferType = 'individual' | 'business';
@@ -10,6 +10,7 @@ export type LoanOfferTranslationKey =
   | 'studentLoan'
   | 'greenLoan'
   | 'renovationLoan'
+  | 'diverseLoan'
   | 'businessLoan'
   | 'cashFlowCredit'
   | 'equipmentFinancing'
@@ -39,6 +40,7 @@ export const loanOfferTranslationMap: Record<string, LoanOfferTranslationKey> = 
   'student-loan': 'studentLoan',
   'green-loan': 'greenLoan',
   'renovation-loan': 'renovationLoan',
+  'diverse-loan': 'diverseLoan',
   'business-loan': 'businessLoan',
   'cash-flow-credit': 'cashFlowCredit',
   'equipment-financing': 'equipmentFinancing',
@@ -131,6 +133,20 @@ export const individualLoanOffers: LoanOffer[] = [
     features: ['Sans hypothèque jusqu\'à 75k€', 'Déblocage progressif possible', 'Déduction fiscale possible'],
     color: 'text-amber-600',
     bgColor: 'bg-amber-50 dark:bg-amber-950/20',
+  },
+  {
+    id: 'diverse-loan',
+    translationKey: 'diverseLoan',
+    icon: Sparkles,
+    title: 'Crédits Divers',
+    description: 'Financez tous vos projets personnels : événements, équipements, loisirs, santé, bien-être',
+    amount: '500€ - 50 000€',
+    rate: '2,9% - 8,9%',
+    duration: '6 - 96 mois',
+    accountType: 'individual',
+    features: ['Procédure simplifiée', 'Réponse rapide en 24h', 'Déblocage des fonds en 3 à 5 jours'],
+    color: 'text-indigo-600',
+    bgColor: 'bg-indigo-50 dark:bg-indigo-950/20',
   },
 ];
 

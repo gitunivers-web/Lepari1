@@ -25,6 +25,7 @@ const getIndividualLoanTypes = (t: any) => ({
   green: { minRate: 0.5, maxRate: 4.5 },
   renovation: { minRate: 2.5, maxRate: 6.9 },
   student: { minRate: 1.5, maxRate: 3.5 },
+  diverse: { minRate: 2.9, maxRate: 8.9 },
 } as const);
 
 const getBusinessLoanTypes = (t: any) => ({
