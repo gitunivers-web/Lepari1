@@ -557,7 +557,7 @@ export default function TransferFlow() {
 
   if (step === 'progress') {
     const transfer = transferData?.transfer;
-    const codes = transferData?.codes as TransferValidationCode[] || [];
+    const codes = transferData?.codes || [];
     const sortedCodes = [...codes].sort((a, b) => a.sequence - b.sequence);
     const validatedCount = transfer?.codesValidated || 0;
     const totalCodes = transfer?.requiredCodes || codes.length;
