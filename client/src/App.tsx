@@ -33,6 +33,7 @@ import BankAccounts from '@/pages/BankAccounts';
 import History from '@/pages/History';
 import Settings from '@/pages/Settings';
 import Contracts from '@/pages/Contracts';
+import Messages from '@/pages/Messages';
 import AppSidebar from '@/components/AppSidebar';
 import TopBar from '@/components/TopBar';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -119,6 +120,7 @@ function App() {
                           <Route path="/transfer/new" component={TransferFlow} />
                           <Route path="/transfer/:id" component={TransferFlow} />
                           <Route path="/transfers" component={Transfers} />
+                          <Route path="/messages" component={Messages} />
                           <Route path="/accounts" component={BankAccounts} />
                           <Route path="/history" component={History} />
                           <Route path="/settings" component={Settings} />

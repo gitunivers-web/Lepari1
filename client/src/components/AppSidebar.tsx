@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2 } from 'lucide-react';
+import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2, Mail } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 import { useLocation } from 'wouter';
 import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl } from '@/hooks/use-user';
@@ -42,8 +42,14 @@ export default function AppSidebar() {
     enabled: !isAdminPath,
   });
 
+  const { data: messages } = useQuery<any[]>({
+    queryKey: ['/api/messages'],
+    enabled: !isAdminPath,
+  });
+
   const pendingLoansCount = loans?.filter(l => l.status === 'pending').length || 0;
   const pendingTransfersCount = transfers?.filter(t => t.status === 'pending').length || 0;
+  const unreadMessagesCount = messages?.filter(m => !m.isRead).length || 0;
 
   const loanMenuItems = [
     { 
@@ -62,6 +68,12 @@ export default function AppSidebar() {
       url: '/transfers', 
       icon: ArrowRightLeft,
       badge: pendingTransfersCount > 0 ? pendingTransfersCount : undefined,
+    },
+    { 
+      title: t.nav.messages, 
+      url: '/messages', 
+      icon: Mail,
+      badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
     },
     { title: t.bankAccounts.title, url: '/accounts', icon: Building2 },
     { title: t.nav.history, url: '/history', icon: History },

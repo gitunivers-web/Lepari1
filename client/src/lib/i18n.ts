@@ -234,7 +234,7 @@ type TranslationKeys = {
     noFileSelected: string;
     noFileSelectedDescription: string;
   };
-  messages: {
+  userMessages: {
     title: string;
     description: string;
     noMessages: string;
@@ -2443,7 +2443,7 @@ export const translations: Record<Language, TranslationKeys> = {
       noFileSelected: 'Aucun fichier sélectionné',
       noFileSelectedDescription: 'Veuillez choisir un fichier avant d\'envoyer.',
     },
-    messages: {
+    userMessages: {
       title: 'Messages',
       description: 'Recevez et consultez les messages envoyés par notre équipe.',
       noMessages: 'Aucun message',
@@ -4999,7 +4999,7 @@ export const translations: Record<Language, TranslationKeys> = {
       noFileSelected: 'No file selected',
       noFileSelectedDescription: 'Please choose a file before sending.',
     },
-    messages: {
+    userMessages: {
       title: 'Messages',
       description: 'Receive and view messages sent by our team.',
       noMessages: 'No messages',
@@ -7537,7 +7537,7 @@ export const translations: Record<Language, TranslationKeys> = {
       noFileSelected: 'Aucun fichier sélectionné',
       noFileSelectedDescription: 'Veuillez choisir un fichier avant d\'envoyer.',
     },
-    messages: {
+    userMessages: {
       title: 'Messages',
       description: 'Recevez et consultez les messages envoyés par notre équipe.',
       noMessages: 'Aucun message',
