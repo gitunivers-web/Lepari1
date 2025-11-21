@@ -185,6 +185,7 @@ type TranslationKeys = {
     loansSection: string;
     transfers: string;
     messages: string;
+    chat: string;
     history: string;
     settings: string;
     logout: string;
@@ -254,6 +255,12 @@ type TranslationKeys = {
       warning: string;
       error: string;
     };
+  };
+  chat: {
+    conversations: string;
+    noConversations: string;
+    selectConversation: string;
+    selectConversationDesc: string;
   };
   dashboard: {
     welcome: string;
@@ -2396,6 +2403,7 @@ export const translations: Record<Language, TranslationKeys> = {
       loansSection: 'Prêts',
       transfers: 'Transferts',
       messages: 'Messages',
+      chat: 'Chat Support',
       history: 'Historique',
       settings: 'Paramètres',
       logout: 'Déconnexion',
@@ -2465,6 +2473,12 @@ export const translations: Record<Language, TranslationKeys> = {
         warning: 'Avertissement',
         error: 'Erreur',
       },
+    },
+    chat: {
+      conversations: 'Conversations',
+      noConversations: 'Aucune conversation',
+      selectConversation: 'Sélectionnez une conversation',
+      selectConversationDesc: 'Choisissez une conversation pour commencer à discuter',
     },
     dashboard: {
       welcome: 'Bienvenue',
@@ -4954,6 +4968,7 @@ export const translations: Record<Language, TranslationKeys> = {
       loansSection: 'Loans',
       transfers: 'Transfers',
       messages: 'Messages',
+      chat: 'Chat Support',
       history: 'History',
       settings: 'Settings',
       logout: 'Logout',
@@ -5023,6 +5038,12 @@ export const translations: Record<Language, TranslationKeys> = {
         warning: 'Warning',
         error: 'Error',
       },
+    },
+    chat: {
+      conversations: 'Conversations',
+      noConversations: 'No conversations',
+      selectConversation: 'Select a conversation',
+      selectConversationDesc: 'Choose a conversation to start chatting',
     },
     dashboard: {
       welcome: 'Welcome',

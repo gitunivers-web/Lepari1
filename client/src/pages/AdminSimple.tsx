@@ -3,6 +3,7 @@ import AdminDashboard from "./AdminDashboard";
 import AdminLoans from "./AdminLoans";
 import AdminUsers from "./AdminUsers";
 import AdminContact from "./AdminContact";
+import AdminChatPage from "./AdminChatPage";
 
 export default function AdminSimple() {
   const [location] = useLocation();
@@ -21,6 +22,10 @@ export default function AdminSimple() {
 
   if (location.startsWith("/admin/contact")) {
     return <AdminContact />;
+  }
+
+  if (location.startsWith("/admin/chat")) {
+    return <AdminChatPage />;
   }
 
   // Default fallback to dashboard

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Users, Landmark, MessageSquare, FileText, BarChart2 } from "lucide-react";
+import { LayoutDashboard, Users, Landmark, MessageSquare, FileText, BarChart2, MessagesSquare } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ export function AppSidebarAdmin() {
     { label: "Demandes de prêts", link: "/admin/loans", icon: Landmark },
     { label: "Utilisateurs", link: "/admin/users", icon: Users },
     { label: "Contact", link: "/admin/contact", icon: MessageSquare },
+    { label: "Chat Support", link: "/admin/chat", icon: MessagesSquare },
   ];
 
   return (

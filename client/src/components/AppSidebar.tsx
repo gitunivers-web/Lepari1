@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2, Mail } from 'lucide-react';
+import { Home, CreditCard, ArrowRightLeft, History, Settings, LogOut, ShieldCheck, Users, FileText, BarChart, Building2, Mail, MessageSquare } from 'lucide-react';
 import { useTranslations } from '@/lib/i18n';
 import { useLocation } from 'wouter';
 import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl } from '@/hooks/use-user';
@@ -74,6 +74,11 @@ export default function AppSidebar() {
       url: '/messages', 
       icon: Mail,
       badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
+    },
+    { 
+      title: t.nav.chat || 'Chat Support', 
+      url: '/chat', 
+      icon: MessageSquare,
     },
     { title: t.bankAccounts.title, url: '/accounts', icon: Building2 },
     { title: t.nav.history, url: '/history', icon: History },
