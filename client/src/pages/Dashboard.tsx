@@ -24,6 +24,7 @@ import { LoanRequestModal } from '@/components/LoanRequestModal';
 import { SignedContractUpload } from '@/components/SignedContractUpload';
 import { useState } from 'react';
 import { DashboardCard, SectionTitle, UserStat } from '@/components/fintech';
+import NotificationsBox from '@/components/NotificationsBox';
 
 function DashboardSkeleton() {
   return (
@@ -242,6 +243,9 @@ export default function Dashboard() {
           </Link>
         </div>
 
+        {/* Messages Admin Box */}
+        <NotificationsBox />
+
         {/* Analytics Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Cashflow Chart - Stripe Style */}
@@ -387,7 +391,7 @@ export default function Dashboard() {
                       <div className="flex items-center justify-between mb-3">
                         <div>
                           <p className="font-semibold text-foreground">
-                            {t.dashboard.loanNumber}{loan.id}
+                            {(loan as any).loanReference || `#${loan.id.substring(0, 8)}`}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {loan.interestRate}% APR
