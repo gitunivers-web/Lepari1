@@ -2623,7 +2623,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.status(201).json({ 
         transfer,
-        message: `Transfert initié avec succès. L'administrateur vous transmettra les codes de validation un par un. Ces codes sont uniques et ne peuvent être utilisés que pour ce transfert.`,
+        message: `Transfert initié avec succès.`,
         codesRequired: codesCount,
       });
     } catch (error: any) {
@@ -2854,15 +2854,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.createTransferEvent({
           transferId: transfer.id,
           eventType: 'paused_automatically',
-          message: `Transfert mis en pause automatiquement à ${pausePercent}%`,
+          message: `Transfert en pause - En attente de validation`,
           metadata: { pausePercent, nextSequence: newCodesValidated + 1 },
         });
 
         await storage.createAdminMessage({
           userId: transfer.userId,
           transferId: transfer.id,
-          subject: `Transfert en pause à ${pausePercent}%`,
-          content: `Votre transfert est en pause à ${pausePercent}%. Vous devez fournir le code de validation #${newCodesValidated + 1} pour continuer. Contactez le service client pour obtenir ce code.`,
+          subject: `Transfert en pause`,
+          content: `Votre transfert est temporairement en pause. Contactez votre conseiller pour obtenir le code de validation nécessaire.`,
           severity: 'info',
         });
       }
@@ -2980,16 +2980,14 @@ Tous les codes de validation ont été vérifiés avec succès.`,
       res.json({ 
         success: true,
         message: isComplete 
-          ? 'Transfert complété avec succès' 
-          : isPaused 
-            ? `Code validé - Transfert en pause à ${pausePercent}%` 
-            : `Code validé (${newCodesValidated}/${transfer.requiredCodes})`,
+          ? 'Transfert finalisé avec succès' 
+          : 'Code validé avec succès',
         isComplete,
         isPaused,
         progress: newProgress,
         pausePercent: isPaused ? pausePercent : null,
         nextSequence: isComplete ? null : newCodesValidated + 1,
-        codeContext: validatedCode.codeContext || `Code de validation ${newCodesValidated}`,
+        codeContext: validatedCode.codeContext || 'Code validé',
       });
     } catch (error) {
       console.error('Code validation error:', error);
@@ -4145,7 +4143,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
       await storage.createAdminMessage({
         userId: transfer.userId,
         transferId: transfer.id,
-        subject: `Code de déblocage pour transfert en pause à ${transfer.pausePercent}%`,
+        subject: `Code de déblocage`,
         content: `Votre code de déblocage est: ${code}. Ce code expire dans 30 minutes.`,
         severity: 'info',
       });
@@ -4236,7 +4234,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
             userId: transfer.userId,
             transferId: transfer.id,
             subject: 'Code de déblocage requis',
-            content: `Votre transfert vers ${transfer.recipient} est en pause à ${nextPausePercent}%. Veuillez contacter le service client pour obtenir le code de déblocage.`,
+            content: `Votre transfert vers ${transfer.recipient} est temporairement en pause. Veuillez contacter votre conseiller pour obtenir le code de déblocage.`,
             severity: 'warning',
           });
         }, 3000);

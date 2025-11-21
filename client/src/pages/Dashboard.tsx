@@ -25,6 +25,7 @@ import { SignedContractUpload } from '@/components/SignedContractUpload';
 import { useState } from 'react';
 import { DashboardCard, SectionTitle, UserStat } from '@/components/fintech';
 import NotificationsBox from '@/components/NotificationsBox';
+import AdminMessagesBox from '@/components/AdminMessagesBox';
 
 function DashboardSkeleton() {
   return (
@@ -150,6 +151,9 @@ export default function Dashboard() {
             {t.dashboard.financeOverview}
           </p>
         </div>
+
+        {/* Admin Messages */}
+        <AdminMessagesBox />
 
         {/* Balance Hero Card - Fintech Premium */}
         <DashboardCard className="bg-gradient-to-br from-primary/10 via-background to-background border-primary/20">

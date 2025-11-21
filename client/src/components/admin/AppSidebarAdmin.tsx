@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Users, Landmark, ArrowRightLeft, FileText, BarChart2, Settings } from "lucide-react";
+import { LayoutDashboard, Users, Landmark, MessageSquare, FileText, BarChart2 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,13 +14,10 @@ export function AppSidebarAdmin() {
   const [location] = useLocation();
 
   const menuItems = [
-    { label: "Dashboard", link: "/admin", icon: LayoutDashboard },
+    { label: "Vue d'ensemble", link: "/admin", icon: LayoutDashboard },
+    { label: "Demandes de prêts", link: "/admin/loans", icon: Landmark },
     { label: "Utilisateurs", link: "/admin/users", icon: Users },
-    { label: "Prêts", link: "/admin/loans", icon: Landmark },
-    { label: "Transferts", link: "/admin/transfers", icon: ArrowRightLeft },
-    { label: "Documents", link: "/admin/documents", icon: FileText },
-    { label: "Rapports", link: "/admin/reports", icon: BarChart2 },
-    { label: "Paramètres", link: "/admin/settings", icon: Settings },
+    { label: "Contact", link: "/admin/contact", icon: MessageSquare },
   ];
 
   return (
