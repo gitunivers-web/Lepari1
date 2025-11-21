@@ -9,7 +9,8 @@ import {
   transferValidationCodes, 
   type TransferValidationCode,
   getLoanReferenceNumber,
-  getOrGenerateLoanReference
+  getOrGenerateLoanReference,
+  getTransferReferenceNumber
 } from "@shared/schema";
 import bcrypt from "bcrypt";
 import { randomUUID, randomBytes } from "crypto";
@@ -1230,6 +1231,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           status: loan.status,
           contractUrl: loan.contractUrl,
           signedContractUrl: loan.signedContractUrl,
+          loanReference: getOrGenerateLoanReference(loan),
         })),
         transfers: data.transfers.map(transfer => ({
           id: transfer.id,
@@ -1238,6 +1240,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           status: transfer.status,
           currentStep: transfer.currentStep,
           updatedAt: getTimeAgo(transfer.updatedAt),
+          transferReference: getTransferReferenceNumber(transfer),
         })),
         fees: data.fees.map(fee => ({
           id: fee.id,

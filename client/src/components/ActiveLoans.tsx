@@ -17,6 +17,7 @@ interface Loan {
   status: string;
   contractUrl?: string | null;
   signedContractUrl?: string | null;
+  loanReference?: string;
 }
 
 interface ActiveLoansProps {
@@ -90,11 +91,11 @@ export default function ActiveLoans({ loans }: ActiveLoansProps) {
                       </Badge>
                     </div>
                   )}
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start gap-2">
                     <div>
-                      <p className="text-sm font-medium">{formatCurrency(loan.amount)}</p>
+                      <p className="text-sm font-medium">{loan.loanReference || `#${loan.id.substring(0, 8)}`}</p>
                       <p className="text-xs text-muted-foreground">
-                        {formatCurrency(loan.totalRepaid)}
+                        {formatCurrency(loan.amount)}
                       </p>
                     </div>
                     <span className="text-xs text-muted-foreground">{loan.interestRate}%</span>
