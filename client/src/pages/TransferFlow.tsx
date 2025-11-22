@@ -33,7 +33,23 @@ function getLocaleCode(language: string): string {
 function translateCodeContext(codeContext: string | null | undefined, t: ReturnType<typeof useTranslations>): string {
   if (!codeContext) return t.transferFlow.progress.validationCodeLabel;
   
-  // Check if it's a translation key
+  // Map legacy French values to translation keys for backward compatibility
+  const legacyFrenchToKeyMap: Record<string, keyof typeof t.transferFlow.progress.codeContexts> = {
+    'Code de conformité réglementaire': 'regulatory_compliance',
+    'Code d\'autorisation de transfert': 'transfer_authorization',
+    'Code de vérification de sécurité': 'security_verification',
+    'Code de déblocage de fonds': 'funds_release',
+    'Code de validation finale': 'final_validation',
+    'Code de frais d\'assurance': 'insurance_fee',
+  };
+  
+  // First check if it's a legacy French value
+  const mappedKey = legacyFrenchToKeyMap[codeContext];
+  if (mappedKey && t.transferFlow.progress.codeContexts[mappedKey]) {
+    return t.transferFlow.progress.codeContexts[mappedKey];
+  }
+  
+  // Check if it's already a translation key
   const key = codeContext as keyof typeof t.transferFlow.progress.codeContexts;
   if (t.transferFlow.progress.codeContexts[key]) {
     return t.transferFlow.progress.codeContexts[key];
