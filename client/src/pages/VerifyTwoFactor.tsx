@@ -86,8 +86,8 @@ export default function VerifyTwoFactor() {
                   maxLength={6}
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                  placeholder="000000"
-                  className="text-center text-2xl tracking-widest font-mono"
+                  placeholder={t.twoFactorAuth.login.codePlaceholder}
+                  className="text-center text-2xl tracking-widest font-mono placeholder:text-muted-foreground/60"
                   autoFocus
                   data-testid="input-2fa-code"
                 />
