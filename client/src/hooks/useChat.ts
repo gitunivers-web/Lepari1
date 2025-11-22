@@ -38,6 +38,10 @@ export function useChat({ room, userId, partnerId }: UseChatOptions) {
     socket.on("connect", () => {
       console.log("[CHAT] Connected to Socket.IO");
       setIsSelfConnected(true);
+      
+      // Identifie explicitement l'utilisateur auprès du backend
+      socket.emit("user_online", { userId });
+      
       socket.emit("join_room", room);
       socket.emit("join_room", `user_${userId}`);
       

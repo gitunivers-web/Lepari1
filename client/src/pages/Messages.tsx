@@ -129,7 +129,10 @@ export default function Messages() {
     } else {
       setExpandedId(messageId);
       if (!message.isRead) {
-        markAsReadMutation.mutate(messageId);
+        // Retarde la lecture de 30 secondes pour que l'utilisateur puisse lire le message
+        setTimeout(() => {
+          markAsReadMutation.mutate(messageId);
+        }, 30000);
       }
     }
   };

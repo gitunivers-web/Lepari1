@@ -152,6 +152,26 @@ export function setupSocketIO(
       console.log(`[PRESENCE] User ${userId} is now online`);
     }
 
+    // Handle explicit user_online event from frontend
+    socket.on("user_online", ({ userId: frontendUserId }: { userId: string }) => {
+      try {
+        // Verify the userId matches the authenticated session
+        if (frontendUserId === userId) {
+          // Re-confirm presence (already done above, but this ensures sync)
+          const wasAlreadyOnline = presenceManager.isUserOnline(userId);
+          if (!wasAlreadyOnline) {
+            presenceManager.addSocket(userId, socket.id);
+            io.emit("user_presence", { userId, isOnline: true });
+          }
+          console.log(`[PRESENCE] User ${userId} explicitly confirmed online status`);
+        } else {
+          console.warn(`[SOCKET.IO] User ID mismatch: session=${userId}, frontend=${frontendUserId}`);
+        }
+      } catch (error) {
+        console.error('[SOCKET.IO] Error handling user_online:', error);
+      }
+    });
+
     // Handle request for presence state
     socket.on("get_presence_state", (userIds: string[]) => {
       try {
