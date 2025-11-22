@@ -10,8 +10,11 @@ import {
   type TransferValidationCode,
   getLoanReferenceNumber,
   getOrGenerateLoanReference,
-  getTransferReferenceNumber
+  getTransferReferenceNumber,
+  messages,
+  users
 } from "@shared/schema";
+import { eq, and, sql as sqlDrizzle } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { randomUUID, randomBytes } from "crypto";
 import { sendVerificationEmail, sendWelcomeEmail, sendResetPasswordEmail } from "./email";
@@ -3821,11 +3824,16 @@ Tous les codes de validation ont été vérifiés avec succès.`,
       ).length;
 
       // Messages non lus dans le chat support (messages envoyés par utilisateurs à l'admin)
-      const allMessages = await storage.getAllMessages();
-      const unreadMessages = allMessages.filter(msg => 
-        msg.receiverId === 'admin' && 
-        msg.isRead === false
-      ).length;
+      const unreadMessagesResult = await db
+        .select({ count: sqlDrizzle<number>`count(*)` })
+        .from(messages)
+        .where(
+          and(
+            eq(messages.receiverId, 'admin'),
+            eq(messages.isRead, false)
+          )
+        );
+      const unreadMessages = Number(unreadMessagesResult[0]?.count || 0);
 
       res.json({
         pendingLoans,

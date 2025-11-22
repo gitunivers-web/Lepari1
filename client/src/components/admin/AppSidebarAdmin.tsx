@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Users, Landmark, MessageSquare, FileText, BarChart2, MessagesSquare } from "lucide-react";
+import { LayoutDashboard, Users, Landmark, MessageSquare, FileText, BarChart2, MessagesSquare, Shield } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -45,6 +45,7 @@ export function AppSidebarAdmin() {
       icon: MessagesSquare,
       count: notificationCounts?.unreadMessages || 0
     },
+    { label: t.admin.sidebar.security || "Sécurité", link: "/admin/security", icon: Shield, count: 0 },
   ];
 
   return (
@@ -64,7 +65,7 @@ export function AppSidebarAdmin() {
                   <SidebarMenuItem key={item.link}>
                     <SidebarMenuButton asChild data-testid={`link-admin-${item.label.toLowerCase()}`}>
                       <Link href={item.link}>
-                        <a
+                        <div
                           className={`flex items-center justify-between gap-3 p-3 rounded-xl transition-all w-full ${
                             isActive
                               ? "bg-indigo-100 text-indigo-700 font-semibold"
@@ -84,7 +85,7 @@ export function AppSidebarAdmin() {
                               {item.count}
                             </Badge>
                           )}
-                        </a>
+                        </div>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
