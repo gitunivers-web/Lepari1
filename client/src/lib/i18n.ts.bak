@@ -891,7 +891,6 @@ type TranslationKeys = {
     sessionExpired: string;
     sessionExpiredMessage: string;
     accessDenied: string;
-    forgotPasswordLink: string;
     authenticationRequired: string;
     verificationError: string;
     verificationInProgress: string;
@@ -3399,7 +3398,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Votre session a expiré. Veuillez vous reconnecter.',
       accessDenied: 'Accès refusé',
       authenticationRequired: 'Authentification requise',
-      forgotPasswordLink: 'Mot de passe oublié ?',
       verificationError: 'Erreur lors de la vérification',
       verificationInProgress: 'Vérification en cours',
       emailVerified: 'Email vérifié',
@@ -5973,7 +5971,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Your session has expired. Please log in again.',
       accessDenied: 'Access denied',
       authenticationRequired: 'Authentication required',
-      forgotPasswordLink: 'Forgot password?',
       verificationError: 'Verification error',
       verificationInProgress: 'Verification in progress',
       emailVerified: 'Email verified',
@@ -8524,7 +8521,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Su sesión ha expirado. Por favor, vuelva a iniciar sesión.',
       accessDenied: 'Acceso denegado',
       authenticationRequired: 'Autenticación requerida',
-      forgotPasswordLink: '¿Olvidó su contraseña?',
       verificationError: 'Error durante la verificación',
       verificationInProgress: 'Verificación en curso',
       emailVerified: 'Email verificado',
@@ -11170,7 +11166,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Sua sessão expirou. Por favor, faça login novamente.',
       accessDenied: 'Acesso negado',
       authenticationRequired: 'Autenticação necessária',
-      forgotPasswordLink: 'Esqueceu a senha?',
       verificationError: 'Erro durante a verificação',
       verificationInProgress: 'Verificação em andamento',
       emailVerified: 'Email verificado',
@@ -13709,7 +13704,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'La tua sessione è scaduta. Per favore, accedi di nuovo.',
       accessDenied: 'Accesso negato',
       authenticationRequired: 'Autenticazione richiesta',
-      forgotPasswordLink: 'Password dimenticata?',
       verificationError: 'Errore durante la verifica',
       verificationInProgress: 'Verifica in corso',
       emailVerified: 'Email verificato',
@@ -16252,7 +16246,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.',
       accessDenied: 'Zugriff verweigert',
       authenticationRequired: 'Authentifizierung erforderlich',
-      forgotPasswordLink: 'Passwort vergessen?',
       verificationError: 'Fehler bei der Überprüfung',
       verificationInProgress: 'Überprüfung läuft',
       emailVerified: 'E-Mail verifiziert',
@@ -18795,7 +18788,6 @@ export const translations: Record<Language, TranslationKeys> = {
       sessionExpiredMessage: 'Uw sessie is verlopen. Log alstublieft opnieuw in.',
       accessDenied: 'Toegang geweigerd',
       authenticationRequired: 'Authenticatie vereist',
-      forgotPasswordLink: 'Wachtwoord vergeten?',
       verificationError: 'Fout tijdens verificatie',
       verificationInProgress: 'Verificatie bezig',
       emailVerified: 'E-mail geverifieerd',

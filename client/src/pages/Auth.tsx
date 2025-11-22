@@ -317,7 +317,7 @@ export default function Auth() {
                     className="text-sm text-altus-blue hover:text-altus-purple font-medium transition-colors"
                     data-testid="link-forgot-password"
                   >
-                    Mot de passe oublié ?
+                    {t.auth.forgotPasswordLink}
                   </button>
                 </Link>
               </div>
