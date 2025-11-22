@@ -32,9 +32,10 @@ export default function AdminSetup2FA() {
   }, [userId, setLocation, toast]);
 
   // Récupérer le QR code et le secret
-  const { data: setupData, isLoading: isLoadingSetup } = useQuery({
+  const { data: setupData, isLoading: isLoadingSetup, error: setupError, isError } = useQuery({
     queryKey: ['/api/admin/2fa/setup-initial', userId],
     enabled: !!userId,
+    retry: false,
     queryFn: async () => {
       const response = await apiRequest('POST', '/api/admin/2fa/setup-initial', { userId });
       return await response.json();
@@ -119,6 +120,22 @@ export default function AdminSetup2FA() {
               <div className="flex items-center justify-center py-8">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
+            ) : isError ? (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  {(setupError as any)?.message || 'Erreur lors de la configuration 2FA. Le 2FA est peut-être déjà configuré pour ce compte.'}
+                  <div className="mt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setLocation('/auth')}
+                      data-testid="button-back-to-login-error"
+                    >
+                      Retour à la connexion
+                    </Button>
+                  </div>
+                </AlertDescription>
+              </Alert>
             ) : (
               <>
                 {/* Étape 1 : Scanner le QR Code */}

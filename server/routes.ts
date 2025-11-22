@@ -876,18 +876,18 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         return res.status(403).json({ error: 'Accès refusé - Administrateurs uniquement' });
       }
 
-      // Vérifier que le 2FA n'est pas déjà activé
-      if (user.twoFactorEnabled) {
-        return res.status(400).json({ error: '2FA déjà configuré pour cet administrateur' });
-      }
-
+      // Générer un nouveau secret (permettre la reconfiguration même si déjà activé)
       const { secret, otpauthUrl } = generateTwoFactorSecret(user.email);
       const qrCodeDataUrl = await generateQRCode(otpauthUrl);
 
-      // Persister le secret temporairement (sans activer le 2FA encore)
-      // Cela permet de vérifier le code lors de l'étape suivante
+      // Persister le nouveau secret et désactiver temporairement le 2FA
+      // pour permettre la reconfiguration
       await db.update(users)
-        .set({ twoFactorSecret: secret, updatedAt: new Date() })
+        .set({ 
+          twoFactorSecret: secret, 
+          twoFactorEnabled: false, // Désactiver temporairement pour permettre la reconfiguration
+          updatedAt: new Date() 
+        })
         .where(eq(users.id, userId));
 
       res.json({
