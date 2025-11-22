@@ -38,7 +38,14 @@ export default function AdminSetup2FA() {
     retry: false,
     queryFn: async () => {
       const response = await apiRequest('POST', '/api/admin/2fa/setup-initial', { userId });
-      return await response.json();
+      const data = await response.json();
+      
+      // Si le 2FA est déjà configuré, lancer une erreur spécifique
+      if (data.code === 'ALREADY_CONFIGURED') {
+        throw new Error(data.message || '2FA déjà configuré');
+      }
+      
+      return data;
     },
   });
 
@@ -121,21 +128,39 @@ export default function AdminSetup2FA() {
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             ) : isError ? (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  {(setupError as any)?.message || 'Erreur lors de la configuration 2FA. Le 2FA est peut-être déjà configuré pour ce compte.'}
-                  <div className="mt-4">
-                    <Button
-                      variant="outline"
-                      onClick={() => setLocation('/auth')}
-                      data-testid="button-back-to-login-error"
-                    >
-                      Retour à la connexion
-                    </Button>
-                  </div>
-                </AlertDescription>
-              </Alert>
+              <div className="space-y-4">
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    <strong>Configuration impossible</strong>
+                    <p className="mt-2">
+                      {(setupError as any)?.message || 'Erreur lors de la configuration 2FA. Le 2FA est peut-être déjà configuré pour ce compte.'}
+                    </p>
+                  </AlertDescription>
+                </Alert>
+                
+                <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <p className="text-sm text-blue-900 dark:text-blue-100 mb-3">
+                    <strong>Solutions possibles :</strong>
+                  </p>
+                  <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-2 list-disc list-inside">
+                    <li>Utilisez votre application d'authentification existante (Google Authenticator, Authy, etc.)</li>
+                    <li>Si vous avez perdu l'accès, connectez-vous avec votre code 2FA actuel et reconfigurez dans les paramètres</li>
+                    <li>En dernier recours, contactez un super-administrateur pour réinitialiser votre 2FA</li>
+                  </ul>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => setLocation('/auth')}
+                    className="flex-1"
+                    data-testid="button-back-to-login-error"
+                  >
+                    Retour à la connexion
+                  </Button>
+                </div>
+              </div>
             ) : (
               <>
                 {/* Étape 1 : Scanner le QR Code */}
