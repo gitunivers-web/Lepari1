@@ -400,3 +400,15 @@ export async function createAdminMessageCodeIssued(userId: string, transferId: s
     metadata: { transferId, sequence, code },
   });
 }
+
+export async function createAdminMessagePauseCodeIssued(userId: string, transferId: string, code: string, expiresInMinutes: number = 30) {
+  return await storage.createAdminMessage({
+    userId,
+    transferId,
+    type: 'pause_code_issued',
+    subject: `Code de déblocage`,
+    content: `Votre code de déblocage est: ${code}. Ce code expire dans ${expiresInMinutes} minutes.`,
+    severity: 'info',
+    metadata: { transferId, code, expiresInMinutes },
+  });
+}

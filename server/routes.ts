@@ -47,7 +47,8 @@ import {
   createAdminMessageLoanFundsAvailable,
   createAdminMessageLoanContractSigned,
   createAdminMessageTransferCompleted,
-  createAdminMessageCodeIssued
+  createAdminMessageCodeIssued,
+  createAdminMessagePauseCodeIssued
 } from "./notification-helper";
 import { loanRequestAdminNotification } from "./notification-service";
 import cloudinary from "./config/cloudinary";
@@ -2450,13 +2451,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
 
       await notifyLoanContractSigned(loan.userId, loan.id, loan.amount);
 
-      await storage.createAdminMessage({
-        userId: loan.userId,
-        transferId: null,
-        subject: 'Contrat signé reçu - En attente de validation',
-        content: `Votre contrat signé pour le prêt de ${loan.amount} EUR a été reçu avec succès. Il est maintenant en cours de vérification par notre service. Vous serez notifié dès que les fonds seront débloqués.`,
-        severity: 'info',
-      });
+      await createAdminMessageLoanContractSigned(loan.userId, loan.amount);
 
       await notifyAdminsSignedContractReceived(
         user.id,
@@ -3050,27 +3045,13 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         if (user) {
           const recipientIban = externalAccount?.iban || 'Non spécifié';
           
-          await storage.createAdminMessage({
-            userId: transfer.userId,
-            transferId: transfer.id,
-            subject: 'Transfert terminé avec succès',
-            content: `
-**Récapitulatif du transfert**
-
-- Montant transféré: ${transfer.amount} €
-- Bénéficiaire: ${transfer.recipient}
-- IBAN: ${recipientIban}
-- Référence: ${transfer.id}
-
-**Disponibilité des fonds**
-Les fonds seront disponibles sur le compte du bénéficiaire dans un délai de 24 à 72 heures ouvrées, selon les délais bancaires.
-
-**Besoin d'aide ?**
-En cas de problème ou de question concernant ce transfert, notre équipe est à votre disposition. Contactez-nous à tout moment.
-
-Merci de votre confiance.`,
-            severity: 'success',
-          });
+          await createAdminMessageTransferCompleted(
+            transfer.userId,
+            transfer.id,
+            transfer.amount.toString(),
+            transfer.recipient,
+            recipientIban
+          );
 
           await notifyTransferCompleted(transfer.userId, transfer.id, transfer.amount.toString());
 
@@ -4435,13 +4416,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         });
       }
 
-      await storage.createAdminMessage({
-        userId: transfer.userId,
-        transferId: req.params.id,
-        subject: `Code de validation pour transfert #${validatedData.sequence}`,
-        content: `Votre code de validation pour l'étape ${validatedData.sequence} est: ${code.code}. Ce code a été pré-généré lors de la confirmation de votre contrat.`,
-        severity: 'info',
-      });
+      await createAdminMessageCodeIssued(transfer.userId, req.params.id, validatedData.sequence, code.code);
 
       await notifyCodeIssued(transfer.userId, req.params.id, validatedData.sequence);
 
@@ -4522,13 +4497,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         expiresAt,
       });
 
-      await storage.createAdminMessage({
-        userId: transfer.userId,
-        transferId: transfer.id,
-        subject: `Code de déblocage`,
-        content: `Votre code de déblocage est: ${code}. Ce code expire dans 30 minutes.`,
-        severity: 'info',
-      });
+      await createAdminMessagePauseCodeIssued(transfer.userId, transfer.id, code, 30);
 
       await storage.createAuditLog({
         actorId: req.session.userId!,
