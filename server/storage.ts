@@ -1195,6 +1195,9 @@ export class DatabaseStorage implements IStorage {
       return;
     }
 
+    const existingSettings = await db.select().from(adminSettings).limit(1);
+    const needsSettings = existingSettings.length === 0;
+
     const demoUserId = "demo-user-001";
     
     await db.insert(users).values({
@@ -1397,50 +1400,52 @@ export class DatabaseStorage implements IStorage {
       },
     ]);
 
-    await db.insert(adminSettings).values([
-      {
-        settingKey: "default_transfer_fee",
-        settingValue: { amount: 25, currency: "EUR" },
-        description: "Montant des frais de transfert par défaut",
-        updatedBy: "admin-001",
-      },
-      {
-        settingKey: "validation_codes_count",
-        settingValue: { min: 5, max: 10, default: 5 },
-        description: "Nombre de codes de validation requis (minimum 5)",
-        updatedBy: "admin-001",
-      },
-      {
-        settingKey: "validation_code_amount_threshold",
-        settingValue: { amount: 50000, currency: "EUR" },
-        description: "Montant déclenchant plusieurs codes de validation",
-        updatedBy: "admin-001",
-      },
-      {
-        settingKey: "interest_rate_tiers",
-        settingValue: {
-          business: [
-            { min: 0, max: 50000, rate: 4.5 },
-            { min: 50000, max: 100000, rate: 3.8 },
-            { min: 100000, max: 200000, rate: 3.5 },
-            { min: 200000, max: Infinity, rate: 3.2 }
-          ],
-          personal: [
-            { min: 0, max: 25000, rate: 5.5 },
-            { min: 25000, max: 50000, rate: 4.8 },
-            { min: 50000, max: 100000, rate: 4.2 },
-            { min: 100000, max: Infinity, rate: 3.9 }
-          ],
-          real_estate: [
-            { min: 0, max: 100000, rate: 3.2 },
-            { min: 100000, max: 300000, rate: 2.9 },
-            { min: 300000, max: Infinity, rate: 2.5 }
-          ]
+    if (needsSettings) {
+      await db.insert(adminSettings).values([
+        {
+          settingKey: "default_transfer_fee",
+          settingValue: { amount: 25, currency: "EUR" },
+          description: "Montant des frais de transfert par défaut",
+          updatedBy: "admin-001",
         },
-        description: "Barèmes de taux d'intérêt par type de prêt et montant",
-        updatedBy: "admin-001",
-      },
-    ]);
+        {
+          settingKey: "validation_codes_count",
+          settingValue: { min: 5, max: 10, default: 5 },
+          description: "Nombre de codes de validation requis (minimum 5)",
+          updatedBy: "admin-001",
+        },
+        {
+          settingKey: "validation_code_amount_threshold",
+          settingValue: { amount: 50000, currency: "EUR" },
+          description: "Montant déclenchant plusieurs codes de validation",
+          updatedBy: "admin-001",
+        },
+        {
+          settingKey: "interest_rate_tiers",
+          settingValue: {
+            business: [
+              { min: 0, max: 50000, rate: 4.5 },
+              { min: 50000, max: 100000, rate: 3.8 },
+              { min: 100000, max: 200000, rate: 3.5 },
+              { min: 200000, max: Infinity, rate: 3.2 }
+            ],
+            personal: [
+              { min: 0, max: 25000, rate: 5.5 },
+              { min: 25000, max: 50000, rate: 4.8 },
+              { min: 50000, max: 100000, rate: 4.2 },
+              { min: 100000, max: Infinity, rate: 3.9 }
+            ],
+            real_estate: [
+              { min: 0, max: 100000, rate: 3.2 },
+              { min: 100000, max: 300000, rate: 2.9 },
+              { min: 300000, max: Infinity, rate: 2.5 }
+            ]
+          },
+          description: "Barèmes de taux d'intérêt par type de prêt et montant",
+          updatedBy: "admin-001",
+        },
+      ]);
+    }
 
     await db.insert(users).values([
       {
