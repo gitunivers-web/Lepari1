@@ -26,14 +26,14 @@ export default function ForgotPassword() {
     onSuccess: () => {
       setEmailSent(true);
       toast({
-        title: 'Email envoyé',
-        description: 'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation.',
+        title: t.forgotPassword.emailSent,
+        description: t.forgotPassword.emailSentDesc,
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Erreur',
-        description: error.message || 'Erreur lors de l\'envoi de l\'email',
+        title: t.forgotPassword.error,
+        description: error.message || t.forgotPassword.errorDesc,
         variant: 'destructive',
       });
     },
@@ -59,20 +59,12 @@ export default function ForgotPassword() {
               <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
                 <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>
-              <CardTitle>Email envoyé</CardTitle>
+              <CardTitle>{t.forgotPassword.emailSent}</CardTitle>
               <CardDescription>
-                Si un compte existe avec cette adresse email, vous recevrez un lien de réinitialisation dans quelques minutes.
+                {t.forgotPassword.emailSentDesc}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <p className="text-sm text-blue-900 dark:text-blue-100">
-                  <strong>Vérifiez votre boîte de réception</strong>
-                </p>
-                <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                  Le lien de réinitialisation expirera dans 1 heure.
-                </p>
-              </div>
+            <CardContent>
               <Button
                 onClick={() => setLocation('/auth')}
                 variant="outline"
@@ -80,7 +72,7 @@ export default function ForgotPassword() {
                 data-testid="button-back-to-login"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Retour à la connexion
+                {t.forgotPassword.backToLogin}
               </Button>
             </CardContent>
           </Card>
@@ -100,22 +92,22 @@ export default function ForgotPassword() {
           <CardHeader>
             <div className="flex items-center gap-2 mb-2">
               <Mail className="h-6 w-6 text-primary" />
-              <CardTitle>Mot de passe oublié</CardTitle>
+              <CardTitle>{t.forgotPassword.title}</CardTitle>
             </div>
             <CardDescription>
-              Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe
+              {t.forgotPassword.instructions}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Adresse email</Label>
+                <Label htmlFor="email">{t.forgotPassword.emailLabel}</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="vous@exemple.com"
+                  placeholder={t.forgotPassword.emailPlaceholder}
                   required
                   autoFocus
                   data-testid="input-email"
@@ -131,7 +123,7 @@ export default function ForgotPassword() {
                 {forgotPasswordMutation.isPending && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Envoyer le lien de réinitialisation
+                {forgotPasswordMutation.isPending ? t.forgotPassword.sending : t.forgotPassword.sendResetLink}
               </Button>
 
               <Button
@@ -142,7 +134,7 @@ export default function ForgotPassword() {
                 data-testid="button-back"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Retour à la connexion
+                {t.forgotPassword.backToLogin}
               </Button>
             </form>
           </CardContent>
