@@ -132,7 +132,19 @@ export default function NotificationBell() {
   };
 
   const getNotificationContent = (notif: Notification) => {
-    const notifType = notif.type as keyof typeof t.notifications;
+    if (notif.title && notif.message) {
+      return {
+        title: interpolateMessage(notif.title, notif.metadata),
+        message: interpolateMessage(notif.message, notif.metadata),
+      };
+    }
+    
+    const typeMapping: Record<string, string> = {
+      '2fa_suggestion': 'twoFactorSuggestion',
+    };
+    
+    const mappedType = typeMapping[notif.type] || notif.type;
+    const notifType = mappedType as keyof typeof t.notifications;
     const notifTranslation = t.notifications[notifType];
     
     if (notifTranslation && typeof notifTranslation === 'object' && 'title' in notifTranslation) {
@@ -143,8 +155,8 @@ export default function NotificationBell() {
     }
     
     return {
-      title: interpolateMessage(notif.title, notif.metadata),
-      message: interpolateMessage(notif.message, notif.metadata),
+      title: notif.title || 'Notification',
+      message: notif.message || '',
     };
   };
 

@@ -1446,8 +1446,8 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
           await storage.createNotification({
             userId: user.id,
             type: '2fa_suggestion',
-            title: 'Security Recommendation',
-            message: 'Enable two-factor authentication to strengthen your account security.',
+            title: '',
+            message: '',
             severity: 'warning',
             metadata: { action: 'enable_2fa' },
           });
