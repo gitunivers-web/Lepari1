@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from '@/lib/i18n';
 
 interface AdminPagination {
   pageSize: number;
@@ -62,6 +63,7 @@ export default function AdminDataTable<TData, TValue>({
   emptyState,
   mobileCard,
 }: AdminDataTableProps<TData, TValue>) {
+  const t = useTranslations();
   const [sorting, setSorting] = useState<SortingState>(initialSorting || []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -110,7 +112,7 @@ export default function AdminDataTable<TData, TValue>({
     return (
       <TableRow>
         <TableCell colSpan={columns.length} className="h-24 text-center">
-          <p className="text-muted-foreground">Aucune donnée disponible</p>
+          <p className="text-muted-foreground">{t.common.noData}</p>
         </TableCell>
       </TableRow>
     );

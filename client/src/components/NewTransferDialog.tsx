@@ -58,8 +58,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
       queryClient.invalidateQueries({ queryKey: ['/api/loans'] });
       
       toast({
-        title: t.dialogs.transfer.transferSuccess || 'Transfert initié avec succès',
-        description: data.message || t.dialogs.transfer.transferSuccessDesc || 'Le transfert a été initié. Les codes de validation vous seront envoyés.',
+        title: t.dialogs.transfer.transferSuccess,
+        description: data.message || t.dialogs.transfer.transferSuccessDesc,
       });
       
       onOpenChange(false);
@@ -67,8 +67,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
     },
     onError: (error: Error) => {
       toast({
-        title: t.dialogs.transfer.transferError || 'Erreur',
-        description: error.message || t.dialogs.transfer.transferErrorDesc || 'Impossible d\'initier le transfert, veuillez réessayer',
+        title: t.dialogs.transfer.transferError,
+        description: error.message || t.dialogs.transfer.transferErrorDesc,
         variant: 'destructive',
       });
     },
@@ -79,8 +79,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
     
     if (!formData.loanId) {
       toast({
-        title: 'Prêt requis',
-        description: 'Veuillez sélectionner un prêt pour initier le transfert',
+        title: t.dialogs.transfer.loanRequired,
+        description: t.dialogs.transfer.loanRequiredDesc,
         variant: 'destructive',
       });
       return;
@@ -88,8 +88,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
 
     if (!formData.amount || formData.amount.trim() === '') {
       toast({
-        title: 'Montant requis',
-        description: 'Veuillez entrer un montant pour le transfert',
+        title: t.dialogs.transfer.amountRequired,
+        description: t.dialogs.transfer.amountRequiredDesc,
         variant: 'destructive',
       });
       return;
@@ -98,8 +98,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
     const amountNum = parseFloat(formData.amount);
     if (isNaN(amountNum) || amountNum <= 0) {
       toast({
-        title: 'Montant invalide',
-        description: 'Le montant doit être un nombre positif supérieur à zéro',
+        title: t.dialogs.transfer.amountInvalid,
+        description: t.dialogs.transfer.amountInvalidDesc,
         variant: 'destructive',
       });
       return;
@@ -107,8 +107,8 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
 
     if (!formData.recipient || formData.recipient.trim() === '') {
       toast({
-        title: 'Bénéficiaire requis',
-        description: 'Veuillez entrer le nom du bénéficiaire',
+        title: t.dialogs.transfer.recipientRequired,
+        description: t.dialogs.transfer.recipientRequiredDesc,
         variant: 'destructive',
       });
       return;
@@ -128,7 +128,7 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t.dashboard?.transferFunds || 'Initier un transfert'}</DialogTitle>
+          <DialogTitle className="text-2xl">{t.dashboard.transferFunds}</DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
@@ -140,19 +140,19 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Aucun prêt avec des fonds disponibles. Vous devez avoir un prêt actif avec des fonds débloqués pour effectuer un transfert.
+                {t.dialogs.transfer.noAvailableLoans}
               </AlertDescription>
             </Alert>
           ) : (
             <>
               <div className="space-y-2">
-                <Label htmlFor="loanId">Prêt source *</Label>
+                <Label htmlFor="loanId">{t.dialogs.transfer.sourceLoan} *</Label>
                 <Select
                   value={formData.loanId}
                   onValueChange={(value) => setFormData({ ...formData, loanId: value })}
                 >
                   <SelectTrigger id="loanId" data-testid="select-loan">
-                    <SelectValue placeholder="Sélectionner un prêt" />
+                    <SelectValue placeholder={t.dialogs.transfer.selectLoanPlaceholder} />
                   </SelectTrigger>
                   <SelectContent>
                     {availableLoans.map((loan) => (
@@ -169,11 +169,11 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="recipient">{t.dialogs?.transfer?.recipient || 'Bénéficiaire'} *</Label>
+                <Label htmlFor="recipient">{t.dialogs.transfer.recipient} *</Label>
                 <Input
                   id="recipient"
                   type="text"
-                  placeholder={t.dialogs?.transfer?.recipientPlaceholder || 'Nom du bénéficiaire'}
+                  placeholder={t.dialogs.transfer.recipientPlaceholder}
                   value={formData.recipient}
                   onChange={(e) => setFormData({ ...formData, recipient: e.target.value })}
                   required
@@ -182,13 +182,13 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="amount">{t.dialogs?.transfer?.amount || 'Montant'} (EUR) *</Label>
+                <Label htmlFor="amount">{t.dialogs.transfer.amount} (EUR) *</Label>
                 <Input
                   id="amount"
                   type="number"
                   step="0.01"
                   min="0.01"
-                  placeholder={t.dialogs?.transfer?.amountPlaceholder || '1000.00'}
+                  placeholder={t.dialogs.transfer.amountPlaceholder}
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                   required
@@ -197,11 +197,11 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="externalAccountId">Compte externe (optionnel)</Label>
+                <Label htmlFor="externalAccountId">{t.dialogs.transfer.externalAccount}</Label>
                 <Input
                   id="externalAccountId"
                   type="text"
-                  placeholder="IBAN ou numéro de compte"
+                  placeholder={t.dialogs.transfer.externalAccountPlaceholder}
                   value={formData.externalAccountId}
                   onChange={(e) => setFormData({ ...formData, externalAccountId: e.target.value })}
                   data-testid="input-external-account"
@@ -210,7 +210,7 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
 
               <div className="bg-muted p-4 rounded-md text-sm">
                 <p className="text-muted-foreground">
-                  {t.dialogs?.transfer?.feesDescription || 'Des frais de transfert peuvent s\'appliquer. Vous recevrez des codes de validation par email pour confirmer ce transfert.'}
+                  {t.dialogs.transfer.feesDescription}
                 </p>
               </div>
 
@@ -222,7 +222,7 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
                   disabled={createTransferMutation.isPending}
                   data-testid="button-cancel"
                 >
-                  {t.dialogs?.transfer?.cancel || 'Annuler'}
+                  {t.dialogs.transfer.cancel}
                 </Button>
                 <Button 
                   type="submit" 
@@ -232,10 +232,10 @@ export default function NewTransferDialog({ open, onOpenChange }: NewTransferDia
                   {createTransferMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {t.dialogs?.transfer?.creating || 'Initiation...'}
+                      {t.dialogs.transfer.creating}
                     </>
                   ) : (
-                    t.dialogs?.transfer?.createTransfer || 'Initier le transfert'
+                    t.dialogs.transfer.createTransfer
                   )}
                 </Button>
               </div>

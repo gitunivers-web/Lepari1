@@ -680,7 +680,6 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
       // 2FA optionnel pour tous les utilisateurs (admins et utilisateurs normaux)
       if (user.twoFactorEnabled) {
         return res.json({
-          message: 'Veuillez entrer votre code d\'authentification à deux facteurs',
           requires2FA: true,
           userId: user.id
         });
@@ -1447,8 +1446,8 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
           await storage.createNotification({
             userId: user.id,
             type: '2fa_suggestion',
-            title: 'Sécurisez votre compte',
-            message: 'Activez l\'authentification à deux facteurs pour renforcer la sécurité de votre compte. Rendez-vous dans les paramètres pour l\'activer.',
+            title: 'Security Recommendation',
+            message: 'Enable two-factor authentication to strengthen your account security.',
             severity: 'warning',
             metadata: { action: 'enable_2fa' },
           });
