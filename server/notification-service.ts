@@ -133,7 +133,7 @@ export async function loanRequestAdminNotification(params: LoanRequestNotificati
         params.reference,
         params.userId,
         params.documents,
-        params.language
+        'fr'
       ),
     ],
     'loanRequestAdminNotification'
@@ -154,7 +154,8 @@ export async function kycUploadAdminNotification(params: KycUploadNotificationPa
         params.userEmail,
         params.documentType,
         params.loanType,
-        params.userId
+        params.userId,
+        'fr'
       ),
     ],
     'kycUploadAdminNotification'
@@ -203,7 +204,8 @@ export async function transferInitiationAdminNotification(params: TransferInitia
         params.amount,
         params.recipient,
         params.transferId,
-        params.userId
+        params.userId,
+        'fr'
       ),
     ],
     'transferInitiationAdminNotification'

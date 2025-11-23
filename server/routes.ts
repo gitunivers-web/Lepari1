@@ -1749,7 +1749,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
             validatedData.documentType,
             validatedData.loanType,
             user.id,
-            user.preferredLanguage || 'fr'
+            'fr'
           );
           console.log(`KYC upload admin email sent for user ${user.id}`);
         } catch (emailError) {
@@ -2425,7 +2425,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         fileBuffer,
         req.file.originalname,
         'application/pdf',
-        user.preferredLanguage || 'fr'
+        'fr'
       );
 
       const updated = await storage.updateLoan(req.params.id, {
@@ -3100,7 +3100,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
                 recipientIban,
                 completedAt!,
                 newCodesValidated,
-                admin.preferredLanguage || 'fr'
+                'fr'
               );
               console.log(`Transfer completion report sent to admin ${admin.email}`);
             } catch (error) {
@@ -3942,7 +3942,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
             pausePercent: c.pausePercent!,
             context: c.codeContext || `Code ${c.sequence}`
           })),
-          user?.preferredLanguage || 'fr'
+          'fr'
         );
       } catch (emailError) {
         console.error('Failed to send transfer codes admin email:', emailError);
