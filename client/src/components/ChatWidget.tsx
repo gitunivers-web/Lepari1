@@ -10,12 +10,8 @@ export default function ChatWidget() {
   const { data: user } = useUser();
   const { login } = useCometChatLogin();
 
-  if (!user) {
-    return null;
-  }
-
   useEffect(() => {
-    if (open && !isCometChatReady) {
+    if (open && !isCometChatReady && user) {
       login()
         .then(() => {
           setIsCometChatReady(true);
@@ -26,7 +22,11 @@ export default function ChatWidget() {
           setError("Impossible de se connecter au chat. Veuillez réessayer.");
         });
     }
-  }, [open, isCometChatReady, login]);
+  }, [open, isCometChatReady, login, user]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
