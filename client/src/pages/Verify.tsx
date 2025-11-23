@@ -29,7 +29,7 @@ export default function Verify() {
     },
     onSuccess: (data) => {
       setStatus('success');
-      setMessage(data.message);
+      setMessage(data.message || t.auth.accountActiveAutoLogin);
       
       if (data.redirect) {
         setTimeout(() => {

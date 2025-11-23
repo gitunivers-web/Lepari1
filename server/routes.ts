@@ -1219,7 +1219,6 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
       }
       
       res.json({
-        message: 'Email vérifié avec succès ! Vous êtes maintenant connecté.',
         success: true,
         redirect: '/dashboard',
         user: userWithoutSensitive
