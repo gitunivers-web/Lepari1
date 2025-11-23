@@ -31,11 +31,37 @@ Preferred communication style: Simple, everyday language.
   - Created complete message interface with `CometChatMessageHeader`, `CometChatMessageList`, and `CometChatMessageComposer`
   - Users tab now properly handles: user selection → message view → back to user list
   - File modified: `client/src/components/ChatWidget.tsx`
-- 🎯 **STATUS:** Full chat UI implementation complete and functional
+- ✅ **FIXED:** Real-time messaging implementation (November 23, 2025)
+  - Problem: Messages required page refresh to appear (no real-time updates)
+  - Solution: Implemented CometChat message listeners with automatic UI refresh
+  - Added `CometChat.addMessageListener` with listener ID for real-time message reception
+  - Implemented `messageRefreshKey` state that increments on new messages
+  - Key passed to all CometChat components to force UI refresh when messages arrive
+  - Listener properly cleaned up on component unmount to prevent memory leaks
+  - File modified: `client/src/components/ChatWidget.tsx`
+- ✅ **FIXED:** Professional UI redesign with Altus design system (November 23, 2025)
+  - Problem: Chat widget had no design elegance, used inline styles
+  - Solution: Complete redesign using shadcn/ui components and Tailwind CSS
+  - Replaced all inline styles with Tailwind utility classes
+  - Integrated shadcn `Card`, `Button` components with Altus color palette
+  - Replaced emoji with Lucide React icons (`MessageCircle`, `X`)
+  - Full dark mode support via configured Tailwind theme tokens
+  - Responsive design with proper spacing and visual hierarchy
+  - File modified: `client/src/components/ChatWidget.tsx`
+- ✅ **FIXED:** Regular users can now initiate conversations with admin (November 23, 2025)
+  - Problem: Only admin could start conversations, regular users were blocked
+  - Solution: Added "Nouveau message" button and admin contact functionality
+  - Created backend endpoint `/api/cometchat/admin-uid` (protected by requireAuth)
+  - Frontend `handleContactSupport` function fetches admin UID and opens conversation
+  - Regular users see "Nouveau message" button that automatically loads admin chat
+  - Full message interface (header, list, composer) shown when admin is selected
+  - Files modified: `client/src/components/ChatWidget.tsx`, `server/routes.ts`
+- 🎯 **STATUS:** Full chat implementation complete with real-time messaging, professional design, and bidirectional communication
 - 📋 **NEXT STEPS:** 
-  - Create CometChat users (manual via dashboard or automatic via API)
-  - Customize widget appearance and styling
-  - Add notification badges for unread messages
+  - Verify admin CometChat user is provisioned in production
+  - Add retry mechanism for contact-support errors
+  - Monitor runtime logs to confirm listener stability
+  - Consider adding unread message badges/notifications
 
 ## Recent Changes (November 20, 2025)
 
