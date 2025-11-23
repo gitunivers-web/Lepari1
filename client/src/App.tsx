@@ -48,6 +48,7 @@ import { LoanDialogProvider } from '@/contexts/LoanDialogContext';
 import { ScrollingInfoBanner } from '@/components/fintech';
 import DiagnosticPage from '@/pages/DiagnosticPage';
 import ChatTest from '@/pages/ChatTest';
+import { ChatWidget } from '@/components/ChatWidget';
 
 function App() {
   const style = {
@@ -137,6 +138,7 @@ function App() {
             </Route>
           </Switch>
           <Toaster />
+          <ChatWidget />
         </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
