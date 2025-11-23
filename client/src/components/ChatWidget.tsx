@@ -1,28 +1,54 @@
-import { useState, useEffect } from "react";
-import { useCometChatLogin } from "@/hooks/useCometChat";
+import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@/hooks/use-user";
 import { CometChatConversations } from "@cometchat/chat-uikit-react";
+import { CometChatUIKit, UIKitSettingsBuilder } from "@cometchat/chat-uikit-react";
+import axios from "axios";
+
+let isInitialized = false;
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [isCometChatReady, setIsCometChatReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { data: user } = useUser();
-  const { login } = useCometChatLogin();
+
+  const initializeCometChat = useCallback(async () => {
+    try {
+      const { data } = await axios.get("/api/cometchat/auth-token");
+      const { uid, authToken, appId, region } = data;
+
+      if (!authToken || !appId || !region) {
+        throw new Error("Configuration CometChat incomplète");
+      }
+
+      if (!isInitialized) {
+        const UIKitSettings = new UIKitSettingsBuilder()
+          .setAppId(appId)
+          .setRegion(region)
+          .subscribePresenceForAllUsers()
+          .build();
+
+        await CometChatUIKit.init(UIKitSettings);
+        isInitialized = true;
+        console.log("✔️ CometChat initialized");
+      }
+
+      await CometChatUIKit.loginWithAuthToken(authToken);
+      console.log("✔️ CometChat login success for", uid);
+      
+      setIsCometChatReady(true);
+      setError(null);
+    } catch (err) {
+      console.error("❌ CometChat error:", err);
+      setError("Impossible de se connecter au chat. Veuillez réessayer.");
+    }
+  }, []);
 
   useEffect(() => {
     if (open && !isCometChatReady && user) {
-      login()
-        .then(() => {
-          setIsCometChatReady(true);
-          setError(null);
-        })
-        .catch((err: unknown) => {
-          console.error("CometChat login failed:", err);
-          setError("Impossible de se connecter au chat. Veuillez réessayer.");
-        });
+      initializeCometChat();
     }
-  }, [open, isCometChatReady, login, user]);
+  }, [open, isCometChatReady, user, initializeCometChat]);
 
   if (!user) {
     return null;
