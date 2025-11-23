@@ -82,14 +82,8 @@ function App() {
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/reset-password/:token" component={ResetPassword} />
             <Route path="/loans/:slug" component={LoanDetail} />
-            <Route path="/admin">
-              <AdminSimple />
-              <ChatWidget />
-            </Route>
-            <Route path="/admin/:any*">
-              <AdminSimple />
-              <ChatWidget />
-            </Route>
+            <Route path="/admin" component={AdminSimple} />
+            <Route path="/admin/:any*" component={AdminSimple} />
             <Route>
               <LoanDialogProvider>
                 <TopBar />
