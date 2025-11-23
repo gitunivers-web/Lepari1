@@ -109,7 +109,7 @@ const contractTranslations: Record<ContractLanguage, ContractTranslations> = {
     article6Title: 'Article 6 - Défaut de paiement',
     article6Content: "En cas de défaut de paiement d'une mensualité, des pénalités de retard de 5% par an seront appliquées sur les sommes restant dues. Après deux mensualités impayées consécutives, le Prêteur se réserve le droit d'exiger le remboursement immédiat du capital restant dû.",
     article7Title: 'Article 7 – Assurance emprunteur',
-    article7Content: "La souscription d'une assurance emprunteur couvrant au minimum le risque décès et invalidité est <strong>strictement obligatoire</strong>. L'Emprunteur s'engage à fournir la preuve de souscription avant le déblocage des fonds.",
+    article7Content: "La souscription d'une assurance emprunteur demeure facultative, mais une couverture incluant au minimum les risques décès et invalidité présente des avantages significatifs pour l'emprunteur. ALTUS FINANCES GROUP en recommande l'adhésion, tout en laissant à chaque emprunteur la liberté de sa décision.",
     article8Title: 'Article 8 - Droit de rétractation',
     article8Content: "Conformément aux dispositions légales en vigueur, l'Emprunteur dispose d'un délai de rétractation de 14 jours calendaires à compter de la signature du présent contrat.",
     article9Title: 'Article 9 - Loi applicable et juridiction compétente',
