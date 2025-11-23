@@ -1,12 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useUser } from '@/hooks/use-user'; 
+Je veux que tu appliques uniquement les corrections du système de chat.
+Voici ce que tu dois faire précisément :
+
+1) AJOUTER / REMPLACER LE FICHIER FRONT : client/src/pages/Chat.tsx
+Crée ou remplace entièrement client/src/pages/Chat.tsx par CE CODE EXACT :
+import React, { useEffect, useMemo, useState } from 'react';
+import { useUser } from '@/lib/hooks'; 
 import { apiRequest } from '@/lib/queryClient';
 import { useChat } from '@/hooks/useChat'; 
 import { format } from 'date-fns';
 
 const ADMIN_ID = '07356baf-1460-48bd-af7d-ae2ae32247b7'; // ID admin fourni
 
-export default function ChatPage() {
+export default function ChatPageUser() {
   const { user, isLoading: userLoading } = useUser();
   const [room, setRoom] = useState<string | null>(null);
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | undefined>(ADMIN_ID);
@@ -112,7 +117,7 @@ export default function ChatPage() {
                   onChange={(e) => setText(e.target.value)}
                   onKeyDown={onKeyDown}
                   className="flex-1 rounded-lg border px-4 py-2"
-                  placeholder={chat.isPartnerOnline ? 'Écrire un message...' : 'L\'utilisateur est hors ligne - vous pouvez tout de même envoyer un message.'}
+                  placeholder={chat.isPartnerOnline ? 'Écrire un message...' : 'L’utilisateur est hors ligne — vous pouvez tout de même envoyer un message.'}
                 />
                 <button
                   onClick={handleSend}
@@ -129,3 +134,46 @@ export default function ChatPage() {
     </div>
   );
 }
+
+
+2) AJOUTER / VÉRIFIER LA ROUTE BACKEND POST /api/chat/conversation/init
+Dans server/routes.ts, ajoute CE CODE EXACT (si non existant) :
+app.post('/api/chat/conversation/init', requireAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const { partnerId } = req.body;
+    if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+    if (!partnerId) return res.status(400).json({ error: 'partnerId required' });
+
+    const ordered = [userId, partnerId].sort();
+    const room = `${ordered[0]}_${ordered[1]}`;
+
+    return res.json({ initialized: true, room });
+  } catch (err) {
+    console.error('init conversation error', err);
+    return res.status(500).json({ error: 'failed' });
+  }
+});
+
+
+3) OBJECTIF ATTENDU
+Après avoir appliqué ces deux éléments :
+
+
+L'utilisateur aura un chat fonctionnel.
+
+
+La conversation avec l'admin sera initialisée automatiquement.
+
+
+Le hook Socket.IO useChat fonctionnera avec un room jamais null.
+
+
+La présence ("en ligne / hors ligne") sera correctement mise à jour.
+
+
+Messages en temps réel entre utilisateur ↔ admin.
+
+
+
+👉 Merci de me confirmer quand c’est fait pour que je teste avec toi la présence en temps réel.
