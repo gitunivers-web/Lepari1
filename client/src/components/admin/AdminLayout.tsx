@@ -13,6 +13,7 @@ import { AppSidebarAdmin } from './AppSidebarAdmin';
 import AdminHeader from './AdminHeader';
 import AdminNotificationBell from './AdminNotificationBell';
 import AdminProfileMenu from './AdminProfileMenu';
+import ChatWidget from '@/components/ChatWidget';
 
 interface AdminLayoutProps {
   title: string;
@@ -101,6 +102,7 @@ export function AdminLayout({
             </main>
           </div>
         </div>
+        <ChatWidget />
       </SidebarProvider>
     </>
   );
