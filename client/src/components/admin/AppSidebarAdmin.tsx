@@ -22,7 +22,6 @@ export function AppSidebarAdmin() {
     pendingLoans: number;
     signedContracts: number;
     transfersRequiringCode: number;
-    unreadMessages: number;
     total: number;
   }>({
     queryKey: ["/api/admin/notifications-count"],
@@ -39,12 +38,6 @@ export function AppSidebarAdmin() {
     },
     { label: t.admin.sidebar.users, link: "/admin/users", icon: Users, count: 0 },
     { label: t.admin.sidebar.contact, link: "/admin/contact", icon: MessageSquare, count: 0 },
-    { 
-      label: t.admin.sidebar.chat, 
-      link: "/admin/chat", 
-      icon: MessagesSquare,
-      count: notificationCounts?.unreadMessages || 0
-    },
     { label: t.admin.sidebar.security || "Sécurité", link: "/admin/security", icon: Shield, count: 0 },
   ];
 

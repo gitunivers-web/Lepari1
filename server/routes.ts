@@ -56,7 +56,6 @@ import {
 import { loanRequestAdminNotification } from "./notification-service";
 import cloudinary from "./config/cloudinary";
 import { PassThrough } from "stream";
-import { setupSocketIO } from "./socket";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -3255,157 +3254,6 @@ Tous les codes de validation ont été vérifiés avec succès.`,
     }
   });
 
-  // Initialize or get conversation room between two users
-  app.post("/api/chat/conversation/init", requireAuth, requireCSRF, async (req, res) => {
-    try {
-      const initConversationSchema = z.object({
-        partnerId: z.string().uuid()
-      });
-
-      const { partnerId } = initConversationSchema.parse(req.body);
-      const userId = req.session.userId!;
-
-      // Verify partner user exists
-      const partner = await storage.getUser(partnerId);
-      if (!partner) {
-        return res.status(404).json({ error: 'Partner user not found' });
-      }
-
-      // Generate room ID (sorted IDs to ensure consistency)
-      const room = [userId, partnerId].sort().join("_");
-
-      // Return conversation info
-      res.json({
-        room,
-        partnerId,
-        partnerName: partner.fullName,
-        initialized: true
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: 'Invalid partner ID' });
-      }
-      console.error('[CHAT] Error initializing conversation:', error);
-      res.status(500).json({ error: 'Failed to initialize conversation' });
-    }
-  });
-
-  app.get("/api/chat/conversations", requireAuth, async (req, res) => {
-    try {
-      const conversations = await storage.getUserConversations(req.session.userId!);
-      res.json(conversations);
-    } catch (error) {
-      console.error('[CHAT] Error fetching conversations:', error);
-      res.status(500).json({ error: 'Failed to fetch conversations' });
-    }
-  });
-
-  app.get("/api/chat/conversation/:partnerId", requireAuth, async (req, res) => {
-    try {
-      // Validate partnerId is a valid UUID
-      const partnerIdSchema = z.string().uuid();
-      const partnerId = partnerIdSchema.parse(req.params.partnerId);
-
-      const messages = await storage.getConversation(
-        req.session.userId!, 
-        partnerId,
-        req.session.userId! // Pass requesting user for authorization
-      );
-      res.json(messages);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: 'Invalid partner ID format' });
-      }
-      if (error instanceof Error && error.message.includes('Unauthorized')) {
-        console.warn('[CHAT] Unauthorized access attempt:', error.message);
-        return res.status(403).json({ error: 'Unauthorized' });
-      }
-      console.error('[CHAT] Error fetching conversation:', error);
-      res.status(500).json({ error: 'Failed to fetch conversation' });
-    }
-  });
-
-  app.post("/api/chat/send", requireAuth, requireCSRF, async (req, res) => {
-    try {
-      // Zod validation schema
-      const sendMessageSchema = z.object({
-        receiverId: z.string().uuid(),
-        content: z.string().min(1).max(5000)
-      });
-
-      const { receiverId, content } = sendMessageSchema.parse(req.body);
-
-      // Sanitize content on server-side as well
-      const DOMPurify = (await import('isomorphic-dompurify')).default;
-      const sanitizedContent = DOMPurify.sanitize(content, {
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: []
-      });
-
-      if (!sanitizedContent.trim()) {
-        return res.status(400).json({ error: 'Message content cannot be empty' });
-      }
-
-      const message = await storage.createChatMessage({
-        senderId: req.session.userId!,
-        receiverId,
-        content: sanitizedContent,
-        isRead: false,
-        readAt: null
-      }, req.session.userId!); // Pass requesting user for authorization
-
-      res.json(message);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: 'Invalid message data', details: error.errors });
-      }
-      if (error instanceof Error && error.message.includes('Unauthorized')) {
-        console.warn('[CHAT] Unauthorized send attempt:', error.message);
-        return res.status(403).json({ error: 'Unauthorized' });
-      }
-      console.error('[CHAT] Error sending message:', error);
-      res.status(500).json({ error: 'Failed to send message' });
-    }
-  });
-
-  app.get("/api/chat/unread-count", requireAuth, async (req, res) => {
-    try {
-      const count = await storage.getUnreadMessageCount(req.session.userId!);
-      res.json({ count });
-    } catch (error) {
-      console.error('[CHAT] Error fetching unread count:', error);
-      res.status(500).json({ error: 'Failed to fetch unread count' });
-    }
-  });
-
-  app.post("/api/chat/mark-read/:messageId", requireAuth, requireCSRF, async (req, res) => {
-    try {
-      // Validate messageId is a valid UUID
-      const messageIdSchema = z.string().uuid();
-      const messageId = messageIdSchema.parse(req.params.messageId);
-
-      const message = await storage.markChatMessageAsRead(
-        messageId,
-        req.session.userId! // Pass requesting user for authorization
-      );
-      
-      if (!message) {
-        return res.status(404).json({ error: 'Message not found' });
-      }
-      res.json(message);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: 'Invalid message ID format' });
-      }
-      if (error instanceof Error && error.message.includes('Unauthorized')) {
-        console.warn('[CHAT] Unauthorized mark-read attempt:', error.message);
-        return res.status(403).json({ error: 'Unauthorized' });
-      }
-      console.error('[CHAT] Error marking message as read:', error);
-      res.status(500).json({ error: 'Failed to mark message as read' });
-    }
-  });
-
   app.get("/api/fees", requireAuth, async (req, res) => {
     try {
       const fees = await storage.getUserFees(req.session.userId!);
@@ -4749,8 +4597,6 @@ ${urls.map(url => `  <url>
   });
 
   const httpServer = createServer(app);
-
-  setupSocketIO(httpServer, sessionMiddleware);
 
   return httpServer;
 }
