@@ -130,12 +130,12 @@ function App() {
                         </Switch>
                       </main>
                     </div>
-                    <ChatWidget />
                   </div>
                 </SidebarProvider>
               </LoanDialogProvider>
             </Route>
           </Switch>
+          <ChatWidget />
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>
