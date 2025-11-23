@@ -149,20 +149,18 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Bouton flottant élégant */}
       <Button
         data-testid="button-chat-widget"
         onClick={() => setOpen(!open)}
         size="icon"
         variant="default"
-        className="fixed bottom-6 right-6 h-16 w-16 rounded-full bg-primary shadow-2xl z-[9999] hover:scale-110 transition-transform duration-200"
+        className="fixed bottom-5 right-5 rounded-full bg-primary shadow-lg z-[9999] hover-elevate"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </Button>
 
-      {/* Widget de chat élégant */}
       {open && (
-        <Card className="fixed bottom-28 right-6 w-[420px] h-[650px] z-[9999] shadow-2xl flex flex-col overflow-hidden border-2">
+        <Card className="fixed bottom-24 right-5 w-[400px] h-[600px] z-[9999] shadow-2xl flex flex-col overflow-hidden">
           {error ? (
             <div className="flex items-center justify-center h-full p-5">
               <p className="text-destructive text-center">{error}</p>
