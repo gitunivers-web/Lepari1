@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { FaEnvelope, FaLock, FaUser, FaPhone, FaBuilding } from 'react-icons/fa';
 import { ArrowLeft, Hash, FileText } from 'lucide-react';
 import { useLanguage, useTranslations } from '@/lib/i18n';
+import { translateBackendMessage } from '@/lib/translateBackendMessage';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Auth() {
@@ -116,20 +117,20 @@ export default function Auth() {
       if (data.requiresAdmin2FASetup) {
         toast({
           title: 'Configuration requise',
-          description: data.message || 'Veuillez configurer l\'authentification à deux facteurs',
+          description: translateBackendMessage(data.message, language) || 'Veuillez configurer l\'authentification à deux facteurs',
           variant: 'default',
         });
         setLocation(`/admin/setup-2fa?userId=${data.userId}&email=${encodeURIComponent(data.email)}`);
       } else if (data.requires2FA) {
         toast({
           title: t.common.success,
-          description: data.message || t.auth.pleaseTwoFactorCode,
+          description: translateBackendMessage(data.message, language) || t.auth.pleaseTwoFactorCode,
         });
         setLocation(`/verify-2fa?userId=${data.userId}`);
       } else if (data.requiresOtp) {
         toast({
           title: t.common.success,
-          description: data.message || t.auth.verificationCodeSent,
+          description: translateBackendMessage(data.message, language) || t.auth.verificationCodeSent,
         });
         setLocation(`/verify-otp/${data.userId}`);
       } else {
@@ -149,13 +150,13 @@ export default function Auth() {
       if (error.needsVerification) {
         toast({
           title: t.auth.emailNotVerified,
-          description: error.message,
+          description: translateBackendMessage(error.message, language),
           variant: 'destructive',
         });
       } else {
         toast({
           title: t.auth.loginError,
-          description: error.message || t.auth.loginErrorDesc,
+          description: translateBackendMessage(error.message, language) || t.auth.loginErrorDesc,
           variant: 'destructive',
         });
       }
@@ -170,7 +171,7 @@ export default function Auth() {
     onSuccess: (data) => {
       toast({
         title: t.auth.signupSuccess,
-        description: data.message,
+        description: translateBackendMessage(data.message, language),
       });
       setActiveTab('login');
       loginForm.setValue('email', signupForm.getValues('email'));
@@ -178,7 +179,7 @@ export default function Auth() {
     onError: (error: any) => {
       toast({
         title: t.auth.signupError,
-        description: error.message || t.auth.signupErrorDesc,
+        description: translateBackendMessage(error.message, language) || t.auth.signupErrorDesc,
         variant: 'destructive',
       });
     },
