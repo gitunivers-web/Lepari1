@@ -4658,8 +4658,7 @@ ${urls.map(url => `  <url>
           },
           body: JSON.stringify({
             uid,
-            name: user.fullName,
-            avatar: ''
+            name: user.fullName
           })
         }
       );
