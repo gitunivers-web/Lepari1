@@ -27,6 +27,10 @@ externalPort = 3000
 localPort = 41501
 externalPort = 3001
 
+[[ports]]
+localPort = 45313
+externalPort = 3003
+
 [env]
 PORT = "5000"
 
@@ -64,5 +68,5 @@ expertMode = true
 PORT = "5000"
 
 [userenv.shared]
-VITE_COMETCHAT_APP_ID = "PLACEHOLDER_APP_ID"
-VITE_COMETCHAT_REGION = "us"
+VITE_COMETCHAT_APP_ID = "167192408198af0d"
+VITE_COMETCHAT_REGION = "eu"
