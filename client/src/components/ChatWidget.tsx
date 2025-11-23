@@ -63,6 +63,8 @@ export default function ChatWidget() {
     return null;
   }
 
+  const isAdmin = user.role === 'admin';
+
   return (
     <>
       <button
@@ -111,49 +113,51 @@ export default function ChatWidget() {
             </div>
           ) : (
             <>
-              <div style={{ 
-                display: "flex", 
-                borderBottom: "1px solid #e0e0e0",
-                background: "#f5f5f5"
-              }}>
-                <button
-                  onClick={() => setActiveView("conversations")}
-                  style={{
-                    flex: 1,
-                    padding: "12px",
-                    border: "none",
-                    background: activeView === "conversations" ? "#fff" : "transparent",
-                    borderBottom: activeView === "conversations" ? "2px solid #6c5ce7" : "none",
-                    color: activeView === "conversations" ? "#6c5ce7" : "#666",
-                    fontWeight: activeView === "conversations" ? "600" : "400",
-                    cursor: "pointer",
-                  }}
-                  data-testid="button-chat-conversations"
-                >
-                  Conversations
-                </button>
-                <button
-                  onClick={() => setActiveView("users")}
-                  style={{
-                    flex: 1,
-                    padding: "12px",
-                    border: "none",
-                    background: activeView === "users" ? "#fff" : "transparent",
-                    borderBottom: activeView === "users" ? "2px solid #6c5ce7" : "none",
-                    color: activeView === "users" ? "#6c5ce7" : "#666",
-                    fontWeight: activeView === "users" ? "600" : "400",
-                    cursor: "pointer",
-                  }}
-                  data-testid="button-chat-users"
-                >
-                  Utilisateurs
-                </button>
-              </div>
-              <div style={{ height: "calc(100% - 49px)", overflow: "hidden" }}>
-                {activeView === "conversations" ? (
-                  <CometChatConversations />
-                ) : (
+              {isAdmin && (
+                <div style={{ 
+                  display: "flex", 
+                  borderBottom: "1px solid #e0e0e0",
+                  background: "#f5f5f5"
+                }}>
+                  <button
+                    onClick={() => setActiveView("conversations")}
+                    style={{
+                      flex: 1,
+                      padding: "12px",
+                      border: "none",
+                      background: activeView === "conversations" ? "#fff" : "transparent",
+                      borderBottom: activeView === "conversations" ? "2px solid #6c5ce7" : "none",
+                      color: activeView === "conversations" ? "#6c5ce7" : "#666",
+                      fontWeight: activeView === "conversations" ? "600" : "400",
+                      cursor: "pointer",
+                    }}
+                    data-testid="button-chat-conversations"
+                  >
+                    Conversations
+                  </button>
+                  <button
+                    onClick={() => setActiveView("users")}
+                    style={{
+                      flex: 1,
+                      padding: "12px",
+                      border: "none",
+                      background: activeView === "users" ? "#fff" : "transparent",
+                      borderBottom: activeView === "users" ? "2px solid #6c5ce7" : "none",
+                      color: activeView === "users" ? "#6c5ce7" : "#666",
+                      fontWeight: activeView === "users" ? "600" : "400",
+                      cursor: "pointer",
+                    }}
+                    data-testid="button-chat-users"
+                  >
+                    Utilisateurs
+                  </button>
+                </div>
+              )}
+              <div style={{ height: isAdmin ? "calc(100% - 49px)" : "100%", overflow: "hidden" }}>
+                {isAdmin && activeView === "users" ? (
                   <CometChatUsers />
+                ) : (
+                  <CometChatConversations />
                 )}
               </div>
             </>
