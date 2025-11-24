@@ -65,6 +65,9 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
   // app.use('/uploads', express.static(...)); // ❌ SUPPRIMÉ - Exposition publique dangereuse
 
+  // Socket.IO instance (will be initialized after httpServer is created)
+  let io: any;
+
   // Génère un secret fort pour signer les liens de téléchargement temporaires
   // Régénéré à chaque démarrage du serveur (acceptable car les tokens n'ont qu'une durée de vie de 5 min)
   const DOWNLOAD_SECRET = randomBytes(64).toString('hex');
@@ -5012,7 +5015,7 @@ ${urls.map(url => `  <url>
 
   // Initialize WebSocket for real-time chat
   const { initializeChatSocket } = await import('./chat-socket');
-  initializeChatSocket(httpServer, storage, sessionMiddleware);
+  io = initializeChatSocket(httpServer, storage, sessionMiddleware);
 
   return httpServer;
 }
