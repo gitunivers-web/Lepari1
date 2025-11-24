@@ -76,7 +76,7 @@ export default function TransferFlow() {
   const [verificationProgress, setVerificationProgress] = useState(0);
   
   const [simulatedProgress, setSimulatedProgress] = useState(0);
-  const [isPausedForCode, setIsPausedForCode] = useState(true);
+  const [isPausedForCode, setIsPausedForCode] = useState(false);
   const [currentCodeSequence, setCurrentCodeSequence] = useState(1);
   const [lastValidatedSequence, setLastValidatedSequence] = useState(0);
   const [nextCode, setNextCode] = useState<TransferCodeMetadata | null>(null);
@@ -328,7 +328,7 @@ export default function TransferFlow() {
           progressIntervalRef.current = null;
         }
         setSimulatedProgress(backendProgress);
-        setIsPausedForCode(true);
+        setIsPausedForCode(false);
         return;
       }
       
