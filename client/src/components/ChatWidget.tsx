@@ -160,7 +160,7 @@ export default function ChatWidget() {
       </Button>
 
       {open && (
-        <Card className="fixed bottom-24 right-5 w-[400px] h-[600px] z-[9999] shadow-2xl flex flex-col overflow-hidden">
+        <Card className="fixed bottom-24 right-5 w-[400px] h-[600px] z-[9999] shadow-2xl flex flex-col">
           {error ? (
             <div className="flex items-center justify-center h-full p-5">
               <p className="text-destructive text-center">{error}</p>
@@ -173,7 +173,7 @@ export default function ChatWidget() {
             <>
               {/* Onglets élégants pour l'admin */}
               {isAdmin && (
-                <div className="flex border-b bg-gradient-to-r from-primary/5 to-primary/10">
+                <div className="flex border-b bg-gradient-to-r from-primary/5 to-primary/10 flex-shrink-0">
                   <Button
                     onClick={() => setActiveView("conversations")}
                     variant="ghost"
@@ -202,11 +202,11 @@ export default function ChatWidget() {
                   </Button>
                 </div>
               )}
-              <div className={`flex flex-col overflow-hidden ${isAdmin ? "h-[calc(100%-49px)]" : "h-full"}`}>
+              <div className="flex flex-col flex-1 min-h-0">
                 {!isAdmin && !selectedUser ? (
                   <>
                     {/* En-tête élégant pour les utilisateurs */}
-                    <div className="flex flex-col p-4 border-b bg-gradient-to-r from-primary/5 to-primary/10">
+                    <div className="flex flex-col p-4 border-b bg-gradient-to-r from-primary/5 to-primary/10 flex-shrink-0">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-bold text-lg">Mes Conversations</h3>
                         <Button
@@ -225,30 +225,42 @@ export default function ChatWidget() {
                         Besoin d'aide ? Démarrez une conversation avec notre équipe.
                       </p>
                     </div>
-                    <div className="flex-1 overflow-hidden">
+                    <div className="flex-1 min-h-0 overflow-auto">
                       <CometChatConversations key={messageRefreshKey} />
                     </div>
                   </>
                 ) : !isAdmin && selectedUser ? (
                   <>
-                    <CometChatMessageHeader user={selectedUser} onBack={handleBackToUsers} />
-                    <div className="flex-1 overflow-hidden">
+                    <div className="flex-shrink-0">
+                      <CometChatMessageHeader user={selectedUser} onBack={handleBackToUsers} />
+                    </div>
+                    <div className="flex-1 min-h-0 overflow-auto">
                       <CometChatMessageList user={selectedUser} key={messageRefreshKey} />
                     </div>
-                    <CometChatMessageComposer user={selectedUser} />
+                    <div className="flex-shrink-0">
+                      <CometChatMessageComposer user={selectedUser} />
+                    </div>
                   </>
                 ) : isAdmin && activeView === "users" && !selectedUser ? (
-                  <CometChatUsers onItemClick={handleUserClick} key={messageRefreshKey} />
+                  <div className="flex-1 min-h-0 overflow-auto">
+                    <CometChatUsers onItemClick={handleUserClick} key={messageRefreshKey} />
+                  </div>
                 ) : isAdmin && activeView === "users" && selectedUser ? (
                   <>
-                    <CometChatMessageHeader user={selectedUser} onBack={handleBackToUsers} />
-                    <div className="flex-1 overflow-hidden">
+                    <div className="flex-shrink-0">
+                      <CometChatMessageHeader user={selectedUser} onBack={handleBackToUsers} />
+                    </div>
+                    <div className="flex-1 min-h-0 overflow-auto">
                       <CometChatMessageList user={selectedUser} key={messageRefreshKey} />
                     </div>
-                    <CometChatMessageComposer user={selectedUser} />
+                    <div className="flex-shrink-0">
+                      <CometChatMessageComposer user={selectedUser} />
+                    </div>
                   </>
                 ) : (
-                  <CometChatConversations key={messageRefreshKey} />
+                  <div className="flex-1 min-h-0 overflow-auto">
+                    <CometChatConversations key={messageRefreshKey} />
+                  </div>
                 )}
               </div>
             </>
