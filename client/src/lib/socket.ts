@@ -1,6 +1,11 @@
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || window.location.origin;
+// En production, utiliser l'URL du backend Render pour les WebSockets
+// En développement local, utiliser window.location.origin (frontend et backend sur même port)
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 
+  (typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? window.location.origin
+    : 'https://api.altusfinancesgroup.com');
 
 export interface ChatEvents {
   join_conversation: (conversationId: string) => void;

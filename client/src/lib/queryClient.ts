@@ -50,7 +50,12 @@ function getErrorMessage(status: number): string {
   return messages[lang]?.[status] || messages['en']?.[status] || 'Une erreur s\'est produite';
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+// En production, utiliser l'URL du backend Render si VITE_API_URL n'est pas définie
+// En développement local, une chaîne vide permet les requêtes relatives (frontend et backend sur même port)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  (typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+    ? '' 
+    : 'https://api.altusfinancesgroup.com');
 
 export function getApiUrl(path: string): string {
   if (!path.startsWith('/')) {
