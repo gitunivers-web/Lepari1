@@ -270,13 +270,9 @@ export default function TransferFlow() {
         ? t.transferFlow.progress.statusCompleted 
         : t.transferFlow.toast.codeValidated;
       
-      const contextInfo = data.codeContext 
-        ? ` - ${translateCodeContext(data.codeContext, t)}` 
-        : '';
-      
       toast({
         title: baseMessage,
-        description: contextInfo || undefined,
+        duration: 3000,
       });
       
       setLastValidatedSequence(currentCodeSequence);
