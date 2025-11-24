@@ -62,9 +62,9 @@ const response = await fetch(getApiUrl('/api/contact'), { ... });
 4. **Dans le menu latéral, cliquez sur "Environment Variables"**
 5. **Cliquez sur "Add New"**
 
-### Étape 2 : Configurer VITE_API_URL
+### Étape 2 : Configurer les Variables d'Environnement
 
-**Remplissez les champs suivants :**
+**Ajoutez ces 3 variables d'environnement :**
 
 | Champ | Valeur |
 |-------|--------|
@@ -72,7 +72,19 @@ const response = await fetch(getApiUrl('/api/contact'), { ... });
 | **Value** | `https://api.altusfinancesgroup.com` |
 | **Environment** | ✅ Production<br>✅ Preview<br>✅ Development |
 
-⚠️ **IMPORTANT** : Cochez les trois environnements (Production, Preview, Development)
+| Champ | Valeur |
+|-------|--------|
+| **Name** | `VITE_SOCKET_URL` |
+| **Value** | `https://api.altusfinancesgroup.com` |
+| **Environment** | ✅ Production<br>✅ Preview<br>✅ Development |
+
+| Champ | Valeur |
+|-------|--------|
+| **Name** | `VITE_SITE_URL` |
+| **Value** | `https://altusfinancesgroup.com` |
+| **Environment** | ✅ Production<br>✅ Preview<br>✅ Development |
+
+⚠️ **IMPORTANT** : Cochez les trois environnements (Production, Preview, Development) pour chaque variable!
 
 ### Étape 3 : Redéployer
 
@@ -103,9 +115,15 @@ Une fois le déploiement terminé :
 2. **Exécutez ce code dans la console** :
 
 ```javascript
-// Vérifier que VITE_API_URL est bien configurée
-console.log('API URL:', import.meta.env.VITE_API_URL);
-// Devrait afficher: "https://api.altusfinancesgroup.com"
+// Vérifier que toutes les variables sont bien configurées
+console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('VITE_SOCKET_URL:', import.meta.env.VITE_SOCKET_URL);
+console.log('VITE_SITE_URL:', import.meta.env.VITE_SITE_URL);
+
+// Devrait afficher:
+// VITE_API_URL: https://api.altusfinancesgroup.com
+// VITE_SOCKET_URL: https://api.altusfinancesgroup.com
+// VITE_SITE_URL: https://altusfinancesgroup.com
 ```
 
 ### Test 2 : Vérifier les Appels API
