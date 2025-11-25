@@ -9,7 +9,13 @@ interface PdfViewerProps {
 export function PdfViewer({ storagePath, fileName }: PdfViewerProps) {
   return (
     <div className="relative group">
-      <div className="w-96 h-full max-h-96 rounded-md overflow-hidden bg-slate-100 dark:bg-slate-900 border flex items-center justify-center">
+      <div 
+        className="w-full rounded-md overflow-y-auto bg-slate-100 dark:bg-slate-900 border flex items-center justify-center"
+        style={{
+          maxHeight: '400px',
+          aspectRatio: '0.707', // A4 ratio (210/297)
+        }}
+      >
         <iframe
           src={storagePath}
           title={fileName}
