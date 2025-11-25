@@ -111,7 +111,7 @@ app.use(helmet({
       fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
-      frameSrc: ["'none'"],
+      frameSrc: ["'self'"],
       upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null,
     },
   },
