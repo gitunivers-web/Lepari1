@@ -58,9 +58,9 @@ export function useChatMessages({
         queryClient.invalidateQueries({
           queryKey: ['chat', 'conversations', 'user', currentUser.id],
         });
-        queryClient.invalidateQueries({
-          queryKey: ['chat', 'unread', 'user', currentUser.id],
-        });
+        // CRITICAL: Do NOT invalidate unread counts here!
+        // The socket event 'chat:unread-count' in useChatNotifications is the source of truth
+        // Invalidating here causes premature refetch that overwrites socket state
       }
       queryClient.invalidateQueries({
         queryKey: ['chat', 'unread', 'conversation', conversationId],
