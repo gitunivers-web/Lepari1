@@ -30,9 +30,12 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
     return imageExtensions.some(ext => fileName.toLowerCase().endsWith(ext));
   };
 
-  const isPdfFile = (fileName?: string) => {
-    if (!fileName) return false;
-    return fileName.toLowerCase().endsWith('.pdf');
+  const isPdfFile = (fileName?: string | null, fileUrl?: string | null) => {
+    if (!fileName && !fileUrl) return false;
+    if (fileName && fileName.toLowerCase().endsWith('.pdf')) return true;
+    // Fallback: check URL if fileName is missing (for old messages)
+    if (fileUrl && fileUrl.toLowerCase().includes('.pdf')) return true;
+    return false;
   };
 
   const getFileIcon = (fileName?: string) => {
@@ -56,7 +59,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
   return (
     <div
       className={cn(
-        "flex gap-3 mb-4",
+        "flex gap-3 mb-6",
         isOwn ? "flex-row-reverse" : "flex-row"
       )}
       data-testid={`message-${message.id}`}
@@ -100,7 +103,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
             </div>
           )}
 
-          {message.fileUrl && message.fileName && isPdfFile(message.fileName) && (
+          {message.fileUrl && isPdfFile(message.fileName, message.fileUrl) && (
             <div className="mt-2 border border-current border-opacity-20 rounded-md p-3 space-y-2">
               <div className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
@@ -133,7 +136,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
             </div>
           )}
 
-          {message.fileUrl && message.fileName && !isImageFile(message.fileName) && !isPdfFile(message.fileName) && (
+          {message.fileUrl && message.fileName && !isImageFile(message.fileName) && !isPdfFile(message.fileName, message.fileUrl) && (
             <div className="mt-2 border border-current border-opacity-20 rounded-md p-3">
               <a
                 href={message.fileUrl}
