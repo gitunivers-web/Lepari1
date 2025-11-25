@@ -54,6 +54,7 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
         counts[conversationId] = count;
       });
       
+      console.log('[CHAT NOTIFICATIONS] API refetch received, updating unread counts:', counts);
       setUnreadCounts(counts);
     }
   }, [serverUnreadCounts]);
@@ -93,6 +94,8 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
     };
 
     const handleUnreadCountUpdate = (data: { conversationId: string; count: number }) => {
+      console.log('[CHAT NOTIFICATIONS] Socket chat:unread-count received:', data);
+      
       // Update local unread counts state for regular users
       setUnreadCounts((prev) => ({
         ...prev,
