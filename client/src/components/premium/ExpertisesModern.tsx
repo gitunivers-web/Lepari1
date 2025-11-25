@@ -65,15 +65,20 @@ export default function ExpertisesModern() {
                 </div>
 
                 {/* CTA */}
-                <Link href="/expertise">
-                  <span 
-                    className="inline-flex items-center gap-2 text-indigo-600 font-semibold group-hover:gap-3 transition-all duration-300 cursor-pointer"
-                    data-testid={`button-expertise-learn-more-${index}`}
-                  >
-                    {expertise.learnMore}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
+                <a 
+                  href="/expertise"
+                  className="inline-flex items-center gap-2 text-indigo-600 font-semibold group-hover:gap-3 transition-all duration-300 cursor-pointer"
+                  data-testid={`button-expertise-learn-more-${index}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = '';
+                    window.history.pushState(null, '', '/expertise');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }}
+                >
+                  {expertise.learnMore}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
 
                 {/* Gradient overlay on hover */}
                 <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${expertiseColors[index]} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
