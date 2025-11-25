@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Check, CheckCheck, FileText, Download } from "lucide-react";
@@ -5,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ChatMessage } from "@shared/schema";
+import { PdfViewer } from "./PdfViewer";
 
 interface MessageProps {
   message: ChatMessage;
@@ -14,6 +16,8 @@ interface MessageProps {
 }
 
 export function Message({ message, isOwn, senderName, senderAvatar }: MessageProps) {
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
+
   const getInitials = (name?: string) => {
     if (!name) return "?";
     return name
@@ -104,35 +108,43 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
           )}
 
           {message.fileUrl && isPdfFile(message.fileName, message.fileUrl) && (
-            <div className="mt-2 border border-current border-opacity-20 rounded-md p-3 space-y-2">
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                <span className="text-sm font-medium truncate">{message.fileName}</span>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="flex-1 text-xs h-8"
-                  data-testid={`btn-view-pdf-${message.id}`}
-                >
-                  <a href={message.fileUrl} target="_blank" rel="noopener noreferrer">
-                    Voir PDF
-                  </a>
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="flex-1 text-xs h-8"
-                  data-testid={`btn-download-pdf-${message.id}`}
-                >
-                  <a href={message.fileUrl} download>
-                    Télécharger
-                  </a>
-                </Button>
-              </div>
+            <div className="mt-2 space-y-2">
+              {showPdfPreview && message.fileUrl ? (
+                <PdfViewer
+                  storagePath={message.fileUrl}
+                  fileName={message.fileName || 'Document.pdf'}
+                  onClose={() => setShowPdfPreview(false)}
+                />
+              ) : (
+                <div className="border border-current border-opacity-20 rounded-md p-3 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    <span className="text-sm font-medium truncate">{message.fileName}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setShowPdfPreview(true)}
+                      className="flex-1 text-xs h-8"
+                      data-testid={`btn-view-pdf-${message.id}`}
+                    >
+                      Voir PDF
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      asChild
+                      className="flex-1 text-xs h-8"
+                      data-testid={`btn-download-pdf-${message.id}`}
+                    >
+                      <a href={message.fileUrl} download>
+                        Télécharger
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

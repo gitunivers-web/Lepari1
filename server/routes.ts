@@ -60,6 +60,7 @@ import {
 import { loanRequestAdminNotification } from "./notification-service";
 import cloudinary from "./config/cloudinary";
 import { PassThrough } from "stream";
+import { generateUploadUrl, generateDownloadUrl, uploadFile } from "./services/supabase-storage";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -4698,27 +4699,46 @@ ${urls.map(url => `  <url>
     },
   });
 
-  // Upload file for chat message
-  app.post("/api/chat/upload", requireAuth, requireCSRF, chatUpload.single('file'), async (req, res) => {
+  // Request presigned upload URL for Supabase Storage
+  app.post("/api/chat/upload/request", requireAuth, requireCSRF, async (req, res) => {
     try {
-      if (!req.file) {
-        return res.status(400).json({ error: 'No file provided' });
+      const { fileName, fileType } = req.body;
+      
+      if (!fileName || !fileType) {
+        return res.status(400).json({ error: 'fileName and fileType required' });
       }
 
-      const fileUrl = `/api/chat/file/${req.file.filename}`;
-      const fileName = req.file.originalname;
-
+      const result = await generateUploadUrl(fileName, fileType);
+      
       res.json({
-        fileUrl,
-        fileName,
+        uploadUrl: result.uploadUrl,
+        storagePath: result.storagePath,
       });
     } catch (error: any) {
-      console.error('[CHAT] File upload error:', error);
-      res.status(500).json({ error: 'File upload failed' });
+      console.error('[CHAT] Upload URL request error:', error);
+      res.status(500).json({ error: 'Failed to generate upload URL' });
     }
   });
 
-  // Download file from chat message (secure route with auth)
+  // Get presigned download URL for viewing/previewing
+  app.post("/api/chat/file/presign", requireAuth, async (req, res) => {
+    try {
+      const { storagePath } = req.body;
+      
+      if (!storagePath) {
+        return res.status(400).json({ error: 'storagePath required' });
+      }
+
+      const downloadUrl = await generateDownloadUrl(storagePath);
+      
+      res.json({ url: downloadUrl });
+    } catch (error: any) {
+      console.error('[CHAT] Download URL request error:', error);
+      res.status(500).json({ error: 'Failed to generate download URL' });
+    }
+  });
+
+  // Legacy: Keep local file download for backward compatibility with existing messages
   app.get("/api/chat/file/:filename", requireAuth, async (req, res) => {
     try {
       const filename = req.params.filename;

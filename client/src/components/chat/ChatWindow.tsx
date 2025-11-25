@@ -74,30 +74,47 @@ export function ChatWindow({
   const handleSendMessage = async (content: string, file?: File) => {
     if (file) {
       try {
-        // Récupérer le token CSRF
+        // Step 1: Get CSRF token
         const csrfResponse = await fetch(getApiUrl('/api/csrf-token'), {
           credentials: 'include',
         });
         const { csrfToken } = await csrfResponse.json();
 
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        const response = await fetch(getApiUrl('/api/chat/upload'), {
+        // Step 2: Request presigned upload URL
+        const uploadRequestResponse = await fetch(getApiUrl('/api/chat/upload/request'), {
           method: 'POST',
-          body: formData,
+          body: JSON.stringify({
+            fileName: file.name,
+            fileType: file.type,
+          }),
           credentials: 'include',
           headers: {
+            'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken,
           },
         });
 
-        if (!response.ok) {
-          throw new Error('File upload failed');
+        if (!uploadRequestResponse.ok) {
+          throw new Error('Failed to get upload URL');
         }
 
-        const { fileUrl, fileName } = await response.json();
-        sendMessage(content, fileUrl, fileName);
+        const { uploadUrl, storagePath } = await uploadRequestResponse.json();
+
+        // Step 3: Upload file directly to Supabase Storage using presigned URL
+        const uploadResponse = await fetch(uploadUrl, {
+          method: 'PUT',
+          body: file,
+          headers: {
+            'Content-Type': file.type,
+          },
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('File upload to storage failed');
+        }
+
+        // Step 4: Send message with storage path reference
+        sendMessage(content, storagePath, file.name);
       } catch (error) {
         console.error('Failed to upload file:', error);
         // Still send message without file if upload fails
