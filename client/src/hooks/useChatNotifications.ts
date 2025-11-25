@@ -108,13 +108,9 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
         [data.conversationId]: data.count,
       }));
       
-      // Also invalidate related queries for consistency
-      queryClient.invalidateQueries({
-        queryKey: ['chat', 'unread', 'user', userId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['chat', 'conversations', 'user', userId],
-      });
+      // IMPORTANT: Do NOT invalidate conversations here - it causes refetch and overwrites our unread count
+      // The unread count will be refreshed when user opens the conversation via useChatMessages
+      // Just keep the local state updated
     };
 
     const handleUnreadSync = async (data: { userId: string }) => {
