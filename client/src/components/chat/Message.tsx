@@ -63,7 +63,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
   return (
     <div
       className={cn(
-        "flex gap-4 mb-8",
+        "flex gap-4 mb-4",
         isOwn ? "flex-row-reverse justify-end" : "flex-row justify-start"
       )}
       data-testid={`message-${message.id}`}
@@ -96,7 +96,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
           )}
         >
           {message.fileUrl && message.fileName && isImageFile(message.fileName) && (
-            <div className="my-2">
+            <div className="mb-2">
               <img
                 src={getFileUrl(message.fileUrl)}
                 alt={message.fileName}
@@ -108,7 +108,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
           )}
 
           {message.fileUrl && isPdfFile(message.fileName, message.fileUrl) && (
-            <div className="mt-2">
+            <div className="mb-2">
               <PdfViewer
                 storagePath={getFileUrl(message.fileUrl) || ''}
                 fileName={message.fileName || 'Document.pdf'}
@@ -117,7 +117,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
           )}
 
           {message.fileUrl && message.fileName && !isImageFile(message.fileName) && !isPdfFile(message.fileName, message.fileUrl) && (
-            <div className="mt-2 border border-current border-opacity-20 rounded-md p-3">
+            <div className="mb-2 border border-current border-opacity-20 rounded-md p-3">
               <a
                 href={getFileUrl(message.fileUrl)}
                 download
