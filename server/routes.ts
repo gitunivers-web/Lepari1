@@ -1275,7 +1275,12 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
       const { email } = validatedInput;
       
       const user = await storage.getUserByEmail(email);
+      
+      // CRITICAL SECURITY FIX: ONLY send reset email if user exists
+      // Do NOT send email for non-registered accounts
       if (!user) {
+        // Return generic message to avoid user enumeration
+        // But DO NOT send any email
         return res.json({ 
           message: 'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation.' 
         });
@@ -1284,7 +1289,18 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
       const resetToken = randomUUID();
       const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
       
+      // CRITICAL: Verify user exists AGAIN before sending email (defense in depth)
+      if (!user.id || !user.email) {
+        console.error('[SECURITY] Invalid user object before sending reset email');
+        return res.json({ 
+          message: 'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation.' 
+        });
+      }
+      
       await storage.setResetPasswordToken(email, resetToken, resetTokenExpiry);
+      
+      // CRITICAL: Only send email if user truly exists in DB
+      console.log(`[SECURITY] Sending reset password email to verified user: ${user.email}`);
       await sendResetPasswordEmail(user.email, user.fullName, resetToken, user.preferredLanguage || 'fr');
       
       await storage.createAuditLog({
@@ -1297,6 +1313,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         userAgent: req.headers['user-agent'] || 'unknown',
       });
       
+      // Return the same message regardless (security best practice)
       res.json({ 
         message: 'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation.' 
       });
