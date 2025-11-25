@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,10 +16,16 @@ interface LoanOffersCatalogProps {
 export default function LoanOffersCatalog({ onRequestLoan }: LoanOffersCatalogProps) {
   const t = useTranslations();
   const { language } = useLanguage();
+  const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<'individual' | 'business'>('individual');
 
   const individualOffers = getTranslatedLoanOffers(getLoanOffersByAccountType('individual'), language);
   const businessOffers = getTranslatedLoanOffers(getLoanOffersByAccountType('business'), language);
+
+  const handleOfferClick = (offer: LoanOffer) => {
+    onRequestLoan(offer);
+    setLocation(`/loan-offers/${offer.id}`);
+  };
 
   const renderOffers = (offers: LoanOffer[], type: 'individual' | 'business') => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -28,7 +35,8 @@ export default function LoanOffersCatalog({ onRequestLoan }: LoanOffersCatalogPr
         return (
           <Card 
             key={offer.id}
-            className="hover-elevate transition-all duration-300 border-2 hover:border-primary/50"
+            className="hover-elevate transition-all duration-300 border-2 hover:border-primary/50 cursor-pointer"
+            onClick={() => handleOfferClick(offer)}
             data-testid={`card-loan-offer-${offer.id}`}
           >
             <CardHeader>
@@ -79,7 +87,10 @@ export default function LoanOffersCatalog({ onRequestLoan }: LoanOffersCatalogPr
 
               <Button 
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                onClick={() => onRequestLoan(offer)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOfferClick(offer);
+                }}
                 data-testid={`button-request-${offer.id}`}
               >
                 {t.loanOffers.requestButton}

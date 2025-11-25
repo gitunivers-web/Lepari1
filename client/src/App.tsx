@@ -28,6 +28,7 @@ import ResetPassword from '@/pages/ResetPassword';
 import AdminSimple from '@/pages/AdminSimple';
 import IndividualLoans from '@/pages/IndividualLoans';
 import LoanRequestDashboard from '@/pages/LoanRequestDashboard';
+import LoanOfferDetail from '@/pages/LoanOfferDetail';
 import TransferFlow from '@/pages/TransferFlow';
 import Transfers from '@/pages/Transfers';
 import BankAccounts from '@/pages/BankAccounts';
@@ -123,6 +124,8 @@ function App() {
                           <Route path="/dashboard" component={DashboardWrapper} />
                           <Route path="/loans" component={IndividualLoans} />
                           <Route path="/loans/new" component={LoanRequestDashboard} />
+                          <Route path="/loan-request" component={LoanRequestDashboard} />
+                          <Route path="/loan-offers/:offerId" component={LoanOfferDetail} />
                           <Route path="/contracts" component={Contracts} />
                           <Route path="/transfer/new" component={TransferFlow} />
                           <Route path="/transfer/:id" component={TransferFlow} />

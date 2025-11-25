@@ -2,6 +2,21 @@
 
 ## Recent Changes (November 25, 2025)
 
+### Loan Offers - Clickable Cards & Detail Pages ✅
+- **Problem:** Loan offer cards were non-clickable; they only triggered a callback with no redirection
+- **Solution Implemented:**
+  1. Made entire cards clickable with hover effect (`cursor-pointer` + `onClick`)
+  2. Created dedicated `LoanOfferDetail.tsx` page showing full offer details
+  3. Added routes: `/loan-request` and `/loan-offers/:offerId`
+  4. Both card click and button click now redirect to detail page
+  5. Detail page includes: full offer info, key metrics cards, features list, "Apply Now" CTA
+- **Files Modified:** 
+  - `client/src/components/LoanOffersCatalog.tsx` - Added navigation logic
+  - `client/src/App.tsx` - Added routes for detail page
+- **Files Created:** 
+  - `client/src/pages/LoanOfferDetail.tsx` - Full offer details page with professional layout
+- **Status:** ✅ Fully functional - users can now click offers to see details and apply
+
 ### User Space Chat Widget - English Localization ✅
 - **Feature:** Chat widget UI now 100% in English for international accessibility
 - **Rationale:** Platform supports 7 languages, but backend chat cannot support multilingual content. English as reference language ensures accessibility to global audience and professional credibility in finance sector
