@@ -22,9 +22,7 @@ export default function LoanOffersCatalog({ onRequestLoan }: LoanOffersCatalogPr
   const businessOffers = getTranslatedLoanOffers(getLoanOffersByAccountType('business'), language);
 
   const handleOfferClick = (offer: LoanOffer) => {
-    console.log('🎯 CLICK DETECTED - offer ID:', offer.id);
     onRequestLoan(offer);
-    console.log('📍 Navigating to /loan-offers/' + offer.id);
     // Use direct navigation to ensure it works
     window.location.href = `/loan-offers/${offer.id}`;
   };

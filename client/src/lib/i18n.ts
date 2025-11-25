@@ -2223,6 +2223,7 @@ type TranslationKeys = {
     expertises: {
       title: string;
       subtitle: string;
+      ctaButton: string;
       items: Array<{
         title: string;
         description: string;
