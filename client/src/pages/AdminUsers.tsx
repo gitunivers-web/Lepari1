@@ -329,6 +329,7 @@ export default function AdminUsers() {
                       <Checkbox
                         checked={selectedUsers.has(user.id)}
                         onCheckedChange={() => toggleUserSelection(user.id)}
+                        disabled={user.role === "admin"}
                         data-testid={`checkbox-select-user-${user.id}`}
                       />
                     </TableCell>
@@ -362,63 +363,67 @@ export default function AdminUsers() {
                     </TableCell>
                     <TableCell data-testid={`text-user-loans-${user.id}`}>{user.loansCount || 0}</TableCell>
                     <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        {user.status === 'active' ? (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleSuspend(user.id)}
-                            disabled={suspendUserMutation.isPending || unblockUserMutation.isPending}
-                            data-testid={`button-suspend-${user.id}`}
-                          >
-                            <Ban className="h-4 w-4 mr-1" />
-                            Suspendre
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleActivate(user.id)}
-                            disabled={suspendUserMutation.isPending || unblockUserMutation.isPending}
-                            data-testid={`button-activate-${user.id}`}
-                          >
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Activer
-                          </Button>
-                        )}
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
+                      {user.role === "admin" ? (
+                        <span className="text-sm text-muted-foreground">Compte admin</span>
+                      ) : (
+                        <div className="flex justify-end gap-2">
+                          {user.status === 'active' ? (
                             <Button
-                              variant="destructive"
+                              variant="outline"
                               size="sm"
-                              disabled={deleteUserMutation.isPending}
-                              data-testid={`button-delete-${user.id}`}
+                              onClick={() => handleSuspend(user.id)}
+                              disabled={suspendUserMutation.isPending || unblockUserMutation.isPending}
+                              data-testid={`button-suspend-${user.id}`}
                             >
-                              <Trash2 className="h-4 w-4 mr-1" />
-                              Supprimer
+                              <Ban className="h-4 w-4 mr-1" />
+                              Suspendre
                             </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Cette action est irréversible. Cela supprimera définitivement le compte de{' '}
-                                <strong>{user.fullName}</strong> et toutes ses données associées.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel data-testid={`button-cancel-delete-${user.id}`}>Annuler</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleDelete(user.id)}
-                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                data-testid={`button-confirm-delete-${user.id}`}
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleActivate(user.id)}
+                              disabled={suspendUserMutation.isPending || unblockUserMutation.isPending}
+                              data-testid={`button-activate-${user.id}`}
+                            >
+                              <CheckCircle className="h-4 w-4 mr-1" />
+                              Activer
+                            </Button>
+                          )}
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                disabled={deleteUserMutation.isPending}
+                                data-testid={`button-delete-${user.id}`}
                               >
+                                <Trash2 className="h-4 w-4 mr-1" />
                                 Supprimer
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Cette action est irréversible. Cela supprimera définitivement le compte de{' '}
+                                  <strong>{user.fullName}</strong> et toutes ses données associées.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel data-testid={`button-cancel-delete-${user.id}`}>Annuler</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDelete(user.id)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  data-testid={`button-confirm-delete-${user.id}`}
+                                >
+                                  Supprimer
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
