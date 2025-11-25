@@ -89,7 +89,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
 
         {/* File with timestamp directly below */}
         {message.fileUrl && message.fileName && isImageFile(message.fileName) && (
-          <div>
+          <div className="mb-5">
             <img
               src={getFileUrl(message.fileUrl)}
               alt={message.fileName}
@@ -124,7 +124,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
         )}
 
         {message.fileUrl && isPdfFile(message.fileName, message.fileUrl) && (
-          <div>
+          <div className="mb-5">
             <PdfViewer
               storagePath={getFileUrl(message.fileUrl) || ''}
               fileName={message.fileName || 'Document.pdf'}
@@ -156,7 +156,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
         )}
 
         {message.fileUrl && message.fileName && !isImageFile(message.fileName) && !isPdfFile(message.fileName, message.fileUrl) && (
-          <div>
+          <div className="mb-5">
             <div className="rounded-md p-3">
               <a
                 href={getFileUrl(message.fileUrl)}
@@ -204,7 +204,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
         {message.content && (
           <div
             className={cn(
-              "flex items-center gap-2 px-3 relative z-10 flex-col",
+              "flex items-center gap-2 px-3 relative z-10 flex-col mb-5",
               isOwn ? "items-end" : "items-start"
             )}
           >
