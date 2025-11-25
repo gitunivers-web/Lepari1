@@ -77,7 +77,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
 
       <div
         className={cn(
-          "flex flex-col gap-2",
+          "flex flex-col gap-2 relative",
           isOwn ? "items-end max-w-xs" : "items-start max-w-sm"
         )}
       >
@@ -145,7 +145,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
 
         <div
           className={cn(
-            "flex items-center gap-2 px-3",
+            "flex items-center gap-2 px-3 relative z-10",
             isOwn ? "flex-row-reverse" : "flex-row"
           )}
         >
