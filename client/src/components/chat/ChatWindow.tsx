@@ -35,12 +35,12 @@ export function ChatWindow({
 }: ChatWindowProps) {
   const { connected } = useSocket();
   const { language } = useLanguage();
-  const t = translations[language || 'fr'] || translations['fr'];
+  const t = translations[language || 'fr'] || translations['fr'] || {};
   const { data: messages = [], isLoading } = useMessages(conversationId);
   const markAsReadMutation = useMarkAsRead();
   const [typingUsername, setTypingUsername] = useState<string | null>(null);
 
-  const defaultTitle = title || t?.chat?.window?.title || 'Conversation';
+  const defaultTitle = title || (t as any)?.chat?.window?.title || 'Conversation';
   const defaultSubtitle = subtitle;
 
   const { sendMessage, startTyping, typingUsers } = useChatMessages({
@@ -112,7 +112,7 @@ export function ChatWindow({
                   )}
                 />
                 <span className="text-xs text-muted-foreground" data-testid="text-connection-status">
-                  {connected ? (t?.chat?.window?.online || 'En ligne') : (t?.chat?.window?.offline || 'Hors ligne')}
+                  {connected ? ((t as any)?.chat?.window?.online || 'En ligne') : ((t as any)?.chat?.window?.offline || 'Hors ligne')}
                 </span>
               </div>
             )}

@@ -27,7 +27,7 @@ export function ChatWidget({
   const [isOpen, setIsOpen] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const { language } = useLanguage();
-  const t = translations[language];
+  const t = translations[language || 'fr'] || translations['fr'] || {};
 
   const { data: conversations = [] } = useConversations(userId);
   const createConversationMutation = useCreateConversation();
@@ -80,8 +80,8 @@ export function ChatWidget({
               <ChatWindow
                 conversationId={conversationId}
                 currentUserId={userId}
-                title={t.chat.widget.title}
-                subtitle={t.chat.widget.subtitle}
+                title={(t as any)?.chat?.widget?.title || 'Support'}
+                subtitle={(t as any)?.chat?.widget?.subtitle}
                 onClose={() => setIsOpen(false)}
                 getUserName={(id) => (id === userId ? userName || "Vous" : "Support")}
                 getUserAvatar={(id) => (id === userId ? userAvatar || "" : "")}
