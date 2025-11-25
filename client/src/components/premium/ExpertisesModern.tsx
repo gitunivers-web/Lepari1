@@ -10,7 +10,7 @@ const expertiseColors = [
   "from-purple-500 to-pink-600",
   "from-pink-500 to-rose-600"
 ];
-const expertiseLinks = ["/products#business", "/products#individual", "/products", "/products"];
+const expertiseLinks = ["/expertise", "/expertise", "/expertise", "/expertise"];
 
 export default function ExpertisesModern() {
   const t = useTranslations();

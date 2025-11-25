@@ -48,6 +48,7 @@ import { LoanDialogProvider } from '@/contexts/LoanDialogContext';
 import { ScrollingInfoBanner } from '@/components/fintech';
 import DiagnosticPage from '@/pages/DiagnosticPage';
 import AdminChat from '@/pages/AdminChat';
+import Expertise from '@/pages/Expertise';
 import { ChatWidget } from '@/components/chat';
 import { useUser } from '@/hooks/use-user';
 
@@ -68,6 +69,7 @@ function App() {
             <Route path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/how-it-works" component={HowItWorks} />
+            <Route path="/expertise" component={Expertise} />
             <Route path="/products" component={Products} />
             <Route path="/contact" component={Contact} />
             <Route path="/resources" component={Resources} />

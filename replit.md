@@ -2,6 +2,21 @@
 
 ## Recent Changes (November 25, 2025)
 
+### Expertise Page - Professional Implementation ✅
+- ✅ **NEW PAGE CREATED:** `/pages/Expertise.tsx` - Dedicated expertise page
+  - Hero section with expertise title and subtitle
+  - Detailed cards for each expertise domain (Professional, Personal, Consolidation, Innovation)
+  - Feature lists with CheckCircle2 icons for each domain
+  - "Why Choose ALTUS" section with 6 key differentiators
+  - Professional CTA section with contact link
+  - Fully responsive design with Framer Motion animations
+  - SEO optimized with metadata
+- ✅ **LINKS UPDATED:** Homepage "En savoir plus" buttons now point to `/expertise`
+  - ExpertisesModern.tsx: Updated expertiseLinks array
+  - All 4 expertise cards direct to `/expertise`
+- ✅ **ROUTE ADDED:** Route registered in App.tsx
+- ✅ **FULLY FUNCTIONAL:** Page displays correctly, no LSP errors
+
 ### Security Audit & Fixes ✅
 1. **CSP Policy Enhancement (CRITICAL)** - Fixed production API backend blocking
    - Added `https://api.altusfinancesgroup.com` to `connectSrc` directive in helmet CSP config
