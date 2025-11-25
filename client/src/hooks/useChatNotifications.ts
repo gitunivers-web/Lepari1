@@ -77,6 +77,8 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
     };
 
     const handleMessageRead = (data: { conversationId: string; messageIds: string[] }) => {
+      console.log('[CHAT NOTIFICATIONS] Socket chat:read-receipt received:', data);
+      
       setUnreadCounts((prev) => ({
         ...prev,
         [data.conversationId]: 0,
@@ -88,9 +90,9 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
       queryClient.invalidateQueries({
         queryKey: ['chat', 'conversations', 'user', userId],
       });
-      queryClient.invalidateQueries({
-        queryKey: ['chat', 'unread', 'user', userId],
-      });
+      // CRITICAL: Do NOT invalidate unread counts here - it causes premature badge dismissal
+      // The socket event 'chat:unread-count' will send count: 0 if all messages are read
+      // Invalidating here forces a refetch that may return stale data
     };
 
     const handleUnreadCountUpdate = (data: { conversationId: string; count: number }) => {
@@ -112,8 +114,11 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
     };
 
     const handleUnreadSync = async (data: { userId: string }) => {
+      console.log('[CHAT NOTIFICATIONS] Socket unread_sync_required received for user:', data.userId);
+      
       // Force immediate refetch of unread counts when assignment changes
       if (data.userId === userId) {
+        console.log('[CHAT NOTIFICATIONS] Refetching unread counts due to sync event');
         await queryClient.refetchQueries({
           queryKey: ['chat', 'unread', 'user', userId],
         });

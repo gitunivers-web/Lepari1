@@ -105,9 +105,10 @@ export function useChatMessages({
           queryClient.invalidateQueries({
             queryKey: ['chat', 'conversations', 'user', currentUser.id],
           });
-          queryClient.invalidateQueries({
-            queryKey: ['chat', 'unread', 'user', currentUser.id],
-          });
+          // CRITICAL: Do NOT invalidate unread user counts here!
+          // The socket event 'chat:unread-count' in useChatNotifications is the ONLY source of truth
+          // Invalidating here causes premature refetch that overwrites socket state with stale data
+          // This is the ROOT CAUSE of badges disappearing!
         }
       }
     };
