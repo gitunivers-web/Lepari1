@@ -9,6 +9,7 @@ import { PresenceIndicator } from "./PresenceIndicator";
 import { useMessages, useMarkAsRead } from "@/lib/chatQueries";
 import { useChatMessages } from "@/hooks/useChatMessages";
 import { useSocket } from "@/hooks/useSocket";
+import { useLanguage, translations } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ChatWindowProps {
@@ -25,7 +26,7 @@ interface ChatWindowProps {
 export function ChatWindow({
   conversationId,
   currentUserId,
-  title = "Chat Support",
+  title,
   subtitle,
   onClose,
   className,
@@ -33,9 +34,14 @@ export function ChatWindow({
   getUserAvatar,
 }: ChatWindowProps) {
   const { connected } = useSocket();
+  const { language } = useLanguage();
+  const t = translations[language];
   const { data: messages = [], isLoading } = useMessages(conversationId);
   const markAsReadMutation = useMarkAsRead();
   const [typingUsername, setTypingUsername] = useState<string | null>(null);
+
+  const defaultTitle = title || t.chat.window.title;
+  const defaultSubtitle = subtitle;
 
   const { sendMessage, startTyping, typingUsers } = useChatMessages({
     conversationId,
@@ -90,14 +96,14 @@ export function ChatWindow({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-base truncate" data-testid="text-chat-title">
-              {title}
+              {defaultTitle}
             </h3>
-            {subtitle && (
+            {defaultSubtitle && (
               <p className="text-xs text-muted-foreground truncate" data-testid="text-chat-subtitle">
-                {subtitle}
+                {defaultSubtitle}
               </p>
             )}
-            {!subtitle && (
+            {!defaultSubtitle && (
               <div className="flex items-center gap-1.5">
                 <Circle
                   className={cn(
@@ -106,7 +112,7 @@ export function ChatWindow({
                   )}
                 />
                 <span className="text-xs text-muted-foreground" data-testid="text-connection-status">
-                  {connected ? "En ligne" : "Hors ligne"}
+                  {connected ? t.chat.window.online : t.chat.window.offline}
                 </span>
               </div>
             )}
@@ -135,7 +141,12 @@ export function ChatWindow({
         />
 
         {isTyping && (
-          <TypingIndicator isTyping={isTyping} username={displayTypingUsername} />
+          <TypingIndicator 
+            isTyping={isTyping} 
+            username={displayTypingUsername}
+            typingText={t.chat.window.typing}
+            typingGeneralText={t.chat.window.typingGeneral}
+          />
         )}
 
         <MessageInput
@@ -143,6 +154,8 @@ export function ChatWindow({
           onTyping={startTyping}
           disabled={!connected}
           allowFileUpload={false}
+          placeholder={t.chat.input.placeholder}
+          sendHint={t.chat.input.sendHint}
         />
       </CardContent>
     </Card>

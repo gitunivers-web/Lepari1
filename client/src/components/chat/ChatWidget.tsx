@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChatWindow } from "./ChatWindow";
 import { useConversations, useCreateConversation } from "@/lib/chatQueries";
 import { useChatNotifications } from "@/hooks/useChatNotifications";
+import { useLanguage, translations } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ChatWidgetProps {
@@ -25,6 +26,8 @@ export function ChatWidget({
 }: ChatWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const { language } = useLanguage();
+  const t = translations[language];
 
   const { data: conversations = [] } = useConversations(userId);
   const createConversationMutation = useCreateConversation();
@@ -77,8 +80,8 @@ export function ChatWidget({
               <ChatWindow
                 conversationId={conversationId}
                 currentUserId={userId}
-                title="Support ALTUS"
-                subtitle="Nous sommes là pour vous aider"
+                title={t.chat.widget.title}
+                subtitle={t.chat.widget.subtitle}
                 onClose={() => setIsOpen(false)}
                 getUserName={(id) => (id === userId ? userName || "Vous" : "Support")}
                 getUserAvatar={(id) => (id === userId ? userAvatar || "" : "")}

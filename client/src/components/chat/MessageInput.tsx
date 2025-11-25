@@ -10,6 +10,7 @@ interface MessageInputProps {
   disabled?: boolean;
   maxLength?: number;
   placeholder?: string;
+  sendHint?: string;
   allowFileUpload?: boolean;
 }
 
@@ -19,6 +20,7 @@ export function MessageInput({
   disabled = false,
   maxLength = 2000,
   placeholder = "Écrivez votre message...",
+  sendHint = "Appuyez sur Ctrl+Entrée pour envoyer",
   allowFileUpload = false,
 }: MessageInputProps) {
   const [content, setContent] = useState("");
@@ -185,7 +187,7 @@ export function MessageInput({
         </div>
 
         <div className="mt-2 text-xs text-muted-foreground">
-          Appuyez sur Ctrl+Entrée pour envoyer
+          {sendHint}
         </div>
       </div>
     </div>

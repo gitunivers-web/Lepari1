@@ -5,12 +5,16 @@ interface TypingIndicatorProps {
   isTyping: boolean;
   username?: string;
   className?: string;
+  typingText?: string;
+  typingGeneralText?: string;
 }
 
 export function TypingIndicator({
   isTyping,
   username,
   className,
+  typingText = "est en train d'écrire...",
+  typingGeneralText = "En train d'écrire...",
 }: TypingIndicatorProps) {
   if (!isTyping) return null;
 
@@ -61,7 +65,7 @@ export function TypingIndicator({
         />
       </div>
       <span className="text-sm text-muted-foreground" data-testid="text-typing-username">
-        {username ? `${username} est en train d'écrire...` : "En train d'écrire..."}
+        {username ? `${username} ${typingText}` : typingGeneralText}
       </span>
     </motion.div>
   );
