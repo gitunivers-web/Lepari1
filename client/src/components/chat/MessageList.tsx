@@ -162,7 +162,7 @@ export function MessageList({
         className="absolute inset-0 overflow-y-auto px-6 py-8"
         data-testid="message-list-container"
       >
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <div
             style={{
               height: `${virtualizer.getTotalSize()}px`,

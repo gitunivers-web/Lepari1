@@ -78,7 +78,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
       <div
         className={cn(
           "flex flex-col gap-2",
-          isOwn ? "items-end max-w-xl" : "items-start max-w-2xl"
+          isOwn ? "items-end max-w-xs" : "items-start max-w-sm"
         )}
       >
         {!isOwn && senderName && (
@@ -100,7 +100,7 @@ export function Message({ message, isOwn, senderName, senderAvatar }: MessagePro
               <img
                 src={getFileUrl(message.fileUrl)}
                 alt={message.fileName}
-                className="max-w-sm rounded-md max-h-96 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                className="max-w-xs rounded-md max-h-72 object-cover cursor-pointer hover:opacity-90 transition-opacity"
                 onClick={() => window.open(getFileUrl(message.fileUrl)!, '_blank')}
                 data-testid={`img-attachment-${message.id}`}
               />
