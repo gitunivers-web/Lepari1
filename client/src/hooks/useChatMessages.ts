@@ -32,6 +32,9 @@ export function useChatMessages({
   const [typingUsers, setTypingUsers] = useState<Array<{ userId: string; username: string }>>([]);
   const typingTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
+  // Track if we've already marked messages as read to prevent infinite loops
+  const hasMarkedReadRef = useRef(false);
+
   useEffect(() => {
     if (!socket || !connected || !conversationId) return;
 
@@ -44,8 +47,11 @@ export function useChatMessages({
         queryKey: ['chat', 'messages', conversationId],
       });
       
-      // Also mark messages as read
-      socket.emit("chat:mark-read", { conversationId });
+      // Also mark messages as read (ONLY ONCE per conversation open)
+      if (!hasMarkedReadRef.current) {
+        hasMarkedReadRef.current = true;
+        socket.emit("chat:mark-read", { conversationId });
+      }
     };
 
     joinConversation().catch(err => console.error('Error joining conversation:', err));
@@ -126,8 +132,11 @@ export function useChatMessages({
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
       }
+      
+      // Reset the mark-read flag when leaving conversation
+      hasMarkedReadRef.current = false;
     };
-  }, [socket, connected, conversationId, queryClient, currentUser, onNewMessage, onTyping, onStoppedTyping]);
+  }, [socket, connected, conversationId, queryClient, currentUser]);
 
   const sendMessage = useCallback(
     (content: string, fileUrl?: string, fileName?: string) => {
