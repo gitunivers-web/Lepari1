@@ -35,7 +35,20 @@ export function useChatMessages({
   useEffect(() => {
     if (!socket || !connected || !conversationId) return;
 
-    socket.emit("chat:join-conversation", conversationId);
+    const joinConversation = async () => {
+      socket.emit("chat:join-conversation", conversationId);
+      
+      // IMPORTANT: Refetch messages immediately when joining
+      // This loads any messages that arrived while user was away
+      await queryClient.refetchQueries({
+        queryKey: ['chat', 'messages', conversationId],
+      });
+      
+      // Also mark messages as read
+      socket.emit("chat:mark-read", { conversationId });
+    };
+
+    joinConversation().catch(err => console.error('Error joining conversation:', err));
 
     const handleNewMessage = (message: ChatMessage) => {
       queryClient.invalidateQueries({
