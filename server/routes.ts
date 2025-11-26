@@ -5055,6 +5055,24 @@ ${urls.map(url => `  <url>
       }
 
       const count = await storage.markMessagesAsRead(conversationId, userId);
+      
+      // CRITICAL: Emit socket event to update badge in real-time
+      // This is essential for the badge to disappear immediately when messages are marked as read
+      const unreadCount = await storage.getUnreadMessageCount(conversationId, userId);
+      io.to(`user:${userId}`).emit('chat:unread-count', {
+        conversationId: conversationId,
+        count: unreadCount,
+      });
+      
+      // Also notify the other party that their message was read
+      const otherUserId = user.role === 'admin' ? conversation.userId : (conversation.assignedAdminId || 'admin');
+      if (otherUserId) {
+        io.to(`user:${otherUserId}`).emit('chat:read-receipt', {
+          conversationId: conversationId,
+          readBy: userId,
+        });
+      }
+      
       res.json({ markedAsRead: count });
     } catch (error: any) {
       console.error('[CHAT] Erreur marquage messages lus:', error);
