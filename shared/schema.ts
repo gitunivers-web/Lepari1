@@ -156,6 +156,7 @@ export const fees = pgTable("fees", {
 export const transactions = pgTable("transactions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull(),
+  transferId: varchar("transfer_id"),
   type: text("type").notNull(),
   amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   description: text("description").notNull(),
