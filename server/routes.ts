@@ -62,6 +62,7 @@ import { loanRequestAdminNotification } from "./notification-service";
 import cloudinary from "./config/cloudinary";
 import { PassThrough } from "stream";
 import { generateUploadUrl, generateDownloadUrl, uploadFile } from "./services/supabase-storage";
+import DOMPurify from "isomorphic-dompurify";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -172,7 +173,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
 
   const adminLimiter = rateLimit({
     windowMs: 5 * 60 * 1000,
-    max: 100,
+    max: 20,
     message: { error: 'Trop de requêtes administratives. Veuillez ralentir.' },
     standardHeaders: true,
     legacyHeaders: false,
@@ -2682,8 +2683,11 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
       }
 
       if (user.externalTransfersBlocked) {
+        const sanitizedReason = user.transferBlockReason 
+          ? DOMPurify.sanitize(user.transferBlockReason, { ALLOWED_TAGS: [] })
+          : 'Non spécifiée';
         return res.status(403).json({ 
-          error: `Les transferts externes sont bloqués pour votre compte. Raison: ${user.transferBlockReason || 'Non spécifiée'}` 
+          error: `Les transferts externes sont bloqués pour votre compte. Raison: ${sanitizedReason}` 
         });
       }
 
