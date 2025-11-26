@@ -41,11 +41,10 @@ export function useChatNotifications(userId: string): UseChatNotificationsReturn
     // Socket events (chat:unread-count) are the source of truth for real-time updates
     // This avoids race conditions where server refetch overwrites the badge before socket event arrives
     staleTime: Infinity,
-    // CRITICAL: refetchOnMount: false prevents page refresh from refetching API
-    // After page refresh, React Query cache is empty, but we don't want to refetch API
-    // Instead, wait for socket.io reconnection to send chat:unread-count events
-    // This ensures badge stays visible after refresh until socket catches up
-    refetchOnMount: false,
+    // FIXED: refetchOnMount: true ensures API call on mount for fallback
+    // When page is refreshed, React Query cache is empty. This guarantees badge appears immediately
+    // Socket still takes priority for real-time updates, but API ensures initial hydration
+    refetchOnMount: true,
   });
 
   // Hydrater l'état local avec les données serveur
