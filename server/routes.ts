@@ -4958,6 +4958,40 @@ ${urls.map(url => `  <url>
     }
   });
 
+  // Delete conversation (admin only)
+  app.delete("/api/chat/conversations/:id", requireAuth, requireCSRF, async (req, res) => {
+    try {
+      const conversationId = req.params.id;
+      const userId = req.session.userId!;
+      const user = await storage.getUser(userId);
+
+      if (!user || user.role !== 'admin') {
+        return res.status(403).json({ error: 'Accès réservé aux administrateurs' });
+      }
+
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ error: 'Conversation non trouvée' });
+      }
+
+      const deleted = await storage.deleteConversation(conversationId);
+      
+      if (!deleted) {
+        return res.status(500).json({ error: 'Impossible de supprimer la conversation' });
+      }
+
+      // Emit socket event to notify all admins
+      if (io) {
+        io.emit('conversation_deleted', { conversationId });
+      }
+
+      res.json({ success: true, message: 'Conversation supprimée définitivement' });
+    } catch (error: any) {
+      console.error('[CHAT] Erreur suppression conversation:', error);
+      res.status(500).json({ error: 'Erreur lors de la suppression de la conversation' });
+    }
+  });
+
   // MESSAGES - Get messages for a conversation
   app.get("/api/chat/conversations/:id/messages", requireAuth, async (req, res) => {
     try {

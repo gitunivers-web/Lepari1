@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Filter, Clock, CheckCircle2, XCircle, MessageCircle, ArrowLeft, X } from "lucide-react";
+import { Search, Filter, Clock, CheckCircle2, XCircle, MessageCircle, ArrowLeft, X, Trash2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,8 +13,17 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { ChatWindow } from "@/components/chat/ChatWindow";
-import { useAdminConversations, useAssignConversation, useCloseConversation } from "@/lib/chatQueries";
+import { useAdminConversations, useAssignConversation, useCloseConversation, useDeleteConversation } from "@/lib/chatQueries";
 import { useUser } from "@/hooks/use-user";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
@@ -33,6 +42,8 @@ export default function AdminChat() {
   const { data: allConversations = [] } = useAdminConversations();
   const assignConversationMutation = useAssignConversation();
   const closeConversationMutation = useCloseConversation();
+  const deleteConversationMutation = useDeleteConversation();
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const filteredConversations = allConversations.filter((conv) => {
     if (statusFilter !== "all" && conv.status !== statusFilter) return false;
@@ -79,14 +90,55 @@ export default function AdminChat() {
     }
   };
 
+  const handleDeleteConversation = async (conversationId: string) => {
+    try {
+      await deleteConversationMutation.mutateAsync(conversationId);
+      setSelectedConversationId(null);
+      setDeleteConfirmId(null);
+      toast({
+        title: "Conversation supprimée",
+        description: "La conversation et tous ses messages ont été supprimés définitivement.",
+      });
+    } catch (error) {
+      console.error("Failed to delete conversation:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer la conversation.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const selectedConversation = allConversations.find((c) => c.id === selectedConversationId);
 
   const openCount = allConversations.filter((c) => c.status === "open").length;
   const closedCount = allConversations.filter((c) => c.status === "closed").length;
 
   return (
-    <div className="flex h-screen bg-background">
-      <div className="w-96 border-r flex flex-col" data-testid="admin-chat-sidebar">
+    <>
+      <AlertDialog open={deleteConfirmId !== null} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Supprimer définitivement la conversation?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Cette action est irréversible. Tous les messages, fichiers et documents de cette conversation seront supprimés définitivement.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex justify-end gap-2">
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteConfirmId && handleDeleteConversation(deleteConfirmId)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              data-testid="button-confirm-delete"
+            >
+              Supprimer définitivement
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <div className="flex h-screen bg-background">
+        <div className="w-96 border-r flex flex-col" data-testid="admin-chat-sidebar">
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold mb-4" data-testid="text-admin-chat-title">
             Conversations
@@ -200,18 +252,33 @@ export default function AdminChat() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
 
-          {selectedConversation && selectedConversation.status === "open" && (
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => handleCloseConversation(selectedConversation.id)}
-              disabled={closeConversationMutation.isPending}
-              data-testid="button-close-conversation"
-              className="gap-2"
-            >
-              <X className="h-4 w-4" />
-              {closeConversationMutation.isPending ? "Fermeture..." : "Fermer chat"}
-            </Button>
+          {selectedConversation && (
+            <div className="flex gap-2">
+              {selectedConversation.status === "open" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleCloseConversation(selectedConversation.id)}
+                  disabled={closeConversationMutation.isPending}
+                  data-testid="button-close-conversation"
+                  className="gap-2"
+                >
+                  <X className="h-4 w-4" />
+                  {closeConversationMutation.isPending ? "Fermeture..." : "Fermer chat"}
+                </Button>
+              )}
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => setDeleteConfirmId(selectedConversation.id)}
+                disabled={deleteConversationMutation.isPending}
+                data-testid="button-delete-conversation"
+                className="gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteConversationMutation.isPending ? "Suppression..." : "Supprimer"}
+              </Button>
+            </div>
           )}
         </div>
 
@@ -235,7 +302,7 @@ export default function AdminChat() {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
