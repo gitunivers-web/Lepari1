@@ -1411,13 +1411,22 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         return `Il y a ${Math.floor(seconds / 86400)} jours`;
       };
 
+      // Calculate lastUpdated based on most recent transaction or user update
+      let lastUpdated = 'Il y a quelques secondes';
+      if (data.transactions && data.transactions.length > 0) {
+        const mostRecentTransaction = data.transactions[0];
+        lastUpdated = getTimeAgo(mostRecentTransaction.createdAt);
+      } else if (data.user.updatedAt) {
+        lastUpdated = getTimeAgo(data.user.updatedAt);
+      }
+
       const response = {
         balance: {
           currentBalance: data.balance,
           activeLoansCount: data.loans.filter(l => l.status === 'active').length,
           totalBorrowed: data.loans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0),
           availableCredit: parseFloat(data.user.maxLoanAmount || "500000") - data.balance,
-          lastUpdated: 'Il y a 5 minutes',
+          lastUpdated: lastUpdated,
         },
         loans: data.loans.map(loan => ({
           id: loan.id,
