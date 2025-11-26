@@ -18323,6 +18323,19 @@ export const translations: Record<Language, TranslationKeys> = {
       monthApr: 'Apr',
       monthMay: 'Mei',
       monthJun: 'Jun',
+    kycStatusApproved: "Geverifieerd",
+    kycStatusPending: "In Afwachting",
+    kycStatusRejected: "Geweigerd",
+    upcomingPaymentAlert: "Aanstaande Betaling",
+    upcomingPaymentAlertDesc: "U heeft een betaling verschuldigd in de komende 7 dagen",
+    monthSummary: "Maandelijks Overzicht",
+    monthSummaryDesc: "Financiële statistieken van de huidige maand",
+    monthlyInterest: "Betaalde Rente",
+    monthlyFees: "Toegepaste Tarieven",
+    monthlyCredit: "Gebruikt Krediet",
+    monthlyRepayment: "Terugbetaling",
+    exportCSV: "CSV exporteren",
+    downloadAmortization: "Aflossingsschema",
       serverError: 'Kan geen verbinding maken met de server. Controleer uw verbinding en probeer het opnieuw.',
       diagnosticInfo: 'Diagnostische informatie (ontwikkeling)',
       retry: 'Opnieuw proberen',
@@ -20621,3 +20634,4 @@ export const translations: Record<Language, TranslationKeys> = {
 export function useTranslations() {
   const { language } = useLanguage();
   return translations[language];
+
