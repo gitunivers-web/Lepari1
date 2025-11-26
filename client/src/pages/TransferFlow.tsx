@@ -75,6 +75,13 @@ export default function TransferFlow() {
   const [transferId, setTransferId] = useState(params?.id || '');
   const [verificationProgress, setVerificationProgress] = useState(0);
   
+  // Sync transferId with params.id whenever it changes
+  useEffect(() => {
+    if (params?.id && params.id !== transferId) {
+      setTransferId(params.id);
+    }
+  }, [params?.id]);
+  
   const [simulatedProgress, setSimulatedProgress] = useState(0);
   const [isPausedForCode, setIsPausedForCode] = useState(false);
   const [currentCodeSequence, setCurrentCodeSequence] = useState(1);
