@@ -31,8 +31,8 @@ export default function Transfers() {
 
   const { data: transfers, isLoading } = useQuery<Transfer[]>({
     queryKey: ['/api/transfers'],
-    refetchInterval: 5000, // Auto-refresh every 5 seconds
-    staleTime: 3000, // Data is stale after 3 seconds
+    refetchInterval: 2000, // Auto-refresh every 2 seconds
+    staleTime: 1000, // Data is stale after 1 second
   });
 
   const formatCurrency = (amount: string) => {
