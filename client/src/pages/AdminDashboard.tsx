@@ -30,14 +30,20 @@ export default function AdminDashboard() {
   
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["/api/admin/stats"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
   });
 
   const { data: users, isLoading: usersLoading } = useQuery({
     queryKey: ["/api/admin/users"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
   });
 
   const { data: transfers, isLoading: transfersLoading } = useQuery({
     queryKey: ["/api/admin/transfers"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
   });
 
   const { data: notificationCounts, isLoading: notificationsLoading } = useQuery<{
@@ -48,7 +54,8 @@ export default function AdminDashboard() {
     total: number;
   }>({
     queryKey: ["/api/admin/notifications-count"],
-    refetchInterval: 30000, // Rafraîchir toutes les 30 secondes
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
   });
 
   const isLoading = statsLoading || usersLoading || transfersLoading;

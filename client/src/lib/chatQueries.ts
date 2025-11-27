@@ -47,6 +47,8 @@ export const useAdminConversations = (adminId?: string, status?: string) => {
       if (!res.ok) throw new Error("Failed to fetch admin conversations");
       return res.json();
     },
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
   });
 };
 
