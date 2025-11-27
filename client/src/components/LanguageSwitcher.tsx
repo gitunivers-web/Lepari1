@@ -30,13 +30,14 @@ export default function LanguageSwitcher({ scrolled = false }: LanguageSwitcherP
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          variant="ghost"
           size="sm"
-          className="gap-1.5 bg-[hsl(var(--chart-2))] text-white hover:bg-[hsl(var(--chart-2))]"
+          className="gap-1.5 hover-elevate active-elevate-2"
           data-testid="button-language-toggle"
         >
           <span className="text-2xl leading-none">{currentLang?.flag}</span>
           <span className="hidden sm:inline text-sm font-medium">{currentLang?.name}</span>
-          <ChevronDown className="h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[180px]">
