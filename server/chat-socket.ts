@@ -1,6 +1,7 @@
 import { Server as HTTPServer } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { IStorage } from './storage';
+import { setSocketInstance } from './data-socket';
 
 interface SocketUser {
   userId: string;
@@ -249,6 +250,8 @@ export function initializeChatSocket(httpServer: HTTPServer, storage: IStorage, 
       console.error('[CHAT WS] Socket error:', error);
     });
   });
+
+  setSocketInstance(io);
 
   return io;
 }

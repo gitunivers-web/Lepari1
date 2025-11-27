@@ -64,6 +64,15 @@ import { PassThrough } from "stream";
 import { generateUploadUrl, generateDownloadUrl, uploadFile } from "./services/supabase-storage";
 import DOMPurify from "isomorphic-dompurify";
 import { PDFDocument, PDFPage, rgb } from "pdf-lib";
+import { 
+  emitLoanUpdate, 
+  emitTransferUpdate, 
+  emitUserUpdate, 
+  emitDashboardUpdate,
+  emitNotificationUpdate,
+  emitFeeUpdate,
+  emitContractUpdate
+} from "./data-socket";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -3655,6 +3664,7 @@ Tous les codes de validation ont été vérifiés avec succès.`,
     try {
       const validatedData = adminUpdateTransferSchema.parse(req.body);
       
+      const transfer = await storage.getTransfer(req.params.id);
       const updated = await storage.updateTransfer(req.params.id, validatedData);
       if (!updated) {
         return res.status(404).json({ error: 'Transfer not found' });
@@ -3671,6 +3681,11 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         entityId: req.params.id,
         metadata: validatedData,
       });
+      
+      if (transfer) {
+        emitTransferUpdate(transfer.userId, 'updated', req.params.id, updated);
+        emitDashboardUpdate(transfer.userId);
+      }
       
       res.json(updated);
     } catch (error: any) {
@@ -4042,6 +4057,12 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         metadata: { amount: loan.amount, loanType: loan.loanType, contractGenerated },
       });
 
+      emitLoanUpdate(loan.userId, 'approved', req.params.id, updated);
+      emitDashboardUpdate(loan.userId);
+      if (contractGenerated) {
+        emitContractUpdate(loan.userId, 'created', req.params.id);
+      }
+
       res.json(updated);
     } catch (error) {
       console.error('Failed to approve loan:', error);
@@ -4075,6 +4096,9 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         entityId: req.params.id,
         metadata: { amount: loan.amount, loanType: loan.loanType, reason: validatedData.reason },
       });
+
+      emitLoanUpdate(loan.userId, 'rejected', req.params.id, updated);
+      emitDashboardUpdate(loan.userId);
 
       res.json(updated);
     } catch (error: any) {
@@ -4169,6 +4193,10 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         entityId: req.params.id,
         metadata: { amount: loan.amount, loanType: loan.loanType, codesGenerated: generatedCodes.length },
       });
+
+      emitLoanUpdate(loan.userId, 'confirmed', req.params.id, updatedLoan);
+      emitContractUpdate(loan.userId, 'confirmed', req.params.id);
+      emitDashboardUpdate(loan.userId);
 
       res.json({ 
         loan: updatedLoan,
@@ -4516,6 +4544,10 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         metadata: { sequence: validatedData.sequence, loanId: transfer.loanId, codeId: code.id, reusedExisting: true },
       });
 
+      emitTransferUpdate(transfer.userId, 'updated', req.params.id);
+      emitNotificationUpdate(transfer.userId, 'created');
+      emitDashboardUpdate(transfer.userId);
+
       res.json(code);
     } catch (error: any) {
       if (error.name === 'ZodError') {
@@ -4547,6 +4579,10 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         entityId: validatedData.userId,
         metadata: { subject: validatedData.subject, feeType: validatedData.feeType, feeAmount: validatedData.feeAmount },
       });
+
+      emitNotificationUpdate(validatedData.userId, 'created');
+      emitFeeUpdate(validatedData.userId, 'created');
+      emitDashboardUpdate(validatedData.userId);
 
       res.json(result);
     } catch (error: any) {
@@ -4594,6 +4630,10 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         entityId: req.params.id,
         metadata: { pausePercent: transfer.pausePercent },
       });
+
+      emitTransferUpdate(transfer.userId, 'updated', req.params.id);
+      emitNotificationUpdate(transfer.userId, 'created');
+      emitDashboardUpdate(transfer.userId);
 
       res.json({ code, expiresAt });
     } catch (error) {

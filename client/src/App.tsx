@@ -52,6 +52,7 @@ import AdminChat from '@/pages/AdminChat';
 import Expertise from '@/pages/Expertise';
 import { ChatWidget } from '@/components/chat';
 import { useUser } from '@/hooks/use-user';
+import { DataSocketProvider } from '@/components/DataSocketProvider';
 
 function App() {
   const style = {
@@ -91,14 +92,15 @@ function App() {
             <Route path="/admin" component={AdminSimple} />
             <Route path="/admin/:any*" component={AdminSimple} />
             <Route>
-              <LoanDialogProvider>
-                <TopBar />
-                <SidebarProvider style={style as React.CSSProperties}>
-                  <div className="flex min-h-screen w-full">
-                    <AppSidebar />
-                    <div className="flex flex-col flex-1">
-                      {/* Fintech Premium Header */}
-                      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl shadow-sm">
+              <DataSocketProvider>
+                <LoanDialogProvider>
+                  <TopBar />
+                  <SidebarProvider style={style as React.CSSProperties}>
+                    <div className="flex min-h-screen w-full">
+                      <AppSidebar />
+                      <div className="flex flex-col flex-1">
+                        {/* Fintech Premium Header */}
+                        <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl shadow-sm">
                         <div className="flex items-center justify-between px-6 py-4">
                           <SidebarTrigger data-testid="button-sidebar-toggle" className="hover:bg-muted rounded-xl transition-colors" />
                           <div className="flex items-center gap-3">
@@ -140,8 +142,9 @@ function App() {
                       <ChatWidgetWrapper />
                     </div>
                   </div>
-                </SidebarProvider>
-              </LoanDialogProvider>
+                  </SidebarProvider>
+                </LoanDialogProvider>
+              </DataSocketProvider>
             </Route>
           </Switch>
           <Toaster />
