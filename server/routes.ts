@@ -725,6 +725,47 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         });
       }
 
+      // Vérifier si le compte est bloqué
+      if (user.status === 'blocked') {
+        console.warn('[LOGIN-ERROR] Compte bloqué', {
+          userId: user.id,
+          email: user.email,
+        });
+        return res.status(403).json({ 
+          error: 'Votre compte a été bloqué. Veuillez contacter le support.',
+          errorCode: 'ACCOUNT_BLOCKED'
+        });
+      }
+
+      // Vérifier si le compte est suspendu
+      if (user.status === 'suspended') {
+        if (!user.suspendedUntil || new Date() < user.suspendedUntil) {
+          console.warn('[LOGIN-ERROR] Compte suspendu', {
+            userId: user.id,
+            email: user.email,
+            suspendedUntil: user.suspendedUntil,
+          });
+          return res.status(403).json({ 
+            error: 'Votre compte a été suspendu. Veuillez contacter le support.',
+            errorCode: 'ACCOUNT_SUSPENDED',
+            suspendedUntil: user.suspendedUntil,
+            reason: user.suspensionReason
+          });
+        }
+      }
+
+      // Vérifier si le compte est inactif
+      if (user.status === 'inactive') {
+        console.warn('[LOGIN-ERROR] Compte inactif', {
+          userId: user.id,
+          email: user.email,
+        });
+        return res.status(403).json({ 
+          error: 'Votre compte est inactif. Veuillez contacter le support.',
+          errorCode: 'ACCOUNT_INACTIVE'
+        });
+      }
+
       // 2FA optionnel pour tous les utilisateurs (admins et utilisateurs normaux)
       if (user.twoFactorEnabled) {
         return res.json({

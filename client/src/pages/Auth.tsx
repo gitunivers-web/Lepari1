@@ -156,6 +156,24 @@ export default function Auth() {
           description: translateBackendMessage(error.message, language),
           variant: 'destructive',
         });
+      } else if (error.errorCode === 'ACCOUNT_SUSPENDED') {
+        toast({
+          title: t.auth.accountSuspended || 'Compte suspendu',
+          description: translateBackendMessage(error.message, language) || 'Votre compte a été suspendu. Veuillez contacter le support.',
+          variant: 'destructive',
+        });
+      } else if (error.errorCode === 'ACCOUNT_BLOCKED') {
+        toast({
+          title: t.auth.accountBlocked || 'Compte bloqué',
+          description: translateBackendMessage(error.message, language) || 'Votre compte a été bloqué. Veuillez contacter le support.',
+          variant: 'destructive',
+        });
+      } else if (error.errorCode === 'ACCOUNT_INACTIVE') {
+        toast({
+          title: t.auth.accountInactive || 'Compte inactif',
+          description: translateBackendMessage(error.message, language) || 'Votre compte est inactif. Veuillez contacter le support.',
+          variant: 'destructive',
+        });
       } else {
         toast({
           title: t.auth.loginError,
