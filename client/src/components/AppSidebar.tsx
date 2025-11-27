@@ -18,6 +18,7 @@ import { useLocation } from 'wouter';
 import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl } from '@/hooks/use-user';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export default function AppSidebar() {
   const t = useTranslations();
@@ -29,14 +30,24 @@ export default function AppSidebar() {
   const isAdminPath = location.startsWith('/admin');
   const isAdmin = user?.role === 'admin';
 
+  // Check if device is mobile
+  // Covers ALL smartphones: iPhone 4.7" (375px) to Samsung S24 Ultra 6.8" (430px)
+  // Breakpoint 768px ensures menu closes on all phones but not tablets
+  const isMobileDevice = () => window.matchMedia('(max-width: 768px)').matches;
+
   const closeMenuOnMobileOnly = () => {
     // Only close menu on mobile devices (max-width: 768px)
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) {
+    if (isMobileDevice()) {
       // Close immediately on mobile
       setOpen(false);
     }
   };
+
+  // Auto-close menu when location changes on mobile
+  // This ensures menu closes even if click handler doesn't fire
+  useEffect(() => {
+    closeMenuOnMobileOnly();
+  }, [location, setOpen]);
 
   const handleLogout = () => {
     setLocation('/');
