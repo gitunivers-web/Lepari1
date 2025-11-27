@@ -25,7 +25,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useTranslations } from "@/hooks/use-translations";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Ban, Trash2, CheckCircle, Trash, Shield } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -48,7 +47,6 @@ const SUSPENSION_REASONS = [
 
 export default function AdminUsers() {
   const { toast } = useToast();
-  const t = useTranslations();
   const [suspendDialogOpen, setSuspendDialogOpen] = useState(false);
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string>("");

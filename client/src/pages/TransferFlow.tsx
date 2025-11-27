@@ -93,16 +93,32 @@ export default function TransferFlow() {
   const [recipient, setRecipient] = useState('');
   const [externalAccountId, setExternalAccountId] = useState('');
   const [validationCode, setValidationCode] = useState('');
-  const [transferId, setTransferId] = useState(params?.id || '');
+  const [transferId, setTransferId] = useState('');
   const [verificationProgress, setVerificationProgress] = useState(0);
   const [isCheckingActiveTransfer, setIsCheckingActiveTransfer] = useState(!params?.id);
-  const [isLoadingExistingTransfer, setIsLoadingExistingTransfer] = useState(!!params?.id);
+  const [isLoadingExistingTransfer, setIsLoadingExistingTransfer] = useState(false);
+  
+  // Helper: Check if it's a real transfer ID (not "new" or empty)
+  const isRealTransferId = (id?: string): boolean => {
+    return !!id && id !== 'new' && id.length > 0;
+  };
   
   // Sync transferId with params.id whenever it changes
   useEffect(() => {
-    if (params?.id && params.id !== transferId) {
-      setTransferId(params.id);
-      setIsLoadingExistingTransfer(true);
+    if (params?.id) {
+      if (isRealTransferId(params.id)) {
+        // Real transfer ID - load existing transfer
+        setTransferId(params.id);
+        setIsLoadingExistingTransfer(true);
+      } else if (params.id === 'new') {
+        // New transfer - reset to form mode
+        setTransferId('');
+        setStep('form');
+        setIsLoadingExistingTransfer(false);
+      }
+    } else {
+      // No ID at all - check for active transfer
+      setTransferId('');
     }
   }, [params?.id]);
   
@@ -153,13 +169,13 @@ export default function TransferFlow() {
 
   const { data: transferData, refetch: refetchTransfer, isLoading: isLoadingTransferData } = useQuery<TransferDetailsResponse>({
     queryKey: [`/api/transfers/${transferId}`],
-    enabled: !!transferId,
+    enabled: isRealTransferId(transferId),
     refetchInterval: step === 'progress' ? 3000 : false,
   });
 
   // Déterminer le step basé sur le status du transfert existant
   useEffect(() => {
-    if (!params?.id) return;
+    if (!isRealTransferId(transferId)) return;
     
     if (isLoadingTransferData) return;
     
@@ -175,7 +191,7 @@ export default function TransferFlow() {
       
       setIsLoadingExistingTransfer(false);
     }
-  }, [params?.id, transferData, isLoadingTransferData]);
+  }, [transferId, transferData, isLoadingTransferData]);
 
   // LIGNE 57-93 - FONCTION D'ANIMATION AJOUTÉE (modifiée)
   // Ajout : animationRunningRef pour éviter réentrance; on vérifie nextSequence à la fin.
