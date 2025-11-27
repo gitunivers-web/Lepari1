@@ -61,7 +61,7 @@
 
   --muted-foreground: 220 18% 48%;  /* Texte secondaire lisible */
 
-  --accent: 166 76% 46%;            /* Vert succès fintech (N26/Revolut) */
+  --accent: 220 10% 96%;             /* Neutre léger pour hover/active states */
 
   --accent-foreground: 0 0% 100%;
 

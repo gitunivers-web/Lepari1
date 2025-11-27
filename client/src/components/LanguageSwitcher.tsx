@@ -45,7 +45,7 @@ export default function LanguageSwitcher({ scrolled = false }: LanguageSwitcherP
           <DropdownMenuItem
             key={lang.code}
             onClick={() => setLanguage(lang.code)}
-            className={`cursor-pointer ${language === lang.code ? 'bg-accent' : ''}`}
+            className={`cursor-pointer`}
             data-testid={`button-language-${lang.code}`}
           >
             <span className="text-2xl mr-3">{lang.flag}</span>
