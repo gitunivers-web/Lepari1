@@ -912,3 +912,414 @@ ${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous 
     throw error;
   }
 }
+
+export async function sendSignedContractToAdmins(
+  fullName: string,
+  email: string,
+  loanId: string,
+  amount: string,
+  fileBuffer: Buffer,
+  fileName: string,
+  mimeType: string,
+  language: string = 'fr'
+) {
+  try {
+    const { fromEmail } = await getBrevoClient();
+    const adminEmail = process.env.ADMIN_EMAIL || fromEmail;
+    const safeName = escapeHtml(fullName);
+    const safeEmail = escapeHtml(email);
+    
+    const subject = language === 'en' 
+      ? `Signed Contract Received - ${safeName} - Loan ${loanId.substring(0, 8)}`
+      : `Contrat signé reçu - ${safeName} - Prêt ${loanId.substring(0, 8)}`;
+    
+    const reviewUrl = `${getBaseUrl()}/admin/loans`;
+    
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%); padding: 40px 20px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px;">${language === 'en' ? 'Signed Contract Received' : 'Contrat signé reçu'}</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px 30px;">
+              <p style="color: #374151; font-size: 16px; line-height: 1.5; margin: 0 0 20px 0;">
+                ${language === 'en' 
+                  ? `A signed contract has been received and requires your review.`
+                  : `Un contrat signé a été reçu et nécessite votre vérification.`}
+              </p>
+              
+              <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                <table cellpadding="8" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold; width: 140px;">${language === 'en' ? 'Client' : 'Client'} :</td>
+                    <td style="color: #1f2937; font-weight: bold;">${safeName}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">Email :</td>
+                    <td style="color: #1f2937;">${safeEmail}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Loan ID' : 'Réf. Prêt'} :</td>
+                    <td style="color: #1f2937; font-family: monospace;">${loanId.substring(0, 8)}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Amount' : 'Montant'} :</td>
+                    <td style="color: #2563eb; font-weight: bold; font-size: 18px;">${amount} EUR</td>
+                  </tr>
+                </table>
+              </div>
+              
+              <div style="background-color: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin-bottom: 30px;">
+                <p style="color: #92400e; font-size: 14px; margin: 0;">
+                  <strong>${language === 'en' ? 'Action Required:' : 'Action requise :'}</strong> 
+                  ${language === 'en' 
+                    ? 'Please review the attached signed contract and confirm to release the funds.'
+                    : 'Veuillez vérifier le contrat signé en pièce jointe et confirmer pour débloquer les fonds.'}
+                </p>
+              </div>
+              
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="${reviewUrl}" style="display: inline-block; background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 14px 30px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+                  ${language === 'en' ? 'Review in Dashboard' : 'Vérifier dans le Dashboard'}
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                ALTUS FINANCES GROUP - ${language === 'en' ? 'Financing Solutions' : 'Solutions de financement'}<br>
+                ${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `;
+    
+    const text = `${language === 'en' ? 'Signed Contract Received' : 'Contrat signé reçu'}
+
+${language === 'en' ? 'Client' : 'Client'}: ${fullName}
+Email: ${email}
+${language === 'en' ? 'Loan ID' : 'Réf. Prêt'}: ${loanId.substring(0, 8)}
+${language === 'en' ? 'Amount' : 'Montant'}: ${amount} EUR
+
+${language === 'en' 
+  ? 'Please review the attached signed contract and confirm to release the funds.'
+  : 'Veuillez vérifier le contrat signé en pièce jointe et confirmer pour débloquer les fonds.'}
+
+${language === 'en' ? 'Review in Dashboard' : 'Vérifier dans le Dashboard'}: ${reviewUrl}
+
+ALTUS FINANCES GROUP
+${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+    `;
+    
+    const base64Content = fileBuffer.toString('base64');
+    
+    await sendEmail({
+      to: adminEmail,
+      from: fromEmail,
+      subject,
+      html,
+      text,
+      attachments: [{
+        content: base64Content,
+        filename: fileName,
+        type: mimeType,
+      }],
+    });
+
+    console.log(`Signed contract email sent to admin ${adminEmail}`);
+    return true;
+  } catch (error) {
+    console.error('Error sending signed contract email to admins:', error);
+    throw error;
+  }
+}
+
+export async function sendTransferCodesAdminEmail(
+  userName: string,
+  userEmail: string,
+  loanId: string,
+  loanAmount: string,
+  codes: Array<{ code: string; codeContext: string; pausePercent: number; sequence: number }>,
+  language: string = 'fr'
+) {
+  try {
+    const { fromEmail } = await getBrevoClient();
+    const adminEmail = process.env.ADMIN_EMAIL || fromEmail;
+    const safeName = escapeHtml(userName);
+    
+    const subject = language === 'en' 
+      ? `Transfer Codes Generated - ${safeName} - Loan ${loanId.substring(0, 8)}`
+      : `Codes de transfert générés - ${safeName} - Prêt ${loanId.substring(0, 8)}`;
+    
+    const codesHtml = codes.map((c, idx) => `
+      <tr>
+        <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${idx + 1}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-weight: bold; color: #2563eb;">${c.code}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${c.codeContext}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${c.pausePercent}%</td>
+      </tr>
+    `).join('');
+    
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #059669 0%, #047857 100%); padding: 40px 20px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px;">${language === 'en' ? 'Transfer Codes Generated' : 'Codes de transfert générés'}</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px 30px;">
+              <p style="color: #374151; font-size: 16px; line-height: 1.5; margin: 0 0 20px 0;">
+                ${language === 'en' 
+                  ? `Transfer validation codes have been generated for the following loan:`
+                  : `Les codes de validation de transfert ont été générés pour le prêt suivant :`}
+              </p>
+              
+              <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                <table cellpadding="8" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold; width: 140px;">${language === 'en' ? 'Client' : 'Client'} :</td>
+                    <td style="color: #1f2937; font-weight: bold;">${safeName}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">Email :</td>
+                    <td style="color: #1f2937;">${userEmail}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Amount' : 'Montant'} :</td>
+                    <td style="color: #059669; font-weight: bold; font-size: 18px;">${loanAmount} EUR</td>
+                  </tr>
+                </table>
+              </div>
+              
+              <h3 style="color: #1f2937; margin: 20px 0 10px 0;">${language === 'en' ? 'Validation Codes:' : 'Codes de validation :'}</h3>
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                <thead>
+                  <tr style="background-color: #f9fafb;">
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e5e7eb;">#</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e5e7eb;">Code</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e5e7eb;">${language === 'en' ? 'Context' : 'Contexte'}</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #e5e7eb;">${language === 'en' ? 'Pause At' : 'Pause à'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${codesHtml}
+                </tbody>
+              </table>
+              
+              <div style="background-color: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin-top: 30px;">
+                <p style="color: #92400e; font-size: 14px; margin: 0;">
+                  <strong>${language === 'en' ? 'Important:' : 'Important :'}</strong> 
+                  ${language === 'en' 
+                    ? 'These codes will be required at each pause percentage during the transfer. Communicate them to the client at the appropriate time.'
+                    : 'Ces codes seront requis à chaque pourcentage de pause pendant le transfert. Communiquez-les au client au moment approprié.'}
+                </p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                ALTUS FINANCES GROUP - ${language === 'en' ? 'Financing Solutions' : 'Solutions de financement'}<br>
+                ${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `;
+    
+    const codesText = codes.map((c, idx) => 
+      `${idx + 1}. ${c.code} - ${c.codeContext} - Pause à ${c.pausePercent}%`
+    ).join('\n');
+    
+    const text = `${language === 'en' ? 'Transfer Codes Generated' : 'Codes de transfert générés'}
+
+${language === 'en' ? 'Client' : 'Client'}: ${userName}
+Email: ${userEmail}
+${language === 'en' ? 'Amount' : 'Montant'}: ${loanAmount} EUR
+
+${language === 'en' ? 'Validation Codes:' : 'Codes de validation :'}
+${codesText}
+
+${language === 'en' 
+  ? 'These codes will be required at each pause percentage during the transfer.'
+  : 'Ces codes seront requis à chaque pourcentage de pause pendant le transfert.'}
+
+ALTUS FINANCES GROUP
+${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+    `;
+    
+    await sendEmail({
+      to: adminEmail,
+      from: fromEmail,
+      subject,
+      html,
+      text,
+    });
+
+    console.log(`Transfer codes email sent to admin ${adminEmail}`);
+    return true;
+  } catch (error) {
+    console.error('Error sending transfer codes email to admin:', error);
+    throw error;
+  }
+}
+
+export async function sendAdminTransferCompletionReport(
+  userName: string,
+  userEmail: string,
+  transferId: string,
+  amount: string,
+  recipientName: string,
+  recipientIban: string,
+  loanId: string,
+  language: string = 'fr'
+) {
+  try {
+    const { fromEmail } = await getBrevoClient();
+    const adminEmail = process.env.ADMIN_EMAIL || fromEmail;
+    const safeName = escapeHtml(userName);
+    const safeRecipient = escapeHtml(recipientName);
+    
+    const subject = language === 'en' 
+      ? `Transfer Completed - ${safeName} - ${amount} EUR`
+      : `Virement effectué - ${safeName} - ${amount} EUR`;
+    
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 20px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px;">${language === 'en' ? 'Transfer Completed' : 'Virement effectué'}</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px 30px;">
+              <p style="color: #374151; font-size: 16px; line-height: 1.5; margin: 0 0 20px 0;">
+                ${language === 'en' 
+                  ? `A transfer has been successfully completed.`
+                  : `Un virement a été effectué avec succès.`}
+              </p>
+              
+              <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                <table cellpadding="8" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold; width: 140px;">${language === 'en' ? 'Client' : 'Client'} :</td>
+                    <td style="color: #1f2937; font-weight: bold;">${safeName}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">Email :</td>
+                    <td style="color: #1f2937;">${userEmail}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Amount' : 'Montant'} :</td>
+                    <td style="color: #059669; font-weight: bold; font-size: 18px;">${amount} EUR</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Recipient' : 'Bénéficiaire'} :</td>
+                    <td style="color: #1f2937;">${safeRecipient}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">IBAN :</td>
+                    <td style="color: #1f2937; font-family: monospace;">${recipientIban}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Transfer ID' : 'Réf. Virement'} :</td>
+                    <td style="color: #1f2937; font-family: monospace;">${transferId.substring(0, 8)}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #6b7280; font-weight: bold;">${language === 'en' ? 'Loan ID' : 'Réf. Prêt'} :</td>
+                    <td style="color: #1f2937; font-family: monospace;">${loanId.substring(0, 8)}</td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
+              <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                ALTUS FINANCES GROUP - ${language === 'en' ? 'Financing Solutions' : 'Solutions de financement'}<br>
+                ${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `;
+    
+    const text = `${language === 'en' ? 'Transfer Completed' : 'Virement effectué'}
+
+${language === 'en' ? 'Client' : 'Client'}: ${userName}
+Email: ${userEmail}
+${language === 'en' ? 'Amount' : 'Montant'}: ${amount} EUR
+${language === 'en' ? 'Recipient' : 'Bénéficiaire'}: ${recipientName}
+IBAN: ${recipientIban}
+${language === 'en' ? 'Transfer ID' : 'Réf. Virement'}: ${transferId.substring(0, 8)}
+${language === 'en' ? 'Loan ID' : 'Réf. Prêt'}: ${loanId.substring(0, 8)}
+
+ALTUS FINANCES GROUP
+${new Date().getFullYear()} ${language === 'en' ? 'All rights reserved' : 'Tous droits réservés'}.
+    `;
+    
+    await sendEmail({
+      to: adminEmail,
+      from: fromEmail,
+      subject,
+      html,
+      text,
+    });
+
+    console.log(`Transfer completion report sent to admin ${adminEmail}`);
+    return true;
+  } catch (error) {
+    console.error('Error sending transfer completion report to admin:', error);
+    throw error;
+  }
+}

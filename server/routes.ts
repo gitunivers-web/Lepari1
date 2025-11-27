@@ -3159,18 +3159,16 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         if (user) {
           const recipientIban = externalAccount?.iban || 'Non spécifié';
           
-          // Update user balance and available credit after transfer completion
-          // Reset account balance to 0 and reduce available credit
+          // Update available credit after transfer completion
           const currentMaxLoanAmount = parseFloat(user.maxLoanAmount || "0");
           const transferAmount = parseFloat(transfer.amount.toString());
           const newMaxLoanAmount = Math.max(0, currentMaxLoanAmount - transferAmount);
           
           await storage.updateUser(transfer.userId, {
-            accountBalance: 0,
             maxLoanAmount: newMaxLoanAmount.toString(),
           });
 
-          console.log(`[TRANSFER COMPLETION] User ${transfer.userId}: Balance reset to 0, Available credit reduced from ${currentMaxLoanAmount}€ to ${newMaxLoanAmount}€`);
+          console.log(`[TRANSFER COMPLETION] User ${transfer.userId}: Available credit reduced from ${currentMaxLoanAmount}€ to ${newMaxLoanAmount}€`);
           
           await createAdminMessageTransferCompleted(
             transfer.userId,
@@ -3233,15 +3231,13 @@ Tous les codes de validation ont été vérifiés avec succès.`,
             try {
               const { sendAdminTransferCompletionReport } = await import('./email');
               await sendAdminTransferCompletionReport(
-                transfer.id,
-                user.id,
                 user.fullName,
                 user.email,
+                transfer.id,
                 transfer.amount.toString(),
                 transfer.recipient,
                 recipientIban,
-                completedAt!,
-                newCodesValidated,
+                transfer.loanId || '',
                 'fr'
               );
               console.log(`Transfer completion report sent to admin ${admin.email}`);
@@ -4147,15 +4143,17 @@ Tous les codes de validation ont été vérifiés avec succès.`,
 
       try {
         const { sendTransferCodesAdminEmail } = await import('./email');
+        const userForEmail = await storage.getUser(loan.userId);
         await sendTransferCodesAdminEmail(
           userName,
-          loan.amount,
+          userForEmail?.email || '',
           loan.id,
+          loan.amount,
           generatedCodes.map(c => ({
             sequence: c.sequence,
             code: c.code,
             pausePercent: c.pausePercent!,
-            context: c.codeContext || `Code ${c.sequence}`
+            codeContext: c.codeContext || `Code ${c.sequence}`
           })),
           'fr'
         );
