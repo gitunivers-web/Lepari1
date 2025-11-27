@@ -35,14 +35,10 @@ export default function AppSidebar() {
   // Breakpoint 768px ensures menu closes on all phones but not tablets
   const isMobileDevice = () => window.matchMedia('(max-width: 768px)').matches;
 
-  // Auto-close menu when location changes on mobile
-  // Simplified: directly close menu on any route change on mobile
+  // Auto-close menu when location changes (works on all devices)
   useEffect(() => {
-    if (isMobileDevice()) {
-      // Force close the sidebar
-      setOpen(false);
-      console.debug('[AppSidebar] Closing menu on mobile - location changed to:', location);
-    }
+    setOpen(false);
+    console.debug('[AppSidebar] Closing menu - location changed to:', location);
   }, [location, setOpen]);
 
   const handleLogout = useCallback(() => {
