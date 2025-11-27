@@ -126,7 +126,7 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: process.env.NODE_ENV === 'production'
         ? ["'self'", "https://api.altusfinancesgroup.com", ...allowedOrigins.filter((origin): origin is string => origin !== undefined)]
-        : ["'self'"],
+        : ["'self'", "https://*.replit.dev"],
       fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
