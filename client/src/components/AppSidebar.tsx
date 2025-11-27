@@ -35,28 +35,20 @@ export default function AppSidebar() {
   // Breakpoint 768px ensures menu closes on all phones but not tablets
   const isMobileDevice = () => window.matchMedia('(max-width: 768px)').matches;
 
-  const closeMenuOnMobileOnly = useCallback(() => {
-    // Only close menu on mobile devices (max-width: 768px)
+  // Auto-close menu when location changes on mobile
+  // Simplified: directly close menu on any route change on mobile
+  useEffect(() => {
     if (isMobileDevice()) {
-      // Close immediately on mobile
       setOpen(false);
     }
-  }, [setOpen]);
-
-  // Auto-close menu when location changes on mobile
-  // This ensures menu closes even if click handler doesn't fire
-  useEffect(() => {
-    closeMenuOnMobileOnly();
-  }, [location, closeMenuOnMobileOnly]);
+  }, [location, setOpen]);
 
   const handleLogout = () => {
     setLocation('/');
-    closeMenuOnMobileOnly();
   };
 
   const handleNavigate = (url: string) => {
     setLocation(url);
-    closeMenuOnMobileOnly();
   };
 
   const { data: loans } = useQuery<any[]>({
