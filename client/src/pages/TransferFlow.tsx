@@ -140,6 +140,9 @@ export default function TransferFlow() {
   // Refs pour la gestion des validations et animations
   const prevCodesValidatedRef = useRef<number | null>(null);
   const justValidatedRef = useRef(false);
+  // CORRECTION BUG: Ref pour tracker la dernière séquence pour laquelle on a animé vers le target
+  // Empêche les ré-animations infinies lors des polls
+  const lastAnimatedToTargetSequenceRef = useRef<number | null>(null);
 
   // Vérifier si un transfert est déjà en cours pour cet utilisateur
   const { data: activeTransferData, isLoading: isLoadingActiveTransfer } = useQuery<ActiveTransferResponse>({
@@ -391,6 +394,7 @@ export default function TransferFlow() {
       // CRITIQUE: Initialiser les refs pour permettre l'animation du nouveau transfert
       prevCodesValidatedRef.current = null; // null = nouveau transfert, déclenche isNewTransfer
       initialHydrationDoneRef.current = false; // Pas encore hydraté
+      lastAnimatedToTargetSequenceRef.current = null; // Permettre l'animation vers le premier target
       
       // Démarrer en mode NON-PAUSÉ pour permettre l'animation automatique vers le premier code
       setIsPausedForCode(false);
@@ -516,40 +520,87 @@ export default function TransferFlow() {
                            nextSequence === 1 &&
                            backendProgress < targetPercent - 1;
       
+      // CORRECTION BUG: Vérifier si on a DÉJÀ animé vers ce target pour cette séquence
+      // Cela empêche les boucles infinies lors des polls de refetch
+      const alreadyAnimatedToTarget = lastAnimatedToTargetSequenceRef.current === nextSequence;
+      
       // Animation UNIQUEMENT si:
       // 1. Une validation vient de se produire (justValidatedRef.current = true)
       // 2. C'est un nouveau transfert fraîchement initié (première animation vers le premier checkpoint)
-      const shouldAnimate = (isNewValidation || isNewTransfer) && simulatedProgress < targetPercent;
+      // ET on n'a pas déjà animé vers ce target pour cette séquence
+      const shouldAnimate = (isNewValidation || isNewTransfer) && 
+                           simulatedProgress < targetPercent &&
+                           !alreadyAnimatedToTarget;
+      
+      // CORRECTION BUG: Détecter le retour sur un transfert existant où la progression doit continuer
+      // C'est le cas quand:
+      // 1. Ce n'est PAS une nouvelle validation
+      // 2. Ce n'est PAS un nouveau transfert
+      // 3. La progression backend est > 0 et < targetPercent (transfert en cours)
+      // 4. On n'a PAS déjà animé vers ce target pour cette séquence
+      // 5. L'animation n'est pas déjà en cours
+      const shouldContinueAnimation = !isNewValidation && 
+                                      !isNewTransfer &&
+                                      !alreadyAnimatedToTarget &&
+                                      !animationRunningRef.current &&
+                                      backendProgress > 0 &&
+                                      backendProgress < targetPercent - 1 &&
+                                      simulatedProgress < targetPercent;
       
       if (shouldAnimate) {
         // Calculer la durée dynamiquement : 1 seconde par point de pourcentage
         const progressDelta = targetPercent - simulatedProgress;
         const duration = progressDelta * 1000;
         animateProgress(simulatedProgress, targetPercent, duration, computedNextCode?.sequence);
+        // Marquer qu'on a animé vers ce target pour cette séquence
+        lastAnimatedToTargetSequenceRef.current = nextSequence;
         // Réinitialiser la ref après avoir lancé l'animation
         justValidatedRef.current = false;
-      } else {
-        // CAS RETOUR SUR TRANSFERT EXISTANT: Synchroniser UNIQUEMENT si on revient sur un transfert existant
-        // Pour les nouveaux transferts (pas encore hydratés), on laisse la progression à 0% pour l'animation
-        if (initialHydrationDoneRef.current) {
-          // RETOUR SUR TRANSFERT EXISTANT: Synchroniser toujours
-          setSimulatedProgress(backendProgress);
-        }
+      } else if (shouldContinueAnimation) {
+        // CORRECTION BUG: Continuer l'animation depuis backendProgress vers targetPercent
+        // Ceci gère le cas où l'utilisateur revient sur un transfert en cours
+        const progressDelta = targetPercent - backendProgress;
+        const duration = progressDelta * 1000;
         
-        // IMMÉDIATEMENT afficher le champ de code si on a atteint le pourcentage cible
-        if (backendProgress >= targetPercent - 1) {
-          setIsPausedForCode(true);
-          // Annuler toute animation en cours
-          if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-            animationFrameRef.current = null;
-          }
-          if (progressIntervalRef.current) {
-            clearInterval(progressIntervalRef.current);
-            progressIntervalRef.current = null;
+        // D'abord synchroniser avec le backend
+        setSimulatedProgress(backendProgress);
+        
+        // Marquer qu'on va animer vers ce target pour cette séquence (AVANT le setTimeout)
+        lastAnimatedToTargetSequenceRef.current = nextSequence;
+        
+        // Puis animer vers le target après un court délai pour laisser React mettre à jour
+        setTimeout(() => {
+          animateProgress(backendProgress, targetPercent, duration, computedNextCode?.sequence);
+        }, 100);
+      } else {
+        // CAS: Pas d'animation nécessaire
+        // Synchroniser simulatedProgress avec backendProgress SI on n'est pas déjà au bon niveau
+        // et si on n'a pas d'animation en cours
+        if (!animationRunningRef.current) {
+          // Si on a atteint le pourcentage cible, mettre en pause pour le code
+          if (backendProgress >= targetPercent - 1) {
+            setSimulatedProgress(backendProgress);
+            setIsPausedForCode(true);
+            // Marquer comme animé pour éviter les reboucles
+            lastAnimatedToTargetSequenceRef.current = nextSequence;
+            // Annuler toute animation en cours
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+              animationFrameRef.current = null;
+            }
+            if (progressIntervalRef.current) {
+              clearInterval(progressIntervalRef.current);
+              progressIntervalRef.current = null;
+            }
+          } else if (alreadyAnimatedToTarget && simulatedProgress >= targetPercent - 1) {
+            // On a déjà animé vers ce target et on y est, rester en pause
+            setIsPausedForCode(true);
           }
         }
       }
+      
+      // Marquer l'hydratation comme faite
+      initialHydrationDoneRef.current = true;
       
       // Mettre à jour la référence
       prevCodesValidatedRef.current = currentCodesValidated;
