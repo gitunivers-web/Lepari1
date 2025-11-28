@@ -62,6 +62,32 @@ import { eq, desc, and, or, isNull, notExists, inArray, sql, sql as sqlDrizzle }
 import path from "path";
 import fs from "fs";
 import { encryptSecret } from "./services/encryption";
+import { pool } from "./db";
+
+// Result type for atomic validation
+export interface ValidateTransferCodeAtomicResult {
+  codeId: string;
+  progress: number;
+  isPaused: boolean;
+  pausePercent: number | null;
+  nextSequence: number | null;
+  codeContext: string | null;
+  codesValidated: number;
+  isComplete: boolean;
+  transfer: Transfer;
+  validatedCode: TransferValidationCode;
+}
+
+// Error types for atomic validation
+export class ValidationError extends Error {
+  constructor(
+    message: string,
+    public code: 'NOT_FOUND' | 'ALREADY_CONSUMED' | 'INVALID_SEQUENCE' | 'EXPIRED' | 'INVALID_CODE'
+  ) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -136,6 +162,7 @@ export interface IStorage {
   getTransferValidationCodes(transferId: string): Promise<TransferValidationCode[]>;
   validateCode(transferId: string, code: string, sequence: number, codeType?: string): Promise<TransferValidationCode | undefined>;
   validateTransferCode(transferId: string, code: string, sequence: number): Promise<TransferValidationCode | undefined>;
+  validateTransferCodeAtomic(transferId: string, codeValue: string, sequence: number): Promise<ValidateTransferCodeAtomicResult>;
   validateLoanCode(loanId: string, code: string, sequence: number): Promise<TransferValidationCode | undefined>;
   
   createTransferEvent(event: InsertTransferEvent): Promise<TransferEvent>;
@@ -2045,6 +2072,223 @@ export class DatabaseStorage implements IStorage {
       
       return updated[0];
     });
+  }
+
+  async validateTransferCodeAtomic(transferId: string, codeValue: string, sequence: number): Promise<ValidateTransferCodeAtomicResult> {
+    const client = await pool.connect();
+    
+    try {
+      await client.query('BEGIN');
+      
+      // Lock the transfer row with FOR UPDATE to prevent race conditions
+      const transferResult = await client.query(
+        `SELECT * FROM transfers WHERE id = $1 FOR UPDATE`,
+        [transferId]
+      );
+      
+      if (transferResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+        throw new ValidationError('Transfer not found', 'NOT_FOUND');
+      }
+      
+      const transfer = transferResult.rows[0];
+      
+      // Check expected sequence
+      const expectedSequence = (transfer.codes_validated || 0) + 1;
+      if (sequence !== expectedSequence) {
+        await client.query('ROLLBACK');
+        throw new ValidationError(
+          `Vous devez valider le code #${expectedSequence} avant de valider le code #${sequence}.`,
+          'INVALID_SEQUENCE'
+        );
+      }
+      
+      // Lock and find the validation code with FOR UPDATE
+      const codeResult = await client.query(
+        `SELECT * FROM transfer_validation_codes 
+         WHERE transfer_id = $1 AND code = $2 AND sequence = $3 
+         FOR UPDATE`,
+        [transferId, codeValue, sequence]
+      );
+      
+      if (codeResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+        throw new ValidationError('Code de sécurité incorrect', 'INVALID_CODE');
+      }
+      
+      const validationCode = codeResult.rows[0];
+      
+      // Check if already consumed
+      if (validationCode.consumed_at) {
+        await client.query('ROLLBACK');
+        throw new ValidationError('Ce code a déjà été utilisé', 'ALREADY_CONSUMED');
+      }
+      
+      // Check expiration
+      if (new Date(validationCode.expires_at) < new Date()) {
+        await client.query('ROLLBACK');
+        throw new ValidationError('Ce code a expiré', 'EXPIRED');
+      }
+      
+      // Mark code as consumed
+      const consumedCodeResult = await client.query(
+        `UPDATE transfer_validation_codes 
+         SET consumed_at = now() 
+         WHERE id = $1 AND consumed_at IS NULL 
+         RETURNING *`,
+        [validationCode.id]
+      );
+      
+      if (consumedCodeResult.rows.length === 0) {
+        // Race condition: another request consumed the code
+        await client.query('ROLLBACK');
+        throw new ValidationError('Ce code a déjà été utilisé', 'ALREADY_CONSUMED');
+      }
+      
+      const consumedCode = consumedCodeResult.rows[0];
+      
+      // Pay associated fee if any
+      if (validationCode.fee_id) {
+        await client.query(
+          `UPDATE fees SET is_paid = true, paid_at = now() WHERE id = $1`,
+          [validationCode.fee_id]
+        );
+      }
+      
+      // Calculate new state
+      const newCodesValidated = (transfer.codes_validated || 0) + 1;
+      const requiredCodes = transfer.required_codes || 1;
+      const isComplete = newCodesValidated >= requiredCodes;
+      
+      let newProgress: number;
+      let newStatus: string;
+      let newIsPaused: boolean;
+      let newPausePercent: number | null = null;
+      let nextSequence: number | null = null;
+      let codeContext: string | null = consumedCode.code_context || null;
+      
+      if (isComplete) {
+        newProgress = 100;
+        newStatus = 'completed';
+        newIsPaused = false;
+        newPausePercent = null;
+        nextSequence = null;
+      } else {
+        // Get next code info
+        const nextCodeResult = await client.query(
+          `SELECT * FROM transfer_validation_codes 
+           WHERE transfer_id = $1 AND sequence = $2 AND consumed_at IS NULL`,
+          [transferId, newCodesValidated + 1]
+        );
+        
+        nextSequence = newCodesValidated + 1;
+        
+        if (nextCodeResult.rows.length > 0 && nextCodeResult.rows[0].pause_percent) {
+          const nextCode = nextCodeResult.rows[0];
+          newProgress = nextCode.pause_percent;
+          newPausePercent = nextCode.pause_percent;
+          newIsPaused = true;
+          newStatus = 'in_progress';
+          codeContext = nextCode.code_context || codeContext;
+        } else {
+          // Calculate progress based on current validation
+          const currentCodePercent = consumedCode.pause_percent || 
+            Math.min(10 + (newCodesValidated * Math.floor(80 / requiredCodes)), 90);
+          newProgress = currentCodePercent;
+          newIsPaused = false;
+          newStatus = 'pending';
+        }
+      }
+      
+      // Update the transfer atomically
+      const updatedTransferResult = await client.query(
+        `UPDATE transfers SET 
+          codes_validated = $2,
+          progress_percent = $3,
+          status = $4,
+          current_step = $5,
+          is_paused = $6,
+          pause_percent = $7,
+          approved_at = CASE WHEN $8 THEN now() ELSE approved_at END,
+          completed_at = CASE WHEN $8 THEN now() ELSE completed_at END,
+          updated_at = now()
+        WHERE id = $1
+        RETURNING *`,
+        [
+          transferId,
+          newCodesValidated,
+          newProgress,
+          newStatus,
+          Math.min(newCodesValidated, requiredCodes),
+          newIsPaused,
+          newPausePercent,
+          isComplete
+        ]
+      );
+      
+      const updatedTransfer = updatedTransferResult.rows[0];
+      
+      await client.query('COMMIT');
+      
+      // Map snake_case to camelCase for the result
+      const mappedTransfer: Transfer = {
+        id: updatedTransfer.id,
+        userId: updatedTransfer.user_id,
+        loanId: updatedTransfer.loan_id,
+        externalAccountId: updatedTransfer.external_account_id,
+        transferReference: updatedTransfer.transfer_reference,
+        amount: updatedTransfer.amount,
+        recipient: updatedTransfer.recipient,
+        status: updatedTransfer.status,
+        currentStep: updatedTransfer.current_step,
+        progressPercent: updatedTransfer.progress_percent,
+        feeAmount: updatedTransfer.fee_amount,
+        requiredCodes: updatedTransfer.required_codes,
+        codesValidated: updatedTransfer.codes_validated,
+        isPaused: updatedTransfer.is_paused,
+        pausePercent: updatedTransfer.pause_percent,
+        pauseCodesValidated: updatedTransfer.pause_codes_validated,
+        approvedAt: updatedTransfer.approved_at,
+        suspendedAt: updatedTransfer.suspended_at,
+        completedAt: updatedTransfer.completed_at,
+        createdAt: updatedTransfer.created_at,
+        updatedAt: updatedTransfer.updated_at,
+      };
+      
+      const mappedCode: TransferValidationCode = {
+        id: consumedCode.id,
+        transferId: consumedCode.transfer_id,
+        loanId: consumedCode.loan_id,
+        code: consumedCode.code,
+        deliveryMethod: consumedCode.delivery_method,
+        codeType: consumedCode.code_type,
+        codeContext: consumedCode.code_context,
+        sequence: consumedCode.sequence,
+        pausePercent: consumedCode.pause_percent,
+        feeId: consumedCode.fee_id,
+        issuedAt: consumedCode.issued_at,
+        expiresAt: consumedCode.expires_at,
+        consumedAt: consumedCode.consumed_at,
+      };
+      
+      return {
+        codeId: consumedCode.id,
+        progress: newProgress,
+        isPaused: newIsPaused,
+        pausePercent: newPausePercent,
+        nextSequence,
+        codeContext,
+        codesValidated: newCodesValidated,
+        isComplete,
+        transfer: mappedTransfer,
+        validatedCode: mappedCode,
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async validateLoanCode(loanId: string, code: string, sequence: number): Promise<TransferValidationCode | undefined> {

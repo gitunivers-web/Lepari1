@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import express from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { storage, ValidationError } from "./storage";
 import { 
   insertLoanSchema, 
   insertTransferSchema, 
@@ -74,6 +74,7 @@ import {
   emitFeeUpdate,
   emitContractUpdate
 } from "./data-socket";
+import { enqueueProgressJob } from "./services/progress-worker";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -3150,89 +3151,40 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
   app.post("/api/transfers/:id/validate-code", requireAuth, requireCSRF, validationLimiter, async (req, res) => {
     try {
       const { code, sequence } = req.body;
-      const transfer = await storage.getTransfer(req.params.id);
+      const transferId = req.params.id;
       
-      if (!transfer) {
+      // Pre-validation: Check ownership before attempting atomic validation
+      const preCheckTransfer = await storage.getTransfer(transferId);
+      
+      if (!preCheckTransfer) {
         return res.status(404).json({ error: 'Transfer not found' });
       }
 
-      if (transfer.userId !== req.session.userId) {
+      if (preCheckTransfer.userId !== req.session.userId) {
         return res.status(403).json({ error: 'Accès refusé' });
       }
 
-      if (!transfer.loanId) {
+      if (!preCheckTransfer.loanId) {
         return res.status(400).json({ 
           error: 'Ce transfert n\'est pas associé à un prêt. Impossible de valider les codes.' 
         });
       }
 
-      const expectedSequence = transfer.codesValidated + 1;
-      if (sequence !== expectedSequence) {
-        await storage.createTransferEvent({
-          transferId: transfer.id,
-          eventType: 'validation_failed',
-          message: 'Erreur de séquence de validation',
-          metadata: { sequence, expectedSequence, loanId: transfer.loanId },
-        });
-        return res.status(400).json({ 
-          error: `Vous devez valider le code #${expectedSequence} avant de valider le code #${sequence}.` 
-        });
-      }
-
-      const validatedCode = await storage.validateTransferCode(transfer.id, code, sequence);
-      if (!validatedCode) {
-        await storage.createTransferEvent({
-          transferId: transfer.id,
-          eventType: 'validation_failed',
-          message: 'Autorisation de sécurité refusée',
-          metadata: { sequence, loanId: transfer.loanId },
-        });
-        return res.status(400).json({ error: 'Code de sécurité incorrect ou déjà utilisé' });
-      }
-
-      const newCodesValidated = transfer.codesValidated + 1;
-      const isComplete = newCodesValidated >= transfer.requiredCodes;
+      // Use the atomic validation method with SELECT FOR UPDATE
+      const result = await storage.validateTransferCodeAtomic(transferId, code, sequence);
       
-      let newProgress: number;
-      let newStatus: string;
-      let isPaused: boolean;
-      let pausePercent: number | null = null;
-      const completedAt = isComplete ? new Date() : undefined;
+      const { 
+        transfer, 
+        isComplete, 
+        isPaused, 
+        progress, 
+        pausePercent, 
+        nextSequence, 
+        codeContext,
+        codesValidated: newCodesValidated
+      } = result;
 
-      if (isComplete) {
-        newProgress = 100;
-        newStatus = 'completed';
-        isPaused = false;
-        pausePercent = null;
-      } else {
-        const allCodes = await storage.getLoanTransferCodes(transfer.loanId);
-        const sortedCodes = allCodes.filter(c => c.transferId === transfer.id).sort((a, b) => a.sequence - b.sequence);
-        const nextCode = sortedCodes.find(c => c.sequence === newCodesValidated + 1);
-        
-        if (nextCode && nextCode.pausePercent) {
-          newProgress = nextCode.pausePercent;
-          pausePercent = nextCode.pausePercent;
-          isPaused = true;
-          newStatus = 'in_progress';
-        } else {
-          const currentCodePercent = validatedCode.pausePercent || Math.min(10 + (newCodesValidated * Math.floor(80 / transfer.requiredCodes)), 90);
-          newProgress = currentCodePercent;
-          isPaused = false;
-          newStatus = 'pending';
-        }
-      }
-
-      await storage.updateTransfer(transfer.id, {
-        codesValidated: newCodesValidated,
-        progressPercent: newProgress,
-        status: newStatus,
-        currentStep: Math.min(newCodesValidated, transfer.requiredCodes),
-        approvedAt: isComplete ? new Date() : transfer.approvedAt,
-        completedAt,
-        isPaused,
-        pausePercent,
-      });
-
+      // Create validation success event
       await storage.createTransferEvent({
         transferId: transfer.id,
         eventType: 'code_validated',
@@ -3240,12 +3192,38 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         metadata: { sequence, codesValidated: newCodesValidated },
       });
 
+      // Emit real-time update with the fresh transfer data from the atomic transaction
+      emitTransferUpdate(transfer.userId, 'updated', transfer.id, {
+        id: transfer.id,
+        progressPercent: transfer.progressPercent,
+        codesValidated: transfer.codesValidated,
+        status: transfer.status,
+        isPaused: transfer.isPaused,
+        pausePercent: transfer.pausePercent,
+        currentStep: transfer.currentStep,
+        updatedAt: transfer.updatedAt,
+      });
+
+      // Enqueue progress job for smooth visual progression if not yet at target
+      // Use the previous progress (before this validation) as the starting point
+      const previousProgressValue = preCheckTransfer.progressPercent || 0;
+      const targetProgressValue = transfer.progressPercent || progress;
+      if (!isComplete && targetProgressValue > previousProgressValue) {
+        enqueueProgressJob({
+          transferId: transfer.id,
+          userId: transfer.userId,
+          startPercent: previousProgressValue,
+          targetPercent: targetProgressValue,
+        });
+      }
+
+      // Handle pause state
       if (!isComplete && isPaused && pausePercent) {
         await storage.createTransferEvent({
           transferId: transfer.id,
           eventType: 'paused_automatically',
           message: `Transfert en pause - En attente de validation`,
-          metadata: { pausePercent, nextSequence: newCodesValidated + 1 },
+          metadata: { pausePercent, nextSequence },
         });
 
         await storage.createAdminMessage({
@@ -3257,12 +3235,13 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         });
       }
 
+      // Handle transfer completion
       if (isComplete) {
         await storage.createTransferEvent({
           transferId: transfer.id,
           eventType: 'completed',
           message: 'Virement exécuté avec succès',
-          metadata: { totalValidations: newCodesValidated, completedAt },
+          metadata: { totalValidations: newCodesValidated, completedAt: transfer.completedAt },
         });
 
         const user = await storage.getUser(transfer.userId);
@@ -3335,7 +3314,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
 
 **Progression et validation**
 - Codes validés: ${newCodesValidated}/${transfer.requiredCodes}
-- Complété le: ${completedAt?.toLocaleString('fr-FR')}
+- Complété le: ${transfer.completedAt?.toLocaleString('fr-FR')}
 - Nombre d'événements: ${allEvents.length}
 
 Tous les codes de validation ont été vérifiés avec succès.`,
@@ -3366,12 +3345,47 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         success: true,
         isComplete,
         isPaused,
-        progress: newProgress,
+        progress,
         pausePercent: isPaused ? pausePercent : null,
-        nextSequence: isComplete ? null : newCodesValidated + 1,
-        codeContext: validatedCode.codeContext || null,
+        nextSequence,
+        codeContext,
+        codesValidated: newCodesValidated,
+        transfer: {
+          id: transfer.id,
+          progressPercent: transfer.progressPercent,
+          codesValidated: transfer.codesValidated,
+          status: transfer.status,
+          isPaused: transfer.isPaused,
+          pausePercent: transfer.pausePercent,
+        },
       });
     } catch (error) {
+      // Handle ValidationError with specific error codes
+      if (error instanceof ValidationError) {
+        const statusCode = error.code === 'NOT_FOUND' ? 404 :
+                          error.code === 'ALREADY_CONSUMED' ? 409 :
+                          error.code === 'INVALID_SEQUENCE' ? 400 :
+                          error.code === 'EXPIRED' ? 400 :
+                          error.code === 'INVALID_CODE' ? 400 : 500;
+        
+        // Log validation failure event
+        try {
+          await storage.createTransferEvent({
+            transferId: req.params.id,
+            eventType: 'validation_failed',
+            message: error.message,
+            metadata: { errorCode: error.code, sequence: req.body.sequence },
+          });
+        } catch (logError) {
+          console.error('Failed to log validation error event:', logError);
+        }
+        
+        return res.status(statusCode).json({ 
+          error: error.message,
+          code: error.code,
+        });
+      }
+      
       console.error('Code validation error:', error);
       res.status(500).json({ error: 'Failed to validate code' });
     }
