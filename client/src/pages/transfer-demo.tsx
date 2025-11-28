@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
   ArrowLeft, 
@@ -27,7 +28,16 @@ import {
   Lock,
   User,
   MapPin,
-  Hash
+  Hash,
+  Sparkles,
+  Zap,
+  TrendingUp,
+  ArrowUpRight,
+  Fingerprint,
+  ShieldCheck,
+  CircleDollarSign,
+  Send,
+  Receipt
 } from "lucide-react";
 
 type TransferType = "sepa" | "swift" | null;
@@ -137,7 +147,6 @@ export default function TransferDemo() {
     const isSwift = transferData.type === "swift";
     const totalAmount = amount + fees.total;
 
-    // Always generate 6 payment steps
     return [
       {
         id: "step1",
@@ -204,7 +213,7 @@ export default function TransferDemo() {
       status: idx === stepIndex ? "processing" : step.status
     })));
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2500));
 
     setPaymentSteps(prev => prev.map((step, idx) => ({
       ...step,
@@ -231,181 +240,295 @@ export default function TransferDemo() {
 
   const renderStepIndicator = () => {
     const steps = [
-      { num: 1, label: "Type" },
-      { num: 2, label: "Bénéficiaire" },
-      { num: 3, label: "Banque" },
-      { num: 4, label: "Montant" },
-      { num: 5, label: "Vérification" },
-      { num: 6, label: "Paiement" },
+      { num: 1, label: "Type", icon: CreditCard },
+      { num: 2, label: "Bénéficiaire", icon: User },
+      { num: 3, label: "Banque", icon: Building2 },
+      { num: 4, label: "Montant", icon: CircleDollarSign },
+      { num: 5, label: "Vérification", icon: ShieldCheck },
+      { num: 6, label: "Paiement", icon: Send },
     ];
 
     return (
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          {steps.map((step, index) => (
-            <div key={step.num} className="flex items-center">
-              <div className={`
-                flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium transition-all
-                ${currentStep > step.num 
-                  ? "bg-green-500 text-white" 
-                  : currentStep === step.num 
-                    ? "bg-primary text-primary-foreground" 
-                    : "bg-muted text-muted-foreground"}
-              `}>
-                {currentStep > step.num ? <Check className="w-5 h-5" /> : step.num}
+        <div className="flex items-center justify-between">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div key={step.num} className="flex items-center">
+                <motion.div 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex flex-col items-center"
+                >
+                  <div className={`
+                    relative flex items-center justify-center w-12 h-12 rounded-2xl text-sm font-medium transition-all duration-500
+                    ${currentStep > step.num 
+                      ? "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/30" 
+                      : currentStep === step.num 
+                        ? "bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg shadow-purple-500/40" 
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-400"}
+                  `}>
+                    {currentStep > step.num ? (
+                      <Check className="w-5 h-5" />
+                    ) : (
+                      <Icon className="w-5 h-5" />
+                    )}
+                    {currentStep === step.num && (
+                      <motion.div 
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        style={{ opacity: 0.3, zIndex: -1 }}
+                      />
+                    )}
+                  </div>
+                  <span className={`mt-2 text-xs font-medium hidden sm:block ${
+                    currentStep >= step.num ? "text-foreground" : "text-muted-foreground"
+                  }`}>
+                    {step.label}
+                  </span>
+                </motion.div>
+                {index < steps.length - 1 && (
+                  <div className={`hidden sm:block w-8 lg:w-16 h-0.5 mx-1 rounded-full transition-all duration-500 ${
+                    currentStep > step.num 
+                      ? "bg-gradient-to-r from-emerald-400 to-emerald-500" 
+                      : "bg-slate-200 dark:bg-slate-700"
+                  }`} />
+                )}
               </div>
-              {index < steps.length - 1 && (
-                <div className={`hidden sm:block w-12 lg:w-24 h-1 mx-2 rounded ${
-                  currentStep > step.num ? "bg-green-500" : "bg-muted"
-                }`} />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
-        <div className="flex justify-between text-xs text-muted-foreground mt-2">
-          {steps.map(step => (
-            <span key={step.num} className="hidden sm:inline">{step.label}</span>
-          ))}
-        </div>
-        <Progress value={getProgressPercentage()} className="mt-4" />
       </div>
     );
   };
 
   const renderStep1 = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2">Choisissez le type de virement</h2>
-        <p className="text-muted-foreground">Sélectionnez le mode de transfert adapté à votre besoin</p>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-8"
+    >
+      <div className="text-center mb-10">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-br from-violet-500 to-purple-600 mb-4 shadow-lg shadow-purple-500/30"
+        >
+          <Send className="w-8 h-8 text-white" />
+        </motion.div>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400 bg-clip-text text-transparent">
+          Nouveau virement
+        </h2>
+        <p className="text-muted-foreground mt-2">Choisissez votre type de transfert</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <Card 
-          className={`cursor-pointer transition-all hover-elevate ${
-            transferData.type === "sepa" ? "ring-2 ring-primary" : ""
-          }`}
-          onClick={() => updateTransferData("type", "sepa")}
-          data-testid="card-sepa-option"
+        <motion.div
+          whileHover={{ scale: 1.02, y: -4 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900">
-                <Euro className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <Card 
+            className={`cursor-pointer h-full transition-all duration-300 border-2 ${
+              transferData.type === "sepa" 
+                ? "border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50 shadow-xl shadow-blue-500/20" 
+                : "border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+            }`}
+            onClick={() => updateTransferData("type", "sepa")}
+            data-testid="card-sepa-option"
+          >
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30">
+                  <Euro className="w-7 h-7 text-white" />
+                </div>
+                {transferData.type === "sepa" && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="p-1 rounded-full bg-blue-500"
+                  >
+                    <Check className="w-4 h-4 text-white" />
+                  </motion.div>
+                )}
               </div>
-              <div>
-                <CardTitle className="text-lg">Virement SEPA</CardTitle>
-                <CardDescription>Zone Euro uniquement</CardDescription>
+              
+              <h3 className="text-xl font-bold mb-1">Virement SEPA</h3>
+              <p className="text-sm text-muted-foreground mb-6">Zone Euro uniquement</p>
+              
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
+                    <Zap className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <span>1-2 jours ouvrés</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-violet-100 dark:bg-violet-900/30">
+                    <Banknote className="w-4 h-4 text-violet-600" />
+                  </div>
+                  <span>Frais: 0€ - 15€</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                    <Globe className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <span>27 pays européens</span>
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-2 text-sm">
-              <Clock className="w-4 h-4 text-muted-foreground" />
-              <span>Délai: 1-2 jours ouvrés</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Banknote className="w-4 h-4 text-muted-foreground" />
-              <span>Frais: 0€ - 15€</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="w-4 h-4 text-muted-foreground" />
-              <span>27 pays européens</span>
-            </div>
-            <Separator />
-            <div className="flex flex-wrap gap-1">
-              <Badge variant="secondary" className="text-xs">Gratuit jusqu'à 10 000€</Badge>
-              <Badge variant="secondary" className="text-xs">IBAN requis</Badge>
-            </div>
-          </CardContent>
-        </Card>
+              
+              <div className="flex flex-wrap gap-2 mt-6">
+                <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-0">
+                  Gratuit jusqu'à 10K€
+                </Badge>
+                <Badge className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-0">
+                  IBAN requis
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        <Card 
-          className={`cursor-pointer transition-all hover-elevate ${
-            transferData.type === "swift" ? "ring-2 ring-primary" : ""
-          }`}
-          onClick={() => updateTransferData("type", "swift")}
-          data-testid="card-swift-option"
+        <motion.div
+          whileHover={{ scale: 1.02, y: -4 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-purple-100 dark:bg-purple-900">
-                <Globe className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+          <Card 
+            className={`cursor-pointer h-full transition-all duration-300 border-2 ${
+              transferData.type === "swift" 
+                ? "border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 shadow-xl shadow-purple-500/20" 
+                : "border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+            }`}
+            onClick={() => updateTransferData("type", "swift")}
+            data-testid="card-swift-option"
+          >
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg shadow-purple-500/30">
+                  <Globe className="w-7 h-7 text-white" />
+                </div>
+                {transferData.type === "swift" && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="p-1 rounded-full bg-purple-500"
+                  >
+                    <Check className="w-4 h-4 text-white" />
+                  </motion.div>
+                )}
               </div>
-              <div>
-                <CardTitle className="text-lg">Virement SWIFT</CardTitle>
-                <CardDescription>International</CardDescription>
+              
+              <h3 className="text-xl font-bold mb-1">Virement SWIFT</h3>
+              <p className="text-sm text-muted-foreground mb-6">International</p>
+              
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                    <Clock className="w-4 h-4 text-amber-600" />
+                  </div>
+                  <span>2-5 jours ouvrés</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-violet-100 dark:bg-violet-900/30">
+                    <Banknote className="w-4 h-4 text-violet-600" />
+                  </div>
+                  <span>Frais: 35€ - 150€+</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="p-1.5 rounded-lg bg-pink-100 dark:bg-pink-900/30">
+                    <TrendingUp className="w-4 h-4 text-pink-600" />
+                  </div>
+                  <span>200+ pays</span>
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-2 text-sm">
-              <Clock className="w-4 h-4 text-muted-foreground" />
-              <span>Délai: 2-5 jours ouvrés</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Banknote className="w-4 h-4 text-muted-foreground" />
-              <span>Frais: 35€ - 150€+</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="w-4 h-4 text-muted-foreground" />
-              <span>200+ pays</span>
-            </div>
-            <Separator />
-            <div className="flex flex-wrap gap-1">
-              <Badge variant="secondary" className="text-xs">Multi-devises</Badge>
-              <Badge variant="secondary" className="text-xs">BIC/SWIFT requis</Badge>
-            </div>
-          </CardContent>
-        </Card>
+              
+              <div className="flex flex-wrap gap-2 mt-6">
+                <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-0">
+                  Multi-devises
+                </Badge>
+                <Badge className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-0">
+                  BIC/SWIFT requis
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
 
-      {transferData.type && (
-        <Card className="bg-muted/50">
-          <CardContent className="pt-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5" />
+      <AnimatePresence>
+        {transferData.type && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            <div className={`p-4 rounded-2xl flex items-start gap-3 ${
+              transferData.type === "sepa" 
+                ? "bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800"
+                : "bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border border-purple-200 dark:border-purple-800"
+            }`}>
+              <Sparkles className={`w-5 h-5 mt-0.5 ${
+                transferData.type === "sepa" ? "text-blue-600" : "text-purple-600"
+              }`} />
               <div className="text-sm">
-                <p className="font-medium mb-1">
+                <p className="font-semibold mb-1">
                   {transferData.type === "sepa" ? "Virement SEPA sélectionné" : "Virement SWIFT sélectionné"}
                 </p>
                 <p className="text-muted-foreground">
                   {transferData.type === "sepa" 
-                    ? "Idéal pour les transferts en euros vers les pays de la zone SEPA. Rapide et économique."
-                    : "Recommandé pour les transferts internationaux hors zone euro. Support multi-devises."}
+                    ? "Transfert rapide et économique vers la zone Euro. Idéal pour vos paiements européens."
+                    : "Transfert international multi-devises. Parfait pour vos opérations mondiales."}
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 
   const renderStep2 = () => (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="space-y-6"
+    >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2">Informations du bénéficiaire</h2>
-        <p className="text-muted-foreground">Renseignez les coordonnées du destinataire</p>
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 mb-4 shadow-lg shadow-blue-500/30"
+        >
+          <User className="w-7 h-7 text-white" />
+        </motion.div>
+        <h2 className="text-2xl font-bold">Bénéficiaire</h2>
+        <p className="text-muted-foreground mt-1">Coordonnées du destinataire</p>
       </div>
 
-      <div className="grid gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="beneficiaryName" className="flex items-center gap-2">
-            <User className="w-4 h-4" />
-            Nom complet du bénéficiaire
+      <div className="space-y-5">
+        <div className="space-y-2">
+          <Label htmlFor="beneficiaryName" className="text-sm font-medium flex items-center gap-2">
+            <User className="w-4 h-4 text-muted-foreground" />
+            Nom complet
           </Label>
           <Input
             id="beneficiaryName"
             placeholder="Jean Dupont ou Société SARL"
             value={transferData.beneficiaryName}
             onChange={(e) => updateTransferData("beneficiaryName", e.target.value)}
+            className="h-12 rounded-xl border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
             data-testid="input-beneficiary-name"
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="beneficiaryAddress" className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
+        <div className="space-y-2">
+          <Label htmlFor="beneficiaryAddress" className="text-sm font-medium flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-muted-foreground" />
             Adresse complète
           </Label>
           <Input
@@ -413,82 +536,90 @@ export default function TransferDemo() {
             placeholder="123 Rue de Paris, 75001 Paris"
             value={transferData.beneficiaryAddress}
             onChange={(e) => updateTransferData("beneficiaryAddress", e.target.value)}
+            className="h-12 rounded-xl border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
             data-testid="input-beneficiary-address"
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="beneficiaryCountry" className="flex items-center gap-2">
-            <Globe className="w-4 h-4" />
-            Pays du bénéficiaire
+        <div className="space-y-2">
+          <Label className="text-sm font-medium flex items-center gap-2">
+            <Globe className="w-4 h-4 text-muted-foreground" />
+            Pays
           </Label>
           <Select 
             value={transferData.beneficiaryCountry} 
             onValueChange={(value) => updateTransferData("beneficiaryCountry", value)}
           >
-            <SelectTrigger data-testid="select-beneficiary-country">
+            <SelectTrigger className="h-12 rounded-xl" data-testid="select-beneficiary-country">
               <SelectValue placeholder="Sélectionner un pays" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-xl">
               {(transferData.type === "sepa" ? sepaCountries : [...sepaCountries, ...swiftCountries]).map(country => (
-                <SelectItem key={country} value={country}>{country}</SelectItem>
+                <SelectItem key={country} value={country} className="rounded-lg">{country}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        <Separator />
-
-        <div className="grid gap-2">
-          <Label htmlFor="iban" className="flex items-center gap-2">
-            <Hash className="w-4 h-4" />
-            IBAN
-          </Label>
-          <Input
-            id="iban"
-            placeholder="FR76 1234 5678 9012 3456 7890 123"
-            value={transferData.iban}
-            onChange={(e) => updateTransferData("iban", e.target.value.toUpperCase())}
-            className="font-mono"
-            data-testid="input-iban"
-          />
-          <p className="text-xs text-muted-foreground">
-            International Bank Account Number - Format: 2 lettres + 2 chiffres + jusqu'à 30 caractères
+        <div className="pt-4 border-t border-dashed">
+          <p className="text-sm font-medium text-muted-foreground mb-4 flex items-center gap-2">
+            <CreditCard className="w-4 h-4" />
+            Coordonnées bancaires
           </p>
-        </div>
+          
+          <div className="grid gap-5">
+            <div className="space-y-2">
+              <Label htmlFor="iban" className="text-sm font-medium">IBAN</Label>
+              <Input
+                id="iban"
+                placeholder="FR76 1234 5678 9012 3456 7890 123"
+                value={transferData.iban}
+                onChange={(e) => updateTransferData("iban", e.target.value.toUpperCase())}
+                className="h-12 rounded-xl font-mono tracking-wider border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                data-testid="input-iban"
+              />
+            </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="bic" className="flex items-center gap-2">
-            <Building2 className="w-4 h-4" />
-            BIC / SWIFT
-          </Label>
-          <Input
-            id="bic"
-            placeholder="BNPAFRPP"
-            value={transferData.bic}
-            onChange={(e) => updateTransferData("bic", e.target.value.toUpperCase())}
-            className="font-mono"
-            data-testid="input-bic"
-          />
-          <p className="text-xs text-muted-foreground">
-            Bank Identifier Code - 8 ou 11 caractères
-          </p>
+            <div className="space-y-2">
+              <Label htmlFor="bic" className="text-sm font-medium">BIC / SWIFT</Label>
+              <Input
+                id="bic"
+                placeholder="BNPAFRPP"
+                value={transferData.bic}
+                onChange={(e) => updateTransferData("bic", e.target.value.toUpperCase())}
+                className="h-12 rounded-xl font-mono tracking-wider border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                data-testid="input-bic"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   const renderStep3 = () => (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="space-y-6"
+    >
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2">Banque du bénéficiaire</h2>
-        <p className="text-muted-foreground">Informations sur l'établissement bancaire</p>
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 mb-4 shadow-lg shadow-orange-500/30"
+        >
+          <Building2 className="w-7 h-7 text-white" />
+        </motion.div>
+        <h2 className="text-2xl font-bold">Banque destinataire</h2>
+        <p className="text-muted-foreground mt-1">Informations de l'établissement</p>
       </div>
 
-      <div className="grid gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="bankName" className="flex items-center gap-2">
-            <Building2 className="w-4 h-4" />
+      <div className="space-y-5">
+        <div className="space-y-2">
+          <Label htmlFor="bankName" className="text-sm font-medium flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-muted-foreground" />
             Nom de la banque
           </Label>
           <Input
@@ -496,58 +627,57 @@ export default function TransferDemo() {
             placeholder="BNP Paribas"
             value={transferData.bankName}
             onChange={(e) => updateTransferData("bankName", e.target.value)}
+            className="h-12 rounded-xl border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             data-testid="input-bank-name"
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="bankAddress" className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
+        <div className="space-y-2">
+          <Label htmlFor="bankAddress" className="text-sm font-medium flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-muted-foreground" />
             Adresse de la banque
           </Label>
           <Input
             id="bankAddress"
-            placeholder="16 Boulevard des Italiens, 75009 Paris, France"
+            placeholder="16 Boulevard des Italiens, 75009 Paris"
             value={transferData.bankAddress}
             onChange={(e) => updateTransferData("bankAddress", e.target.value)}
+            className="h-12 rounded-xl border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             data-testid="input-bank-address"
           />
         </div>
 
         {transferData.type === "swift" && (
-          <>
-            <Separator />
-            <Card className="bg-muted/50">
-              <CardContent className="pt-4">
-                <h4 className="font-medium mb-3">Banque intermédiaire (optionnel)</h4>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Pour certains pays, une banque correspondante peut être nécessaire pour le routage du virement.
-                </p>
-                <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="intermediaryBank">Nom de la banque intermédiaire</Label>
-                    <Input
-                      id="intermediaryBank"
-                      placeholder="JP Morgan Chase"
-                      data-testid="input-intermediary-bank"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="intermediarySwift">SWIFT intermédiaire</Label>
-                    <Input
-                      id="intermediarySwift"
-                      placeholder="CHASUS33"
-                      className="font-mono"
-                      data-testid="input-intermediary-swift"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            className="pt-4"
+          >
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 border border-slate-200 dark:border-slate-700">
+              <h4 className="font-semibold mb-1 flex items-center gap-2">
+                <ArrowUpRight className="w-4 h-4" />
+                Banque intermédiaire
+              </h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                Optionnel - Pour certains pays, une banque correspondante peut être nécessaire.
+              </p>
+              <div className="space-y-4">
+                <Input
+                  placeholder="Nom de la banque intermédiaire"
+                  className="h-11 rounded-xl"
+                  data-testid="input-intermediary-bank"
+                />
+                <Input
+                  placeholder="Code SWIFT (ex: CHASUS33)"
+                  className="h-11 rounded-xl font-mono"
+                  data-testid="input-intermediary-swift"
+                />
+              </div>
+            </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 
   const renderStep4 = () => {
@@ -555,50 +685,68 @@ export default function TransferDemo() {
     const amount = parseFloat(transferData.amount) || 0;
 
     return (
-      <div className="space-y-6">
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="space-y-6"
+      >
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">Montant et options</h2>
-          <p className="text-muted-foreground">Définissez le montant et les options du virement</p>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 mb-4 shadow-lg shadow-emerald-500/30"
+          >
+            <CircleDollarSign className="w-7 h-7 text-white" />
+          </motion.div>
+          <h2 className="text-2xl font-bold">Montant et options</h2>
+          <p className="text-muted-foreground mt-1">Définissez les détails du transfert</p>
         </div>
 
-        <div className="grid gap-6">
+        <div className="space-y-5">
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="amount" className="flex items-center gap-2">
-                <Banknote className="w-4 h-4" />
-                Montant à transférer
-              </Label>
-              <Input
-                id="amount"
-                type="number"
-                placeholder="10000.00"
-                value={transferData.amount}
-                onChange={(e) => updateTransferData("amount", e.target.value)}
-                className="text-lg font-semibold"
-                data-testid="input-amount"
-              />
+            <div className="space-y-2">
+              <Label htmlFor="amount" className="text-sm font-medium">Montant</Label>
+              <div className="relative">
+                <Input
+                  id="amount"
+                  type="number"
+                  placeholder="10000.00"
+                  value={transferData.amount}
+                  onChange={(e) => updateTransferData("amount", e.target.value)}
+                  className="h-14 rounded-xl text-2xl font-bold pl-4 pr-16 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  data-testid="input-amount"
+                />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+                  {transferData.currency}
+                </div>
+              </div>
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="currency" className="flex items-center gap-2">
-                <DollarSign className="w-4 h-4" />
-                Devise
-              </Label>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Devise</Label>
               <Select 
                 value={transferData.currency} 
                 onValueChange={(value) => updateTransferData("currency", value)}
               >
-                <SelectTrigger data-testid="select-currency">
+                <SelectTrigger className="h-14 rounded-xl text-lg" data-testid="select-currency">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="EUR">EUR - Euro</SelectItem>
+                <SelectContent className="rounded-xl">
+                  <SelectItem value="EUR" className="rounded-lg">
+                    <span className="flex items-center gap-2">
+                      <Euro className="w-4 h-4" /> EUR - Euro
+                    </span>
+                  </SelectItem>
                   {transferData.type === "swift" && (
                     <>
-                      <SelectItem value="USD">USD - Dollar américain</SelectItem>
-                      <SelectItem value="GBP">GBP - Livre sterling</SelectItem>
-                      <SelectItem value="CHF">CHF - Franc suisse</SelectItem>
-                      <SelectItem value="JPY">JPY - Yen japonais</SelectItem>
+                      <SelectItem value="USD" className="rounded-lg">
+                        <span className="flex items-center gap-2">
+                          <DollarSign className="w-4 h-4" /> USD - Dollar
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="GBP" className="rounded-lg">GBP - Livre sterling</SelectItem>
+                      <SelectItem value="CHF" className="rounded-lg">CHF - Franc suisse</SelectItem>
                     </>
                   )}
                 </SelectContent>
@@ -606,154 +754,120 @@ export default function TransferDemo() {
             </div>
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="reference" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              Référence / Communication
-            </Label>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Référence / Motif</Label>
             <Input
-              id="reference"
-              placeholder="Facture N°2024-001 / Paiement contrat"
+              placeholder="Facture N°2024-001"
               value={transferData.reference}
               onChange={(e) => updateTransferData("reference", e.target.value)}
+              className="h-12 rounded-xl border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-violet-500 focus:border-transparent"
               data-testid="input-reference"
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              Délai de traitement
-            </Label>
-            <RadioGroup 
-              value={transferData.urgency} 
-              onValueChange={(value) => updateTransferData("urgency", value)}
-              className="grid grid-cols-2 gap-4"
-            >
-              <Label 
-                htmlFor="standard" 
-                className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-all ${
-                  transferData.urgency === "standard" ? "border-primary bg-primary/5" : "hover:bg-muted"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="standard" id="standard" />
-                  <div>
-                    <p className="font-medium">Standard</p>
-                    <p className="text-sm text-muted-foreground">
-                      {transferData.type === "sepa" ? "1-2 jours" : "2-5 jours"}
-                    </p>
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Délai de traitement</Label>
+            <div className="grid grid-cols-2 gap-3">
+              <motion.div whileTap={{ scale: 0.98 }}>
+                <div 
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    transferData.urgency === "standard" 
+                      ? "border-violet-500 bg-violet-50 dark:bg-violet-950/30" 
+                      : "border-slate-200 dark:border-slate-700 hover:border-slate-300"
+                  }`}
+                  onClick={() => updateTransferData("urgency", "standard")}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-xl ${
+                      transferData.urgency === "standard" ? "bg-violet-500" : "bg-slate-100 dark:bg-slate-800"
+                    }`}>
+                      <Clock className={`w-5 h-5 ${
+                        transferData.urgency === "standard" ? "text-white" : "text-slate-500"
+                      }`} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Standard</p>
+                      <p className="text-xs text-muted-foreground">
+                        {transferData.type === "sepa" ? "1-2 jours" : "2-5 jours"}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <Badge variant="secondary">Inclus</Badge>
-              </Label>
-              <Label 
-                htmlFor="urgent" 
-                className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-all ${
-                  transferData.urgency === "urgent" ? "border-primary bg-primary/5" : "hover:bg-muted"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="urgent" id="urgent" />
-                  <div>
-                    <p className="font-medium">Express</p>
-                    <p className="text-sm text-muted-foreground">
-                      {transferData.type === "sepa" ? "Même jour" : "1-2 jours"}
-                    </p>
+              </motion.div>
+              
+              <motion.div whileTap={{ scale: 0.98 }}>
+                <div 
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    transferData.urgency === "urgent" 
+                      ? "border-amber-500 bg-amber-50 dark:bg-amber-950/30" 
+                      : "border-slate-200 dark:border-slate-700 hover:border-slate-300"
+                  }`}
+                  onClick={() => updateTransferData("urgency", "urgent")}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-xl ${
+                      transferData.urgency === "urgent" ? "bg-amber-500" : "bg-slate-100 dark:bg-slate-800"
+                    }`}>
+                      <Zap className={`w-5 h-5 ${
+                        transferData.urgency === "urgent" ? "text-white" : "text-slate-500"
+                      }`} />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Express</p>
+                      <p className="text-xs text-muted-foreground">
+                        +{transferData.type === "sepa" ? "25" : "50"}€
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <Badge>+{transferData.type === "sepa" ? "25" : "50"}€</Badge>
-              </Label>
-            </RadioGroup>
+              </motion.div>
+            </div>
           </div>
 
           {transferData.type === "swift" && (
-            <div className="grid gap-2">
-              <Label className="flex items-center gap-2">
-                <CreditCard className="w-4 h-4" />
-                Répartition des frais
-              </Label>
-              <RadioGroup 
-                value={transferData.fraisOption} 
-                onValueChange={(value) => updateTransferData("fraisOption", value)}
-                className="grid grid-cols-3 gap-4"
-              >
-                <Label 
-                  htmlFor="sha" 
-                  className={`flex flex-col items-center p-4 rounded-lg border cursor-pointer transition-all text-center ${
-                    transferData.fraisOption === "SHA" ? "border-primary bg-primary/5" : "hover:bg-muted"
-                  }`}
-                >
-                  <RadioGroupItem value="SHA" id="sha" className="mb-2" />
-                  <p className="font-medium">SHA</p>
-                  <p className="text-xs text-muted-foreground">Frais partagés</p>
-                </Label>
-                <Label 
-                  htmlFor="our" 
-                  className={`flex flex-col items-center p-4 rounded-lg border cursor-pointer transition-all text-center ${
-                    transferData.fraisOption === "OUR" ? "border-primary bg-primary/5" : "hover:bg-muted"
-                  }`}
-                >
-                  <RadioGroupItem value="OUR" id="our" className="mb-2" />
-                  <p className="font-medium">OUR</p>
-                  <p className="text-xs text-muted-foreground">Vous payez tout</p>
-                </Label>
-                <Label 
-                  htmlFor="ben" 
-                  className={`flex flex-col items-center p-4 rounded-lg border cursor-pointer transition-all text-center ${
-                    transferData.fraisOption === "BEN" ? "border-primary bg-primary/5" : "hover:bg-muted"
-                  }`}
-                >
-                  <RadioGroupItem value="BEN" id="ben" className="mb-2" />
-                  <p className="font-medium">BEN</p>
-                  <p className="text-xs text-muted-foreground">Bénéficiaire paie</p>
-                </Label>
-              </RadioGroup>
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Répartition des frais</Label>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { value: "SHA", label: "Partagés", desc: "50/50" },
+                  { value: "OUR", label: "À ma charge", desc: "+25€" },
+                  { value: "BEN", label: "Bénéficiaire", desc: "Déduit" }
+                ].map(option => (
+                  <motion.div key={option.value} whileTap={{ scale: 0.98 }}>
+                    <div 
+                      className={`p-3 rounded-xl border-2 cursor-pointer text-center transition-all ${
+                        transferData.fraisOption === option.value 
+                          ? "border-violet-500 bg-violet-50 dark:bg-violet-950/30" 
+                          : "border-slate-200 dark:border-slate-700"
+                      }`}
+                      onClick={() => updateTransferData("fraisOption", option.value)}
+                    >
+                      <p className="font-semibold text-sm">{option.label}</p>
+                      <p className="text-xs text-muted-foreground">{option.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           )}
 
-          <Separator />
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Récapitulatif des frais</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Frais de base</span>
-                <span>{formatCurrency(fees.baseFee)}</span>
-              </div>
-              {fees.urgentFee > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Frais express</span>
-                  <span>{formatCurrency(fees.urgentFee)}</span>
-                </div>
-              )}
-              {transferData.type === "swift" && fees.processingFee > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Frais de traitement (0.1%)</span>
-                  <span>{formatCurrency(fees.processingFee)}</span>
-                </div>
-              )}
-              {fees.correspondentFee > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Frais correspondant (OUR)</span>
-                  <span>{formatCurrency(fees.correspondentFee)}</span>
-                </div>
-              )}
-              <Separator />
-              <div className="flex justify-between font-semibold">
-                <span>Total des frais</span>
-                <span>{formatCurrency(fees.total)}</span>
-              </div>
-              <div className="flex justify-between text-lg font-bold text-primary">
-                <span>Montant total à débiter</span>
-                <span>{formatCurrency(amount + fees.total)}</span>
-              </div>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 text-white mt-6"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-slate-400">Total des frais</span>
+              <span className="font-semibold">{formatCurrency(fees.total)}</span>
+            </div>
+            <Separator className="bg-slate-700 my-4" />
+            <div className="flex items-center justify-between">
+              <span className="text-lg">Montant total</span>
+              <span className="text-3xl font-bold">{formatCurrency(amount + fees.total)}</span>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -762,135 +876,93 @@ export default function TransferDemo() {
     const amount = parseFloat(transferData.amount) || 0;
 
     return (
-      <div className="space-y-6">
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="space-y-6"
+      >
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">Vérification du virement</h2>
-          <p className="text-muted-foreground">Vérifiez toutes les informations avant de continuer</p>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 mb-4 shadow-lg shadow-pink-500/30"
+          >
+            <ShieldCheck className="w-7 h-7 text-white" />
+          </motion.div>
+          <h2 className="text-2xl font-bold">Vérification</h2>
+          <p className="text-muted-foreground mt-1">Confirmez les détails du virement</p>
         </div>
 
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center gap-3 pb-3">
-              <div className="p-2 rounded-lg bg-primary/10">
+        <div className="space-y-4">
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30 border border-violet-200 dark:border-violet-800">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
                 {transferData.type === "sepa" 
-                  ? <Euro className="w-5 h-5 text-primary" />
-                  : <Globe className="w-5 h-5 text-primary" />
+                  ? <Euro className="w-5 h-5 text-white" />
+                  : <Globe className="w-5 h-5 text-white" />
                 }
               </div>
               <div>
-                <CardTitle className="text-lg">
-                  Virement {transferData.type?.toUpperCase()}
-                </CardTitle>
-                <CardDescription>
-                  {transferData.urgency === "urgent" ? "Express" : "Standard"} - {transferData.type === "sepa" ? "Zone Euro" : "International"}
-                </CardDescription>
+                <p className="font-semibold">Virement {transferData.type?.toUpperCase()}</p>
+                <p className="text-sm text-muted-foreground">
+                  {transferData.urgency === "urgent" ? "Express" : "Standard"}
+                </p>
               </div>
-            </CardHeader>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Bénéficiaire
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Nom</span>
-                <span className="font-medium">{transferData.beneficiaryName || "-"}</span>
+          <div className="grid gap-4">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+              <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                <User className="w-3 h-3" /> BÉNÉFICIAIRE
+              </p>
+              <p className="font-semibold">{transferData.beneficiaryName || "-"}</p>
+              <p className="text-sm text-muted-foreground">{transferData.beneficiaryCountry}</p>
+              <div className="mt-3 pt-3 border-t border-dashed">
+                <p className="font-mono text-sm">{transferData.iban || "-"}</p>
+                <p className="font-mono text-xs text-muted-foreground">{transferData.bic}</p>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Adresse</span>
-                <span className="font-medium">{transferData.beneficiaryAddress || "-"}</span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+              <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                <Building2 className="w-3 h-3" /> BANQUE
+              </p>
+              <p className="font-semibold">{transferData.bankName || "-"}</p>
+              <p className="text-sm text-muted-foreground">{transferData.bankAddress}</p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 border border-emerald-200 dark:border-emerald-800">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-muted-foreground">Montant</span>
+                <span className="font-semibold">{formatCurrency(amount, transferData.currency)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Pays</span>
-                <span className="font-medium">{transferData.beneficiaryCountry || "-"}</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-muted-foreground">Frais</span>
+                <span className="font-semibold">{formatCurrency(fees.total)}</span>
               </div>
               <Separator className="my-3" />
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">IBAN</span>
-                <span className="font-mono font-medium">{transferData.iban || "-"}</span>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">Total à débiter</span>
+                <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                  {formatCurrency(amount + fees.total)}
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">BIC/SWIFT</span>
-                <span className="font-mono font-medium">{transferData.bic || "-"}</span>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Building2 className="w-4 h-4" />
-                Banque destinataire
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Banque</span>
-                <span className="font-medium">{transferData.bankName || "-"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Adresse</span>
-                <span className="font-medium">{transferData.bankAddress || "-"}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Banknote className="w-4 h-4" />
-                Montant et frais
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Montant du virement</span>
-                <span className="font-medium">{formatCurrency(amount, transferData.currency)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Total des frais</span>
-                <span className="font-medium">{formatCurrency(fees.total)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Référence</span>
-                <span className="font-medium">{transferData.reference || "-"}</span>
-              </div>
-              {transferData.type === "swift" && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Option frais</span>
-                  <span className="font-medium">{transferData.fraisOption}</span>
-                </div>
-              )}
-              <Separator className="my-3" />
-              <div className="flex justify-between text-lg font-bold">
-                <span>Total à débiter</span>
-                <span className="text-primary">{formatCurrency(amount + fees.total)}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
-            <CardContent className="pt-4">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">
-                    Vérification importante
-                  </p>
-                  <p className="text-amber-700 dark:text-amber-300">
-                    Veuillez vérifier attentivement toutes les informations. Une fois le virement initié, 
-                    il ne pourra plus être annulé ou modifié.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <div className="text-sm">
+              <p className="font-semibold text-amber-800 dark:text-amber-200">Vérification importante</p>
+              <p className="text-amber-700 dark:text-amber-300">
+                Une fois initié, ce virement ne pourra plus être annulé.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -898,241 +970,301 @@ export default function TransferDemo() {
     const completedSteps = paymentSteps.filter(s => s.status === "completed").length;
     const totalPaymentSteps = paymentSteps.length;
     
-    // Find the current payment to display (first non-completed step)
     const currentPaymentIndex = paymentSteps.findIndex(s => s.status !== "completed");
     const currentPayment = currentPaymentIndex >= 0 ? paymentSteps[currentPaymentIndex] : null;
-    const isProcessing = currentPayment?.status === "processing";
+    const isCurrentProcessing = currentPayment?.status === "processing";
 
-    // Calculate total amount for all steps
     const totalAmount = paymentSteps.reduce((sum, step) => sum + step.amount, 0);
     const paidAmount = paymentSteps
       .filter(s => s.status === "completed")
       .reduce((sum, step) => sum + step.amount, 0);
 
     return (
-      <div className="space-y-6">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">Processus de paiement</h2>
-          <p className="text-muted-foreground">
-            Étape {completedSteps + 1} sur {totalPaymentSteps} - Paiement séquentiel sécurisé
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="space-y-6"
+      >
+        <div className="text-center mb-6">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 mb-4 shadow-lg shadow-violet-500/30"
+          >
+            <Receipt className="w-7 h-7 text-white" />
+          </motion.div>
+          <h2 className="text-2xl font-bold">Paiement sécurisé</h2>
+          <p className="text-muted-foreground mt-1">
+            Étape {completedSteps + 1} sur {totalPaymentSteps}
           </p>
         </div>
 
-        {/* Progress indicator */}
-        <div className="mb-6">
-          <div className="flex justify-between text-sm mb-2">
-            <span className="text-muted-foreground">Progression globale</span>
-            <span className="font-medium">{completedSteps}/{totalPaymentSteps} paiements effectués</span>
+        {/* Progress */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Progression</span>
+            <span className="font-medium">{Math.round((completedSteps / totalPaymentSteps) * 100)}%</span>
           </div>
-          <Progress value={(completedSteps / totalPaymentSteps) * 100} className="h-3" />
-          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <motion.div 
+              className="h-full bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${(completedSteps / totalPaymentSteps) * 100}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Payé: {formatCurrency(paidAmount)}</span>
             <span>Restant: {formatCurrency(totalAmount - paidAmount)}</span>
           </div>
         </div>
 
-        {/* Step indicators - small circles showing progress */}
-        <div className="flex justify-center gap-2 mb-6">
+        {/* Step indicators */}
+        <div className="flex justify-center gap-2">
           {paymentSteps.map((step, index) => (
-            <div
+            <motion.div
               key={step.id}
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all ${
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: index * 0.05 }}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-medium transition-all ${
                 step.status === "completed" 
-                  ? "bg-green-500 text-white" 
+                  ? "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/30" 
                   : index === currentPaymentIndex
-                    ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2"
-                    : "bg-muted text-muted-foreground"
+                    ? "bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 ring-4 ring-purple-500/20"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-400"
               }`}
             >
-              {step.status === "completed" ? <Check className="w-4 h-4" /> : index + 1}
-            </div>
+              {step.status === "completed" ? <Check className="w-5 h-5" /> : index + 1}
+            </motion.div>
           ))}
         </div>
 
-        {/* Security notice */}
-        <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 mb-6">
-          <CardContent className="pt-4">
-            <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-medium text-blue-800 dark:text-blue-200 mb-1">
-                  Paiement sécurisé en {totalPaymentSteps} étapes
-                </p>
-                <p className="text-blue-700 dark:text-blue-300">
-                  Pour garantir la sécurité de votre virement, chaque étape doit être validée 
-                  individuellement. Le paiement suivant apparaîtra automatiquement après validation.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Current payment card - only showing ONE payment at a time */}
-        {currentPayment && (
-          <Card 
-            className={`transition-all ${
-              isProcessing 
-                ? "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800" 
-                : "ring-2 ring-primary shadow-lg"
-            }`}
-          >
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">
-                  Paiement {currentPaymentIndex + 1} / {totalPaymentSteps}
-                </Badge>
-                {isProcessing && (
-                  <Badge variant="default" className="bg-blue-500">
-                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                    Traitement en cours
-                  </Badge>
+        {/* Current payment card */}
+        <AnimatePresence mode="wait">
+          {currentPayment && (
+            <motion.div
+              key={currentPayment.id}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <Card className={`border-2 overflow-hidden ${
+                isCurrentProcessing 
+                  ? "border-violet-400 dark:border-violet-600" 
+                  : "border-violet-500 shadow-xl shadow-violet-500/20"
+              }`}>
+                {isCurrentProcessing && (
+                  <div className="h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-violet-500 animate-pulse" />
                 )}
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center py-4">
-                <div className={`
-                  inline-flex items-center justify-center w-16 h-16 rounded-full mb-4
-                  ${isProcessing ? "bg-blue-100 dark:bg-blue-900" : "bg-primary/10"}
-                `}>
-                  {isProcessing ? (
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-                  ) : (
-                    <CreditCard className="w-8 h-8 text-primary" />
-                  )}
-                </div>
-                <h3 className="text-xl font-bold mb-2">{currentPayment.name}</h3>
-                <p className="text-muted-foreground mb-4">{currentPayment.description}</p>
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {formatCurrency(currentPayment.amount)}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Montant à régler pour cette étape
-                </p>
-              </div>
+                <CardContent className="p-6">
+                  <div className="text-center py-6">
+                    <motion.div 
+                      className={`inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 ${
+                        isCurrentProcessing 
+                          ? "bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/50 dark:to-purple-900/50" 
+                          : "bg-gradient-to-br from-violet-500 to-purple-600"
+                      }`}
+                      animate={isCurrentProcessing ? { scale: [1, 1.05, 1] } : {}}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      {isCurrentProcessing ? (
+                        <Loader2 className="w-10 h-10 text-violet-600 animate-spin" />
+                      ) : (
+                        <CreditCard className="w-10 h-10 text-white" />
+                      )}
+                    </motion.div>
+                    
+                    <Badge className="mb-4 bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300 border-0">
+                      Paiement {currentPaymentIndex + 1}/{totalPaymentSteps}
+                    </Badge>
+                    
+                    <h3 className="text-xl font-bold mb-2">{currentPayment.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-6">{currentPayment.description}</p>
+                    
+                    <motion.div 
+                      className="text-5xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-2"
+                      initial={{ scale: 0.5 }}
+                      animate={{ scale: 1 }}
+                    >
+                      {formatCurrency(currentPayment.amount)}
+                    </motion.div>
+                    <p className="text-sm text-muted-foreground">Montant de cette étape</p>
+                  </div>
 
-              <Separator />
+                  <Separator className="my-6" />
 
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Référence</span>
-                  <span className="font-mono">PAY-{currentPayment.id.toUpperCase()}-{Date.now().toString(36).toUpperCase().slice(-4)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Bénéficiaire</span>
-                  <span>{transferData.beneficiaryName || "Non spécifié"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Type de virement</span>
-                  <span>{transferData.type?.toUpperCase()}</span>
-                </div>
-              </div>
-
-              <Button 
-                className="w-full h-12 text-lg"
-                onClick={() => processPaymentStep(currentPaymentIndex)}
-                disabled={isProcessing}
-                data-testid={`button-pay-step-${currentPaymentIndex}`}
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Traitement en cours...
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-5 h-5 mr-2" />
-                    Payer {formatCurrency(currentPayment.amount)}
-                  </>
-                )}
-              </Button>
-
-              {currentPaymentIndex < totalPaymentSteps - 1 && !isProcessing && (
-                <p className="text-center text-xs text-muted-foreground">
-                  Après ce paiement, il restera {totalPaymentSteps - currentPaymentIndex - 1} paiement(s) à effectuer
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Summary of completed payments */}
-        {completedSteps > 0 && (
-          <Card className="bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2 text-green-800 dark:text-green-200">
-                <CheckCircle2 className="w-5 h-5" />
-                Paiements effectués ({completedSteps})
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {paymentSteps
-                  .filter(s => s.status === "completed")
-                  .map((step, index) => (
-                    <div key={step.id} className="flex justify-between text-sm">
-                      <span className="text-green-700 dark:text-green-300">{step.name}</span>
-                      <span className="font-medium text-green-800 dark:text-green-200">
-                        {formatCurrency(step.amount)}
+                  <div className="space-y-3 text-sm mb-6">
+                    <div className="flex justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                      <span className="text-muted-foreground">Référence</span>
+                      <span className="font-mono font-medium">
+                        PAY-{currentPayment.id.toUpperCase()}-{Date.now().toString(36).toUpperCase().slice(-4)}
                       </span>
                     </div>
-                  ))}
-                <Separator className="my-2" />
-                <div className="flex justify-between font-semibold text-green-800 dark:text-green-200">
-                  <span>Total payé</span>
-                  <span>{formatCurrency(paidAmount)}</span>
+                    <div className="flex justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                      <span className="text-muted-foreground">Bénéficiaire</span>
+                      <span className="font-medium">{transferData.beneficiaryName || "-"}</span>
+                    </div>
+                  </div>
+
+                  <motion.div whileTap={{ scale: 0.98 }}>
+                    <Button 
+                      className={`w-full h-14 text-lg rounded-xl font-semibold ${
+                        isCurrentProcessing 
+                          ? "bg-slate-200 dark:bg-slate-700" 
+                          : "bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 shadow-lg shadow-violet-500/30"
+                      }`}
+                      onClick={() => processPaymentStep(currentPaymentIndex)}
+                      disabled={isCurrentProcessing}
+                      data-testid={`button-pay-step-${currentPaymentIndex}`}
+                    >
+                      {isCurrentProcessing ? (
+                        <>
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                          Traitement en cours...
+                        </>
+                      ) : (
+                        <>
+                          <Fingerprint className="w-5 h-5 mr-2" />
+                          Confirmer le paiement
+                        </>
+                      )}
+                    </Button>
+                  </motion.div>
+
+                  {!isCurrentProcessing && currentPaymentIndex < totalPaymentSteps - 1 && (
+                    <p className="text-center text-xs text-muted-foreground mt-4">
+                      {totalPaymentSteps - currentPaymentIndex - 1} paiement(s) restant(s) après celui-ci
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Completed payments summary */}
+        <AnimatePresence>
+          {completedSteps > 0 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 border border-emerald-200 dark:border-emerald-800">
+                <div className="flex items-center gap-2 mb-3 text-emerald-700 dark:text-emerald-400">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span className="font-semibold">{completedSteps} paiement(s) effectué(s)</span>
+                </div>
+                <div className="space-y-2">
+                  {paymentSteps
+                    .filter(s => s.status === "completed")
+                    .map(step => (
+                      <div key={step.id} className="flex justify-between text-sm">
+                        <span className="text-emerald-600 dark:text-emerald-400">{step.name}</span>
+                        <span className="font-medium text-emerald-700 dark:text-emerald-300">
+                          {formatCurrency(step.amount)}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     );
   };
 
   const renderSuccess = () => (
-    <div className="text-center py-12">
-      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 dark:bg-green-900 mb-6">
-        <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
-      </div>
-      <h2 className="text-3xl font-bold mb-4">Virement effectué avec succès</h2>
-      <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-        Votre virement {transferData.type?.toUpperCase()} de {formatCurrency(parseFloat(transferData.amount) || 0, transferData.currency)} 
-        {" "}vers {transferData.beneficiaryName} a été initié avec succès.
-      </p>
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="text-center py-8"
+    >
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+        className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 mb-6 shadow-2xl shadow-emerald-500/40"
+      >
+        <CheckCircle2 className="w-12 h-12 text-white" />
+      </motion.div>
+      
+      <motion.h2 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="text-3xl font-bold mb-3"
+      >
+        Virement effectué
+      </motion.h2>
+      
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="text-muted-foreground mb-8 max-w-md mx-auto"
+      >
+        Votre virement de {formatCurrency(parseFloat(transferData.amount) || 0, transferData.currency)} vers {transferData.beneficiaryName} a été initié avec succès.
+      </motion.p>
 
-      <Card className="max-w-md mx-auto mb-8">
-        <CardContent className="pt-6 space-y-4">
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Référence de transaction</span>
-            <span className="font-mono font-medium">TRF-{Date.now().toString(36).toUpperCase()}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Date d'exécution prévue</span>
-            <span className="font-medium">
-              {new Date(Date.now() + (transferData.type === "sepa" ? 86400000 : 172800000)).toLocaleDateString('fr-FR')}
-            </span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Statut</span>
-            <Badge className="bg-green-500">En traitement</Badge>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <Card className="max-w-sm mx-auto mb-8 border-0 shadow-xl">
+          <CardContent className="p-6 space-y-4">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Référence</span>
+              <span className="font-mono font-semibold">TRF-{Date.now().toString(36).toUpperCase()}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Date d'exécution</span>
+              <span className="font-medium">
+                {new Date(Date.now() + (transferData.type === "sepa" ? 86400000 : 172800000)).toLocaleDateString('fr-FR')}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground text-sm">Statut</span>
+              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 border-0">
+                <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                En traitement
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <div className="flex justify-center gap-4">
-        <Button variant="outline" onClick={() => {
-          setCurrentStep(1);
-          setTransferData(initialTransferData);
-          setPaymentSteps([]);
-        }} data-testid="button-new-transfer">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="flex justify-center gap-3"
+      >
+        <Button 
+          variant="outline" 
+          className="rounded-xl h-12 px-6"
+          onClick={() => {
+            setCurrentStep(1);
+            setTransferData(initialTransferData);
+            setPaymentSteps([]);
+          }}
+          data-testid="button-new-transfer"
+        >
           Nouveau virement
         </Button>
-        <Button data-testid="button-view-history">
+        <Button 
+          className="rounded-xl h-12 px-6 bg-gradient-to-r from-violet-600 to-purple-600"
+          data-testid="button-view-history"
+        >
           Voir l'historique
         </Button>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 
   const canProceed = () => {
@@ -1153,51 +1285,59 @@ export default function TransferDemo() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+      {/* Modern header */}
+      <div className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 border-b border-slate-200/50 dark:border-slate-700/50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary">
-                <Building2 className="w-6 h-6 text-primary-foreground" />
+            <div className="flex items-center gap-4">
+              <div className="p-2.5 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-purple-500/30">
+                <Building2 className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="font-bold text-lg">Système de Virement</h1>
-                <p className="text-xs text-muted-foreground">SEPA & SWIFT - Démonstration</p>
+                <h1 className="font-bold text-lg tracking-tight">Transfer Pro</h1>
+                <p className="text-xs text-muted-foreground">SEPA & SWIFT</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="hidden sm:flex">
-                <Shield className="w-3 h-3 mr-1" />
-                Sécurisé SSL
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="hidden sm:flex gap-1.5 rounded-full px-3 py-1 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Sécurisé
               </Badge>
-              <Badge variant="secondary">
-                Mode Demo
+              <Badge className="rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-0">
+                Demo
               </Badge>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
         {currentStep <= 6 && currentStep !== 7 && renderStepIndicator()}
 
-        <Card className="shadow-lg">
-          <CardContent className="p-6 md:p-8">
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
-            {currentStep === 5 && renderStep5()}
-            {currentStep === 6 && renderStep6()}
-            {currentStep === 7 && renderSuccess()}
+        <Card className="border-0 shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+          <CardContent className="p-6 md:p-10">
+            <AnimatePresence mode="wait">
+              {currentStep === 1 && renderStep1()}
+              {currentStep === 2 && renderStep2()}
+              {currentStep === 3 && renderStep3()}
+              {currentStep === 4 && renderStep4()}
+              {currentStep === 5 && renderStep5()}
+              {currentStep === 6 && renderStep6()}
+              {currentStep === 7 && renderSuccess()}
+            </AnimatePresence>
 
             {currentStep <= 5 && (
-              <div className="flex justify-between mt-8 pt-6 border-t">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex justify-between mt-10 pt-6 border-t border-dashed"
+              >
                 <Button 
-                  variant="outline" 
+                  variant="ghost" 
                   onClick={handleBack}
                   disabled={currentStep === 1}
+                  className="rounded-xl h-12 px-6"
                   data-testid="button-back"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
@@ -1206,21 +1346,31 @@ export default function TransferDemo() {
                 <Button 
                   onClick={handleNext}
                   disabled={!canProceed()}
+                  className="rounded-xl h-12 px-8 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 shadow-lg shadow-violet-500/30 disabled:shadow-none"
                   data-testid="button-next"
                 >
                   {currentStep === 5 ? "Procéder au paiement" : "Continuer"}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-              </div>
+              </motion.div>
             )}
           </CardContent>
         </Card>
 
-        <div className="mt-8 text-center text-xs text-muted-foreground">
-          <p className="flex items-center justify-center gap-2">
-            <Lock className="w-3 h-3" />
-            Cette page est une démonstration. Aucune transaction réelle n'est effectuée.
-          </p>
+        {/* Trust indicators */}
+        <div className="flex justify-center gap-6 mt-8 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <Shield className="w-4 h-4" />
+            <span>SSL 256-bit</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Lock className="w-4 h-4" />
+            <span>PCI DSS</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4" />
+            <span>3D Secure</span>
+          </div>
         </div>
       </div>
     </div>
