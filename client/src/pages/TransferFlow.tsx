@@ -648,15 +648,18 @@ export default function TransferFlow() {
       prevCodesValidatedRef.current = currentCodesValidated;
     }
     
+    // CORRECTION BUG CRITIQUE: NE PAS annuler l'animation dans le cleanup!
+    // Le cleanup s'exécute à chaque changement de dépendances (transferData refetch toutes les 3s)
+    // Si on annule l'animation ici, elle ne peut jamais atteindre le seuil de 11%
+    // L'animation se terminera d'elle-même et setIsPausedForCode(true) sera appelé.
+    // Si une nouvelle animation doit démarrer, animateProgress() gère déjà l'annulation de l'ancienne.
     return () => {
+      // Nettoyer uniquement les intervalles, pas les animations
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
       }
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
+      // NE PAS annuler animationFrameRef - laisser l'animation se terminer
     };
   }, [step, transferData]);
 
