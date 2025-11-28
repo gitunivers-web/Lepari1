@@ -19,6 +19,7 @@ import { useUser, getUserInitials, getAccountTypeLabel, useUserProfilePhotoUrl }
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useCallback } from 'react';
+import { useDataSocketUpdates } from '@/hooks/use-data-socket-updates';
 
 export default function AppSidebar() {
   const t = useTranslations();
@@ -29,6 +30,8 @@ export default function AppSidebar() {
 
   const isAdminPath = location.startsWith('/admin');
   const isAdmin = user?.role === 'admin';
+
+  useDataSocketUpdates();
 
   // Auto-close mobile menu when location changes
   useEffect(() => {

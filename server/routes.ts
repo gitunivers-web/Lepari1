@@ -4384,6 +4384,9 @@ Tous les codes de validation ont été vérifiés avec succès.`,
         metadata: { amount: loan.amount, loanType: loan.loanType, reason },
       });
 
+      emitLoanUpdate(loan.userId, 'deleted', req.params.id);
+      emitDashboardUpdate(loan.userId);
+
       res.json({ success: deleted });
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete loan' });
@@ -4425,6 +4428,9 @@ Tous les codes de validation ont été vérifiés avec succès.`,
               entityId: id,
               metadata: { amount: loan.amount, loanType: loan.loanType, reason, totalDeleted: loanIds.length }
             });
+
+            emitLoanUpdate(loan.userId, 'deleted', id);
+            emitDashboardUpdate(loan.userId);
           } else {
             results.failed.push(id);
           }
