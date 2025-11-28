@@ -186,16 +186,22 @@ export default function TransferFlow() {
     if (transferData?.transfer) {
       const status = transferData.transfer.status;
       
+      // Handle all possible statuses - completed goes to complete screen, everything else to progress
       if (status === 'completed') {
         setStep('complete');
-      } else if (status === 'in-progress' || status === 'pending') {
+      } else {
+        // For pending, in-progress, suspended, rejected, or any other status:
+        // Show the progress page at the correct step
         setStep('progress');
         setCurrentCodeSequence((transferData.transfer.codesValidated || 0) + 1);
         // Sync progress from server
         setSimulatedProgress(transferData.transfer.progressPercent || 0);
       }
+    } else {
+      // Transfer doesn't exist - redirect back to Transfers page
+      setLocation('/transfers');
     }
-  }, [transferId, transferData, isLoadingTransferData]);
+  }, [transferId, transferData, isLoadingTransferData, setLocation]);
 
   // LIGNE 57-93 - FONCTION D'ANIMATION AJOUTÉE (modifiée)
   // Ajout : animationRunningRef pour éviter réentrance; on vérifie nextSequence à la fin.
