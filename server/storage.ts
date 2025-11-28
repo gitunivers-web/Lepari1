@@ -230,6 +230,12 @@ export interface IStorage {
   updateUserPresence(userId: string, status: string): Promise<ChatPresence>;
   getOnlineUsers(): Promise<ChatPresence[]>;
   deleteConversation(conversationId: string): Promise<boolean>;
+  
+  resetDashboardStatistics(): Promise<{
+    deletedTransfers: number;
+    deletedLoans: number;
+    deletedUsers: number;
+  }>;
 }
 
 // export class MemStorage implements IStorage {
@@ -3214,6 +3220,64 @@ export class DatabaseStorage implements IStorage {
       return result.length > 0;
     } catch (error) {
       console.error('[STORAGE] Error deleting conversation:', error);
+      throw error;
+    }
+  }
+
+  async resetDashboardStatistics(): Promise<{
+    deletedTransfers: number;
+    deletedLoans: number;
+    deletedUsers: number;
+  }> {
+    try {
+      // Delete all transfer-related data first (due to foreign key constraints)
+      await db.delete(transferEvents);
+      await db.delete(transferValidationCodes);
+      const deletedTransfersResult = await db.delete(transfers).returning();
+      
+      // Delete all loan-related data
+      await db.delete(amortizationSchedule);
+      const deletedLoansResult = await db.delete(loans).returning();
+      
+      // Delete all fees
+      await db.delete(fees);
+      
+      // Delete all admin messages and notifications
+      await db.delete(adminMessages);
+      await db.delete(notifications);
+      
+      // Delete all chat data
+      await db.delete(chatMessages);
+      await db.delete(chatConversations);
+      await db.delete(chatPresence);
+      
+      // Delete all external accounts
+      await db.delete(externalAccounts);
+      
+      // Delete all KYC documents
+      await db.delete(kycDocuments);
+      
+      // Delete all transactions
+      await db.delete(transactions);
+      
+      // Delete all non-admin users
+      const deletedUsersResult = await db.delete(users)
+        .where(sqlDrizzle`${users.role} != 'admin'`)
+        .returning();
+      
+      console.log('[STORAGE] Dashboard statistics reset completed:', {
+        deletedTransfers: deletedTransfersResult.length,
+        deletedLoans: deletedLoansResult.length,
+        deletedUsers: deletedUsersResult.length
+      });
+      
+      return {
+        deletedTransfers: deletedTransfersResult.length,
+        deletedLoans: deletedLoansResult.length,
+        deletedUsers: deletedUsersResult.length
+      };
+    } catch (error) {
+      console.error('[STORAGE] Error resetting dashboard statistics:', error);
       throw error;
     }
   }

@@ -4042,16 +4042,29 @@ Tous les codes de validation ont été vérifiés avec succès.`,
 
   app.post("/api/admin/reset-statistics-dashboard", requireAdmin, requireCSRF, adminLimiter, async (req, res) => {
     try {
+      // Actually reset all statistics by deleting data
+      const result = await storage.resetDashboardStatistics();
+      
+      // Create audit log after successful reset
       await storage.createAuditLog({
         actorId: req.session.userId!,
         actorRole: 'admin',
         action: 'reset_statistics',
         entityType: 'admin_dashboard',
         entityId: 'dashboard',
-        metadata: { timestamp: new Date() }
+        metadata: { 
+          timestamp: new Date(),
+          deletedTransfers: result.deletedTransfers,
+          deletedLoans: result.deletedLoans,
+          deletedUsers: result.deletedUsers
+        }
       });
       
-      res.json({ success: true, message: 'Les statistiques ont été réinitialisées' });
+      res.json({ 
+        success: true, 
+        message: 'Les statistiques ont été réinitialisées',
+        deleted: result
+      });
     } catch (error) {
       console.error('Error resetting statistics:', error);
       res.status(500).json({ error: 'Erreur lors de la réinitialisation des statistiques' });

@@ -92,6 +92,10 @@ export default function AdminDashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/transfers"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/loans"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/notifications-count"] });
       setShowResetStatistics(false);
       toast({
         title: "Succès",
@@ -453,7 +457,7 @@ export default function AdminDashboard() {
               data-testid="button-confirm-clear-notifications"
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {clearNotificationsMutation.isPending ? t.admin?.common?.messages?.deleting || "Suppression..." : t.admin?.common?.actions?.delete || "Supprimer"}
+              {clearNotificationsMutation.isPending ? "Suppression..." : "Supprimer"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
@@ -476,7 +480,7 @@ export default function AdminDashboard() {
               data-testid="button-confirm-reset-statistics"
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {resetStatisticsMutation.isPending ? t.admin?.common?.messages?.resetting || "Réinitialisation..." : t.admin?.common?.actions?.reset || "Réinitialiser"}
+              {resetStatisticsMutation.isPending ? "Réinitialisation..." : "Réinitialiser"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>
