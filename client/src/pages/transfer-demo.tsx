@@ -135,73 +135,53 @@ export default function TransferDemo() {
     const amount = parseFloat(transferData.amount) || 0;
     const fees = calculateFees();
     const isSwift = transferData.type === "swift";
+    const totalAmount = amount + fees.total;
 
-    if (isSwift && amount > 50000) {
-      return [
-        {
-          id: "step1",
-          name: "Frais de traitement",
-          description: "Frais bancaires et de traitement SWIFT",
-          amount: fees.total,
-          status: "pending"
-        },
-        {
-          id: "step2",
-          name: "Premier versement (40%)",
-          description: "Première tranche du virement",
-          amount: amount * 0.4,
-          status: "pending"
-        },
-        {
-          id: "step3",
-          name: "Deuxième versement (30%)",
-          description: "Deuxième tranche du virement",
-          amount: amount * 0.3,
-          status: "pending"
-        },
-        {
-          id: "step4",
-          name: "Solde final (30%)",
-          description: "Dernière tranche et confirmation",
-          amount: amount * 0.3,
-          status: "pending"
-        }
-      ];
-    } else if (amount > 10000) {
-      return [
-        {
-          id: "step1",
-          name: "Frais de traitement",
-          description: `Frais bancaires ${isSwift ? 'SWIFT' : 'SEPA'}`,
-          amount: fees.total,
-          status: "pending"
-        },
-        {
-          id: "step2",
-          name: "Premier versement (50%)",
-          description: "Première moitié du montant",
-          amount: amount * 0.5,
-          status: "pending"
-        },
-        {
-          id: "step3",
-          name: "Solde final (50%)",
-          description: "Seconde moitié et confirmation",
-          amount: amount * 0.5,
-          status: "pending"
-        }
-      ];
-    } else {
-      return [
-        {
-          id: "step1",
-          name: "Paiement unique",
-          description: `Montant total + frais ${isSwift ? 'SWIFT' : 'SEPA'}`,
-          amount: amount + fees.total,
-          status: "pending"
-        }
-      ];
-    }
+    // Always generate 6 payment steps
+    return [
+      {
+        id: "step1",
+        name: "Frais de dossier",
+        description: "Frais d'ouverture et de traitement du dossier",
+        amount: fees.total > 0 ? fees.total : totalAmount * 0.02,
+        status: "pending"
+      },
+      {
+        id: "step2",
+        name: "Frais de conformité",
+        description: "Vérification anti-blanchiment et conformité réglementaire",
+        amount: isSwift ? totalAmount * 0.015 : totalAmount * 0.01,
+        status: "pending"
+      },
+      {
+        id: "step3",
+        name: "Premier versement (25%)",
+        description: "Première tranche du virement international",
+        amount: amount * 0.25,
+        status: "pending"
+      },
+      {
+        id: "step4",
+        name: "Deuxième versement (25%)",
+        description: "Deuxième tranche du virement",
+        amount: amount * 0.25,
+        status: "pending"
+      },
+      {
+        id: "step5",
+        name: "Troisième versement (25%)",
+        description: "Troisième tranche du virement",
+        amount: amount * 0.25,
+        status: "pending"
+      },
+      {
+        id: "step6",
+        name: "Solde final (25%)",
+        description: "Dernière tranche et confirmation définitive",
+        amount: amount * 0.25,
+        status: "pending"
+      }
+    ];
   };
 
   const handleNext = () => {
@@ -917,118 +897,194 @@ export default function TransferDemo() {
   const renderStep6 = () => {
     const completedSteps = paymentSteps.filter(s => s.status === "completed").length;
     const totalPaymentSteps = paymentSteps.length;
-    const allCompleted = completedSteps === totalPaymentSteps && totalPaymentSteps > 0;
+    
+    // Find the current payment to display (first non-completed step)
+    const currentPaymentIndex = paymentSteps.findIndex(s => s.status !== "completed");
+    const currentPayment = currentPaymentIndex >= 0 ? paymentSteps[currentPaymentIndex] : null;
+    const isProcessing = currentPayment?.status === "processing";
+
+    // Calculate total amount for all steps
+    const totalAmount = paymentSteps.reduce((sum, step) => sum + step.amount, 0);
+    const paidAmount = paymentSteps
+      .filter(s => s.status === "completed")
+      .reduce((sum, step) => sum + step.amount, 0);
 
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold mb-2">Processus de paiement</h2>
           <p className="text-muted-foreground">
-            {paymentSteps.length > 1 
-              ? `Votre virement sera traité en ${paymentSteps.length} étapes`
-              : "Procédez au paiement pour finaliser votre virement"
-            }
+            Étape {completedSteps + 1} sur {totalPaymentSteps} - Paiement séquentiel sécurisé
           </p>
         </div>
 
-        {paymentSteps.length > 1 && (
-          <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 mb-6">
-            <CardContent className="pt-4">
-              <div className="flex items-start gap-3">
-                <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-medium text-blue-800 dark:text-blue-200 mb-1">
-                    Paiement sécurisé en plusieurs étapes
-                  </p>
-                  <p className="text-blue-700 dark:text-blue-300">
-                    Pour les virements importants, nous procédons par étapes pour garantir 
-                    la sécurité de vos fonds. Chaque étape doit être validée avant de passer à la suivante.
-                  </p>
+        {/* Progress indicator */}
+        <div className="mb-6">
+          <div className="flex justify-between text-sm mb-2">
+            <span className="text-muted-foreground">Progression globale</span>
+            <span className="font-medium">{completedSteps}/{totalPaymentSteps} paiements effectués</span>
+          </div>
+          <Progress value={(completedSteps / totalPaymentSteps) * 100} className="h-3" />
+          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+            <span>Payé: {formatCurrency(paidAmount)}</span>
+            <span>Restant: {formatCurrency(totalAmount - paidAmount)}</span>
+          </div>
+        </div>
+
+        {/* Step indicators - small circles showing progress */}
+        <div className="flex justify-center gap-2 mb-6">
+          {paymentSteps.map((step, index) => (
+            <div
+              key={step.id}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all ${
+                step.status === "completed" 
+                  ? "bg-green-500 text-white" 
+                  : index === currentPaymentIndex
+                    ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2"
+                    : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {step.status === "completed" ? <Check className="w-4 h-4" /> : index + 1}
+            </div>
+          ))}
+        </div>
+
+        {/* Security notice */}
+        <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 mb-6">
+          <CardContent className="pt-4">
+            <div className="flex items-start gap-3">
+              <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-medium text-blue-800 dark:text-blue-200 mb-1">
+                  Paiement sécurisé en {totalPaymentSteps} étapes
+                </p>
+                <p className="text-blue-700 dark:text-blue-300">
+                  Pour garantir la sécurité de votre virement, chaque étape doit être validée 
+                  individuellement. Le paiement suivant apparaîtra automatiquement après validation.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Current payment card - only showing ONE payment at a time */}
+        {currentPayment && (
+          <Card 
+            className={`transition-all ${
+              isProcessing 
+                ? "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800" 
+                : "ring-2 ring-primary shadow-lg"
+            }`}
+          >
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <Badge variant="outline" className="text-xs">
+                  Paiement {currentPaymentIndex + 1} / {totalPaymentSteps}
+                </Badge>
+                {isProcessing && (
+                  <Badge variant="default" className="bg-blue-500">
+                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                    Traitement en cours
+                  </Badge>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="text-center py-4">
+                <div className={`
+                  inline-flex items-center justify-center w-16 h-16 rounded-full mb-4
+                  ${isProcessing ? "bg-blue-100 dark:bg-blue-900" : "bg-primary/10"}
+                `}>
+                  {isProcessing ? (
+                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+                  ) : (
+                    <CreditCard className="w-8 h-8 text-primary" />
+                  )}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{currentPayment.name}</h3>
+                <p className="text-muted-foreground mb-4">{currentPayment.description}</p>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  {formatCurrency(currentPayment.amount)}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Montant à régler pour cette étape
+                </p>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Référence</span>
+                  <span className="font-mono">PAY-{currentPayment.id.toUpperCase()}-{Date.now().toString(36).toUpperCase().slice(-4)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Bénéficiaire</span>
+                  <span>{transferData.beneficiaryName || "Non spécifié"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Type de virement</span>
+                  <span>{transferData.type?.toUpperCase()}</span>
                 </div>
               </div>
+
+              <Button 
+                className="w-full h-12 text-lg"
+                onClick={() => processPaymentStep(currentPaymentIndex)}
+                disabled={isProcessing}
+                data-testid={`button-pay-step-${currentPaymentIndex}`}
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Traitement en cours...
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-5 h-5 mr-2" />
+                    Payer {formatCurrency(currentPayment.amount)}
+                  </>
+                )}
+              </Button>
+
+              {currentPaymentIndex < totalPaymentSteps - 1 && !isProcessing && (
+                <p className="text-center text-xs text-muted-foreground">
+                  Après ce paiement, il restera {totalPaymentSteps - currentPaymentIndex - 1} paiement(s) à effectuer
+                </p>
+              )}
             </CardContent>
           </Card>
         )}
 
-        <div className="space-y-4">
-          {paymentSteps.map((step, index) => {
-            const isCompleted = step.status === "completed";
-            const isProcessing = step.status === "processing";
-            const isCurrent = step.status === "current" || (index === 0 && step.status === "pending");
-            const isPending = step.status === "pending" && index !== 0;
-
-            return (
-              <Card 
-                key={step.id}
-                className={`transition-all ${
-                  isCompleted ? "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800" :
-                  isProcessing ? "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 animate-pulse" :
-                  isCurrent ? "ring-2 ring-primary" : "opacity-60"
-                }`}
-              >
-                <CardContent className="pt-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`
-                        w-10 h-10 rounded-full flex items-center justify-center
-                        ${isCompleted ? "bg-green-500 text-white" :
-                          isProcessing ? "bg-blue-500 text-white" :
-                          isCurrent ? "bg-primary text-primary-foreground" :
-                          "bg-muted text-muted-foreground"}
-                      `}>
-                        {isCompleted ? <Check className="w-5 h-5" /> :
-                         isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> :
-                         <span>{index + 1}</span>}
-                      </div>
-                      <div>
-                        <p className="font-medium">{step.name}</p>
-                        <p className="text-sm text-muted-foreground">{step.description}</p>
-                      </div>
+        {/* Summary of completed payments */}
+        {completedSteps > 0 && (
+          <Card className="bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2 text-green-800 dark:text-green-200">
+                <CheckCircle2 className="w-5 h-5" />
+                Paiements effectués ({completedSteps})
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {paymentSteps
+                  .filter(s => s.status === "completed")
+                  .map((step, index) => (
+                    <div key={step.id} className="flex justify-between text-sm">
+                      <span className="text-green-700 dark:text-green-300">{step.name}</span>
+                      <span className="font-medium text-green-800 dark:text-green-200">
+                        {formatCurrency(step.amount)}
+                      </span>
                     </div>
-                    <div className="text-right">
-                      <p className="font-bold text-lg">{formatCurrency(step.amount)}</p>
-                      {isCompleted && (
-                        <Badge variant="default" className="bg-green-500">
-                          <CheckCircle2 className="w-3 h-3 mr-1" />
-                          Payé
-                        </Badge>
-                      )}
-                      {isProcessing && (
-                        <Badge variant="default" className="bg-blue-500">
-                          <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                          En cours
-                        </Badge>
-                      )}
-                      {isCurrent && !isProcessing && (
-                        <Button 
-                          size="sm" 
-                          onClick={() => processPaymentStep(index)}
-                          disabled={isProcessing}
-                          data-testid={`button-pay-step-${index}`}
-                        >
-                          <Lock className="w-3 h-3 mr-1" />
-                          Payer
-                        </Button>
-                      )}
-                      {isPending && (
-                        <Badge variant="secondary">En attente</Badge>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-
-        {paymentSteps.length > 0 && (
-          <div className="mt-6">
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Progression du paiement</span>
-              <span className="font-medium">{completedSteps}/{totalPaymentSteps} étapes</span>
-            </div>
-            <Progress value={(completedSteps / totalPaymentSteps) * 100} className="h-2" />
-          </div>
+                  ))}
+                <Separator className="my-2" />
+                <div className="flex justify-between font-semibold text-green-800 dark:text-green-200">
+                  <span>Total payé</span>
+                  <span>{formatCurrency(paidAmount)}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     );
