@@ -857,7 +857,7 @@ export default function TransferFlow() {
               className="bg-gradient-to-br from-primary/5 via-background to-background"
             >
               <div className="space-y-6">
-                {availableLoans && availableLoans.length > 1 && (
+                {availableLoans && availableLoans.length >= 1 && (
                   <div className="space-y-2">
                     <Label htmlFor="loan" className="text-sm font-medium">
                       {t.nav.loans}
