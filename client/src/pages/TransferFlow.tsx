@@ -339,10 +339,8 @@ export default function TransferFlow() {
   };
 
   useEffect(() => {
-    if (availableLoans && availableLoans.length > 0 && !selectedLoanId) {
-      setSelectedLoanId(availableLoans[0].id);
-    }
-  }, [availableLoans]);
+    // Removed automatic loan selection - user must explicitly choose a loan
+  }, []);
 
   const selectedLoan = availableLoans?.find(loan => loan.id === selectedLoanId);
   const amount = selectedLoan ? parseFloat(selectedLoan.amount).toString() : '';
