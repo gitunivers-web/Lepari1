@@ -346,6 +346,9 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
     status: z.enum(['pending', 'active', 'suspended', 'blocked']).optional(),
     kycStatus: z.enum(['pending', 'verified', 'rejected']).optional(),
     maxLoanAmount: z.string().optional(),
+    verificationTier: z.enum(['bronze', 'silver', 'gold']).optional(),
+    completedLoansCount: z.coerce.number().int().min(0).optional(),
+    defaultedLoansCount: z.coerce.number().int().min(0).optional(),
   }).strict();
 
   const adminUpdateTransferSchema = z.object({
@@ -3631,6 +3634,9 @@ Tous les codes de validation ont été vérifiés avec succès.`,
             balance: totalBorrowed - totalRepaid,
             loansCount: loans.length,
             transfersCount: transfers.length,
+            verificationTier: user.verificationTier || 'bronze',
+            completedLoansCount: user.completedLoansCount || 0,
+            defaultedLoansCount: user.defaultedLoansCount || 0,
           };
         })
       );

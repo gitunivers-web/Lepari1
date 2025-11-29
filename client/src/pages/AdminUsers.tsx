@@ -165,6 +165,26 @@ export default function AdminUsers() {
     },
   });
 
+  const updateTierMutation = useMutation({
+    mutationFn: async ({ id, tier }: { id: string; tier: string }) => {
+      return await apiRequest("PATCH", `/api/admin/users/${id}`, { verificationTier: tier });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      toast({
+        title: "Tier mis à jour",
+        description: "Le niveau de confiance a été modifié avec succès",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erreur",
+        description: error?.message || "Impossible de modifier le tier",
+        variant: "destructive",
+      });
+    },
+  });
+
   const toggleUserSelection = (userId: string) => {
     const newSelection = new Set(selectedUsers);
     if (newSelection.has(userId)) {
@@ -350,12 +370,13 @@ export default function AdminUsers() {
                   </TableHead>
                   <TableHead>Nom Complet</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Téléphone</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Statut</TableHead>
                   <TableHead>KYC</TableHead>
+                  <TableHead>Tier</TableHead>
+                  <TableHead>Complétés</TableHead>
+                  <TableHead>Défauts</TableHead>
                   <TableHead>Solde</TableHead>
-                  <TableHead>Prêts</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -374,7 +395,6 @@ export default function AdminUsers() {
                       {user.fullName}
                     </TableCell>
                     <TableCell data-testid={`text-user-email-${user.id}`}>{user.email}</TableCell>
-                    <TableCell data-testid={`text-user-phone-${user.id}`}>{user.phone || '-'}</TableCell>
                     <TableCell data-testid={`text-user-type-${user.id}`}>{user.accountType}</TableCell>
                     <TableCell>
                       <Badge
@@ -395,10 +415,39 @@ export default function AdminUsers() {
                         {user.kycStatus}
                       </Badge>
                     </TableCell>
+                    <TableCell>
+                      {user.role === "admin" ? (
+                        <span className="text-sm text-muted-foreground">-</span>
+                      ) : (
+                        <Select
+                          value={user.verificationTier || 'bronze'}
+                          onValueChange={(value) => updateTierMutation.mutate({ id: user.id, tier: value })}
+                          disabled={updateTierMutation.isPending}
+                        >
+                          <SelectTrigger className="w-24" data-testid={`select-tier-${user.id}`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="bronze">Bronze</SelectItem>
+                            <SelectItem value="silver">Silver</SelectItem>
+                            <SelectItem value="gold">Gold</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </TableCell>
+                    <TableCell data-testid={`text-user-completed-${user.id}`}>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        {user.completedLoansCount || 0}
+                      </Badge>
+                    </TableCell>
+                    <TableCell data-testid={`text-user-defaulted-${user.id}`}>
+                      <Badge variant={(user.defaultedLoansCount || 0) > 0 ? "destructive" : "outline"} className={(user.defaultedLoansCount || 0) === 0 ? "bg-gray-50 text-gray-500" : ""}>
+                        {user.defaultedLoansCount || 0}
+                      </Badge>
+                    </TableCell>
                     <TableCell data-testid={`text-user-balance-${user.id}`}>
                       {(user.balance ?? 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                     </TableCell>
-                    <TableCell data-testid={`text-user-loans-${user.id}`}>{user.loansCount || 0}</TableCell>
                     <TableCell className="text-right">
                       {user.role === "admin" ? (
                         <span className="text-sm text-muted-foreground">Compte admin</span>
