@@ -819,24 +819,32 @@ export default function TransferFlow() {
                   <Label htmlFor="amount" className="text-sm font-medium">
                     {t.transferFlow.form.amountLabel}
                   </Label>
-                  <div className="relative">
-                    <div
-                      id="amount"
-                      className="flex h-14 w-full rounded-md border border-input bg-muted px-3 py-2 text-2xl font-bold ring-offset-background cursor-not-allowed opacity-75 pr-12"
-                      data-testid="input-amount"
-                    >
-                      {amount || t.transferFlow.form.amountPlaceholder}
+                  {amount ? (
+                    <>
+                      <div className="relative">
+                        <div
+                          id="amount"
+                          className="flex h-14 w-full rounded-md border border-input bg-muted px-3 py-2 text-2xl font-bold ring-offset-background cursor-not-allowed opacity-75 pr-12"
+                          data-testid="input-amount"
+                        >
+                          {amount}
+                        </div>
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-muted-foreground">
+                          €
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <Lock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                        <p className="text-xs text-blue-900 dark:text-blue-100">
+                          {t.transferFlow.form.amountFixedHelper}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="h-14 w-full rounded-md border border-dashed border-input bg-background/50 px-3 py-2 flex items-center text-muted-foreground">
+                      {t.amortization.chooseLoan}
                     </div>
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-muted-foreground">
-                      €
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
-                    <Lock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                    <p className="text-xs text-blue-900 dark:text-blue-100">
-                      {t.transferFlow.form.amountFixedHelper}
-                    </p>
-                  </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
