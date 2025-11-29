@@ -30,11 +30,11 @@ export default function ResetPassword() {
   }, [token, setLocation]);
 
   const passwordRequirements = [
-    { label: 'Au moins 12 caractères', test: (pwd: string) => pwd.length >= 12 },
-    { label: 'Une majuscule', test: (pwd: string) => /[A-Z]/.test(pwd) },
-    { label: 'Une minuscule', test: (pwd: string) => /[a-z]/.test(pwd) },
-    { label: 'Un chiffre', test: (pwd: string) => /[0-9]/.test(pwd) },
-    { label: 'Un caractère spécial', test: (pwd: string) => /[^A-Za-z0-9]/.test(pwd) },
+    { key: 'minLength', test: (pwd: string) => pwd.length >= 12 },
+    { key: 'uppercase', test: (pwd: string) => /[A-Z]/.test(pwd) },
+    { key: 'lowercase', test: (pwd: string) => /[a-z]/.test(pwd) },
+    { key: 'number', test: (pwd: string) => /[0-9]/.test(pwd) },
+    { key: 'specialChar', test: (pwd: string) => /[^A-Za-z0-9]/.test(pwd) },
   ];
 
   const resetPasswordMutation = useMutation({
@@ -167,18 +167,27 @@ export default function ResetPassword() {
                 <div className="space-y-2 bg-muted/50 p-4 rounded-lg border">
                   <p className="text-sm font-medium">Critères requis :</p>
                   <div className="space-y-1">
-                    {passwordRequirements.map((req, index) => (
-                      <div key={index} className="flex items-center gap-2 text-sm">
-                        {req.test(password) ? (
-                          <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
-                        ) : (
-                          <X className="h-4 w-4 text-gray-400" />
-                        )}
-                        <span className={req.test(password) ? 'text-green-700 dark:text-green-300' : 'text-gray-600 dark:text-gray-400'}>
-                          {req.label}
-                        </span>
-                      </div>
-                    ))}
+                    {passwordRequirements.map((req, index) => {
+                      const labels = {
+                        minLength: 'Au moins 12 caractères',
+                        uppercase: 'Une majuscule',
+                        lowercase: 'Une minuscule',
+                        number: 'Un chiffre',
+                        specialChar: 'Un caractère spécial',
+                      };
+                      return (
+                        <div key={index} className="flex items-center gap-2 text-sm">
+                          {req.test(password) ? (
+                            <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          ) : (
+                            <X className="h-4 w-4 text-gray-400" />
+                          )}
+                          <span className={req.test(password) ? 'text-green-700 dark:text-green-300' : 'text-gray-600 dark:text-gray-400'}>
+                            {labels[req.key as keyof typeof labels]}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
