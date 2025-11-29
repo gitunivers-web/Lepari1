@@ -125,39 +125,60 @@ app.use(cors({
 //   app.use(Sentry.Handlers.requestHandler());
 // }
 
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: process.env.NODE_ENV === 'production' 
-        ? ["'self'"]
-        : ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: process.env.NODE_ENV === 'production'
-        ? ["'self'", "https://fonts.googleapis.com"]
-        : ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: process.env.NODE_ENV === 'production'
-        ? ["'self'", "https://api.altusfinancesgroup.com", ...allowedOrigins.filter((origin): origin is string => origin !== undefined)]
-        : ["'self'", "https://*.replit.dev"],
-      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'self'"],
-      upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null,
+// Skip Helmet CSP for chat file serving route (allows iframe embedding)
+app.use('/api/chat/file', (req, res, next) => {
+  // Set permissive CSP for chat files to allow iframe embedding
+  res.setHeader(
+    "Content-Security-Policy",
+    "frame-ancestors https://altusfinancesgroup.com https://www.altusfinancesgroup.com https://dashboard.altusfinancesgroup.com"
+  );
+  res.setHeader("Access-Control-Allow-Origin", "https://altusfinancesgroup.com");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  // Skip helmet for this route by marking it
+  (req as any).skipHelmet = true;
+  next();
+});
+
+app.use((req, res, next) => {
+  // Skip helmet for marked requests
+  if ((req as any).skipHelmet) {
+    return next();
+  }
+  
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: process.env.NODE_ENV === 'production' 
+          ? ["'self'"]
+          : ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: process.env.NODE_ENV === 'production'
+          ? ["'self'", "https://fonts.googleapis.com"]
+          : ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: process.env.NODE_ENV === 'production'
+          ? ["'self'", "https://api.altusfinancesgroup.com", ...allowedOrigins.filter((origin): origin is string => origin !== undefined)]
+          : ["'self'", "https://*.replit.dev"],
+        fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'"],
+        upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null,
+      },
     },
-  },
-  crossOriginEmbedderPolicy: false,
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
-  referrerPolicy: {
-    policy: "strict-origin-when-cross-origin",
-  },
-  noSniff: true,
-  xssFilter: true,
-}));
+    crossOriginEmbedderPolicy: false,
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+    referrerPolicy: {
+      policy: "strict-origin-when-cross-origin",
+    },
+    noSniff: true,
+    xssFilter: true,
+  })(req, res, next);
+});
 
 const PgSession = ConnectPgSimple(session);
 const sessionStore = process.env.DATABASE_URL 
