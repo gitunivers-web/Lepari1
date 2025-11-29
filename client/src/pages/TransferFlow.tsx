@@ -536,18 +536,14 @@ export default function TransferFlow() {
       // CORRECTION: Marquer qu'une validation vient de se produire pour déclencher l'animation
       justValidatedRef.current = true;
       
-      // CORRECTION: Si le serveur retourne progress/pausePercent, appliquer directement
-      // Cela garantit que l'UI reflète immédiatement l'état du backend après validation
-      if (typeof data.progress === 'number') {
-        setSimulatedProgress(data.progress);
-      }
+      // IMPORTANT: NE PAS appeler setSimulatedProgress ici !
+      // Laisser l'effet d'animation (useEffect qui surveille transferData) gérer 
+      // la progression lente de l'ancien pourcentage vers le nouveau.
+      // Si on force la progression ici, l'animation sera bypassée et on aura un "saut".
       
-      if (data.isPaused === true && typeof data.pausePercent === 'number') {
-        setIsPausedForCode(true);
-        setSimulatedProgress(data.pausePercent);
-      } else {
-        setIsPausedForCode(false);
-      }
+      // NE PAS forcer isPausedForCode ici non plus - laisser l'animation se terminer
+      // et l'effet mettra isPausedForCode à true quand l'animation atteint le seuil.
+      // Le refetch du serveur (refetchTransfer ci-dessous) déclenchera l'effet d'animation.
       
       // Mettre à jour les séquences localement pour réactivité immédiate
       const newLast = (lastValidatedSequence ?? 0) + 1;
