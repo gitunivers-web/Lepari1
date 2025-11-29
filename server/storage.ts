@@ -2390,7 +2390,7 @@ export class DatabaseStorage implements IStorage {
       
       const loanResult = await tx.update(loans)
         .set({ 
-          contractStatus: "approved",
+          contractStatus: "signed",
           fundsAvailabilityStatus: "available",
           status: "active"
         })
