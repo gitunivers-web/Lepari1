@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { getApiUrl } from "./queryClient"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -13,11 +14,11 @@ export function getFileUrl(fileUrl?: string | null): string | undefined {
   }
   
   // Backend returns full path: "/uploads/chat/[UUID]_[filename]"
-  // Serve directly - no need to route through /api/chat/file
+  // Use getApiUrl() to build correct URL for both dev and production
   if (fileUrl.startsWith('/uploads/chat/')) {
-    return fileUrl;
+    return getApiUrl(fileUrl);
   }
   
   // Fallback for legacy messages with just filename
-  return `/api/chat/file/${fileUrl}`;
+  return getApiUrl(`/api/chat/file/${fileUrl}`);
 }
