@@ -6,6 +6,13 @@ ALTUS is a multi-language professional loan management platform designed for bus
 
 ## Recent Changes (November 29, 2025)
 
+- **Multilingual Transfer Network Types:** Extended transfer network type display to support all 7 languages:
+  - All transfer network names and descriptions now dynamically translate based on user's language preference
+  - Supported networks: SEPA, SWIFT, ACH, WIRE, FASTER_PAYMENTS, INTERAC, LOCAL
+  - Added translation keys to i18n.ts for all 7 languages (French, English, Spanish, Portuguese, Italian, German, Dutch)
+  - Helper function `getTranslatedNetworkInfo()` in TransferFlow.tsx maps network types to translation keys with English fallbacks
+  - UI labels (transferType, network, processingTime, networkFees, noFees, sepaZone) also translated in all languages
+
 - **Transfer Network Type Integration:** Integrated the transfer-types.ts system into TransferFlow to automatically detect and display transfer network types:
   - Detects SEPA vs SWIFT based on recipient bank country (from IBAN)
   - Displays network type, processing time, and network fees in transfer form before submission
