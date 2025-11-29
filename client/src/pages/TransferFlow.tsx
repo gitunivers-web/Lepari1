@@ -1291,7 +1291,9 @@ export default function TransferFlow() {
         </div>
 
         {/* Type de transfert */}
-        {transfer?.transferNetwork && (
+        {transfer?.transferNetwork && (() => {
+          const translatedNetwork = getTranslatedNetworkInfo(transfer.transferNetwork, t);
+          return (
           <div className="pt-4 border-t border-border">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -1299,29 +1301,27 @@ export default function TransferFlow() {
               </div>
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                  {t.transferFlow.form.transferType || 'Type de transfert'}
+                  {t.transferFlow.form.transferType}
                 </p>
                 <div className="flex items-center gap-2">
                   <p className="text-base font-semibold text-foreground">
-                    {transfer.transferNetwork === 'SEPA' ? (t.transferFlow.form.sepaTransferName || 'SEPA Credit Transfer') : 
-                     transfer.transferNetwork === 'SWIFT' ? (t.transferFlow.form.swiftTransferName || 'Virement International SWIFT') :
-                     transfer.transferNetwork}
+                    {translatedNetwork.name}
                   </p>
                   {transfer.transferNetwork === 'SEPA' && (
                     <span className="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full">
-                      {t.transferFlow.form.sepaZone || 'Zone SEPA'}
+                      {t.transferFlow.form.sepaZone}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {transfer.processingTime || '1-2 jours ouvrables'}
+                    {transfer.processingTime}
                   </span>
                   <span className="flex items-center gap-1">
                     <Banknote className="w-3 h-3" />
                     {parseFloat(transfer.networkFees || '0') === 0 
-                      ? (t.transferFlow.form.noFees || 'Gratuit')
+                      ? t.transferFlow.form.noFees
                       : `${transfer.networkFees} EUR`
                     }
                   </span>
@@ -1329,7 +1329,8 @@ export default function TransferFlow() {
               </div>
             </div>
           </div>
-        )}
+          );
+        })()}
       </div>
     );
 
