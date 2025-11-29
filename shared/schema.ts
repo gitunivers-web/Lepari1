@@ -46,6 +46,9 @@ export const users = pgTable("users", {
   activeSessionId: text("active_session_id"),
   twoFactorSecret: text("two_factor_secret"),
   twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
+  verificationTier: text("verification_tier").notNull().default("bronze"),
+  completedLoansCount: integer("completed_loans_count").notNull().default(0),
+  defaultedLoansCount: integer("defaulted_loans_count").notNull().default(0),
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });
