@@ -79,8 +79,17 @@ export function MessageList({
           return 500; // PDF preview (up to 384px) + spacing + margins
         }
       }
-      // Text-only message: increased from 100 to account for all spacing/padding
-      return 150;
+      // Text-only message: estimate based on content length
+      // Each line is approximately 20px, plus padding/margins
+      // Minimum 80px (short message), maximum 300px (very long message)
+      const contentLength = message?.content?.length || 0;
+      // Rough estimate: ~60 chars per line at ~20px per line
+      const estimatedLines = Math.max(1, Math.ceil(contentLength / 60));
+      const baseHeight = 30; // padding + margins
+      const lineHeight = 20;
+      const textEstimate = baseHeight + (estimatedLines * lineHeight);
+      // Cap at 300px to avoid over-estimating
+      return Math.min(300, Math.max(80, textEstimate));
     },
     overscan: 20,
   });
