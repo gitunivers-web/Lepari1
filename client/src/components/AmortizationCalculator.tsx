@@ -159,19 +159,19 @@ export default function AmortizationCalculator() {
     : [];
 
   return (
-    <div className="space-y-6" data-testid="amortization-calculator">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calculator className="h-5 w-5" />
-            {t.amortization.calculatorTitle}
+    <div className="space-y-6 overflow-x-hidden" data-testid="amortization-calculator">
+      <Card className="overflow-hidden">
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <Calculator className="h-5 w-5 flex-shrink-0" />
+            <span className="break-words">{t.amortization.calculatorTitle}</span>
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm">
             {t.amortization.calculatorDescription}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <CardContent className="space-y-6 px-4 sm:px-6">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-2">
               <Label htmlFor="loan-type">{t.amortization.loanType}</Label>
               <Select value={loanType} onValueChange={setLoanType}>
@@ -235,7 +235,7 @@ export default function AmortizationCalculator() {
             </AlertDescription>
           </Alert>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Button onClick={handleCalculate} className="flex-1" data-testid="button-calculate">
               {t.amortization.calculatePlan}
             </Button>
@@ -252,27 +252,27 @@ export default function AmortizationCalculator() {
 
           {amortization && (
             <div className="space-y-6 pt-6 border-t">
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
                 <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
-                  <CardContent className="pt-6">
-                    <div className="text-sm text-muted-foreground">{t.amortization.monthlyPayment}</div>
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400" data-testid="text-monthly-payment">
+                  <CardContent className="pt-4 sm:pt-6 px-4">
+                    <div className="text-xs sm:text-sm text-muted-foreground">{t.amortization.monthlyPayment}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 break-all" data-testid="text-monthly-payment">
                       {amortization.monthlyPayment.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                     </div>
                   </CardContent>
                 </Card>
                 <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
-                  <CardContent className="pt-6">
-                    <div className="text-sm text-muted-foreground">{t.amortization.totalPayment}</div>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400" data-testid="text-total-payment">
+                  <CardContent className="pt-4 sm:pt-6 px-4">
+                    <div className="text-xs sm:text-sm text-muted-foreground">{t.amortization.totalPayment}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-green-600 dark:text-green-400 break-all" data-testid="text-total-payment">
                       {amortization.totalPayment.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                     </div>
                   </CardContent>
                 </Card>
                 <Card className="bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800">
-                  <CardContent className="pt-6">
-                    <div className="text-sm text-muted-foreground">{t.amortization.totalInterest}</div>
-                    <div className="text-2xl font-bold text-red-600 dark:text-red-400" data-testid="text-total-interest">
+                  <CardContent className="pt-4 sm:pt-6 px-4">
+                    <div className="text-xs sm:text-sm text-muted-foreground">{t.amortization.totalInterest}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-red-600 dark:text-red-400 break-all" data-testid="text-total-interest">
                       {amortization.totalInterest.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                     </div>
                   </CardContent>
@@ -280,19 +280,21 @@ export default function AmortizationCalculator() {
               </div>
 
               <Tabs defaultValue="chart" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="chart" data-testid="tab-chart">
-                    <TrendingUp className="h-4 w-4 mr-2" />
-                    {t.amortization.chart}
-                  </TabsTrigger>
-                  <TabsTrigger value="breakdown" data-testid="tab-breakdown">
-                    <PieChartIcon className="h-4 w-4 mr-2" />
-                    {t.amortization.breakdown}
-                  </TabsTrigger>
-                  <TabsTrigger value="schedule" data-testid="tab-schedule">
-                    {t.amortization.table}
-                  </TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                  <TabsList className="grid w-full min-w-[280px] grid-cols-3">
+                    <TabsTrigger value="chart" data-testid="tab-chart" className="text-xs sm:text-sm px-2 sm:px-3">
+                      <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                      <span className="truncate">{t.amortization.chart}</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="breakdown" data-testid="tab-breakdown" className="text-xs sm:text-sm px-2 sm:px-3">
+                      <PieChartIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                      <span className="truncate">{t.amortization.breakdown}</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="schedule" data-testid="tab-schedule" className="text-xs sm:text-sm px-2 sm:px-3">
+                      <span className="truncate">{t.amortization.table}</span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
 
                 <TabsContent value="chart" className="space-y-4">
                   <Card>
@@ -377,36 +379,36 @@ export default function AmortizationCalculator() {
                 </TabsContent>
 
                 <TabsContent value="schedule" className="space-y-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>{t.amortization.monthlyRepaymentPlan}</CardTitle>
+                  <Card className="overflow-hidden">
+                    <CardHeader className="px-4 sm:px-6">
+                      <CardTitle className="text-base sm:text-lg">{t.amortization.monthlyRepaymentPlan}</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="px-0 sm:px-6">
                       <div className="max-h-[400px] overflow-auto">
-                        <table className="w-full text-sm" data-testid="table-schedule">
-                          <thead className="sticky top-0 bg-background border-b">
+                        <table className="w-full text-xs sm:text-sm min-w-[500px]" data-testid="table-schedule">
+                          <thead className="sticky top-0 bg-background border-b z-10">
                             <tr>
-                              <th className="text-left p-2">{t.amortization.month}</th>
-                              <th className="text-right p-2">{t.amortization.payment}</th>
-                              <th className="text-right p-2">{t.amortization.principal}</th>
-                              <th className="text-right p-2">{t.amortization.interest}</th>
-                              <th className="text-right p-2">{t.amortization.balance}</th>
+                              <th className="text-left p-2 whitespace-nowrap">{t.amortization.month}</th>
+                              <th className="text-right p-2 whitespace-nowrap">{t.amortization.payment}</th>
+                              <th className="text-right p-2 whitespace-nowrap">{t.amortization.principal}</th>
+                              <th className="text-right p-2 whitespace-nowrap">{t.amortization.interest}</th>
+                              <th className="text-right p-2 whitespace-nowrap">{t.amortization.balance}</th>
                             </tr>
                           </thead>
                           <tbody>
                             {amortization.schedule.map((item) => (
                               <tr key={item.month} className="border-b hover:bg-muted/50" data-testid={`row-month-${item.month}`}>
                                 <td className="p-2">{item.month}</td>
-                                <td className="text-right p-2">
+                                <td className="text-right p-2 whitespace-nowrap">
                                   {item.payment.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                                 </td>
-                                <td className="text-right p-2 text-blue-600 dark:text-blue-400">
+                                <td className="text-right p-2 text-blue-600 dark:text-blue-400 whitespace-nowrap">
                                   {item.principal.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                                 </td>
-                                <td className="text-right p-2 text-red-600 dark:text-red-400">
+                                <td className="text-right p-2 text-red-600 dark:text-red-400 whitespace-nowrap">
                                   {item.interest.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                                 </td>
-                                <td className="text-right p-2 font-medium">
+                                <td className="text-right p-2 font-medium whitespace-nowrap">
                                   {item.balance.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                                 </td>
                               </tr>

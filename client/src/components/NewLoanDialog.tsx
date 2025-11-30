@@ -249,10 +249,10 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[650px] max-h-[90vh] overflow-y-auto overflow-x-hidden p-4 sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t.dashboard.newLoan}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-xl sm:text-2xl">{t.dashboard.newLoan}</DialogTitle>
+          <DialogDescription className="text-sm">
             {needsKYC 
               ? t.dialogs.newLoan.subtitleFirstRequest
               : t.dialogs.newLoan.subtitleRegular
@@ -269,25 +269,25 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <Tabs value={needsKYC && !documentsUploaded ? "documents" : "loan"} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="documents" disabled={!needsKYC} data-testid="tab-documents">
-                {documentsUploaded ? <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" /> : <FileText className="h-4 w-4 mr-2" />}
-                {t.dialogs.newLoan.kycDocumentsTab}
+            <TabsList className="grid w-full grid-cols-2 h-auto">
+              <TabsTrigger value="documents" disabled={!needsKYC} data-testid="tab-documents" className="text-xs sm:text-sm py-2 px-2 sm:px-3">
+                {documentsUploaded ? <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-green-600 flex-shrink-0" /> : <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />}
+                <span className="truncate">{t.dialogs.newLoan.kycDocumentsTab}</span>
               </TabsTrigger>
-              <TabsTrigger value="loan" data-testid="tab-loan-details">
-                {t.dialogs.newLoan.loanDetailsTab}
+              <TabsTrigger value="loan" data-testid="tab-loan-details" className="text-xs sm:text-sm py-2 px-2 sm:px-3">
+                <span className="truncate">{t.dialogs.newLoan.loanDetailsTab}</span>
               </TabsTrigger>
             </TabsList>
 
             {needsKYC && (
               <TabsContent value="documents" className="space-y-4">
-                <div className="border-2 border-dashed rounded-lg p-8 text-center space-y-4">
-                  <Upload className="h-12 w-12 mx-auto text-muted-foreground" />
+                <div className="border-2 border-dashed rounded-lg p-4 sm:p-8 text-center space-y-3 sm:space-y-4">
+                  <Upload className="h-8 w-8 sm:h-12 sm:w-12 mx-auto text-muted-foreground" />
                   <div>
-                    <h3 className="font-semibold mb-2">{t.dialogs.newLoan.requiredDocuments}</h3>
-                    <ul className="text-sm text-muted-foreground space-y-1">
+                    <h3 className="font-semibold mb-2 text-sm sm:text-base">{t.dialogs.newLoan.requiredDocuments}</h3>
+                    <ul className="text-xs sm:text-sm text-muted-foreground space-y-1 text-left px-4">
                       <li>• {t.dialogs.newLoan.identityDoc}</li>
                       <li>• {t.dialogs.newLoan.addressProof}</li>
                       <li>• {t.dialogs.newLoan.bankStatement}</li>
@@ -298,7 +298,7 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
                     multiple
                     accept=".pdf,.jpg,.jpeg,.png"
                     onChange={handleFileUpload}
-                    className="max-w-xs mx-auto"
+                    className="max-w-full sm:max-w-xs mx-auto text-sm"
                     data-testid="input-kyc-documents"
                     disabled={uploadingFiles}
                   />
@@ -410,7 +410,7 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
             </TabsContent>
           </Tabs>
 
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
             <Button 
               type="button" 
               variant="outline" 
@@ -419,6 +419,7 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
                 resetForm();
               }}
               data-testid="button-cancel-loan"
+              className="w-full sm:w-auto"
             >
               {t.dialogs.newLoan.cancel}
             </Button>
@@ -426,6 +427,7 @@ export default function NewLoanDialog({ open, onOpenChange }: NewLoanDialogProps
               type="submit" 
               disabled={createLoanMutation.isPending || uploadingFiles || (needsKYC && !documentsUploaded)} 
               data-testid="button-submit-loan"
+              className="w-full sm:w-auto"
             >
               {createLoanMutation.isPending ? t.dialogs.newLoan.submitting : t.dialogs.newLoan.submit}
             </Button>

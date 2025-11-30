@@ -86,7 +86,7 @@ export default function IndividualLoans() {
 
   return (
     <>
-      <div className="p-6 md:p-8 space-y-8 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
+      <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 animate-in fade-in-50 slide-in-from-bottom-4 duration-500 overflow-x-hidden">
         <SectionTitle
           title={t.loan.pageTitle}
           subtitle={t.loan.pageDescription}
