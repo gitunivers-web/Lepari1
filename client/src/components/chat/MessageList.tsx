@@ -98,8 +98,8 @@ export function MessageList({
       // Very generous line height (text 14px + spacing + buffer = 36px)
       const lineHeight = 36;
       const textEstimate = baseHeight + (estimatedLines * lineHeight);
-      // Ultra-aggressive bounds: min 130px, max 520px
-      return Math.min(520, Math.max(130, textEstimate));
+      // Ultra-aggressive bounds: min 130px, max 700px (for 500 char messages)
+      return Math.min(700, Math.max(130, textEstimate));
     },
     overscan: 50, // Aggressive overscan to prevent virtualizer overlap issues
   });

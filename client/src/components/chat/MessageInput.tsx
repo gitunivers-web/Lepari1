@@ -12,13 +12,14 @@ interface MessageInputProps {
   placeholder?: string;
   sendHint?: string;
   allowFileUpload?: boolean;
+  charLimit?: number;
 }
 
 export function MessageInput({
   onSend,
   onTyping,
   disabled = false,
-  maxLength = 300,
+  maxLength = 500,
   placeholder = "Type your message...",
   sendHint = "Press Ctrl+Enter to send",
   allowFileUpload = false,
