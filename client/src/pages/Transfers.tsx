@@ -87,19 +87,21 @@ export default function Transfers() {
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-8 max-w-[1400px] mx-auto space-y-6 animate-fade-in">
-        <div className="flex items-center justify-between">
-          <Skeleton className="h-10 w-48" />
-          <Skeleton className="h-10 w-40" />
+      <div className="bg-background min-h-screen overflow-x-hidden">
+        <div className="p-4 sm:p-6 md:p-8 max-w-[1400px] mx-auto space-y-6 animate-fade-in w-full">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="h-10 w-full sm:w-40" />
+          </div>
+          <TransfersSkeleton />
         </div>
-        <TransfersSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="bg-background">
-      <div className="p-6 md:p-8 max-w-[1400px] mx-auto space-y-8 animate-fade-in">
+    <div className="bg-background min-h-screen overflow-x-hidden">
+      <div className="p-4 sm:p-6 md:p-8 max-w-[1400px] mx-auto space-y-6 md:space-y-8 animate-fade-in w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <SectionTitle
@@ -119,24 +121,24 @@ export default function Transfers() {
         {/* Stats Overview */}
         {transfers && transfers.length > 0 && (
           <DashboardCard className="bg-gradient-to-br from-primary/5 via-background to-background border-primary/10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               <UserStat
                 label="Total des transferts"
                 value={transfers.length}
                 icon={TrendingUp}
                 testId="stat-total-transfers"
               />
-              <div className="space-y-2" data-testid="stat-pending-transfers">
-                <p className="text-sm font-medium text-muted-foreground">En attente</p>
-                <p className="text-3xl font-bold text-foreground tracking-tight">{pendingCount}</p>
+              <div className="space-y-1 sm:space-y-2" data-testid="stat-pending-transfers">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground">En attente</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{pendingCount}</p>
               </div>
-              <div className="space-y-2" data-testid="stat-in-progress-transfers">
-                <p className="text-sm font-medium text-muted-foreground">En cours</p>
-                <p className="text-3xl font-bold text-primary tracking-tight">{inProgressCount}</p>
+              <div className="space-y-1 sm:space-y-2" data-testid="stat-in-progress-transfers">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground">En cours</p>
+                <p className="text-2xl sm:text-3xl font-bold text-primary tracking-tight">{inProgressCount}</p>
               </div>
-              <div className="space-y-2" data-testid="stat-completed-transfers">
-                <p className="text-sm font-medium text-muted-foreground">Terminés</p>
-                <p className="text-3xl font-bold text-accent tracking-tight">{completedCount}</p>
+              <div className="space-y-1 sm:space-y-2" data-testid="stat-completed-transfers">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground">Terminés</p>
+                <p className="text-2xl sm:text-3xl font-bold text-accent tracking-tight">{completedCount}</p>
               </div>
             </div>
           </DashboardCard>
@@ -205,59 +207,68 @@ export default function Transfers() {
                   className="hover-elevate active-elevate-2 transition-all duration-200 group"
                   testId={`card-transfer-${transfer.id}`}
                 >
-                  <div className="flex items-center gap-6">
-                  {/* Icon */}
-                  <div className="flex-shrink-0">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-                      {getStatusIcon(transfer.status)}
-                    </div>
-                  </div>
-
-                  {/* Transfer Info */}
-                  <div className="flex-1 min-w-0 space-y-2">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="font-bold text-lg text-foreground truncate">{transfer.recipient}</h3>
-                      {getStatusBadge(transfer.status)}
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-                      <span className="font-mono font-semibold">{getTransferReferenceNumber(transfer)}</span>
-                      <span className="hidden sm:inline">•</span>
-                      <span className="hidden sm:inline">
-                        {formatDistanceToNow(new Date(transfer.createdAt), { addSuffix: true, locale: fr })}
-                      </span>
-                    </div>
-                    
-                    {/* Progress Bar */}
-                    {(transfer.status === 'in-progress' || transfer.status === 'completed') && (
-                      <div className="pt-1">
-                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                          <span className="font-medium">
-                            {transfer.status === 'completed' ? 'Terminé' : 'Progression'}
-                          </span>
-                          <span className={`font-semibold ${transfer.status === 'completed' ? 'text-accent' : 'text-primary'}`}>
-                            {transfer.status === 'completed' ? '100' : transfer.progressPercent}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-muted/50 rounded-full h-2 overflow-hidden">
-                          <div
-                            className={`h-2 rounded-full transition-all duration-500 shadow-sm ${
-                              transfer.status === 'completed'
-                                ? 'bg-gradient-to-r from-accent via-accent to-green-600'
-                                : 'bg-gradient-to-r from-primary via-primary to-blue-600'
-                            }`}
-                            style={{ 
-                              width: transfer.status === 'completed' ? '100%' : `${transfer.progressPercent}%` 
-                            }}
-                          />
-                        </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                  {/* Icon + Info Row for Mobile */}
+                  <div className="flex items-start gap-4 flex-1 min-w-0">
+                    {/* Icon */}
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+                        {getStatusIcon(transfer.status)}
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  {/* Amount & Arrow */}
-                  <div className="flex items-center gap-4 flex-shrink-0">
+                    {/* Transfer Info */}
+                    <div className="flex-1 min-w-0 space-y-1 sm:space-y-2">
+                      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                        <h3 className="font-bold text-base sm:text-lg text-foreground truncate max-w-[150px] sm:max-w-none">{transfer.recipient}</h3>
+                        {getStatusBadge(transfer.status)}
+                      </div>
+                      <div className="flex items-center gap-2 sm:gap-3 text-xs text-muted-foreground flex-wrap">
+                        <span className="font-mono font-semibold text-[11px] sm:text-xs">{getTransferReferenceNumber(transfer)}</span>
+                      </div>
+                      
+                      {/* Amount on Mobile */}
+                      <div className="flex items-center justify-between sm:hidden pt-1">
+                        <p className="text-lg font-bold text-foreground font-mono tracking-tight">
+                          {formatCurrency(transfer.amount)}
+                        </p>
+                        <p className="text-xs text-muted-foreground font-medium">
+                          Étape {transfer.currentStep}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                    
+                  {/* Progress Bar - Full Width on Mobile */}
+                  {(transfer.status === 'in-progress' || transfer.status === 'completed') && (
+                    <div className="w-full sm:flex-1 sm:max-w-[200px] order-last sm:order-none">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                        <span className="font-medium">
+                          {transfer.status === 'completed' ? 'Terminé' : 'Progression'}
+                        </span>
+                        <span className={`font-semibold ${transfer.status === 'completed' ? 'text-accent' : 'text-primary'}`}>
+                          {transfer.status === 'completed' ? '100' : transfer.progressPercent}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-muted/50 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`h-2 rounded-full transition-all duration-500 shadow-sm ${
+                            transfer.status === 'completed'
+                              ? 'bg-gradient-to-r from-accent via-accent to-green-600'
+                              : 'bg-gradient-to-r from-primary via-primary to-blue-600'
+                          }`}
+                          style={{ 
+                            width: transfer.status === 'completed' ? '100%' : `${transfer.progressPercent}%` 
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Amount & Arrow - Desktop Only */}
+                  <div className="hidden sm:flex items-center gap-4 flex-shrink-0">
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-foreground font-mono tracking-tight">
+                      <p className="text-xl lg:text-2xl font-bold text-foreground font-mono tracking-tight">
                         {formatCurrency(transfer.amount)}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1 font-medium">
