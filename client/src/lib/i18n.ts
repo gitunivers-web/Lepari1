@@ -282,6 +282,7 @@ type TranslationKeys = {
     upcomingRepayments: string;
     yourGlobalBalance: string;
     noActiveLoans: string;
+    noActiveLoansDesc: string;
     noTransfers: string;
     dataLoadError: string;
     available: string;
@@ -358,6 +359,9 @@ type TranslationKeys = {
     downloadContractButton: string;
     uploadContractButton: string;
     uploading2: string;
+    reviewInProgress: string;
+    noPendingRequests: string;
+    noPendingRequestsDesc: string;
   };
   transfer: {
     pageTitle: string;
@@ -2704,6 +2708,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Télécharger le contrat',
       uploadContractButton: '2. Renvoyer le contrat signé',
       uploading2: 'Envoi en cours...',
+      reviewInProgress: 'Votre demande de prêt est en cours de révision par notre équipe.',
+      noPendingRequests: 'Aucune demande en attente',
+      noPendingRequestsDesc: 'Vos demandes en attente apparaîtront ici',
     },
     transfer: {
       pageTitle: 'Mes transferts',
@@ -5431,6 +5438,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Download contract',
       uploadContractButton: '2. Upload signed contract',
       uploading2: 'Uploading...',
+      reviewInProgress: 'Your loan request is being reviewed by our team.',
+      noPendingRequests: 'No pending requests',
+      noPendingRequestsDesc: 'Your pending requests will appear here',
     },
     transfer: {
       pageTitle: 'My Transfers',
@@ -8147,6 +8157,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Descargar el contrato',
       uploadContractButton: '2. Cargar el contrato firmado',
       uploading2: 'Cargando...',
+      reviewInProgress: 'Su solicitud de préstamo está siendo revisada por nuestro equipo.',
+      noPendingRequests: 'Sin solicitudes pendientes',
+      noPendingRequestsDesc: 'Sus solicitudes pendientes aparecerán aquí',
     },
     transfer: {
       pageTitle: 'Mis Transferencias',
@@ -10842,6 +10855,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Baixar contrato',
       uploadContractButton: '2. Enviar contrato assinado',
       uploading2: 'Enviando...',
+      reviewInProgress: 'Seu pedido de empréstimo está sendo analisado pela nossa equipe.',
+      noPendingRequests: 'Nenhum pedido pendente',
+      noPendingRequestsDesc: 'Seus pedidos pendentes aparecerão aqui',
     },
     transfer: {
       pageTitle: 'Minhas Transferências',
@@ -13356,6 +13372,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Scarica contratto',
       uploadContractButton: '2. Carica contratto firmato',
       uploading2: 'Caricamento...',
+      reviewInProgress: 'La tua richiesta di prestito è in fase di revisione dal nostro team.',
+      noPendingRequests: 'Nessuna richiesta in sospeso',
+      noPendingRequestsDesc: 'Le tue richieste in sospeso appariranno qui',
     },
     transfer: {
       pageTitle: 'I miei trasferimenti',
@@ -15982,6 +16001,9 @@ export const translations: Record<Language, TranslationKeys> = {
       downloadContractButton: '1. Vertrag herunterladen',
       uploadContractButton: '2. Unterschriebenen Vertrag hochladen',
       uploading2: 'Wird hochgeladen...',
+      reviewInProgress: 'Ihr Kreditantrag wird von unserem Team geprüft.',
+      noPendingRequests: 'Keine ausstehenden Anträge',
+      noPendingRequestsDesc: 'Ihre ausstehenden Anträge werden hier angezeigt',
     },
     transfer: {
       pageTitle: 'Meine Überweisungen',
@@ -18609,8 +18631,11 @@ export const translations: Record<Language, TranslationKeys> = {
       uploadContractButton: '2. Upload ondertekend contract',
       uploading2: 'Uploaden...',
     },
+      reviewInProgress: 'Uw leningaanvraag wordt door ons team beoordeeld.',
     transfer: {
       pageTitle: 'Mijn overschrijvingen',
+      noPendingRequests: 'Geen openstaande aanvragen',
+      noPendingRequestsDesc: 'Uw openstaande aanvragen verschijnen hier',
       pageDescription: 'Beheer en volg al uw geldtransfers',
       searchPlaceholder: 'Zoek op ontvanger of ID...',
       allStatuses: 'Alle statussen',
