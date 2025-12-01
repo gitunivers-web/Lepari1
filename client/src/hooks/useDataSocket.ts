@@ -3,7 +3,7 @@ import { useSocket } from "./useSocket";
 import { queryClient } from "@/lib/queryClient";
 
 export interface DataUpdateEvent {
-  type: 'loan' | 'transfer' | 'user' | 'dashboard' | 'notification' | 'fee' | 'contract';
+  type: 'loan' | 'transfer' | 'user' | 'dashboard' | 'notification' | 'fee' | 'contract' | 'admin_dashboard';
   action: 'created' | 'updated' | 'deleted' | 'approved' | 'rejected' | 'confirmed';
   entityId?: string;
   data?: any;
@@ -61,6 +61,16 @@ export function useDataSocket() {
           queryClient.invalidateQueries({ queryKey: ['/api/loans', event.entityId] });
           queryClient.invalidateQueries({ queryKey: ['/api/contracts', event.entityId] });
         }
+        break;
+
+      case 'admin_dashboard':
+        // Refresh all admin-related queries when admin dashboard updates are received
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/notifications'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/notifications-count'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/loans'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/transfers'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/admin/messages'] });
         break;
 
       default:

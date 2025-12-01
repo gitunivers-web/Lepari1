@@ -73,7 +73,8 @@ import {
   emitDashboardUpdate,
   emitNotificationUpdate,
   emitFeeUpdate,
-  emitContractUpdate
+  emitContractUpdate,
+  emitAdminDashboardUpdate
 } from "./data-socket";
 import { enqueueProgressJob } from "./services/progress-worker";
 
@@ -2649,6 +2650,15 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         entityType: 'loan',
         entityId: req.params.id,
         metadata: { filename: req.file.originalname, signedContractUrl: signedContractFileName },
+      });
+
+      // Emit real-time update to refresh admin dashboard immediately
+      // This ensures the CONFIRM button appears without needing to refresh the page
+      emitAdminDashboardUpdate('updated', {
+        type: 'contract_signed',
+        loanId: loan.id,
+        userId: user.id,
+        userName: user.fullName,
       });
 
       res.json({ 

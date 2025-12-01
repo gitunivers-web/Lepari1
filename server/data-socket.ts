@@ -1,7 +1,7 @@
 import { Server as SocketIOServer } from 'socket.io';
 
 export interface DataUpdateEvent {
-  type: 'loan' | 'transfer' | 'user' | 'dashboard' | 'notification' | 'fee' | 'contract';
+  type: 'loan' | 'transfer' | 'user' | 'dashboard' | 'notification' | 'fee' | 'contract' | 'admin_dashboard';
   action: 'created' | 'updated' | 'deleted' | 'approved' | 'rejected' | 'confirmed';
   entityId?: string;
   data?: any;
@@ -95,6 +95,17 @@ export function emitContractUpdate(userId: string, action: DataUpdateEvent['acti
     type: 'contract',
     action,
     entityId: loanId,
+    data,
+  });
+}
+
+// Emit update to all connected clients for admin dashboard refresh
+// This is used when events happen that admins need to see immediately
+// (e.g., user signs contract, new loan request, etc.)
+export function emitAdminDashboardUpdate(action: DataUpdateEvent['action'] = 'updated', data?: any) {
+  emitDataUpdateToAll({
+    type: 'admin_dashboard',
+    action,
     data,
   });
 }
