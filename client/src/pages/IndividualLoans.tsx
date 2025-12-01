@@ -21,6 +21,7 @@ interface Loan {
   totalRepaid: string;
   createdAt: string;
   loanReference?: string;
+  fundsAvailabilityStatus?: string;
 }
 
 export default function IndividualLoans() {
@@ -33,7 +34,10 @@ export default function IndividualLoans() {
   });
 
   const activeLoans = useMemo(() => {
-    return loans?.filter(loan => loan.status === 'active' || loan.status === 'approved') || [];
+    return loans?.filter(loan => {
+      const isActive = loan.status === 'active' || loan.status === 'approved';
+      return isActive && (loan.fundsAvailabilityStatus === 'available' || loan.status === 'active');
+    }) || [];
   }, [loans]);
 
   const pendingLoans = useMemo(() => {
