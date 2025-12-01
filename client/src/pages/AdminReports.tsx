@@ -9,14 +9,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function AdminReports() {
   const { data: auditLogs, isLoading: logsLoading } = useQuery({
     queryKey: ["/api/admin/audit-logs"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+    staleTime: 1000,
   });
 
   const { data: stats } = useQuery({
     queryKey: ["/api/admin/stats"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+    staleTime: 1000,
   });
 
   const { data: transfers } = useQuery({
     queryKey: ["/api/admin/transfers"],
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+    staleTime: 1000,
   });
 
   const getActionLabel = (action: string) => {

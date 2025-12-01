@@ -26,6 +26,9 @@ export default function AdminTransfers() {
   const { toast } = useToast();
   const { data: transfers, isLoading } = useQuery({
     queryKey: ["/api/admin/transfers"],
+    refetchInterval: 2000, // Auto-refresh every 2 seconds
+    refetchIntervalInBackground: true, // Continue refreshing even when page is not focused
+    staleTime: 1000, // Data is stale after 1 second
   });
 
   const updateTransferMutation = useMutation({

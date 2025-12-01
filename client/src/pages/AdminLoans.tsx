@@ -48,6 +48,9 @@ export default function AdminLoans() {
 
   const { data: loans, isLoading } = useQuery({
     queryKey: ["/api/admin/loans"],
+    refetchInterval: 2000, // Auto-refresh every 2 seconds
+    refetchIntervalInBackground: true, // Continue refreshing even when page is not focused
+    staleTime: 1000, // Data is stale after 1 second
   });
 
   const interpolate = (template: string, values: Record<string, string>) => {

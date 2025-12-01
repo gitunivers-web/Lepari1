@@ -8,6 +8,13 @@ ALTUS is a multi-language professional loan management platform for business cli
 
 Preferred communication style: Simple, everyday language. High standards for security, SEO, and code quality - all implementations must be production-ready.
 
+## Recent Changes (December 1, 2025)
+
+- **Transfer Menu Redesign:** Removed "Transfert en attente" status - now displays only "Transfert en cours" (in-progress, funds available) and "Transfert Terminé" (completed, 100% transfer).
+- **Dashboard Borrowed Amount:** Immediately displays borrowed amount when user submits a loan request (includes "pending" loans, not just "active").
+- **Admin Pages Real-Time Updates:** Added auto-refresh polling (refetchInterval: 2000) to AdminLoans, AdminTransfers, and AdminReports pages with refetchIntervalInBackground: true for continuous updates even when tab is not focused.
+- **PDF Filename Translation:** Fully translated amortization schedule filenames based on user language (tableau-amortissement-FR, amortization-schedule-EN, tabla-amortizacion-ES, etc.).
+
 ## System Architecture
 
 ### Frontend Architecture
