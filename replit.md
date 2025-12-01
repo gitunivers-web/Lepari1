@@ -6,6 +6,13 @@ ALTUS is a multi-language professional loan management platform designed for bus
 
 ## Recent Changes (December 1, 2025)
 
+- **Fixed Missing Checkmark on Transfer Confirmation Page:** Replaced Lottie-based `SuccessAnimation` component with CSS-animated Lucide `CheckCircle2` icon:
+  - Previous Lottie animation was not rendering, leaving checkmark invisible on confirmation screen
+  - New implementation uses `CheckCircle2` from lucide-react with pure CSS animations
+  - Includes animated pulse effect (0.6s) and ring effect (1s) for professional banking-style presentation
+  - More reliable and performant than Lottie (no external animation library dependency for this component)
+  - Works consistently across all pages using SuccessAnimation (TransferFlow.tsx)
+
 - **Removed Amortization Calculator from "Mes Prêts" Page:** Removed the calculator tab from the user loans page (`client/src/pages/IndividualLoans.tsx`):
   - Removed "Calculateur" tab button and its associated TabsContent
   - Removed imports for `Calculator` icon and `AmortizationCalculator` component
