@@ -46,6 +46,8 @@ export interface DashboardData {
 export function useDashboard() {
   return useQuery<DashboardData>({
     queryKey: ['/api/dashboard'],
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
   });
 }
 

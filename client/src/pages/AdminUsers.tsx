@@ -57,6 +57,8 @@ export default function AdminUsers() {
 
   const { data: users, isLoading } = useQuery({
     queryKey: ["/api/admin/users"],
+    refetchInterval: 3000,
+    refetchIntervalInBackground: true,
   });
 
   const suspendUserMutation = useMutation({
@@ -171,6 +173,8 @@ export default function AdminUsers() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       toast({
         title: "Tier mis à jour",
         description: "Le niveau de confiance a été modifié avec succès",

@@ -24,6 +24,8 @@ export function useUserStats() {
     enabled: queryEnabled,
     staleTime: 2 * 60 * 1000,
     retry: false,
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
   });
 
   return query;
