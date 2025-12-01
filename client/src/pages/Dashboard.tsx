@@ -666,7 +666,9 @@ export default function Dashboard() {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 try {
-                                  const response = await fetch(`/api/loans/${loan.id}/download-amortization`, { 
+                                  // Get current language from hook
+                                  const { language } = useLanguage?.() || { language: 'fr' };
+                                  const response = await fetch(`/api/loans/${loan.id}/download-amortization?lang=${language}`, { 
                                     method: 'GET',
                                     credentials: 'include',
                                     headers: {

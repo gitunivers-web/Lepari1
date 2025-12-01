@@ -77,6 +77,7 @@ import {
   emitAdminDashboardUpdate
 } from "./data-socket";
 import { enqueueProgressJob } from "./services/progress-worker";
+import { getPdfTranslation } from "./pdf-translations";
 
 export async function registerRoutes(app: Express, sessionMiddleware: any): Promise<Server> {
   // SÉCURITÉ: Accès aux fichiers via endpoints protégés uniquement
@@ -5801,6 +5802,10 @@ ${urls.map(url => `  <url>
         return res.status(400).json({ error: 'Montant du prêt invalide' });
       }
 
+      // Get language from query parameter, default to 'fr'
+      const lang = (req.query.lang as string) || 'fr';
+      const t = getPdfTranslation(lang);
+
       const pdfDoc = await PDFDocument.create();
       
       // Embed fonts for reliable rendering across all PDF viewers
@@ -5823,7 +5828,7 @@ ${urls.map(url => `  <url>
       let yPosition = height - 50;
       
       // Header
-      page.drawText('TABLEAU D\'AMORTISSEMENT', {
+      page.drawText(sanitizePdfText(t.title), {
         x: 50,
         y: yPosition,
         size: 24,
@@ -5832,7 +5837,7 @@ ${urls.map(url => `  <url>
       });
       
       yPosition -= 30;
-      page.drawText(sanitizePdfText(`Prêt: ${loanReference}`), {
+      page.drawText(sanitizePdfText(`${t.loanLabel} ${loanReference}`), {
         x: 50,
         y: yPosition,
         size: 12,
@@ -5841,7 +5846,7 @@ ${urls.map(url => `  <url>
       });
       
       yPosition -= 18;
-      page.drawText(sanitizePdfText(`Montant: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount)}`), {
+      page.drawText(sanitizePdfText(`${t.amountLabel} ${new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(amount)}`), {
         x: 50,
         y: yPosition,
         size: 11,
@@ -5850,7 +5855,7 @@ ${urls.map(url => `  <url>
       });
       
       yPosition -= 18;
-      page.drawText(sanitizePdfText(`Taux: ${interestRate}% | Durée: ${duration} mois`), {
+      page.drawText(sanitizePdfText(`${t.rateLabel} ${interestRate}% | ${t.durationLabel} ${duration} ${t.months}`), {
         x: 50,
         y: yPosition,
         size: 11,
@@ -5885,11 +5890,11 @@ ${urls.map(url => `  <url>
       });
       
       // Table headers (drawn AFTER the background so they appear on top)
-      page.drawText('Mois', { x: 55, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-      page.drawText('Paiement', { x: 140, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-      page.drawText('Intérêts', { x: 240, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-      page.drawText('Principal', { x: 340, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-      page.drawText('Solde', { x: 450, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+      page.drawText(sanitizePdfText(t.month), { x: 55, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+      page.drawText(sanitizePdfText(t.payment), { x: 140, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+      page.drawText(sanitizePdfText(t.interest), { x: 240, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+      page.drawText(sanitizePdfText(t.principal), { x: 340, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+      page.drawText(sanitizePdfText(t.balance), { x: 450, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
       
       yPosition -= 30;
       
@@ -5914,11 +5919,11 @@ ${urls.map(url => `  <url>
             color: rgb(0.2, 0.3, 0.6),
           });
           
-          currentPage.drawText('Mois', { x: 55, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-          currentPage.drawText('Paiement', { x: 140, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-          currentPage.drawText('Intérêts', { x: 240, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-          currentPage.drawText('Principal', { x: 340, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
-          currentPage.drawText('Solde', { x: 450, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+          currentPage.drawText(sanitizePdfText(t.month), { x: 55, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+          currentPage.drawText(sanitizePdfText(t.payment), { x: 140, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+          currentPage.drawText(sanitizePdfText(t.interest), { x: 240, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+          currentPage.drawText(sanitizePdfText(t.principal), { x: 340, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
+          currentPage.drawText(sanitizePdfText(t.balance), { x: 450, y: yPosition, size: 10, font: helveticaBold, color: rgb(1, 1, 1) });
           
           yPosition -= 30;
         }
@@ -5939,10 +5944,10 @@ ${urls.map(url => `  <url>
         }
         
         const rowText = `${i}`;
-        const paymentText = sanitizePdfText(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(monthlyPayment));
-        const interestText = sanitizePdfText(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(interestPayment));
-        const principalText = sanitizePdfText(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(principalPayment));
-        const balanceText = sanitizePdfText(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(remainingBalance));
+        const paymentText = sanitizePdfText(new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(monthlyPayment));
+        const interestText = sanitizePdfText(new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(interestPayment));
+        const principalText = sanitizePdfText(new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(principalPayment));
+        const balanceText = sanitizePdfText(new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(remainingBalance));
         
         currentPage.drawText(rowText, { x: 55, y: yPosition, size: 9, font: helvetica, color: rgb(0.2, 0.2, 0.2) });
         currentPage.drawText(paymentText, { x: 130, y: yPosition, size: 9, font: helvetica, color: rgb(0.2, 0.2, 0.2) });
@@ -5973,10 +5978,10 @@ ${urls.map(url => `  <url>
         borderWidth: 1,
       });
       
-      currentPage.drawText(sanitizePdfText('RÉSUMÉ'), { x: 55, y: yPosition - 5, size: 12, font: helveticaBold, color: rgb(0.2, 0.3, 0.6) });
-      currentPage.drawText(sanitizePdfText(`Total des intérêts: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalInterest)}`), { x: 55, y: yPosition - 22, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
-      currentPage.drawText(sanitizePdfText(`Coût total du crédit: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPayment)}`), { x: 55, y: yPosition - 38, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
-      currentPage.drawText(sanitizePdfText(`Mensualité: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(monthlyPayment)}`), { x: 300, y: yPosition - 22, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
+      currentPage.drawText(sanitizePdfText(t.summary), { x: 55, y: yPosition - 5, size: 12, font: helveticaBold, color: rgb(0.2, 0.3, 0.6) });
+      currentPage.drawText(sanitizePdfText(`${t.totalInterest} ${new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(totalInterest)}`), { x: 55, y: yPosition - 22, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
+      currentPage.drawText(sanitizePdfText(`${t.totalCost} ${new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(totalPayment)}`), { x: 55, y: yPosition - 38, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
+      currentPage.drawText(sanitizePdfText(`${t.monthlyPayment} ${new Intl.NumberFormat(t.localeCode, { style: 'currency', currency: 'EUR' }).format(monthlyPayment)}`), { x: 300, y: yPosition - 22, size: 10, font: helvetica, color: rgb(0.3, 0.3, 0.3) });
       
       const pdfBytes = await pdfDoc.save();
       res.contentType('application/pdf');
