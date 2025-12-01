@@ -59,7 +59,7 @@ export default function AppSidebar() {
   });
 
   const pendingLoansCount = loans?.filter(l => l.status === 'pending').length || 0;
-  const pendingTransfersCount = transfers?.filter(t => t.status === 'pending').length || 0;
+  const inProgressTransfersCount = transfers?.filter(t => t.status === 'in-progress' || t.status === 'in_progress').length || 0;
 
   const loanMenuItems = [
     { 
@@ -77,7 +77,7 @@ export default function AppSidebar() {
       title: t.nav.transfers, 
       url: '/transfers', 
       icon: ArrowRightLeft,
-      badge: pendingTransfersCount > 0 ? pendingTransfersCount : undefined,
+      badge: inProgressTransfersCount > 0 ? inProgressTransfersCount : undefined,
     },
     { title: t.bankAccounts.title, url: '/accounts', icon: Building2 },
     { title: t.nav.history, url: '/history', icon: History },

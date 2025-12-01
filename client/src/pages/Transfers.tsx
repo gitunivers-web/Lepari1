@@ -61,11 +61,11 @@ export default function Transfers() {
 
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
-      pending: { label: t.transfer.pending || 'Transfert en attente', variant: 'secondary' },
-      'in-progress': { label: t.transfer.inProgress || 'Transfert en cours', variant: 'default' },
-      completed: { label: t.transfer.completed || 'Transfert terminé', variant: 'outline' },
-      suspended: { label: t.transfer.suspended || 'Suspendu', variant: 'destructive' },
-      rejected: { label: t.transfer.rejected || 'Rejeté', variant: 'destructive' },
+      pending: { label: 'Transfert en cours', variant: 'secondary' },
+      'in-progress': { label: 'Transfert en cours', variant: 'default' },
+      completed: { label: 'Transfert Terminé', variant: 'outline' },
+      suspended: { label: 'Suspendu', variant: 'destructive' },
+      rejected: { label: 'Rejeté', variant: 'destructive' },
     };
 
     const config = statusMap[status] || { label: status, variant: 'outline' };
@@ -128,9 +128,9 @@ export default function Transfers() {
                 icon={TrendingUp}
                 testId="stat-total-transfers"
               />
-              <div className="space-y-1 sm:space-y-2" data-testid="stat-pending-transfers">
-                <p className="text-xs sm:text-sm font-medium text-muted-foreground">En attente</p>
-                <p className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{pendingCount}</p>
+              <div className="space-y-1 sm:space-y-2" data-testid="stat-in-progress-transfers-alt">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground">Initialisés</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{pendingCount + inProgressCount}</p>
               </div>
               <div className="space-y-1 sm:space-y-2" data-testid="stat-in-progress-transfers">
                 <p className="text-xs sm:text-sm font-medium text-muted-foreground">En cours</p>
@@ -163,9 +163,8 @@ export default function Transfers() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t.transfer.allStatuses}</SelectItem>
-                <SelectItem value="pending">{t.transfer.pending}</SelectItem>
-                <SelectItem value="in-progress">{t.transfer.inProgress}</SelectItem>
-                <SelectItem value="completed">{t.transfer.completed}</SelectItem>
+                <SelectItem value="in-progress">Transfert en cours</SelectItem>
+                <SelectItem value="completed">Transfert Terminé</SelectItem>
                 <SelectItem value="suspended">{t.transfer.suspended}</SelectItem>
               </SelectContent>
             </Select>

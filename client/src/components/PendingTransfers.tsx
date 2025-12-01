@@ -33,14 +33,14 @@ export default function PendingTransfers({ transfers }: PendingTransfersProps) {
     switch (status) {
       case 'completed':
       case 'approved':
-        return { label: t.transfer.completed, variant: 'default' as const, icon: CheckCircle2 };
+        return { label: 'Transfert Terminé', variant: 'default' as const, icon: CheckCircle2 };
       case 'in-progress':
-        return { label: t.transfer.processing, variant: 'secondary' as const, icon: Shield };
+        return { label: 'Transfert en cours', variant: 'secondary' as const, icon: Shield };
       case 'suspended':
       case 'rejected':
         return { label: t.transfer.suspended, variant: 'destructive' as const, icon: Clock };
       default:
-        return { label: t.transfer.pending, variant: 'outline' as const, icon: Clock };
+        return { label: 'Transfert en cours', variant: 'secondary' as const, icon: Shield };
     }
   };
 
@@ -69,7 +69,10 @@ export default function PendingTransfers({ transfers }: PendingTransfersProps) {
         {transfers.length === 0 ? (
           <p className="text-sm text-muted-foreground py-4">{t.dashboard.noTransfers}</p>
         ) : (
-          transfers.slice(0, 2).map((transfer) => {
+          transfers
+            .filter(t => t.status === 'in-progress' || t.status === 'completed' || t.status === 'approved')
+            .slice(0, 2)
+            .map((transfer) => {
             const statusInfo = getStatusInfo(transfer.status);
             const StatusIcon = statusInfo.icon;
             const progress = getProgressPercentage(transfer);
@@ -101,9 +104,9 @@ export default function PendingTransfers({ transfers }: PendingTransfersProps) {
             );
           })
         )}
-        {transfers.length > 2 && (
+        {transfers.filter(t => t.status === 'in-progress' || t.status === 'completed' || t.status === 'approved').length > 2 && (
           <p className="text-xs text-muted-foreground pt-2">
-            +{transfers.length - 2} {t.dashboard.moreTransfers}
+            +{transfers.filter(t => t.status === 'in-progress' || t.status === 'completed' || t.status === 'approved').length - 2} {t.dashboard.moreTransfers}
           </p>
         )}
       </CardContent>
