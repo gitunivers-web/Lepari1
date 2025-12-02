@@ -35,6 +35,54 @@ import { useToast } from '@/hooks/use-toast';
 import { DashboardCard, SectionTitle, UserStat, PremiumIcon } from '@/components/fintech';
 import { getApiUrl } from '@/lib/queryClient';
 
+function getAmortizationScheduleTranslations(language: string) {
+  const translations: Record<string, { filename: string; downloadTitle: string; errorTitle: string; errorDescription: string }> = {
+    fr: {
+      filename: 'tableau-amortissement',
+      downloadTitle: 'Télécharger tableau d\'amortissement',
+      errorTitle: 'Erreur',
+      errorDescription: 'Impossible de télécharger le tableau d\'amortissement',
+    },
+    en: {
+      filename: 'amortization-schedule',
+      downloadTitle: 'Download amortization schedule',
+      errorTitle: 'Error',
+      errorDescription: 'Unable to download amortization schedule',
+    },
+    de: {
+      filename: 'tilgungsplan',
+      downloadTitle: 'Tilgungsplan herunterladen',
+      errorTitle: 'Fehler',
+      errorDescription: 'Tilgungsplan konnte nicht heruntergeladen werden',
+    },
+    pt: {
+      filename: 'tabela-amortizacao',
+      downloadTitle: 'Baixar tabela de amortização',
+      errorTitle: 'Erro',
+      errorDescription: 'Não foi possível baixar a tabela de amortização',
+    },
+    es: {
+      filename: 'tabla-amortizacion',
+      downloadTitle: 'Descargar tabla de amortización',
+      errorTitle: 'Error',
+      errorDescription: 'No se pudo descargar la tabla de amortización',
+    },
+    it: {
+      filename: 'tabella-ammortamento',
+      downloadTitle: 'Scarica tabella di ammortamento',
+      errorTitle: 'Errore',
+      errorDescription: 'Impossibile scaricare la tabella di ammortamento',
+    },
+    nl: {
+      filename: 'aflossingsschema',
+      downloadTitle: 'Aflossingsschema downloaden',
+      errorTitle: 'Fout',
+      errorDescription: 'Kan aflossingsschema niet downloaden',
+    },
+  };
+  return translations[language.toLowerCase()] || translations.en;
+}
+
 function getContractsNotificationText(language: string) {
   const translations: Record<string, { title: string; messageSingular: string; messagePlural: string; buttonLabel: string }> = {
     fr: {
@@ -656,60 +704,64 @@ export default function Dashboard() {
                           <Badge variant={loan.status === 'active' ? 'default' : 'secondary'}>
                             {loan.status}
                           </Badge>
-                          {loan.status === 'active' && (
-                            <Button 
-                              size="sm" 
-                              variant="ghost" 
-                              className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                              data-testid={`button-download-amortization-${loan.id}`}
-                              title="Télécharger tableau d'amortissement"
-                              onClick={async (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                try {
-                                  const response = await fetch(getApiUrl(`/api/loans/${loan.id}/download-amortization?lang=${language}`), { 
-                                    method: 'GET',
-                                    credentials: 'include',
-                                    headers: {
-                                      'Accept': 'application/pdf'
+                          {loan.status === 'active' && (() => {
+                            const amortT = getAmortizationScheduleTranslations(language);
+                            return (
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-testid={`button-download-amortization-${loan.id}`}
+                                title={amortT.downloadTitle}
+                                onClick={async (e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  try {
+                                    const response = await fetch(getApiUrl(`/api/loans/${loan.id}/download-amortization?lang=${language}`), { 
+                                      method: 'GET',
+                                      credentials: 'include',
+                                      headers: {
+                                        'Accept': 'application/pdf'
+                                      }
+                                    });
+                                    
+                                    if (!response.ok) {
+                                      const text = await response.text();
+                                      throw new Error(`${response.status}: ${text}`);
                                     }
-                                  });
-                                  
-                                  if (!response.ok) {
-                                    const text = await response.text();
-                                    throw new Error(`Erreur ${response.status}: ${text}`);
+                                    
+                                    const blob = await response.blob();
+                                    if (blob.size === 0) {
+                                      throw new Error('PDF empty');
+                                    }
+                                    
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    // Get filename from Content-Disposition header (translated by server)
+                                    const contentDisposition = response.headers.get('content-disposition') || '';
+                                    const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+                                    // Use translated fallback filename if header not available
+                                    const filename = filenameMatch ? filenameMatch[1] : `${amortT.filename}-${loan.loanReference || loan.id}.pdf`;
+                                    a.download = filename;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                    window.URL.revokeObjectURL(url);
+                                  } catch (error) {
+                                    console.error('Download amortization error:', error);
+                                    toast({
+                                      title: amortT.errorTitle,
+                                      description: `${amortT.errorDescription}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                                      variant: 'destructive'
+                                    });
                                   }
-                                  
-                                  const blob = await response.blob();
-                                  if (blob.size === 0) {
-                                    throw new Error('Le PDF généré est vide');
-                                  }
-                                  
-                                  const url = window.URL.createObjectURL(blob);
-                                  const a = document.createElement('a');
-                                  a.href = url;
-                                  // Get filename from Content-Disposition header (translated by server)
-                                  const contentDisposition = response.headers.get('content-disposition') || '';
-                                  const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
-                                  const filename = filenameMatch ? filenameMatch[1] : `tableau-amortissement-${loan.loanReference || loan.id}.pdf`;
-                                  a.download = filename;
-                                  document.body.appendChild(a);
-                                  a.click();
-                                  document.body.removeChild(a);
-                                  window.URL.revokeObjectURL(url);
-                                } catch (error) {
-                                  console.error('Erreur téléchargement amortissement:', error);
-                                  toast({
-                                    title: 'Erreur',
-                                    description: `Impossible de télécharger le tableau d'amortissement: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
-                                    variant: 'destructive'
-                                  });
-                                }
-                              }}
-                            >
-                              <Download className="w-4 h-4" />
-                            </Button>
-                          )}
+                                }}
+                              >
+                                <Download className="w-4 h-4" />
+                              </Button>
+                            );
+                          })()}
                         </div>
                       </div>
                       
