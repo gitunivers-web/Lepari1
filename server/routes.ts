@@ -1517,18 +1517,25 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         lastUpdated = getTimeAgo(data.user.updatedAt);
       }
 
-      // Calculate the total amount from active loans and pending loan requests
-      // Includes 'signed' and 'pending' so the dashboard shows borrowed amount immediately when a loan request is made
-      const activeLoans = data.loans.filter(l => l.status === 'active' || l.status === 'pending' || l.status === 'signed');
-      const totalActiveLoansAmount = activeLoans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0);
+      // Calculate the total amount from all non-terminal loans (including pending requests)
+      // This shows borrowed amount immediately when a loan request is made
+      // Terminal statuses are excluded: rejected, cancelled, completed, closed, repaid, defaulted, written_off
+      const terminalStatuses = ['rejected', 'cancelled', 'completed', 'closed', 'repaid', 'defaulted', 'written_off'];
+      const allNonTerminalLoans = data.loans.filter(l => !terminalStatuses.includes(l.status));
+      const totalBorrowedAmount = allNonTerminalLoans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0);
+      
+      // Active loans count only shows loans with funds released (status = 'active')
+      const activeLoansOnly = data.loans.filter(l => l.status === 'active');
+      const activeLoansCount = activeLoansOnly.length;
+      
       const maxCapacity = data.user.accountType === 'business' || data.user.accountType === 'professional' ? 2000000 : 500000;
 
       const response = {
         balance: {
           currentBalance: data.balance,
-          activeLoansCount: activeLoans.length,
-          totalBorrowed: totalActiveLoansAmount,
-          availableCredit: maxCapacity - totalActiveLoansAmount,
+          activeLoansCount: activeLoansCount,
+          totalBorrowed: totalBorrowedAmount,
+          availableCredit: maxCapacity - totalBorrowedAmount,
           lastUpdated: lastUpdated,
         },
         loans: data.loans.map(loan => ({
@@ -1568,7 +1575,7 @@ export async function registerRoutes(app: Express, sessionMiddleware: any): Prom
         })),
         borrowingCapacity: {
           maxCapacity: maxCapacity,
-          currentCapacity: maxCapacity - totalActiveLoansAmount,
+          currentCapacity: maxCapacity - totalBorrowedAmount,
         },
       };
 

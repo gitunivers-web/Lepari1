@@ -1900,9 +1900,12 @@ export class DatabaseStorage implements IStorage {
     const userFees = await this.getUserFees(userId);
     const userTransactions = await this.getUserTransactions(userId);
 
-    const activeLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'pending' || loan.status === 'signed');
-    const totalBorrowed = activeLoans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0);
-    const totalRepaid = activeLoans.reduce((sum, loan) => sum + parseFloat(loan.totalRepaid), 0);
+    // Include all non-terminal loans in the balance calculation
+    // Terminal statuses: rejected, cancelled, completed, closed, repaid, defaulted, written_off
+    const terminalStatuses = ['rejected', 'cancelled', 'completed', 'closed', 'repaid', 'defaulted', 'written_off'];
+    const nonTerminalLoans = userLoans.filter(loan => !terminalStatuses.includes(loan.status));
+    const totalBorrowed = nonTerminalLoans.reduce((sum, loan) => sum + parseFloat(loan.amount), 0);
+    const totalRepaid = nonTerminalLoans.reduce((sum, loan) => sum + parseFloat(loan.totalRepaid), 0);
     
     const completedTransfers = userTransfers
       .filter(transfer => transfer.status === 'completed')
