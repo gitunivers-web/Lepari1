@@ -8,6 +8,15 @@ ALTUS is a multi-language professional loan management platform for business cli
 
 Preferred communication style: Simple, everyday language. High standards for security, SEO, and code quality - all implementations must be production-ready.
 
+## Recent Changes (December 3, 2025)
+
+- **Mobile Responsiveness Overhaul:** Comprehensive mobile-first improvements to all dashboard modals and dialogs:
+  - Enhanced base Dialog component with proper viewport margins (`w-[calc(100vw-1rem)]`), max-height scrolling, and responsive padding
+  - Improved Slider component with larger touch targets (`h-6 w-6`), `touch-pan-y` support for better mobile scrolling, and `touch-manipulation` cursor
+  - Fixed LoanRequestModal layout to prevent content overflow on narrow screens with proper flex constraints
+  - Applied consistent responsive patterns across 10+ modal components including NewLoanDialog, NewTransferDialog, WelcomeMessage, TransactionHistoryDialog, CardTermsDialog, LoanDetailsDialog, BankCardOffer, and BankAccounts page modal
+  - All modals now use `box-border` and overflow handling to prevent horizontal cutoff issues
+
 ## Recent Changes (December 2, 2025)
 
 - **Tier-Based Borrowing Capacity:** Enhanced the TIER system to include borrowing capacity limits based on user tier:
