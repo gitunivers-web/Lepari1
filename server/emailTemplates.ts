@@ -44,7 +44,7 @@ function getEmailHeader(options: EmailHeaderOptions = {}): string {
           ${showLogo ? `
           <tr>
             <td align="center" style="padding-bottom: 15px;">
-              <img src="${logoUrl}" alt="Altus Finances Group" width="180" height="auto" style="display: block; max-width: 180px; height: auto;" />
+              <img src="${logoUrl}" alt="Solventus Group" width="180" height="auto" style="display: block; max-width: 180px; height: auto;" />
             </td>
           </tr>
           ` : ''}
@@ -78,13 +78,13 @@ function getEmailFooter(footerText: string): string {
         <table cellpadding="0" cellspacing="0" border="0" width="100%">
           <tr>
             <td align="center" style="padding-bottom: 15px;">
-              <img src="${logoUrl}" alt="Altus Finances Group" width="120" height="auto" style="display: block; max-width: 120px; height: auto; opacity: 0.8;" />
+              <img src="${logoUrl}" alt="Solventus Group" width="120" height="auto" style="display: block; max-width: 120px; height: auto; opacity: 0.8;" />
             </td>
           </tr>
           <tr>
             <td align="center">
               <p style="margin: 0; font-size: 12px; color: #64748b; font-family: Arial, sans-serif;">
-                &copy; ${currentYear} ALTUS FINANCES GROUP. ${footerText}
+                &copy; ${currentYear} SOLVENTUS GROUP. ${footerText}
               </p>
             </td>
           </tr>
@@ -102,7 +102,7 @@ function getEmailWrapper(content: string, language: string = 'fr'): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ALTUS FINANCES GROUP</title>
+  <title>SOLVENTUS GROUP</title>
   <!--[if mso]>
   <noscript>
     <xml>
@@ -320,25 +320,25 @@ const translations = {
       business: "professionnel/entreprise"
     },
     verification: {
-      subject: "Vérifiez votre adresse email - ALTUS FINANCES GROUP",
+      subject: "Vérifiez votre adresse email - SOLVENTUS GROUP",
       tagline: "Solutions de financement",
       greeting: "Bonjour",
-      thankYou: "Merci de vous être inscrit sur ALTUS FINANCES GROUP en tant que",
+      thankYou: "Merci de vous être inscrit sur SOLVENTUS GROUP en tant que",
       instruction: "Pour activer votre compte et accéder à nos services de financement, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :",
       buttonText: "Vérifier mon email",
       alternativeText: "Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :",
-      disclaimerText: "Si vous n'avez pas créé de compte sur ALTUS FINANCES GROUP, vous pouvez ignorer cet email.",
+      disclaimerText: "Si vous n'avez pas créé de compte sur SOLVENTUS GROUP, vous pouvez ignorer cet email.",
       footer: "Tous droits réservés.",
       textVersion: {
-        thankYou: "Merci de vous être inscrit sur ALTUS FINANCES GROUP en tant que",
+        thankYou: "Merci de vous être inscrit sur SOLVENTUS GROUP en tant que",
         instruction: "Pour activer votre compte, veuillez vérifier votre adresse email en visitant ce lien :",
-        disclaimer: "Si vous n'avez pas créé de compte sur ALTUS FINANCES GROUP, vous pouvez ignorer cet email.",
-        signature: "ALTUS FINANCES GROUP - Solutions de financement"
+        disclaimer: "Si vous n'avez pas créé de compte sur SOLVENTUS GROUP, vous pouvez ignorer cet email.",
+        signature: "SOLVENTUS GROUP - Solutions de financement"
       }
     },
     welcome: {
-      subject: "Bienvenue sur ALTUS FINANCES GROUP !",
-      headerTitle: "🎉 Bienvenue sur ALTUS FINANCES GROUP !",
+      subject: "Bienvenue sur SOLVENTUS GROUP !",
+      headerTitle: "🎉 Bienvenue sur SOLVENTUS GROUP !",
       greeting: "Bonjour",
       verifiedMessage: "Votre email a été vérifié avec succès ! Votre compte",
       activeMessage: "est maintenant actif.",
@@ -354,7 +354,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     contract: {
-      subject: "Votre contrat de prêt est disponible - ALTUS FINANCES GROUP",
+      subject: "Votre contrat de prêt est disponible - SOLVENTUS GROUP",
       headerTitle: "🎉 Félicitations !",
       headerSubtitle: "Votre prêt est approuvé",
       greeting: "Bonjour",
@@ -377,7 +377,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     fundingRelease: {
-      subject: "Vos fonds ont été débloqués - ALTUS FINANCES GROUP",
+      subject: "Vos fonds ont été débloqués - SOLVENTUS GROUP",
       headerTitle: "✅ Fonds débloqués",
       headerSubtitle: "Votre argent est disponible",
       greeting: "Bonjour",
@@ -398,18 +398,18 @@ const translations = {
       footer: "Tous droits réservés."
     },
     otp: {
-      subject: "Code de vérification - ALTUS FINANCES GROUP",
+      subject: "Code de vérification - SOLVENTUS GROUP",
       headerTitle: "🔐 Authentification à deux facteurs",
       greeting: "Bonjour",
       codeTitle: "Votre code de vérification",
-      instruction: "Utilisez le code ci-dessous pour vous connecter à votre compte ALTUS FINANCES GROUP :",
+      instruction: "Utilisez le code ci-dessous pour vous connecter à votre compte SOLVENTUS GROUP :",
       expirationText: "Ce code expirera dans 5 minutes.",
       securityWarning: "⚠️ Pour votre sécurité, ne partagez jamais ce code avec quiconque. Notre équipe ne vous demandera jamais ce code.",
       notYouText: "Si vous n'avez pas demandé ce code, ignorez cet email et votre compte restera sécurisé.",
       footer: "Tous droits réservés."
     },
     loanRequestUser: {
-      subject: "Votre demande de prêt a été reçue - ALTUS FINANCES GROUP",
+      subject: "Votre demande de prêt a été reçue - SOLVENTUS GROUP",
       headerTitle: "✅ Demande de prêt reçue",
       greeting: "Bonjour",
       confirmationMessage: "Nous avons bien reçu votre demande de prêt",
@@ -425,7 +425,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     loanRequestAdmin: {
-      subject: "Nouvelle demande de prêt - ALTUS FINANCES GROUP",
+      subject: "Nouvelle demande de prêt - SOLVENTUS GROUP",
       headerTitle: "📋 Nouvelle demande de prêt",
       message: "Une nouvelle demande de prêt a été soumise et nécessite votre attention.",
       applicantLabel: "Demandeur:",
@@ -446,7 +446,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     kycUploadedAdmin: {
-      subject: "Nouveau document KYC uploadé - ALTUS FINANCES GROUP",
+      subject: "Nouveau document KYC uploadé - SOLVENTUS GROUP",
       headerTitle: "📄 Nouveau document KYC",
       message: "Un nouveau document KYC a été uploadé et nécessite votre vérification.",
       userLabel: "Utilisateur:",
@@ -458,7 +458,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     loanApprovedUser: {
-      subject: "Félicitations ! Votre prêt est approuvé - ALTUS FINANCES GROUP",
+      subject: "Félicitations ! Votre prêt est approuvé - SOLVENTUS GROUP",
       headerTitle: "🎉 Félicitations !",
       headerSubtitle: "Votre prêt est approuvé",
       greeting: "Bonjour",
@@ -476,7 +476,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     transferInitiatedAdmin: {
-      subject: "Nouveau transfert initié - ALTUS FINANCES GROUP",
+      subject: "Nouveau transfert initié - SOLVENTUS GROUP",
       headerTitle: "💸 Nouveau transfert initié",
       message: "Un nouveau transfert a été initié et nécessite votre attention.",
       userLabel: "Utilisateur:",
@@ -489,7 +489,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     transferCodeUser: {
-      subject: "Code de validation pour votre transfert - ALTUS FINANCES GROUP",
+      subject: "Code de validation pour votre transfert - SOLVENTUS GROUP",
       headerTitle: "🔐 Code de validation",
       greeting: "Bonjour",
       transferInfoTitle: "Détails du transfert",
@@ -505,7 +505,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     transferCompletedUser: {
-      subject: "Votre transfert est terminé - ALTUS FINANCES GROUP",
+      subject: "Votre transfert est terminé - SOLVENTUS GROUP",
       headerTitle: "✅ Transfert terminé avec succès",
       greeting: "Bonjour",
       congratulationsMessage: "Votre transfert a été complété avec succès après validation de tous les codes de sécurité.",
@@ -523,7 +523,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     transferCodesAdmin: {
-      subject: "Codes de transfert générés - ALTUS FINANCES GROUP",
+      subject: "Codes de transfert générés - SOLVENTUS GROUP",
       headerTitle: "🔐 Codes de validation de transfert générés",
       message: "Les codes de transfert ont été générés automatiquement pour le prêt suivant:",
       userLabel: "Utilisateur:",
@@ -539,7 +539,7 @@ const translations = {
       footer: "Tous droits réservés."
     },
     transferCompletedAdmin: {
-      subject: "Rapport de transfert complété - ALTUS FINANCES GROUP",
+      subject: "Rapport de transfert complété - SOLVENTUS GROUP",
       headerTitle: "📊 Transfert complété - Rapport administrateur",
       message: "Un transfert a été complété avec succès. Voici le rapport détaillé:",
       userInfoTitle: "👤 Informations utilisateur",
@@ -564,25 +564,25 @@ const translations = {
       business: "business/professional"
     },
     verification: {
-      subject: "Verify your email address - ALTUS FINANCES GROUP",
+      subject: "Verify your email address - SOLVENTUS GROUP",
       tagline: "Financing Solutions",
       greeting: "Hello",
-      thankYou: "Thank you for signing up on ALTUS FINANCES GROUP as a",
+      thankYou: "Thank you for signing up on SOLVENTUS GROUP as a",
       instruction: "To activate your account and access our financing services, please verify your email address by clicking the button below:",
       buttonText: "Verify my email",
       alternativeText: "If the button doesn't work, copy and paste this link into your browser:",
-      disclaimerText: "If you didn't create an account on ALTUS FINANCES GROUP, you can ignore this email.",
+      disclaimerText: "If you didn't create an account on SOLVENTUS GROUP, you can ignore this email.",
       footer: "All rights reserved.",
       textVersion: {
-        thankYou: "Thank you for signing up on ALTUS FINANCES GROUP as a",
+        thankYou: "Thank you for signing up on SOLVENTUS GROUP as a",
         instruction: "To activate your account, please verify your email address by visiting this link:",
-        disclaimer: "If you didn't create an account on ALTUS FINANCES GROUP, you can ignore this email.",
-        signature: "ALTUS FINANCES GROUP - Financing Solutions"
+        disclaimer: "If you didn't create an account on SOLVENTUS GROUP, you can ignore this email.",
+        signature: "SOLVENTUS GROUP - Financing Solutions"
       }
     },
     welcome: {
-      subject: "Welcome to ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 Welcome to ALTUS FINANCES GROUP!",
+      subject: "Welcome to SOLVENTUS GROUP!",
+      headerTitle: "🎉 Welcome to SOLVENTUS GROUP!",
       greeting: "Hello",
       verifiedMessage: "Your email has been successfully verified! Your",
       activeMessage: "account is now active.",
@@ -598,7 +598,7 @@ const translations = {
       footer: "All rights reserved."
     },
     contract: {
-      subject: "Your loan contract is available - ALTUS FINANCES GROUP",
+      subject: "Your loan contract is available - SOLVENTUS GROUP",
       headerTitle: "🎉 Congratulations!",
       headerSubtitle: "Your loan is approved",
       greeting: "Hello",
@@ -621,7 +621,7 @@ const translations = {
       footer: "All rights reserved."
     },
     fundingRelease: {
-      subject: "Your funds have been released - ALTUS FINANCES GROUP",
+      subject: "Your funds have been released - SOLVENTUS GROUP",
       headerTitle: "✅ Funds Released",
       headerSubtitle: "Your money is available",
       greeting: "Hello",
@@ -642,18 +642,18 @@ const translations = {
       footer: "All rights reserved."
     },
     otp: {
-      subject: "Verification Code - ALTUS FINANCES GROUP",
+      subject: "Verification Code - SOLVENTUS GROUP",
       headerTitle: "🔐 Two-Factor Authentication",
       greeting: "Hello",
       codeTitle: "Your verification code",
-      instruction: "Use the code below to log in to your ALTUS FINANCES GROUP account:",
+      instruction: "Use the code below to log in to your SOLVENTUS GROUP account:",
       expirationText: "This code will expire in 5 minutes.",
       securityWarning: "⚠️ For your security, never share this code with anyone. Our team will never ask you for this code.",
       notYouText: "If you didn't request this code, ignore this email and your account will remain secure.",
       footer: "All rights reserved."
     },
     loanRequestUser: {
-      subject: "Your loan request has been received - ALTUS FINANCES GROUP",
+      subject: "Your loan request has been received - SOLVENTUS GROUP",
       headerTitle: "✅ Loan request received",
       greeting: "Hello",
       confirmationMessage: "We have successfully received your loan request for",
@@ -669,7 +669,7 @@ const translations = {
       footer: "All rights reserved."
     },
     loanRequestAdmin: {
-      subject: "New loan request - ALTUS FINANCES GROUP",
+      subject: "New loan request - SOLVENTUS GROUP",
       headerTitle: "📋 New loan request",
       message: "A new loan request has been submitted and requires your attention.",
       applicantLabel: "Applicant:",
@@ -690,7 +690,7 @@ const translations = {
       footer: "All rights reserved."
     },
     kycUploadedAdmin: {
-      subject: "New KYC document uploaded - ALTUS FINANCES GROUP",
+      subject: "New KYC document uploaded - SOLVENTUS GROUP",
       headerTitle: "📄 New KYC document",
       message: "A new KYC document has been uploaded and requires your verification.",
       userLabel: "User:",
@@ -702,7 +702,7 @@ const translations = {
       footer: "All rights reserved."
     },
     loanApprovedUser: {
-      subject: "Congratulations! Your loan is approved - ALTUS FINANCES GROUP",
+      subject: "Congratulations! Your loan is approved - SOLVENTUS GROUP",
       headerTitle: "🎉 Congratulations!",
       headerSubtitle: "Your loan is approved",
       greeting: "Hello",
@@ -720,7 +720,7 @@ const translations = {
       footer: "All rights reserved."
     },
     transferInitiatedAdmin: {
-      subject: "New transfer initiated - ALTUS FINANCES GROUP",
+      subject: "New transfer initiated - SOLVENTUS GROUP",
       headerTitle: "💸 New transfer initiated",
       message: "A new transfer has been initiated and requires your attention.",
       userLabel: "User:",
@@ -733,7 +733,7 @@ const translations = {
       footer: "All rights reserved."
     },
     transferCodeUser: {
-      subject: "Validation code for your transfer - ALTUS FINANCES GROUP",
+      subject: "Validation code for your transfer - SOLVENTUS GROUP",
       headerTitle: "🔐 Validation code",
       greeting: "Hello",
       transferInfoTitle: "Transfer details",
@@ -749,7 +749,7 @@ const translations = {
       footer: "All rights reserved."
     },
     transferCompletedUser: {
-      subject: "Your transfer is complete - ALTUS FINANCES GROUP",
+      subject: "Your transfer is complete - SOLVENTUS GROUP",
       headerTitle: "✅ Transfer completed successfully",
       greeting: "Hello",
       congratulationsMessage: "Your transfer has been completed successfully after validation of all security codes.",
@@ -767,7 +767,7 @@ const translations = {
       footer: "All rights reserved."
     },
     transferCompletedAdmin: {
-      subject: "Transfer completion report - ALTUS FINANCES GROUP",
+      subject: "Transfer completion report - SOLVENTUS GROUP",
       headerTitle: "📊 Transfer completed - Admin report",
       message: "A transfer has been completed successfully. Here is the detailed report:",
       userInfoTitle: "👤 User information",
@@ -792,25 +792,25 @@ const translations = {
       business: "profesional/empresa"
     },
     verification: {
-      subject: "Verifica tu dirección de correo electrónico - ALTUS FINANCES GROUP",
+      subject: "Verifica tu dirección de correo electrónico - SOLVENTUS GROUP",
       tagline: "Soluciones de financiación",
       greeting: "Hola",
-      thankYou: "Gracias por registrarte en ALTUS FINANCES GROUP como",
+      thankYou: "Gracias por registrarte en SOLVENTUS GROUP como",
       instruction: "Para activar tu cuenta y acceder a nuestros servicios de financiación, verifica tu dirección de correo electrónico haciendo clic en el botón a continuación:",
       buttonText: "Verificar mi correo",
       alternativeText: "Si el botón no funciona, copia y pega este enlace en tu navegador:",
-      disclaimerText: "Si no creaste una cuenta en ALTUS FINANCES GROUP, puedes ignorar este correo.",
+      disclaimerText: "Si no creaste una cuenta en SOLVENTUS GROUP, puedes ignorar este correo.",
       footer: "Todos los derechos reservados.",
       textVersion: {
-        thankYou: "Gracias por registrarte en ALTUS FINANCES GROUP como",
+        thankYou: "Gracias por registrarte en SOLVENTUS GROUP como",
         instruction: "Para activar tu cuenta, verifica tu dirección de correo electrónico visitando este enlace:",
-        disclaimer: "Si no creaste una cuenta en ALTUS FINANCES GROUP, puedes ignorar este correo.",
-        signature: "ALTUS FINANCES GROUP - Soluciones de financiación"
+        disclaimer: "Si no creaste una cuenta en SOLVENTUS GROUP, puedes ignorar este correo.",
+        signature: "SOLVENTUS GROUP - Soluciones de financiación"
       }
     },
     welcome: {
-      subject: "¡Bienvenido a ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 ¡Bienvenido a ALTUS FINANCES GROUP!",
+      subject: "¡Bienvenido a SOLVENTUS GROUP!",
+      headerTitle: "🎉 ¡Bienvenido a SOLVENTUS GROUP!",
       greeting: "Hola",
       verifiedMessage: "¡Tu correo ha sido verificado con éxito! Tu cuenta",
       activeMessage: "está ahora activa.",
@@ -826,7 +826,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     contract: {
-      subject: "Tu contrato de préstamo está disponible - ALTUS FINANCES GROUP",
+      subject: "Tu contrato de préstamo está disponible - SOLVENTUS GROUP",
       headerTitle: "🎉 ¡Felicitaciones!",
       headerSubtitle: "Tu préstamo está aprobado",
       greeting: "Hola",
@@ -849,7 +849,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     fundingRelease: {
-      subject: "Tus fondos han sido liberados - ALTUS FINANCES GROUP",
+      subject: "Tus fondos han sido liberados - SOLVENTUS GROUP",
       headerTitle: "✅ Fondos Liberados",
       headerSubtitle: "Tu dinero está disponible",
       greeting: "Hola",
@@ -870,18 +870,18 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     otp: {
-      subject: "Código de verificación - ALTUS FINANCES GROUP",
+      subject: "Código de verificación - SOLVENTUS GROUP",
       headerTitle: "🔐 Autenticación de dos factores",
       greeting: "Hola",
       codeTitle: "Tu código de verificación",
-      instruction: "Usa el código a continuación para iniciar sesión en tu cuenta de ALTUS FINANCES GROUP:",
+      instruction: "Usa el código a continuación para iniciar sesión en tu cuenta de SOLVENTUS GROUP:",
       expirationText: "Este código expirará en 5 minutos.",
       securityWarning: "⚠️ Para tu seguridad, nunca compartas este código con nadie. Nuestro equipo nunca te pedirá este código.",
       notYouText: "Si no solicitaste este código, ignora este correo y tu cuenta permanecerá segura.",
       footer: "Todos los derechos reservados."
     },
     loanRequestUser: {
-      subject: "Tu solicitud de préstamo ha sido recibida - ALTUS FINANCES GROUP",
+      subject: "Tu solicitud de préstamo ha sido recibida - SOLVENTUS GROUP",
       headerTitle: "✅ Solicitud de préstamo recibida",
       greeting: "Hola",
       confirmationMessage: "Hemos recibido correctamente tu solicitud de préstamo de",
@@ -897,7 +897,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     loanRequestAdmin: {
-      subject: "Nueva solicitud de préstamo - ALTUS FINANCES GROUP",
+      subject: "Nueva solicitud de préstamo - SOLVENTUS GROUP",
       headerTitle: "📋 Nueva solicitud de préstamo",
       message: "Se ha enviado una nueva solicitud de préstamo que requiere tu atención.",
       applicantLabel: "Solicitante:",
@@ -918,7 +918,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     kycUploadedAdmin: {
-      subject: "Nuevo documento KYC cargado - ALTUS FINANCES GROUP",
+      subject: "Nuevo documento KYC cargado - SOLVENTUS GROUP",
       headerTitle: "📄 Nuevo documento KYC",
       message: "Se ha cargado un nuevo documento KYC que requiere tu verificación.",
       userLabel: "Usuario:",
@@ -930,7 +930,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     loanApprovedUser: {
-      subject: "¡Felicitaciones! Tu préstamo está aprobado - ALTUS FINANCES GROUP",
+      subject: "¡Felicitaciones! Tu préstamo está aprobado - SOLVENTUS GROUP",
       headerTitle: "🎉 ¡Felicitaciones!",
       headerSubtitle: "Tu préstamo está aprobado",
       greeting: "Hola",
@@ -948,7 +948,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     transferInitiatedAdmin: {
-      subject: "Nueva transferencia iniciada - ALTUS FINANCES GROUP",
+      subject: "Nueva transferencia iniciada - SOLVENTUS GROUP",
       headerTitle: "💸 Nueva transferencia iniciada",
       message: "Se ha iniciado una nueva transferencia que requiere tu atención.",
       userLabel: "Usuario:",
@@ -961,7 +961,7 @@ const translations = {
       footer: "Todos los derechos reservados."
     },
     transferCodeUser: {
-      subject: "Código de validación para tu transferencia - ALTUS FINANCES GROUP",
+      subject: "Código de validación para tu transferencia - SOLVENTUS GROUP",
       headerTitle: "🔐 Código de validación",
       greeting: "Hola",
       transferInfoTitle: "Detalles de la transferencia",
@@ -983,25 +983,25 @@ const translations = {
       business: "profissional/empresa"
     },
     verification: {
-      subject: "Verifique seu endereço de email - ALTUS FINANCES GROUP",
+      subject: "Verifique seu endereço de email - SOLVENTUS GROUP",
       tagline: "Soluções de financiamento",
       greeting: "Olá",
-      thankYou: "Obrigado por se inscrever no ALTUS FINANCES GROUP como",
+      thankYou: "Obrigado por se inscrever no SOLVENTUS GROUP como",
       instruction: "Para ativar sua conta e acessar nossos serviços de financiamento, verifique seu endereço de email clicando no botão abaixo:",
       buttonText: "Verificar meu email",
       alternativeText: "Se o botão não funcionar, copie e cole este link no seu navegador:",
-      disclaimerText: "Se você não criou uma conta no ALTUS FINANCES GROUP, pode ignorar este email.",
+      disclaimerText: "Se você não criou uma conta no SOLVENTUS GROUP, pode ignorar este email.",
       footer: "Todos os direitos reservados.",
       textVersion: {
-        thankYou: "Obrigado por se inscrever no ALTUS FINANCES GROUP como",
+        thankYou: "Obrigado por se inscrever no SOLVENTUS GROUP como",
         instruction: "Para ativar sua conta, verifique seu endereço de email visitando este link:",
-        disclaimer: "Se você não criou uma conta no ALTUS FINANCES GROUP, pode ignorar este email.",
-        signature: "ALTUS FINANCES GROUP - Soluções de financiamento"
+        disclaimer: "Se você não criou uma conta no SOLVENTUS GROUP, pode ignorar este email.",
+        signature: "SOLVENTUS GROUP - Soluções de financiamento"
       }
     },
     welcome: {
-      subject: "Bem-vindo ao ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 Bem-vindo ao ALTUS FINANCES GROUP!",
+      subject: "Bem-vindo ao SOLVENTUS GROUP!",
+      headerTitle: "🎉 Bem-vindo ao SOLVENTUS GROUP!",
       greeting: "Olá",
       verifiedMessage: "Seu email foi verificado com sucesso! Sua conta",
       activeMessage: "está agora ativa.",
@@ -1017,7 +1017,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     contract: {
-      subject: "Seu contrato de empréstimo está disponível - ALTUS FINANCES GROUP",
+      subject: "Seu contrato de empréstimo está disponível - SOLVENTUS GROUP",
       headerTitle: "🎉 Parabéns!",
       headerSubtitle: "Seu empréstimo foi aprovado",
       greeting: "Olá",
@@ -1040,7 +1040,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     fundingRelease: {
-      subject: "Seus fundos foram liberados - ALTUS FINANCES GROUP",
+      subject: "Seus fundos foram liberados - SOLVENTUS GROUP",
       headerTitle: "✅ Fundos Liberados",
       headerSubtitle: "Seu dinheiro está disponível",
       greeting: "Olá",
@@ -1061,18 +1061,18 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     otp: {
-      subject: "Código de verificação - ALTUS FINANCES GROUP",
+      subject: "Código de verificação - SOLVENTUS GROUP",
       headerTitle: "🔐 Autenticação de dois fatores",
       greeting: "Olá",
       codeTitle: "Seu código de verificação",
-      instruction: "Use o código abaixo para fazer login na sua conta ALTUS FINANCES GROUP:",
+      instruction: "Use o código abaixo para fazer login na sua conta SOLVENTUS GROUP:",
       expirationText: "Este código expirará em 5 minutos.",
       securityWarning: "⚠️ Para sua segurança, nunca compartilhe este código com ninguém. Nossa equipe nunca pedirá este código.",
       notYouText: "Se você não solicitou este código, ignore este email e sua conta permanecerá segura.",
       footer: "Todos os direitos reservados."
     },
     loanRequestUser: {
-      subject: "Sua solicitação de empréstimo foi recebida - ALTUS FINANCES GROUP",
+      subject: "Sua solicitação de empréstimo foi recebida - SOLVENTUS GROUP",
       headerTitle: "✅ Solicitação de empréstimo recebida",
       greeting: "Olá",
       confirmationMessage: "Recebemos com sucesso sua solicitação de empréstimo de",
@@ -1088,7 +1088,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     loanRequestAdmin: {
-      subject: "Nova solicitação de empréstimo - ALTUS FINANCES GROUP",
+      subject: "Nova solicitação de empréstimo - SOLVENTUS GROUP",
       headerTitle: "📋 Nova solicitação de empréstimo",
       message: "Uma nova solicitação de empréstimo foi enviada e requer sua atenção.",
       applicantLabel: "Solicitante:",
@@ -1109,7 +1109,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     kycUploadedAdmin: {
-      subject: "Novo documento KYC enviado - ALTUS FINANCES GROUP",
+      subject: "Novo documento KYC enviado - SOLVENTUS GROUP",
       headerTitle: "📄 Novo documento KYC",
       message: "Um novo documento KYC foi enviado e requer sua verificação.",
       userLabel: "Usuário:",
@@ -1121,7 +1121,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     loanApprovedUser: {
-      subject: "Parabéns! Seu empréstimo foi aprovado - ALTUS FINANCES GROUP",
+      subject: "Parabéns! Seu empréstimo foi aprovado - SOLVENTUS GROUP",
       headerTitle: "🎉 Parabéns!",
       headerSubtitle: "Seu empréstimo foi aprovado",
       greeting: "Olá",
@@ -1139,7 +1139,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     transferInitiatedAdmin: {
-      subject: "Nova transferência iniciada - ALTUS FINANCES GROUP",
+      subject: "Nova transferência iniciada - SOLVENTUS GROUP",
       headerTitle: "💸 Nova transferência iniciada",
       message: "Uma nova transferência foi iniciada e requer sua atenção.",
       userLabel: "Usuário:",
@@ -1152,7 +1152,7 @@ const translations = {
       footer: "Todos os direitos reservados."
     },
     transferCodeUser: {
-      subject: "Código de validação para sua transferência - ALTUS FINANCES GROUP",
+      subject: "Código de validação para sua transferência - SOLVENTUS GROUP",
       headerTitle: "🔐 Código de validação",
       greeting: "Olá",
       transferInfoTitle: "Detalhes da transferência",
@@ -1174,25 +1174,25 @@ const translations = {
       business: "professionale/aziendale"
     },
     verification: {
-      subject: "Verifica il tuo indirizzo email - ALTUS FINANCES GROUP",
+      subject: "Verifica il tuo indirizzo email - SOLVENTUS GROUP",
       tagline: "Soluzioni di finanziamento",
       greeting: "Ciao",
-      thankYou: "Grazie per esserti iscritto su ALTUS FINANCES GROUP come",
+      thankYou: "Grazie per esserti iscritto su SOLVENTUS GROUP come",
       instruction: "Per attivare il tuo account e accedere ai nostri servizi di finanziamento, verifica il tuo indirizzo email cliccando sul pulsante qui sotto:",
       buttonText: "Verifica la mia email",
       alternativeText: "Se il pulsante non funziona, copia e incolla questo link nel tuo browser:",
-      disclaimerText: "Se non hai creato un account su ALTUS FINANCES GROUP, puoi ignorare questa email.",
+      disclaimerText: "Se non hai creato un account su SOLVENTUS GROUP, puoi ignorare questa email.",
       footer: "Tutti i diritti riservati.",
       textVersion: {
-        thankYou: "Grazie per esserti iscritto su ALTUS FINANCES GROUP come",
+        thankYou: "Grazie per esserti iscritto su SOLVENTUS GROUP come",
         instruction: "Per attivare il tuo account, verifica il tuo indirizzo email visitando questo link:",
-        disclaimer: "Se non hai creato un account su ALTUS FINANCES GROUP, puoi ignorare questa email.",
-        signature: "ALTUS FINANCES GROUP - Soluzioni di finanziamento"
+        disclaimer: "Se non hai creato un account su SOLVENTUS GROUP, puoi ignorare questa email.",
+        signature: "SOLVENTUS GROUP - Soluzioni di finanziamento"
       }
     },
     welcome: {
-      subject: "Benvenuto su ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 Benvenuto su ALTUS FINANCES GROUP!",
+      subject: "Benvenuto su SOLVENTUS GROUP!",
+      headerTitle: "🎉 Benvenuto su SOLVENTUS GROUP!",
       greeting: "Ciao",
       verifiedMessage: "La tua email è stata verificata con successo! Il tuo account",
       activeMessage: "è ora attivo.",
@@ -1208,7 +1208,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     contract: {
-      subject: "Il tuo contratto di prestito è disponibile - ALTUS FINANCES GROUP",
+      subject: "Il tuo contratto di prestito è disponibile - SOLVENTUS GROUP",
       headerTitle: "🎉 Congratulazioni!",
       headerSubtitle: "Il tuo prestito è approvato",
       greeting: "Ciao",
@@ -1231,7 +1231,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     fundingRelease: {
-      subject: "I tuoi fondi sono stati rilasciati - ALTUS FINANCES GROUP",
+      subject: "I tuoi fondi sono stati rilasciati - SOLVENTUS GROUP",
       headerTitle: "✅ Fondi Rilasciati",
       headerSubtitle: "Il tuo denaro è disponibile",
       greeting: "Ciao",
@@ -1252,18 +1252,18 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     otp: {
-      subject: "Codice di verifica - ALTUS FINANCES GROUP",
+      subject: "Codice di verifica - SOLVENTUS GROUP",
       headerTitle: "🔐 Autenticazione a due fattori",
       greeting: "Ciao",
       codeTitle: "Il tuo codice di verifica",
-      instruction: "Usa il codice qui sotto per accedere al tuo account ALTUS FINANCES GROUP:",
+      instruction: "Usa il codice qui sotto per accedere al tuo account SOLVENTUS GROUP:",
       expirationText: "Questo codice scadrà tra 5 minuti.",
       securityWarning: "⚠️ Per la tua sicurezza, non condividere mai questo codice con nessuno. Il nostro team non ti chiederà mai questo codice.",
       notYouText: "Se non hai richiesto questo codice, ignora questa email e il tuo account rimarrà sicuro.",
       footer: "Tutti i diritti riservati."
     },
     loanRequestUser: {
-      subject: "La tua richiesta di prestito è stata ricevuta - ALTUS FINANCES GROUP",
+      subject: "La tua richiesta di prestito è stata ricevuta - SOLVENTUS GROUP",
       headerTitle: "✅ Richiesta di prestito ricevuta",
       greeting: "Ciao",
       confirmationMessage: "Abbiamo ricevuto con successo la tua richiesta di prestito di",
@@ -1279,7 +1279,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     loanRequestAdmin: {
-      subject: "Nuova richiesta di prestito - ALTUS FINANCES GROUP",
+      subject: "Nuova richiesta di prestito - SOLVENTUS GROUP",
       headerTitle: "📋 Nuova richiesta di prestito",
       message: "È stata inviata una nuova richiesta di prestito che richiede la tua attenzione.",
       applicantLabel: "Richiedente:",
@@ -1300,7 +1300,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     kycUploadedAdmin: {
-      subject: "Nuovo documento KYC caricato - ALTUS FINANCES GROUP",
+      subject: "Nuovo documento KYC caricato - SOLVENTUS GROUP",
       headerTitle: "📄 Nuovo documento KYC",
       message: "È stato caricato un nuovo documento KYC che richiede la tua verifica.",
       userLabel: "Utente:",
@@ -1312,7 +1312,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     loanApprovedUser: {
-      subject: "Congratulazioni! Il tuo prestito è approvato - ALTUS FINANCES GROUP",
+      subject: "Congratulazioni! Il tuo prestito è approvato - SOLVENTUS GROUP",
       headerTitle: "🎉 Congratulazioni!",
       headerSubtitle: "Il tuo prestito è approvato",
       greeting: "Ciao",
@@ -1330,7 +1330,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     transferInitiatedAdmin: {
-      subject: "Nuovo trasferimento avviato - ALTUS FINANCES GROUP",
+      subject: "Nuovo trasferimento avviato - SOLVENTUS GROUP",
       headerTitle: "💸 Nuovo trasferimento avviato",
       message: "È stato avviato un nuovo trasferimento che richiede la tua attenzione.",
       userLabel: "Utente:",
@@ -1343,7 +1343,7 @@ const translations = {
       footer: "Tutti i diritti riservati."
     },
     transferCodeUser: {
-      subject: "Codice di convalida per il tuo trasferimento - ALTUS FINANCES GROUP",
+      subject: "Codice di convalida per il tuo trasferimento - SOLVENTUS GROUP",
       headerTitle: "🔐 Codice di convalida",
       greeting: "Ciao",
       transferInfoTitle: "Dettagli trasferimento",
@@ -1365,25 +1365,25 @@ const translations = {
       business: "geschäftlich/unternehmen"
     },
     verification: {
-      subject: "Bestätigen Sie Ihre E-Mail-Adresse - ALTUS FINANCES GROUP",
+      subject: "Bestätigen Sie Ihre E-Mail-Adresse - SOLVENTUS GROUP",
       tagline: "Finanzierungslösungen",
       greeting: "Hallo",
-      thankYou: "Vielen Dank für Ihre Anmeldung bei ALTUS FINANCES GROUP als",
+      thankYou: "Vielen Dank für Ihre Anmeldung bei SOLVENTUS GROUP als",
       instruction: "Um Ihr Konto zu aktivieren und auf unsere Finanzierungsdienstleistungen zuzugreifen, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken:",
       buttonText: "Meine E-Mail bestätigen",
       alternativeText: "Wenn die Schaltfläche nicht funktioniert, kopieren Sie diesen Link und fügen Sie ihn in Ihren Browser ein:",
-      disclaimerText: "Wenn Sie kein Konto bei ALTUS FINANCES GROUP erstellt haben, können Sie diese E-Mail ignorieren.",
+      disclaimerText: "Wenn Sie kein Konto bei SOLVENTUS GROUP erstellt haben, können Sie diese E-Mail ignorieren.",
       footer: "Alle Rechte vorbehalten.",
       textVersion: {
-        thankYou: "Vielen Dank für Ihre Anmeldung bei ALTUS FINANCES GROUP als",
+        thankYou: "Vielen Dank für Ihre Anmeldung bei SOLVENTUS GROUP als",
         instruction: "Um Ihr Konto zu aktivieren, bestätigen Sie bitte Ihre E-Mail-Adresse, indem Sie diesen Link besuchen:",
-        disclaimer: "Wenn Sie kein Konto bei ALTUS FINANCES GROUP erstellt haben, können Sie diese E-Mail ignorieren.",
-        signature: "ALTUS FINANCES GROUP - Finanzierungslösungen"
+        disclaimer: "Wenn Sie kein Konto bei SOLVENTUS GROUP erstellt haben, können Sie diese E-Mail ignorieren.",
+        signature: "SOLVENTUS GROUP - Finanzierungslösungen"
       }
     },
     welcome: {
-      subject: "Willkommen bei ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 Willkommen bei ALTUS FINANCES GROUP!",
+      subject: "Willkommen bei SOLVENTUS GROUP!",
+      headerTitle: "🎉 Willkommen bei SOLVENTUS GROUP!",
       greeting: "Hallo",
       verifiedMessage: "Ihre E-Mail wurde erfolgreich bestätigt! Ihr Konto",
       activeMessage: "ist jetzt aktiv.",
@@ -1399,7 +1399,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     contract: {
-      subject: "Ihr Kreditvertrag ist verfügbar - ALTUS FINANCES GROUP",
+      subject: "Ihr Kreditvertrag ist verfügbar - SOLVENTUS GROUP",
       headerTitle: "🎉 Herzlichen Glückwunsch!",
       headerSubtitle: "Ihr Kredit wurde genehmigt",
       greeting: "Hallo",
@@ -1422,7 +1422,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     fundingRelease: {
-      subject: "Ihre Mittel wurden freigegeben - ALTUS FINANCES GROUP",
+      subject: "Ihre Mittel wurden freigegeben - SOLVENTUS GROUP",
       headerTitle: "✅ Mittel Freigegeben",
       headerSubtitle: "Ihr Geld ist verfügbar",
       greeting: "Hallo",
@@ -1443,18 +1443,18 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     otp: {
-      subject: "Bestätigungscode - ALTUS FINANCES GROUP",
+      subject: "Bestätigungscode - SOLVENTUS GROUP",
       headerTitle: "🔐 Zwei-Faktor-Authentifizierung",
       greeting: "Hallo",
       codeTitle: "Ihr Bestätigungscode",
-      instruction: "Verwenden Sie den unten stehenden Code, um sich bei Ihrem ALTUS FINANCES GROUP-Konto anzumelden:",
+      instruction: "Verwenden Sie den unten stehenden Code, um sich bei Ihrem SOLVENTUS GROUP-Konto anzumelden:",
       expirationText: "Dieser Code läuft in 5 Minuten ab.",
       securityWarning: "⚠️ Zu Ihrer Sicherheit teilen Sie diesen Code niemals mit jemandem. Unser Team wird Sie niemals nach diesem Code fragen.",
       notYouText: "Wenn Sie diesen Code nicht angefordert haben, ignorieren Sie diese E-Mail und Ihr Konto bleibt sicher.",
       footer: "Alle Rechte vorbehalten."
     },
     loanRequestUser: {
-      subject: "Ihr Kreditantrag wurde erhalten - ALTUS FINANCES GROUP",
+      subject: "Ihr Kreditantrag wurde erhalten - SOLVENTUS GROUP",
       headerTitle: "✅ Kreditantrag erhalten",
       greeting: "Hallo",
       confirmationMessage: "Wir haben Ihren Kreditantrag erfolgreich erhalten für",
@@ -1470,7 +1470,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     loanRequestAdmin: {
-      subject: "Neuer Kreditantrag - ALTUS FINANCES GROUP",
+      subject: "Neuer Kreditantrag - SOLVENTUS GROUP",
       headerTitle: "📋 Neuer Kreditantrag",
       message: "Ein neuer Kreditantrag wurde eingereicht und benötigt Ihre Aufmerksamkeit.",
       applicantLabel: "Antragsteller:",
@@ -1491,7 +1491,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     kycUploadedAdmin: {
-      subject: "Neues KYC-Dokument hochgeladen - ALTUS FINANCES GROUP",
+      subject: "Neues KYC-Dokument hochgeladen - SOLVENTUS GROUP",
       headerTitle: "📄 Neues KYC-Dokument",
       message: "Ein neues KYC-Dokument wurde hochgeladen und benötigt Ihre Überprüfung.",
       userLabel: "Benutzer:",
@@ -1503,7 +1503,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     loanApprovedUser: {
-      subject: "Glückwunsch! Ihr Kredit wurde genehmigt - ALTUS FINANCES GROUP",
+      subject: "Glückwunsch! Ihr Kredit wurde genehmigt - SOLVENTUS GROUP",
       headerTitle: "🎉 Glückwunsch!",
       headerSubtitle: "Ihr Kredit wurde genehmigt",
       greeting: "Hallo",
@@ -1521,7 +1521,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     transferInitiatedAdmin: {
-      subject: "Neue Überweisung initiiert - ALTUS FINANCES GROUP",
+      subject: "Neue Überweisung initiiert - SOLVENTUS GROUP",
       headerTitle: "💸 Neue Überweisung initiiert",
       message: "Eine neue Überweisung wurde initiiert und benötigt Ihre Aufmerksamkeit.",
       userLabel: "Benutzer:",
@@ -1534,7 +1534,7 @@ const translations = {
       footer: "Alle Rechte vorbehalten."
     },
     transferCodeUser: {
-      subject: "Bestätigungscode für Ihre Überweisung - ALTUS FINANCES GROUP",
+      subject: "Bestätigungscode für Ihre Überweisung - SOLVENTUS GROUP",
       headerTitle: "🔐 Bestätigungscode",
       greeting: "Hallo",
       transferInfoTitle: "Überweisungsdetails",
@@ -1556,25 +1556,25 @@ const translations = {
       business: "professioneel/zakelijk"
     },
     verification: {
-      subject: "Verifieer uw e-mailadres - ALTUS FINANCES GROUP",
+      subject: "Verifieer uw e-mailadres - SOLVENTUS GROUP",
       tagline: "Financieringsoplossingen",
       greeting: "Hallo",
-      thankYou: "Bedankt voor uw aanmelding bij ALTUS FINANCES GROUP als",
+      thankYou: "Bedankt voor uw aanmelding bij SOLVENTUS GROUP als",
       instruction: "Om uw account te activeren en toegang te krijgen tot onze financieringsdiensten, verifieert u uw e-mailadres door op de onderstaande knop te klikken:",
       buttonText: "Verifieer mijn e-mail",
       alternativeText: "Als de knop niet werkt, kopieer en plak deze link in uw browser:",
-      disclaimerText: "Als u geen account heeft aangemaakt bij ALTUS FINANCES GROUP, kunt u deze e-mail negeren.",
+      disclaimerText: "Als u geen account heeft aangemaakt bij SOLVENTUS GROUP, kunt u deze e-mail negeren.",
       footer: "Alle rechten voorbehouden.",
       textVersion: {
-        thankYou: "Bedankt voor uw aanmelding bij ALTUS FINANCES GROUP als",
+        thankYou: "Bedankt voor uw aanmelding bij SOLVENTUS GROUP als",
         instruction: "Om uw account te activeren, verifieert u uw e-mailadres door deze link te bezoeken:",
-        disclaimer: "Als u geen account heeft aangemaakt bij ALTUS FINANCES GROUP, kunt u deze e-mail negeren.",
-        signature: "ALTUS FINANCES GROUP - Financieringsoplossingen"
+        disclaimer: "Als u geen account heeft aangemaakt bij SOLVENTUS GROUP, kunt u deze e-mail negeren.",
+        signature: "SOLVENTUS GROUP - Financieringsoplossingen"
       }
     },
     welcome: {
-      subject: "Welkom bij ALTUS FINANCES GROUP!",
-      headerTitle: "🎉 Welkom bij ALTUS FINANCES GROUP!",
+      subject: "Welkom bij SOLVENTUS GROUP!",
+      headerTitle: "🎉 Welkom bij SOLVENTUS GROUP!",
       greeting: "Hallo",
       verifiedMessage: "Uw e-mail is succesvol geverifieerd! Uw account",
       activeMessage: "is nu actief.",
@@ -1590,7 +1590,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     contract: {
-      subject: "Uw leningscontract is beschikbaar - ALTUS FINANCES GROUP",
+      subject: "Uw leningscontract is beschikbaar - SOLVENTUS GROUP",
       headerTitle: "🎉 Gefeliciteerd!",
       headerSubtitle: "Uw lening is goedgekeurd",
       greeting: "Hallo",
@@ -1613,7 +1613,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     fundingRelease: {
-      subject: "Uw middelen zijn vrijgegeven - ALTUS FINANCES GROUP",
+      subject: "Uw middelen zijn vrijgegeven - SOLVENTUS GROUP",
       headerTitle: "✅ Middelen Vrijgegeven",
       headerSubtitle: "Uw geld is beschikbaar",
       greeting: "Hallo",
@@ -1634,18 +1634,18 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     otp: {
-      subject: "Verificatiecode - ALTUS FINANCES GROUP",
+      subject: "Verificatiecode - SOLVENTUS GROUP",
       headerTitle: "🔐 Twee-factor-authenticatie",
       greeting: "Hallo",
       codeTitle: "Uw verificatiecode",
-      instruction: "Gebruik de onderstaande code om in te loggen op uw ALTUS FINANCES GROUP-account:",
+      instruction: "Gebruik de onderstaande code om in te loggen op uw SOLVENTUS GROUP-account:",
       expirationText: "Deze code verloopt over 5 minuten.",
       securityWarning: "⚠️ Voor uw veiligheid, deel deze code nooit met iemand. Ons team zal u nooit om deze code vragen.",
       notYouText: "Als u deze code niet heeft aangevraagd, negeer deze e-mail en uw account blijft veilig.",
       footer: "Alle rechten voorbehouden."
     },
     loanRequestUser: {
-      subject: "Uw leningaanvraag is ontvangen - ALTUS FINANCES GROUP",
+      subject: "Uw leningaanvraag is ontvangen - SOLVENTUS GROUP",
       headerTitle: "✅ Leningaanvraag ontvangen",
       greeting: "Hallo",
       confirmationMessage: "We hebben uw leningaanvraag succesvol ontvangen voor",
@@ -1661,7 +1661,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     loanRequestAdmin: {
-      subject: "Nieuwe leningaanvraag - ALTUS FINANCES GROUP",
+      subject: "Nieuwe leningaanvraag - SOLVENTUS GROUP",
       headerTitle: "📋 Nieuwe leningaanvraag",
       message: "Er is een nieuwe leningaanvraag ingediend die uw aandacht vereist.",
       applicantLabel: "Aanvrager:",
@@ -1682,7 +1682,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     kycUploadedAdmin: {
-      subject: "Nieuw KYC-document geüpload - ALTUS FINANCES GROUP",
+      subject: "Nieuw KYC-document geüpload - SOLVENTUS GROUP",
       headerTitle: "📄 Nieuw KYC-document",
       message: "Er is een nieuw KYC-document geüpload dat uw verificatie vereist.",
       userLabel: "Gebruiker:",
@@ -1694,7 +1694,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     loanApprovedUser: {
-      subject: "Gefeliciteerd! Uw lening is goedgekeurd - ALTUS FINANCES GROUP",
+      subject: "Gefeliciteerd! Uw lening is goedgekeurd - SOLVENTUS GROUP",
       headerTitle: "🎉 Gefeliciteerd!",
       headerSubtitle: "Uw lening is goedgekeurd",
       greeting: "Hallo",
@@ -1712,7 +1712,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     transferInitiatedAdmin: {
-      subject: "Nieuwe overboeking geïnitieerd - ALTUS FINANCES GROUP",
+      subject: "Nieuwe overboeking geïnitieerd - SOLVENTUS GROUP",
       headerTitle: "💸 Nieuwe overboeking geïnitieerd",
       message: "Er is een nieuwe overboeking geïnitieerd die uw aandacht vereist.",
       userLabel: "Gebruiker:",
@@ -1725,7 +1725,7 @@ const translations = {
       footer: "Alle rechten voorbehouden."
     },
     transferCodeUser: {
-      subject: "Validatiecode voor uw overboeking - ALTUS FINANCES GROUP",
+      subject: "Validatiecode voor uw overboeking - SOLVENTUS GROUP",
       headerTitle: "🔐 Validatiecode",
       greeting: "Hallo",
       transferInfoTitle: "Overboekingsdetails",
@@ -1849,7 +1849,7 @@ ${t.buttonText}: ${vars.loginUrl}
 
 ${t.supportText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -1958,7 +1958,7 @@ ${t.accessNote}
 
 ${t.contactText} ${vars.fromEmail}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2051,7 +2051,7 @@ ${t.reminderText}
 
 ${t.supportText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2130,7 +2130,7 @@ ${t.dashboardButton}: ${vars.dashboardUrl}
 
 ${t.supportText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2250,7 +2250,7 @@ ${documentsText}
 
 ${t.actionButton}: ${vars.reviewUrl}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2319,7 +2319,7 @@ ${t.userIdLabel} ${vars.userId}
 
 ${t.actionButton}: ${vars.reviewUrl}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2407,7 +2407,7 @@ ${t.importantTitle} ${t.importantMessage}
 
 ${t.supportText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2481,7 +2481,7 @@ ${t.userIdLabel} ${vars.userId}
 
 ${t.actionButton}: ${vars.reviewUrl}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2562,7 +2562,7 @@ ${t.securityWarning}
 
 ${t.notYouText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
   `;
 
   return {
@@ -2643,7 +2643,7 @@ ${t.supportEmail} ${vars.supportEmail}
 
 ${t.thanksMessage}
 
-ALTUS FINANCES GROUP`;
+SOLVENTUS GROUP`;
 
   return { subject: t.subject, html, text };
 }
@@ -2740,7 +2740,7 @@ ${t.completedAtLabel} ${vars.completedAt}
 
 ${t.actionButton}: ${vars.reviewUrl}
 
-ALTUS FINANCES GROUP`;
+SOLVENTUS GROUP`;
 
   return { subject: t.subject, html, text };
 }
@@ -2838,7 +2838,7 @@ ${t.securityWarning}
 
 ${t.notYouText}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
 ${t.footer}
   `;
 
@@ -2947,7 +2947,7 @@ ${codesTextList}
 ${t.importantTitle}
 ${t.importantMessage}
 
-ALTUS FINANCES GROUP
+SOLVENTUS GROUP
 ${t.footer}
   `;
 
