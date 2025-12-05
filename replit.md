@@ -8,6 +8,19 @@ Solventus Group is a multi-language professional loan management platform for bu
 
 Preferred communication style: Simple, everyday language. High standards for security, SEO, and code quality - all implementations must be production-ready.
 
+## Recent Changes (December 5, 2025)
+
+- **Complete Rebranding to Solventus Group:** Finished the migration from "Altus Finances Group" to "Solventus Group":
+  - Server configuration files (server/index.ts, server/routes.ts, server/chat-socket.ts)
+  - Cookie domains and CORS origins updated to solventusgroup.com
+  - Contract generator HTML templates and stamps updated
+  - CSS variables renamed from altus-* to solventus-* (theme.css)
+  - Tailwind utility classes updated across all frontend components
+  - Premium UI components (ButtonPremium, TopbarPremium, InfoBarPremium)
+  - Authentication page (Auth.tsx) styling updated
+  - Manifest files and SEO metadata updated
+  - All documentation updated
+
 ## Recent Changes (December 4, 2025)
 
 - **Brand Renaming:** Renamed "Altus Finances Group" to "Solventus Group" across all visible text (535 replacements):

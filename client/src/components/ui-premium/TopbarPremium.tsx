@@ -28,17 +28,17 @@ export default function TopbarPremium({ onMenuClick, rightNode }: Props) {
 
           <div className="flex items-center gap-3">
             <img src="/logo-solventus.svg" className="h-8" alt="Solventus Group" data-testid="img-logo" />
-            <span className="font-semibold text-lg text-altus-ink hidden md:inline" data-testid="text-brand-name">
+            <span className="font-semibold text-lg text-solventus-ink hidden md:inline" data-testid="text-brand-name">
               Solventus Group
             </span>
           </div>
         </div>
 
-        <nav className="hidden md:flex gap-6 text-sm text-altus-muted">
-          <a href="/" className="hover:text-altus-royal" data-testid="link-home">{t.nav.home}</a>
-          <a href="/products" className="hover:text-altus-royal" data-testid="link-products">{t.nav.products}</a>
-          <a href="/how" className="hover:text-altus-royal" data-testid="link-how">{t.nav.howItWorks}</a>
-          <a href="/faq" className="hover:text-altus-royal" data-testid="link-faq">{t.nav.faq}</a>
+        <nav className="hidden md:flex gap-6 text-sm text-solventus-muted">
+          <a href="/" className="hover:text-solventus-royal" data-testid="link-home">{t.nav.home}</a>
+          <a href="/products" className="hover:text-solventus-royal" data-testid="link-products">{t.nav.products}</a>
+          <a href="/how" className="hover:text-solventus-royal" data-testid="link-how">{t.nav.howItWorks}</a>
+          <a href="/faq" className="hover:text-solventus-royal" data-testid="link-faq">{t.nav.faq}</a>
         </nav>
 
         <div>

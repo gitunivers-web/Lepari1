@@ -1,18 +1,18 @@
 :root {
-  --altus-indigo: #1e40af;
-  --altus-royal: #3b82f6;
-  --altus-slate: #1e293b;
-  --altus-ink: #0f172a;
-  --altus-muted: #64748b;
-  --altus-bg: #ffffff;
+  --solventus-indigo: #1e40af;
+  --solventus-royal: #3b82f6;
+  --solventus-slate: #1e293b;
+  --solventus-ink: #0f172a;
+  --solventus-muted: #64748b;
+  --solventus-bg: #ffffff;
   --glass-bg: rgba(255,255,255,0.7);
   --glass-border: rgba(255,255,255,0.5);
   --soft-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
 }
 
 body {
-  background: var(--altus-bg);
-  color: var(--altus-ink);
+  background: var(--solventus-bg);
+  color: var(--solventus-ink);
 }
 
 /* Premium Component Animations */

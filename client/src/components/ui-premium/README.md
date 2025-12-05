@@ -21,10 +21,10 @@ import {
 
 Les variables CSS et couleurs sont définies dans `client/src/styles/theme.css` :
 
-- `--altus-indigo`: #5b21b6 (couleur principale)
-- `--altus-royal`: #3b82f6 (couleur secondaire)
-- `--altus-ink`: #0f172a (texte principal)
-- `--altus-muted`: #6b7280 (texte secondaire)
+- `--solventus-indigo`: #5b21b6 (couleur principale)
+- `--solventus-royal`: #3b82f6 (couleur secondaire)
+- `--solventus-ink`: #0f172a (texte principal)
+- `--solventus-muted`: #6b7280 (texte secondaire)
 - `--soft-shadow`: 0 6px 30px rgba(11, 15, 30, 0.06)
 
 ## Composants
@@ -132,10 +132,10 @@ Tous les composants incluent :
 Nouvelles couleurs disponibles :
 
 ```tsx
-className="bg-altus-indigo text-white"
-className="text-altus-royal"
-className="text-altus-ink"
-className="text-altus-muted"
+className="bg-solventus-indigo text-white"
+className="text-solventus-royal"
+className="text-solventus-ink"
+className="text-solventus-muted"
 className="shadow-soft-2025"
 className="rounded-xl-3"
 ```

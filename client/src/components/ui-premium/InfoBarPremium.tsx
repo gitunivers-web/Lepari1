@@ -22,7 +22,7 @@ export default function InfoBarPremium() {
   const Icon = currentMessage.icon;
 
   return (
-    <div className="w-full bg-gradient-to-r from-altus-indigo via-altus-royal to-altus-indigo text-white shadow-md">
+    <div className="w-full bg-gradient-to-r from-solventus-indigo via-solventus-royal to-solventus-indigo text-white shadow-md">
       <div className="max-w-[1400px] mx-auto py-2 px-4 text-center">
         <div
           key={index}
