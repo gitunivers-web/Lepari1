@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useTranslations } from "@/lib/i18n";
-import hero1 from "@assets/generated_images/Luxury_banking_office_interior_c438e2ad.png";
-import hero2 from "@assets/generated_images/Executive_boardroom_financial_institution_69d8133b.png";
-import hero3 from "@assets/generated_images/Financial_district_skyline_premium_61766895.png";
+import hero1 from "@assets/generated_images/luxury_bank_headquarters_interior.png";
+import hero2 from "@assets/generated_images/executive_boardroom_financial_institution.png";
+import hero3 from "@assets/generated_images/financial_district_skyline_premium.png";
 
 const slideImages = [hero1, hero2, hero3];
 
