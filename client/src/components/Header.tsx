@@ -95,17 +95,20 @@ export default function Header() {
           
           {/* Logo */}
           <Link href="/">
-            <div className={`flex items-center gap-3 cursor-pointer group transition-all duration-300 ${
+            <div className={`flex items-center gap-2 cursor-pointer group transition-all duration-300 ${
               scrolled ? 'scale-95' : 'scale-100'
             }`}>
-              <div className="relative">
-                <img src="/logo.png" alt="Solventus" className={`transition-all duration-300 ${
-                  scrolled ? 'w-32' : 'w-40'
-                }`} />
-                <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
+              <div className="relative flex-shrink-0">
+                <img 
+                  src="/logo-cropped.png" 
+                  alt="Solventus Group" 
+                  className={`transition-all duration-300 object-contain ${
+                    scrolled ? 'h-10' : 'h-12'
+                  }`} 
+                />
               </div>
               <div className="hidden lg:block">
-                <span className="font-bold text-xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent group-hover:from-primary group-hover:via-primary/80 group-hover:to-primary transition-all duration-300">
+                <span className="font-bold text-lg bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent group-hover:from-primary group-hover:via-primary/80 group-hover:to-primary transition-all duration-300">
                   Solventus Group
                 </span>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground/70 font-medium">
