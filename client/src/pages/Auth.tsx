@@ -271,9 +271,9 @@ export default function Auth() {
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1 text-center">
             <img 
-              src="/logo.png" 
+              src="/logo-cropped.png" 
               alt="SOLVENTUS GROUP" 
-              className="mx-auto w-64 h-auto mb-5"
+              className="mx-auto h-16 w-auto mb-4"
               data-testid="img-logo-auth"
             />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">SOLVENTUS GROUP</h2>

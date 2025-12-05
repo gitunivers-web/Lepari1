@@ -1,47 +1,63 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useTranslations } from "@/lib/i18n";
-import hero1 from "@assets/generated_images/luxury_bank_headquarters_interior.png";
-import hero2 from "@assets/generated_images/executive_boardroom_financial_institution.png";
-import hero3 from "@assets/generated_images/financial_district_skyline_premium.png";
+import hero1 from "@assets/generated_images/financial_district_skyline_twilight.png";
+import hero2 from "@assets/generated_images/executive_finance_meeting_room.png";
+import hero3 from "@assets/generated_images/abstract_fintech_data_visualization.png";
 
 const slideImages = [hero1, hero2, hero3];
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [, setLocation] = useLocation();
   const t = useTranslations();
 
   useEffect(() => {
     const timer = setInterval(() => {
+      setIsTransitioning(true);
+      setPrevIndex(index);
       setIndex((prev) => (prev + 1) % Math.min(t.hero.slides.length, slideImages.length));
+      setTimeout(() => setIsTransitioning(false), 1200);
     }, 6000);
     return () => clearInterval(timer);
-  }, [t.hero.slides.length]);
+  }, [index, t.hero.slides.length]);
+
+  const handleSlideChange = (newIndex: number) => {
+    if (newIndex !== index) {
+      setIsTransitioning(true);
+      setPrevIndex(index);
+      setIndex(newIndex);
+      setTimeout(() => setIsTransitioning(false), 1200);
+    }
+  };
 
   const currentSlides = t.hero.slides.slice(0, slideImages.length);
 
   return (
     <div className="relative h-[500px] md:h-[550px] w-full overflow-hidden mt-[165px]">
-      {/* Slides */}
+      {/* Slides with smooth crossfade transition */}
       {currentSlides.map((_, i) => (
         <div
           key={i}
-          className={`absolute inset-0 transition-all ease-out
-            ${i === index 
-              ? "opacity-100 scale-100 translate-x-0 duration-1000" 
-              : "opacity-0 scale-105 translate-x-8 duration-2000"
-            }
+          className={`absolute inset-0 transition-opacity ease-in-out duration-[1200ms]
+            ${i === index ? "opacity-100 z-[2]" : "opacity-0 z-[1]"}
           `}
         >
           <img
             src={slideImages[i]}
             alt={`Hero ${i + 1}`}
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover transition-transform duration-[8000ms] ease-out
+              ${i === index ? "scale-105" : "scale-100"}
+            `}
           />
 
-          {/* Gradient overlay - Premium banking colors */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0d0f3b]/85 to-[#4b3bff]/45"></div>
+          {/* Premium gradient overlay - Slate blue finance aesthetic */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-blue-900/50"></div>
+          
+          {/* Subtle mesh overlay for depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent"></div>
         </div>
       ))}
 
@@ -84,16 +100,16 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      {/* Slide indicators */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+      {/* Slide indicators - Modern finance style */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
         {currentSlides.map((_, i) => (
           <button
             key={i}
-            onClick={() => setIndex(i)}
-            className={`h-2 rounded-full transition-all duration-500
+            onClick={() => handleSlideChange(i)}
+            className={`h-1.5 rounded-full transition-all duration-500 ease-out
               ${i === index 
-                ? "w-12 bg-white" 
-                : "w-2 bg-white/40 hover:bg-white/60"
+                ? "w-10 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" 
+                : "w-1.5 bg-white/30 hover:bg-white/50"
               }
             `}
             aria-label={`Go to slide ${i + 1}`}
