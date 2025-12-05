@@ -99,7 +99,7 @@ export default function Header() {
               scrolled ? 'scale-95' : 'scale-100'
             }`}>
               <div className="relative">
-                <img src="/logo.png" alt="ALTUS" className={`transition-all duration-300 ${
+                <img src="/logo.png" alt="Solventus" className={`transition-all duration-300 ${
                   scrolled ? 'h-9' : 'h-11'
                 }`} />
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />

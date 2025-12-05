@@ -272,11 +272,11 @@ export default function Auth() {
           <div className="flex-1 text-center">
             <img 
               src="/logo.png" 
-              alt="ALTUS FINANCES GROUP" 
+              alt="SOLVENTUS GROUP" 
               className="mx-auto h-20 w-auto mb-3"
               data-testid="img-logo-auth"
             />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">ALTUS FINANCES GROUP</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">SOLVENTUS GROUP</h2>
             <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{t.auth.subtitle}</p>
           </div>
 

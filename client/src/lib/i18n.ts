@@ -2896,7 +2896,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Rejoignez des milliers d\'entreprises satisfaites',
-        subtitle: 'Faites confiance à l\'expertise ALTUS pour financer vos projets les plus ambitieux',
+        subtitle: 'Faites confiance à l\'expertise Solventus pour financer vos projets les plus ambitieux',
         button1: 'Demander un financement',
         button2: 'Nous contacter',
       },
@@ -3163,7 +3163,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience sur notre plateforme. Vous pouvez contrôler les cookies via les paramètres de votre navigateur.',
         section7Title: '7. Nous Contacter',
-        section7Content: 'Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@altus-group.com',
+        section7Content: 'Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -3221,7 +3221,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'ans',
       features: 'Avantages',
       learnMore: 'En savoir plus',
-      advantagesTitle: 'Avantages ALTUS Pro',
+      advantagesTitle: 'Avantages Solventus Pro',
       advantages: [
         'Conseiller dédié pour votre entreprise',
         'Étude personnalisée de votre dossier',
@@ -3364,7 +3364,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Votre partenaire de confiance pour le financement',
       loginTab: 'Connexion',
       signupTab: 'Inscription',
@@ -3386,7 +3386,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Inscription en cours...',
       backToHome: 'Retour à l\'accueil',
       loginSuccess: 'Connexion réussie !',
-      loginSuccessDesc: 'Bienvenue sur ALTUS',
+      loginSuccessDesc: 'Bienvenue sur Solventus',
       signupSuccess: 'Inscription réussie !',
       signupSuccessDesc: 'Un email de vérification a été envoyé à votre adresse.',
       loginError: 'Erreur de connexion',
@@ -3398,7 +3398,7 @@ export const translations: Record<Language, TranslationKeys> = {
       passwordPlaceholder: '••••••••',
       fullNamePlaceholder: 'Jean Dupont',
       phonePlaceholder: '+33 6 12 34 56 78',
-      companyNamePlaceholder: 'SARL ALTUS',
+      companyNamePlaceholder: 'SARL Solventus',
       siretPlaceholder: '123 456 789 00010',
       required: 'requis',
       companyRequired: 'Le nom de l\'entreprise est requis pour un compte professionnel',
@@ -3703,7 +3703,7 @@ export const translations: Record<Language, TranslationKeys> = {
         declineTerms: 'Refuser',
       },
       welcome: {
-        title: 'Bienvenue sur ALTUS',
+        title: 'Bienvenue sur Solventus',
         description: 'Votre compte a été créé avec succès',
         accountTypeTitle: 'Votre type de compte',
         individualAccount: 'Compte Particulier',
@@ -3955,7 +3955,7 @@ export const translations: Record<Language, TranslationKeys> = {
         `Format IBAN invalide pour ${country}. Attendu : ${expected} caractères (actuellement ${actual}).`,
     },
     welcomeModal: {
-      title: 'Bienvenue sur ALTUS',
+      title: 'Bienvenue sur Solventus',
       description: 'Votre compte a été créé avec succès',
       accountType: 'Votre type de compte',
       individualAccount: 'Compte Particulier',
@@ -4173,7 +4173,7 @@ export const translations: Record<Language, TranslationKeys> = {
         bankLabel: 'Banque',
         transferAmountLabel: 'Montant du transfert',
         senderLabel: 'Expéditeur',
-        senderValue: 'Compte ALTUS Finance',
+        senderValue: 'Compte Solventus',
         recipientLabel: 'Destinataire',
         recipientDefault: 'Banque SEPA',
         referenceLabel: 'Référence',
@@ -4330,11 +4330,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Conditions Générales d\'Utilisation - Carte Virtuelle ALTUS',
+      title: 'Conditions Générales d\'Utilisation - Carte Virtuelle Solventus',
       lastUpdated: 'Dernière mise à jour : Novembre 2025',
       section1: {
         title: '1. OBJET ET CHAMP D\'APPLICATION',
-        content: 'Les présentes conditions générales (ci-après « CGU ») régissent l\'utilisation de la carte bancaire virtuelle ALTUS (ci-après « la Carte Virtuelle »), proposée par ALTUS Finance Group aux clients titulaires d\'un compte ALTUS (ci-après « le Titulaire »). La Carte Virtuelle est un moyen de paiement dématérialisé lié à votre compte ALTUS.',
+        content: 'Les présentes conditions générales (ci-après « CGU ») régissent l\'utilisation de la carte bancaire virtuelle Solventus (ci-après « la Carte Virtuelle »), proposée par Solventus Group aux clients titulaires d\'un compte Solventus (ci-après « le Titulaire »). La Carte Virtuelle est un moyen de paiement dématérialisé lié à votre compte Solventus.',
       },
       section2: {
         title: '2. DESCRIPTION DU SERVICE',
@@ -4348,7 +4348,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. CONDITIONS D\'ÉLIGIBILITÉ',
         content: 'Pour obtenir une Carte Virtuelle, le Titulaire doit :',
         list: [
-          'Être client ALTUS avec un compte actif et approvisionné',
+          'Être client Solventus avec un compte actif et approvisionné',
           'Avoir complété la vérification d\'identité (KYC)',
           'Ne pas être en situation de découvert non autorisé',
           'Avoir activé l\'authentification forte (double facteur)',
@@ -4358,7 +4358,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ACTIVATION ET UTILISATION',
         subtitle1: '4.1 Activation',
-        content1: 'La Carte Virtuelle est activée instantanément dès sa création via l\'application ou l\'espace client ALTUS. Le Titulaire reçoit immédiatement les coordonnées complètes de la carte.',
+        content1: 'La Carte Virtuelle est activée instantanément dès sa création via l\'application ou l\'espace client Solventus. Le Titulaire reçoit immédiatement les coordonnées complètes de la carte.',
         subtitle2: '4.2 Utilisations autorisées',
         list1: [
           'Paiements sur tous les sites marchands en ligne acceptant Visa/Mastercard',
@@ -4390,7 +4390,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. PLAFONDS ET LIMITES',
-        content: 'Les plafonds de paiement de la Carte Virtuelle sont identiques à ceux de votre carte principale ALTUS :',
+        content: 'Les plafonds de paiement de la Carte Virtuelle sont identiques à ceux de votre carte principale Solventus :',
         list: [
           'Plafond mensuel : jusqu\'à 50 000 € selon votre profil',
           'Plafond par transaction : jusqu\'à 10 000 €',
@@ -4410,7 +4410,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. DÉBIT ET RELEVÉ',
-        content: 'Toutes les opérations effectuées avec la Carte Virtuelle sont débitées en temps réel sur votre compte ALTUS. Elles apparaissent immédiatement dans votre historique de transactions et sur vos relevés mensuels.',
+        content: 'Toutes les opérations effectuées avec la Carte Virtuelle sont débitées en temps réel sur votre compte Solventus. Elles apparaissent immédiatement dans votre historique de transactions et sur vos relevés mensuels.',
       },
       section9: {
         title: '9. OPPOSITION ET RÉSILIATION',
@@ -4423,7 +4423,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. RESPONSABILITÉ',
-        content: 'ALTUS ne pourra être tenu responsable en cas de :',
+        content: 'Solventus ne pourra être tenu responsable en cas de :',
         list: [
           'Refus d\'un commerçant d\'accepter la Carte Virtuelle',
           'Interruption temporaire du service pour maintenance',
@@ -4434,13 +4434,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. DURÉE ET MODIFICATION',
-        content: 'Les présentes CGU sont conclues pour une durée indéterminée. ALTUS se réserve le droit de modifier les présentes CGU à tout moment. Toute modification sera notifiée au Titulaire au moins 2 mois avant son entrée en vigueur. L\'absence d\'opposition dans ce délai vaudra acceptation.',
+        content: 'Les présentes CGU sont conclues pour une durée indéterminée. Solventus se réserve le droit de modifier les présentes CGU à tout moment. Toute modification sera notifiée au Titulaire au moins 2 mois avant son entrée en vigueur. L\'absence d\'opposition dans ce délai vaudra acceptation.',
       },
       section12: {
         title: '12. RÉCLAMATIONS',
-        content: 'Pour toute réclamation, le Titulaire peut contacter le service client ALTUS :',
+        content: 'Pour toute réclamation, le Titulaire peut contacter le service client Solventus :',
         list: [
-          'Par email : support@altusgroup.com',
+          'Par email : support@solventusgroup.com',
           'Par téléphone : +33 1 XX XX XX XX',
           'Via l\'espace client sécurisé',
         ],
@@ -4450,7 +4450,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. DROIT APPLICABLE ET JURIDICTION',
         content: 'Les présentes CGU sont régies par le droit français. Tout litige relatif à leur interprétation ou exécution relève de la compétence exclusive des tribunaux français.',
       },
-      note: 'En activant votre Carte Virtuelle ALTUS, vous reconnaissez avoir lu, compris et accepté l\'intégralité des présentes Conditions Générales d\'Utilisation.',
+      note: 'En activant votre Carte Virtuelle Solventus, vous reconnaissez avoir lu, compris et accepté l\'intégralité des présentes Conditions Générales d\'Utilisation.',
     },
     processTimeline: {
       title: 'Processus de Financement',
@@ -4579,7 +4579,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Votre partenaire de confiance pour tous vos projets de financement. Solutions de prêt adaptées aux particuliers et professionnels.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Horaires d\'ouverture',
       hours: {
@@ -5499,7 +5499,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Join thousands of satisfied companies',
-        subtitle: 'Trust ALTUS expertise to finance your most ambitious projects',
+        subtitle: 'Trust Solventus expertise to finance your most ambitious projects',
         button1: 'Request financing',
         button2: 'Contact us',
       },
@@ -5764,7 +5764,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'We use cookies and similar tracking technologies to enhance your experience on our platform. You can control cookies through your browser settings.',
         section7Title: '7. Contact Us',
-        section7Content: 'If you have questions about this Privacy Policy, please contact us at privacy@altus-group.com',
+        section7Content: 'If you have questions about this Privacy Policy, please contact us at privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -5822,7 +5822,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'years',
       features: 'Advantages',
       learnMore: 'Learn more',
-      advantagesTitle: 'ALTUS Pro Advantages',
+      advantagesTitle: 'Solventus Pro Advantages',
       advantages: [
         'Dedicated advisor for your business',
         'Personalized study of your file',
@@ -5953,7 +5953,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Your trusted partner for financing',
       loginTab: 'Login',
       signupTab: 'Sign up',
@@ -5975,7 +5975,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Signing up...',
       backToHome: 'Back to home',
       loginSuccess: 'Login successful!',
-      loginSuccessDesc: 'Welcome to ALTUS',
+      loginSuccessDesc: 'Welcome to Solventus',
       signupSuccess: 'Sign up successful!',
       signupSuccessDesc: 'A verification email has been sent to your address.',
       loginError: 'Login error',
@@ -6374,7 +6374,7 @@ export const translations: Record<Language, TranslationKeys> = {
         declineTerms: 'Decline',
       },
       welcome: {
-        title: 'Welcome to ALTUS',
+        title: 'Welcome to Solventus',
         description: 'Your account has been successfully created',
         accountTypeTitle: 'Your Account Type',
         individualAccount: 'Personal Account',
@@ -6626,7 +6626,7 @@ export const translations: Record<Language, TranslationKeys> = {
         `Invalid IBAN format for ${country}. Expected: ${expected} characters (currently ${actual}).`,
     },
     welcomeModal: {
-      title: 'Welcome to ALTUS',
+      title: 'Welcome to Solventus',
       description: 'Your account has been successfully created',
       accountType: 'Your Account Type',
       individualAccount: 'Personal Account',
@@ -6844,7 +6844,7 @@ export const translations: Record<Language, TranslationKeys> = {
         bankLabel: 'Bank',
         transferAmountLabel: 'Transfer Amount',
         senderLabel: 'Sender',
-        senderValue: 'ALTUS Finance Account',
+        senderValue: 'Solventus Account',
         recipientLabel: 'Recipient',
         recipientDefault: 'SEPA Bank',
         referenceLabel: 'Reference',
@@ -7001,11 +7001,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Terms and Conditions - ALTUS Virtual Card',
+      title: 'Terms and Conditions - Solventus Virtual Card',
       lastUpdated: 'Last updated: November 2025',
       section1: {
         title: '1. PURPOSE AND SCOPE',
-        content: 'These general terms and conditions (hereinafter "T&C") govern the use of the ALTUS virtual bank card (hereinafter "Virtual Card"), offered by ALTUS Finance Group to customers holding an ALTUS account (hereinafter "Cardholder"). The Virtual Card is a dematerialized means of payment linked to your ALTUS account.',
+        content: 'These general terms and conditions (hereinafter "T&C") govern the use of the Solventus virtual bank card (hereinafter "Virtual Card"), offered by Solventus Group to customers holding an Solventus account (hereinafter "Cardholder"). The Virtual Card is a dematerialized means of payment linked to your Solventus account.',
       },
       section2: {
         title: '2. SERVICE DESCRIPTION',
@@ -7019,7 +7019,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. ELIGIBILITY CONDITIONS',
         content: 'To obtain a Virtual Card, the Cardholder must:',
         list: [
-          'Be an ALTUS customer with an active and funded account',
+          'Be an Solventus customer with an active and funded account',
           'Have completed identity verification (KYC)',
           'Not be in an unauthorized overdraft situation',
           'Have activated strong authentication (two-factor)',
@@ -7029,7 +7029,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ACTIVATION AND USE',
         subtitle1: '4.1 Activation',
-        content1: 'The Virtual Card is instantly activated upon creation via the ALTUS application or client area. The Cardholder immediately receives the complete card credentials.',
+        content1: 'The Virtual Card is instantly activated upon creation via the Solventus application or client area. The Cardholder immediately receives the complete card credentials.',
         subtitle2: '4.2 Authorized Uses',
         list1: [
           'Payments on all online merchant sites accepting Visa/Mastercard',
@@ -7061,7 +7061,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. LIMITS AND CEILINGS',
-        content: 'The Virtual Card payment limits are identical to those of your main ALTUS card:',
+        content: 'The Virtual Card payment limits are identical to those of your main Solventus card:',
         list: [
           'Monthly limit: up to €50,000 depending on your profile',
           'Per transaction limit: up to €10,000',
@@ -7081,7 +7081,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. DEBIT AND STATEMENT',
-        content: 'All operations performed with the Virtual Card are debited in real-time from your ALTUS account. They appear immediately in your transaction history and on your monthly statements.',
+        content: 'All operations performed with the Virtual Card are debited in real-time from your Solventus account. They appear immediately in your transaction history and on your monthly statements.',
       },
       section9: {
         title: '9. OPPOSITION AND TERMINATION',
@@ -7094,7 +7094,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. LIABILITY',
-        content: 'ALTUS cannot be held liable in case of:',
+        content: 'Solventus cannot be held liable in case of:',
         list: [
           'Merchant refusal to accept the Virtual Card',
           'Temporary service interruption for maintenance',
@@ -7105,13 +7105,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. TERM AND MODIFICATION',
-        content: 'These T&C are concluded for an indefinite period. ALTUS reserves the right to modify these T&C at any time. Any modification will be notified to the Cardholder at least 2 months before its entry into force. Absence of opposition within this period will constitute acceptance.',
+        content: 'These T&C are concluded for an indefinite period. Solventus reserves the right to modify these T&C at any time. Any modification will be notified to the Cardholder at least 2 months before its entry into force. Absence of opposition within this period will constitute acceptance.',
       },
       section12: {
         title: '12. COMPLAINTS',
-        content: 'For any complaint, the Cardholder may contact ALTUS customer service:',
+        content: 'For any complaint, the Cardholder may contact Solventus customer service:',
         list: [
-          'By email: support@altusgroup.com',
+          'By email: support@solventusgroup.com',
           'By phone: +44 XX XX XX XX',
           'Via secure client area',
         ],
@@ -7121,7 +7121,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. APPLICABLE LAW AND JURISDICTION',
         content: 'These T&C are governed by English law. Any dispute relating to their interpretation or execution falls under the exclusive jurisdiction of English courts.',
       },
-      note: 'By activating your ALTUS Virtual Card, you acknowledge having read, understood, and accepted all of these Terms and Conditions.',
+      note: 'By activating your Solventus Virtual Card, you acknowledge having read, understood, and accepted all of these Terms and Conditions.',
     },
     processTimeline: {
       title: 'Financing Process',
@@ -7250,7 +7250,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Your trusted partner for all your financing projects. Loan solutions tailored to individuals and professionals.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Opening Hours',
       hours: {
@@ -8159,7 +8159,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Únase a miles de empresas satisfechas',
-        subtitle: 'Confíe en la experiencia de ALTUS para financiar sus proyectos más ambiciosos',
+        subtitle: 'Confíe en la experiencia de Solventus para financiar sus proyectos más ambiciosos',
         button1: 'Solicitar financiación',
         button2: 'Contactar',
       },
@@ -8426,7 +8426,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Utilizamos cookies y tecnologías de seguimiento similares para mejorar su experiencia en nuestra plataforma. Puede controlar las cookies a través de la configuración de su navegador.',
         section7Title: '7. Contáctenos',
-        section7Content: 'Si tiene preguntas sobre esta Política de Privacidad, contáctenos en privacy@altus-group.com',
+        section7Content: 'Si tiene preguntas sobre esta Política de Privacidad, contáctenos en privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -8519,7 +8519,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Su socio de confianza para financiamiento',
       loginTab: 'Iniciar sesión',
       signupTab: 'Registrarse',
@@ -8541,7 +8541,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Registrándose...',
       backToHome: 'Volver al inicio',
       loginSuccess: '¡Inicio de sesión exitoso!',
-      loginSuccessDesc: 'Bienvenido a ALTUS',
+      loginSuccessDesc: 'Bienvenido a Solventus',
       signupSuccess: '¡Registro exitoso!',
       signupSuccessDesc: 'Se ha enviado un correo de verificación a su dirección.',
       loginError: 'Error de inicio de sesión',
@@ -8940,7 +8940,7 @@ export const translations: Record<Language, TranslationKeys> = {
         declineTerms: 'Rechazar',
       },
       welcome: {
-        title: 'Bienvenido a ALTUS',
+        title: 'Bienvenido a Solventus',
         description: 'Su cuenta ha sido creada exitosamente',
         accountTypeTitle: 'Su Tipo de Cuenta',
         individualAccount: 'Cuenta Personal',
@@ -9190,7 +9190,7 @@ export const translations: Record<Language, TranslationKeys> = {
         `Formato IBAN inválido para ${country}. Esperado: ${expected} caracteres (actualmente ${actual}).`,
     },
     welcomeModal: {
-      title: 'Bienvenido a ALTUS',
+      title: 'Bienvenido a Solventus',
       description: 'Su cuenta ha sido creada exitosamente',
       accountType: 'Su Tipo de Cuenta',
       individualAccount: 'Cuenta Personal',
@@ -9408,7 +9408,7 @@ export const translations: Record<Language, TranslationKeys> = {
         stepsTitle: 'Pasos de la transferencia',
         transferAmountLabel: 'Monto de transferencia',
         senderLabel: 'Emisor',
-        senderValue: 'Cuenta ALTUS Finance',
+        senderValue: 'Cuenta Solventus',
         recipientLabel: 'Destinatario',
         recipientDefault: 'Banco SEPA',
         referenceLabel: 'Referencia',
@@ -9565,11 +9565,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Condiciones Generales de Uso - Tarjeta Virtual ALTUS',
+      title: 'Condiciones Generales de Uso - Tarjeta Virtual Solventus',
       lastUpdated: 'Última actualización: Noviembre 2025',
       section1: {
         title: '1. OBJETO Y ÁMBITO DE APLICACIÓN',
-        content: 'Las presentes condiciones generales (en adelante "CGU") rigen el uso de la tarjeta bancaria virtual ALTUS (en adelante "la Tarjeta Virtual"), propuesta por ALTUS Finance Group a los clientes titulares de una cuenta ALTUS (en adelante "el Titular"). La Tarjeta Virtual es un medio de pago desmaterializado vinculado a su cuenta ALTUS.',
+        content: 'Las presentes condiciones generales (en adelante "CGU") rigen el uso de la tarjeta bancaria virtual Solventus (en adelante "la Tarjeta Virtual"), propuesta por Solventus Group a los clientes titulares de una cuenta Solventus (en adelante "el Titular"). La Tarjeta Virtual es un medio de pago desmaterializado vinculado a su cuenta Solventus.',
       },
       section2: {
         title: '2. DESCRIPCIÓN DEL SERVICIO',
@@ -9583,7 +9583,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. CONDICIONES DE ELEGIBILIDAD',
         content: 'Para obtener una Tarjeta Virtual, el Titular debe:',
         list: [
-          'Ser cliente ALTUS con una cuenta activa y con fondos',
+          'Ser cliente Solventus con una cuenta activa y con fondos',
           'Haber completado la verificación de identidad (KYC)',
           'No estar en situación de descubierto no autorizado',
           'Haber activado la autenticación fuerte (doble factor)',
@@ -9593,7 +9593,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ACTIVACIÓN Y USO',
         subtitle1: '4.1 Activación',
-        content1: 'La Tarjeta Virtual se activa instantáneamente desde su creación a través de la aplicación o el área de cliente ALTUS. El Titular recibe inmediatamente las credenciales completas de la tarjeta.',
+        content1: 'La Tarjeta Virtual se activa instantáneamente desde su creación a través de la aplicación o el área de cliente Solventus. El Titular recibe inmediatamente las credenciales completas de la tarjeta.',
         subtitle2: '4.2 Usos Autorizados',
         list1: [
           'Pagos en todos los sitios comerciales en línea que acepten Visa/Mastercard',
@@ -9625,7 +9625,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. LÍMITES Y TECHOS',
-        content: 'Los límites de pago de la Tarjeta Virtual son idénticos a los de su tarjeta principal ALTUS:',
+        content: 'Los límites de pago de la Tarjeta Virtual son idénticos a los de su tarjeta principal Solventus:',
         list: [
           'Límite mensual: hasta 50.000 € según su perfil',
           'Límite por transacción: hasta 10.000 €',
@@ -9645,7 +9645,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. DÉBITO Y EXTRACTO',
-        content: 'Todas las operaciones realizadas con la Tarjeta Virtual se debitan en tiempo real de su cuenta ALTUS. Aparecen inmediatamente en su historial de transacciones y en sus extractos mensuales.',
+        content: 'Todas las operaciones realizadas con la Tarjeta Virtual se debitan en tiempo real de su cuenta Solventus. Aparecen inmediatamente en su historial de transacciones y en sus extractos mensuales.',
       },
       section9: {
         title: '9. OPOSICIÓN Y RESOLUCIÓN',
@@ -9658,7 +9658,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. RESPONSABILIDAD',
-        content: 'ALTUS no podrá ser responsable en caso de:',
+        content: 'Solventus no podrá ser responsable en caso de:',
         list: [
           'Rechazo de un comerciante a aceptar la Tarjeta Virtual',
           'Interrupción temporal del servicio por mantenimiento',
@@ -9669,13 +9669,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. DURACIÓN Y MODIFICACIÓN',
-        content: 'Las presentes CGU se concluyen por duración indeterminada. ALTUS se reserva el derecho de modificar las presentes CGU en cualquier momento. Toda modificación será notificada al Titular al menos 2 meses antes de su entrada en vigor. La ausencia de oposición en este plazo valdrá aceptación.',
+        content: 'Las presentes CGU se concluyen por duración indeterminada. Solventus se reserva el derecho de modificar las presentes CGU en cualquier momento. Toda modificación será notificada al Titular al menos 2 meses antes de su entrada en vigor. La ausencia de oposición en este plazo valdrá aceptación.',
       },
       section12: {
         title: '12. RECLAMACIONES',
-        content: 'Para cualquier reclamación, el Titular puede contactar al servicio de atención al cliente ALTUS:',
+        content: 'Para cualquier reclamación, el Titular puede contactar al servicio de atención al cliente Solventus:',
         list: [
-          'Por correo electrónico: support@altusgroup.com',
+          'Por correo electrónico: support@solventusgroup.com',
           'Por teléfono: +34 XX XX XX XX',
           'A través del área de cliente segura',
         ],
@@ -9685,7 +9685,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. DERECHO APLICABLE Y JURISDICCIÓN',
         content: 'Las presentes CGU se rigen por el derecho español. Todo litigio relativo a su interpretación o ejecución es competencia exclusiva de los tribunales españoles.',
       },
-      note: 'Al activar su Tarjeta Virtual ALTUS, usted reconoce haber leído, comprendido y aceptado la totalidad de las presentes Condiciones Generales de Uso.',
+      note: 'Al activar su Tarjeta Virtual Solventus, usted reconoce haber leído, comprendido y aceptado la totalidad de las presentes Condiciones Generales de Uso.',
     },
     processTimeline: {
       title: 'Proceso de Financiamiento',
@@ -9814,7 +9814,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Su socio de confianza para todos sus proyectos de financiamiento. Soluciones de préstamo adaptadas a particulares y profesionales.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Horario de Atención',
       hours: {
@@ -9928,7 +9928,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'años',
       features: 'Ventajas',
       learnMore: 'Más información',
-      advantagesTitle: 'Ventajas ALTUS Pro',
+      advantagesTitle: 'Ventajas Solventus Pro',
       advantages: [
         'Asesor dedicado para su empresa',
         'Estudio personalizado de su expediente',
@@ -10821,7 +10821,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Junte-se a milhares de empresas satisfeitas',
-        subtitle: 'Confie na expertise da ALTUS para financiar os seus projetos mais ambiciosos',
+        subtitle: 'Confie na expertise da Solventus para financiar os seus projetos mais ambiciosos',
         button1: 'Solicitar financiamento',
         button2: 'Contactar',
       },
@@ -11088,7 +11088,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Usamos cookies e tecnologias de rastreamento semelhantes para melhorar sua experiência em nossa plataforma. Você pode controlar cookies através das configurações do seu navegador.',
         section7Title: '7. Contate-nos',
-        section7Content: 'Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco em privacy@altus-group.com',
+        section7Content: 'Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco em privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -11181,7 +11181,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Seu parceiro de confiança para financiamento',
       loginTab: 'Entrar',
       signupTab: 'Cadastrar',
@@ -11203,7 +11203,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Cadastrando...',
       backToHome: 'Voltar ao início',
       loginSuccess: 'Login bem-sucedido!',
-      loginSuccessDesc: 'Bem-vindo à ALTUS',
+      loginSuccessDesc: 'Bem-vindo à Solventus',
       signupSuccess: 'Cadastro bem-sucedido!',
       signupSuccessDesc: 'Um e-mail de verificação foi enviado para seu endereço.',
       loginError: 'Erro de login',
@@ -12070,7 +12070,7 @@ export const translations: Record<Language, TranslationKeys> = {
         bankLabel: 'Banco',
         transferAmountLabel: 'Valor da transferência',
         senderLabel: 'Remetente',
-        senderValue: 'Conta ALTUS Finance',
+        senderValue: 'Conta Solventus',
         recipientLabel: 'Destinatário',
         recipientDefault: 'Banco SEPA',
         referenceLabel: 'Referência',
@@ -12227,11 +12227,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Termos e Condições de Uso - Cartão Virtual ALTUS',
+      title: 'Termos e Condições de Uso - Cartão Virtual Solventus',
       lastUpdated: 'Última atualização: Novembro 2025',
       section1: {
         title: '1. OBJETO E ÂMBITO DE APLICAÇÃO',
-        content: 'Os presentes termos e condições gerais (doravante "TCG") regem o uso do cartão bancário virtual ALTUS (doravante "Cartão Virtual"), oferecido pela ALTUS Finance Group aos clientes titulares de uma conta ALTUS (doravante "Titular"). O Cartão Virtual é um meio de pagamento desmaterializado vinculado à sua conta ALTUS.',
+        content: 'Os presentes termos e condições gerais (doravante "TCG") regem o uso do cartão bancário virtual Solventus (doravante "Cartão Virtual"), oferecido pela Solventus Group aos clientes titulares de uma conta Solventus (doravante "Titular"). O Cartão Virtual é um meio de pagamento desmaterializado vinculado à sua conta Solventus.',
       },
       section2: {
         title: '2. DESCRIÇÃO DO SERVIÇO',
@@ -12245,7 +12245,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. CONDIÇÕES DE ELEGIBILIDADE',
         content: 'Para obter um Cartão Virtual, o Titular deve:',
         list: [
-          'Ser cliente ALTUS com uma conta ativa e com fundos',
+          'Ser cliente Solventus com uma conta ativa e com fundos',
           'Ter concluído a verificação de identidade (KYC)',
           'Não estar em situação de saque a descoberto não autorizado',
           'Ter ativado a autenticação forte (duplo fator)',
@@ -12255,7 +12255,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ATIVAÇÃO E USO',
         subtitle1: '4.1 Ativação',
-        content1: 'O Cartão Virtual é ativado instantaneamente após sua criação através do aplicativo ou da área do cliente ALTUS. O Titular recebe imediatamente as credenciais completas do cartão.',
+        content1: 'O Cartão Virtual é ativado instantaneamente após sua criação através do aplicativo ou da área do cliente Solventus. O Titular recebe imediatamente as credenciais completas do cartão.',
         subtitle2: '4.2 Usos Autorizados',
         list1: [
           'Pagamentos em todos os sites comerciais online que aceitem Visa/Mastercard',
@@ -12287,7 +12287,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. LIMITES E TETOS',
-        content: 'Os limites de pagamento do Cartão Virtual são idênticos aos do seu cartão principal ALTUS:',
+        content: 'Os limites de pagamento do Cartão Virtual são idênticos aos do seu cartão principal Solventus:',
         list: [
           'Limite mensal: até 50.000 € conforme seu perfil',
           'Limite por transação: até 10.000 €',
@@ -12307,7 +12307,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. DÉBITO E EXTRATO',
-        content: 'Todas as operações realizadas com o Cartão Virtual são debitadas em tempo real da sua conta ALTUS. Aparecem imediatamente no seu histórico de transações e nos seus extratos mensais.',
+        content: 'Todas as operações realizadas com o Cartão Virtual são debitadas em tempo real da sua conta Solventus. Aparecem imediatamente no seu histórico de transações e nos seus extratos mensais.',
       },
       section9: {
         title: '9. OPOSIÇÃO E RESCISÃO',
@@ -12320,7 +12320,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. RESPONSABILIDADE',
-        content: 'A ALTUS não poderá ser responsabilizada em caso de:',
+        content: 'A Solventus não poderá ser responsabilizada em caso de:',
         list: [
           'Recusa de um comerciante em aceitar o Cartão Virtual',
           'Interrupção temporária do serviço para manutenção',
@@ -12331,13 +12331,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. DURAÇÃO E MODIFICAÇÃO',
-        content: 'Os presentes TCG são celebrados por prazo indeterminado. A ALTUS reserva-se o direito de modificar os presentes TCG a qualquer momento. Qualquer modificação será notificada ao Titular pelo menos 2 meses antes de sua entrada em vigor. A ausência de oposição neste prazo valerá como aceitação.',
+        content: 'Os presentes TCG são celebrados por prazo indeterminado. A Solventus reserva-se o direito de modificar os presentes TCG a qualquer momento. Qualquer modificação será notificada ao Titular pelo menos 2 meses antes de sua entrada em vigor. A ausência de oposição neste prazo valerá como aceitação.',
       },
       section12: {
         title: '12. RECLAMAÇÕES',
-        content: 'Para qualquer reclamação, o Titular pode contatar o atendimento ao cliente ALTUS:',
+        content: 'Para qualquer reclamação, o Titular pode contatar o atendimento ao cliente Solventus:',
         list: [
-          'Por e-mail: support@altusgroup.com',
+          'Por e-mail: support@solventusgroup.com',
           'Por telefone: +351 XX XX XX XX',
           'Através da área do cliente segura',
         ],
@@ -12347,7 +12347,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. LEI APLICÁVEL E JURISDIÇÃO',
         content: 'Os presentes TCG são regidos pela lei portuguesa. Qualquer litígio relativo à sua interpretação ou execução é da competência exclusiva dos tribunais portugueses.',
       },
-      note: 'Ao ativar o seu Cartão Virtual ALTUS, você reconhece ter lido, compreendido e aceitado a totalidade dos presentes Termos e Condições de Uso.',
+      note: 'Ao ativar o seu Cartão Virtual Solventus, você reconhece ter lido, compreendido e aceitado a totalidade dos presentes Termos e Condições de Uso.',
     },
     processTimeline: {
       title: 'Processo de Financiamento',
@@ -12476,7 +12476,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Seu parceiro de confiança para todos os seus projetos de financiamento. Soluções de empréstimo adaptadas a particulares e profissionais.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Horário de Atendimento',
       hours: {
@@ -12590,7 +12590,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'anos',
       features: 'Vantagens',
       learnMore: 'Saiba mais',
-      advantagesTitle: 'Vantagens ALTUS Pro',
+      advantagesTitle: 'Vantagens Solventus Pro',
       advantages: [
         'Consultor dedicado para sua empresa',
         'Estudo personalizado do seu dossiê',
@@ -13376,7 +13376,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Unisciti a migliaia di aziende soddisfatte',
-        subtitle: 'Affidati all\'esperienza di ALTUS per finanziare i tuoi progetti più ambiziosi',
+        subtitle: 'Affidati all\'esperienza di Solventus per finanziare i tuoi progetti più ambiziosi',
         button1: 'Richiedi finanziamento',
         button2: 'Contattaci',
       },
@@ -13643,7 +13643,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookie',
         section6Content: 'Utilizziamo cookie e tecnologie di tracciamento simili per migliorare la tua esperienza sulla nostra piattaforma. Puoi controllare i cookie tramite le impostazioni del tuo browser.',
         section7Title: '7. Contattaci',
-        section7Content: 'Se hai domande su questa politica sulla privacy, contattaci a privacy@altus-group.com',
+        section7Content: 'Se hai domande su questa politica sulla privacy, contattaci a privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -13736,7 +13736,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Il tuo partner di fiducia per il finanziamento',
       loginTab: 'Accedi',
       signupTab: 'Registrati',
@@ -13758,7 +13758,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Registrazione in corso...',
       backToHome: 'Torna alla home',
       loginSuccess: 'Accesso riuscito!',
-      loginSuccessDesc: 'Benvenuto su ALTUS',
+      loginSuccessDesc: 'Benvenuto su Solventus',
       signupSuccess: 'Registrazione riuscita!',
       signupSuccessDesc: 'Un\'email di verifica è stata inviata al tuo indirizzo.',
       loginError: 'Errore di accesso',
@@ -14543,7 +14543,7 @@ export const translations: Record<Language, TranslationKeys> = {
         bankLabel: 'Banca',
         transferAmountLabel: 'Importo del trasferimento',
         senderLabel: 'Mittente',
-        senderValue: 'Conto ALTUS Finance',
+        senderValue: 'Conto Solventus',
         recipientLabel: 'Destinatario',
         recipientDefault: 'Banca SEPA',
         referenceLabel: 'Riferimento',
@@ -14700,11 +14700,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Condizioni Generali d\'Uso - Carta Virtuale ALTUS',
+      title: 'Condizioni Generali d\'Uso - Carta Virtuale Solventus',
       lastUpdated: 'Ultimo aggiornamento: Novembre 2025',
       section1: {
         title: '1. OGGETTO E CAMPO DI APPLICAZIONE',
-        content: 'Le presenti condizioni generali (di seguito "CGU") regolano l\'uso della carta bancaria virtuale ALTUS (di seguito "la Carta Virtuale"), proposta da ALTUS Finance Group ai clienti titolari di un conto ALTUS (di seguito "il Titolare"). La Carta Virtuale è un mezzo di pagamento dematerializzato collegato al vostro conto ALTUS.',
+        content: 'Le presenti condizioni generali (di seguito "CGU") regolano l\'uso della carta bancaria virtuale Solventus (di seguito "la Carta Virtuale"), proposta da Solventus Group ai clienti titolari di un conto Solventus (di seguito "il Titolare"). La Carta Virtuale è un mezzo di pagamento dematerializzato collegato al vostro conto Solventus.',
       },
       section2: {
         title: '2. DESCRIZIONE DEL SERVIZIO',
@@ -14718,7 +14718,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. CONDIZIONI DI IDONEITÀ',
         content: 'Per ottenere una Carta Virtuale, il Titolare deve:',
         list: [
-          'Essere cliente ALTUS con un conto attivo e finanziato',
+          'Essere cliente Solventus con un conto attivo e finanziato',
           'Aver completato la verifica d\'identità (KYC)',
           'Non essere in situazione di scoperto non autorizzato',
           'Aver attivato l\'autenticazione forte (doppio fattore)',
@@ -14728,7 +14728,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ATTIVAZIONE E UTILIZZO',
         subtitle1: '4.1 Attivazione',
-        content1: 'La Carta Virtuale viene attivata istantaneamente alla sua creazione tramite l\'applicazione o l\'area clienti ALTUS. Il Titolare riceve immediatamente le coordinate complete della carta.',
+        content1: 'La Carta Virtuale viene attivata istantaneamente alla sua creazione tramite l\'applicazione o l\'area clienti Solventus. Il Titolare riceve immediatamente le coordinate complete della carta.',
         subtitle2: '4.2 Utilizzi autorizzati',
         list1: [
           'Pagamenti su tutti i siti commerciali online che accettano Visa/Mastercard',
@@ -14760,7 +14760,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. MASSIMALI E LIMITI',
-        content: 'I massimali di pagamento della Carta Virtuale sono identici a quelli della vostra carta principale ALTUS:',
+        content: 'I massimali di pagamento della Carta Virtuale sono identici a quelli della vostra carta principale Solventus:',
         list: [
           'Massimale mensile: fino a 50.000 € secondo il vostro profilo',
           'Massimale per transazione: fino a 10.000 €',
@@ -14780,7 +14780,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. ADDEBITO E ESTRATTO CONTO',
-        content: 'Tutte le operazioni effettuate con la Carta Virtuale vengono addebitate in tempo reale sul vostro conto ALTUS. Appaiono immediatamente nella vostra cronologia delle transazioni e sui vostri estratti conto mensili.',
+        content: 'Tutte le operazioni effettuate con la Carta Virtuale vengono addebitate in tempo reale sul vostro conto Solventus. Appaiono immediatamente nella vostra cronologia delle transazioni e sui vostri estratti conto mensili.',
       },
       section9: {
         title: '9. OPPOSIZIONE E RISOLUZIONE',
@@ -14793,7 +14793,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. RESPONSABILITÀ',
-        content: 'ALTUS non può essere ritenuto responsabile in caso di:',
+        content: 'Solventus non può essere ritenuto responsabile in caso di:',
         list: [
           'Rifiuto di un commerciante di accettare la Carta Virtuale',
           'Interruzione temporanea del servizio per manutenzione',
@@ -14804,13 +14804,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. DURATA E MODIFICA',
-        content: 'Le presenti CGU sono concluse per una durata indeterminata. ALTUS si riserva il diritto di modificare le presenti CGU in qualsiasi momento. Qualsiasi modifica sarà notificata al Titolare almeno 2 mesi prima della sua entrata in vigore. L\'assenza di opposizione entro questo termine varrà come accettazione.',
+        content: 'Le presenti CGU sono concluse per una durata indeterminata. Solventus si riserva il diritto di modificare le presenti CGU in qualsiasi momento. Qualsiasi modifica sarà notificata al Titolare almeno 2 mesi prima della sua entrata in vigore. L\'assenza di opposizione entro questo termine varrà come accettazione.',
       },
       section12: {
         title: '12. RECLAMI',
-        content: 'Per qualsiasi reclamo, il Titolare può contattare il servizio clienti ALTUS:',
+        content: 'Per qualsiasi reclamo, il Titolare può contattare il servizio clienti Solventus:',
         list: [
-          'Via email: support@altusgroup.com',
+          'Via email: support@solventusgroup.com',
           'Per telefono: +39 XX XX XX XX XX',
           'Tramite l\'area clienti sicura',
         ],
@@ -14820,7 +14820,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. LEGGE APPLICABILE E GIURISDIZIONE',
         content: 'Le presenti CGU sono regolate dalla legge italiana. Qualsiasi controversia relativa alla loro interpretazione o esecuzione è di competenza esclusiva dei tribunali italiani.',
       },
-      note: 'Attivando la vostra Carta Virtuale ALTUS, riconoscete di aver letto, compreso e accettato l\'interezza delle presenti Condizioni Generali d\'Uso.',
+      note: 'Attivando la vostra Carta Virtuale Solventus, riconoscete di aver letto, compreso e accettato l\'interezza delle presenti Condizioni Generali d\'Uso.',
     },
     processTimeline: {
       title: 'Processo di Finanziamento',
@@ -14949,7 +14949,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Il vostro partner di fiducia per tutti i vostri progetti di finanziamento. Soluzioni di prestito adattate a privati e professionisti.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Orari di Apertura',
       hours: {
@@ -15063,7 +15063,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'anni',
       features: 'Vantaggi',
       learnMore: 'Per saperne di più',
-      advantagesTitle: 'Vantaggi ALTUS Pro',
+      advantagesTitle: 'Vantaggi Solventus Pro',
       advantages: [
         'Consulente dedicato per la tua azienda',
         'Studio personalizzato del tuo fascicolo',
@@ -15935,7 +15935,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Schließen Sie sich Tausenden zufriedener Unternehmen an',
-        subtitle: 'Vertrauen Sie auf die Expertise von ALTUS, um Ihre ehrgeizigsten Projekte zu finanzieren',
+        subtitle: 'Vertrauen Sie auf die Expertise von Solventus, um Ihre ehrgeizigsten Projekte zu finanzieren',
         button1: 'Finanzierung beantragen',
         button2: 'Kontakt',
       },
@@ -16202,7 +16202,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'Wir verwenden Cookies und ähnliche Tracking-Technologien, um Ihre Erfahrung auf unserer Plattform zu verbessern. Sie können Cookies über Ihre Browsereinstellungen kontrollieren.',
         section7Title: '7. Kontaktieren Sie uns',
-        section7Content: 'Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy@altus-group.com',
+        section7Content: 'Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -16295,7 +16295,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Ihr vertrauenswürdiger Partner für Finanzierung',
       loginTab: 'Anmelden',
       signupTab: 'Registrieren',
@@ -16317,7 +16317,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Registrierung läuft...',
       backToHome: 'Zurück zur Startseite',
       loginSuccess: 'Anmeldung erfolgreich!',
-      loginSuccessDesc: 'Willkommen bei ALTUS',
+      loginSuccessDesc: 'Willkommen bei Solventus',
       signupSuccess: 'Registrierung erfolgreich!',
       signupSuccessDesc: 'Eine Bestätigungs-E-Mail wurde an Ihre Adresse gesendet.',
       loginError: 'Anmeldefehler',
@@ -17102,7 +17102,7 @@ export const translations: Record<Language, TranslationKeys> = {
         bankLabel: 'Bank',
         transferAmountLabel: 'Überweisungsbetrag',
         senderLabel: 'Absender',
-        senderValue: 'ALTUS Finance Konto',
+        senderValue: 'Solventus Konto',
         recipientLabel: 'Empfänger',
         recipientDefault: 'SEPA Bank',
         referenceLabel: 'Referenz',
@@ -17259,11 +17259,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Allgemeine Nutzungsbedingungen - ALTUS Virtuelle Karte',
+      title: 'Allgemeine Nutzungsbedingungen - Solventus Virtuelle Karte',
       lastUpdated: 'Letzte Aktualisierung: November 2025',
       section1: {
         title: '1. ZWECK UND GELTUNGSBEREICH',
-        content: 'Diese Allgemeinen Geschäftsbedingungen (nachfolgend "AGB") regeln die Nutzung der virtuellen Bankkarte ALTUS (nachfolgend "die Virtuelle Karte"), die von ALTUS Finance Group den Kunden mit einem ALTUS-Konto (nachfolgend "der Karteninhaber") angeboten wird. Die Virtuelle Karte ist ein dematerialisiertes Zahlungsmittel, das mit Ihrem ALTUS-Konto verbunden ist.',
+        content: 'Diese Allgemeinen Geschäftsbedingungen (nachfolgend "AGB") regeln die Nutzung der virtuellen Bankkarte Solventus (nachfolgend "die Virtuelle Karte"), die von Solventus Group den Kunden mit einem Solventus-Konto (nachfolgend "der Karteninhaber") angeboten wird. Die Virtuelle Karte ist ein dematerialisiertes Zahlungsmittel, das mit Ihrem Solventus-Konto verbunden ist.',
       },
       section2: {
         title: '2. SERVICEBESCHREIBUNG',
@@ -17277,7 +17277,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. TEILNAHMEBEDINGUNGEN',
         content: 'Um eine Virtuelle Karte zu erhalten, muss der Karteninhaber:',
         list: [
-          'ALTUS-Kunde mit einem aktiven und finanzierten Konto sein',
+          'Solventus-Kunde mit einem aktiven und finanzierten Konto sein',
           'Die Identitätsprüfung (KYC) abgeschlossen haben',
           'Sich nicht in einer Situation nicht genehmigter Überziehung befinden',
           'Die starke Authentifizierung (Zwei-Faktor) aktiviert haben',
@@ -17287,7 +17287,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. AKTIVIERUNG UND NUTZUNG',
         subtitle1: '4.1 Aktivierung',
-        content1: 'Die Virtuelle Karte wird sofort nach ihrer Erstellung über die Anwendung oder den ALTUS-Kundenbereich aktiviert. Der Karteninhaber erhält sofort die vollständigen Kartenkoordinaten.',
+        content1: 'Die Virtuelle Karte wird sofort nach ihrer Erstellung über die Anwendung oder den Solventus-Kundenbereich aktiviert. Der Karteninhaber erhält sofort die vollständigen Kartenkoordinaten.',
         subtitle2: '4.2 Zugelassene Verwendungen',
         list1: [
           'Zahlungen auf allen Online-Händlerseiten, die Visa/Mastercard akzeptieren',
@@ -17319,7 +17319,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. LIMITS UND GRENZEN',
-        content: 'Die Zahlungslimits der Virtuellen Karte sind identisch mit denen Ihrer ALTUS-Hauptkarte:',
+        content: 'Die Zahlungslimits der Virtuellen Karte sind identisch mit denen Ihrer Solventus-Hauptkarte:',
         list: [
           'Monatslimit: bis zu 50.000 € je nach Profil',
           'Limit pro Transaktion: bis zu 10.000 €',
@@ -17339,7 +17339,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. ABBUCHUNG UND KONTOAUSZUG',
-        content: 'Alle mit der Virtuellen Karte durchgeführten Transaktionen werden in Echtzeit von Ihrem ALTUS-Konto abgebucht. Sie erscheinen sofort in Ihrer Transaktionshistorie und auf Ihren monatlichen Kontoauszügen.',
+        content: 'Alle mit der Virtuellen Karte durchgeführten Transaktionen werden in Echtzeit von Ihrem Solventus-Konto abgebucht. Sie erscheinen sofort in Ihrer Transaktionshistorie und auf Ihren monatlichen Kontoauszügen.',
       },
       section9: {
         title: '9. WIDERSPRUCH UND KÜNDIGUNG',
@@ -17352,7 +17352,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. HAFTUNG',
-        content: 'ALTUS kann nicht haftbar gemacht werden im Falle von:',
+        content: 'Solventus kann nicht haftbar gemacht werden im Falle von:',
         list: [
           'Ablehnung eines Händlers, die Virtuelle Karte zu akzeptieren',
           'Vorübergehende Serviceunterbrechung zur Wartung',
@@ -17363,13 +17363,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. LAUFZEIT UND ÄNDERUNG',
-        content: 'Diese AGB werden auf unbestimmte Zeit geschlossen. ALTUS behält sich das Recht vor, diese AGB jederzeit zu ändern. Jede Änderung wird dem Karteninhaber mindestens 2 Monate vor ihrem Inkrafttreten mitgeteilt. Das Fehlen eines Widerspruchs innerhalb dieser Frist gilt als Annahme.',
+        content: 'Diese AGB werden auf unbestimmte Zeit geschlossen. Solventus behält sich das Recht vor, diese AGB jederzeit zu ändern. Jede Änderung wird dem Karteninhaber mindestens 2 Monate vor ihrem Inkrafttreten mitgeteilt. Das Fehlen eines Widerspruchs innerhalb dieser Frist gilt als Annahme.',
       },
       section12: {
         title: '12. BESCHWERDEN',
-        content: 'Für Beschwerden kann der Karteninhaber den ALTUS-Kundendienst kontaktieren:',
+        content: 'Für Beschwerden kann der Karteninhaber den Solventus-Kundendienst kontaktieren:',
         list: [
-          'Per E-Mail: support@altusgroup.com',
+          'Per E-Mail: support@solventusgroup.com',
           'Per Telefon: +49 XX XX XX XX XX',
           'Über den sicheren Kundenbereich',
         ],
@@ -17379,7 +17379,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. ANWENDBARES RECHT UND GERICHTSSTAND',
         content: 'Diese AGB unterliegen deutschem Recht. Alle Streitigkeiten bezüglich ihrer Auslegung oder Ausführung fallen in die ausschließliche Zuständigkeit der deutschen Gerichte.',
       },
-      note: 'Durch Aktivierung Ihrer ALTUS Virtuellen Karte bestätigen Sie, dass Sie die gesamten Allgemeinen Nutzungsbedingungen gelesen, verstanden und akzeptiert haben.',
+      note: 'Durch Aktivierung Ihrer Solventus Virtuellen Karte bestätigen Sie, dass Sie die gesamten Allgemeinen Nutzungsbedingungen gelesen, verstanden und akzeptiert haben.',
     },
     processTimeline: {
       title: 'Finanzierungsprozess',
@@ -17508,7 +17508,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Ihr vertrauenswürdiger Partner für alle Ihre Finanzierungsprojekte. Kreditlösungen für Privat- und Geschäftskunden.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Öffnungszeiten',
       hours: {
@@ -17622,7 +17622,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'Jahre',
       features: 'Vorteile',
       learnMore: 'Mehr erfahren',
-      advantagesTitle: 'ALTUS Pro Vorteile',
+      advantagesTitle: 'Solventus Pro Vorteile',
       advantages: [
         'Dedizierter Berater für Ihr Unternehmen',
         'Individuelle Prüfung Ihrer Unterlagen',
@@ -18494,7 +18494,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       cta: {
         title: 'Sluit u aan bij duizenden tevreden bedrijven',
-        subtitle: 'Vertrouw op de expertise van ALTUS om uw meest ambitieuze projecten te financieren',
+        subtitle: 'Vertrouw op de expertise van Solventus om uw meest ambitieuze projecten te financieren',
         button1: 'Financiering aanvragen',
         button2: 'Contact',
       },
@@ -18761,7 +18761,7 @@ export const translations: Record<Language, TranslationKeys> = {
         section6Title: '6. Cookies',
         section6Content: 'We gebruiken cookies en soortgelijke trackingtechnologieën om uw ervaring op ons platform te verbeteren. U kunt cookies beheren via uw browserinstellingen.',
         section7Title: '7. Neem contact met ons op',
-        section7Content: 'Als u vragen heeft over dit privacybeleid, neem dan contact met ons op via privacy@altus-group.com',
+        section7Content: 'Als u vragen heeft over dit privacybeleid, neem dan contact met ons op via privacy@solventusgroup.com',
       },
     },
     individualLoans: {
@@ -18854,7 +18854,7 @@ export const translations: Record<Language, TranslationKeys> = {
       ],
     },
     auth: {
-      title: 'ALTUS',
+      title: 'Solventus',
       subtitle: 'Uw betrouwbare partner voor financiering',
       loginTab: 'Inloggen',
       signupTab: 'Registreren',
@@ -18876,7 +18876,7 @@ export const translations: Record<Language, TranslationKeys> = {
       signingUp: 'Registreren...',
       backToHome: 'Terug naar home',
       loginSuccess: 'Inloggen geslaagd!',
-      loginSuccessDesc: 'Welkom bij ALTUS',
+      loginSuccessDesc: 'Welkom bij Solventus',
       signupSuccess: 'Registratie geslaagd!',
       signupSuccessDesc: 'Een verificatie-e-mail is verzonden naar uw adres.',
       loginError: 'Inlogfout',
@@ -19631,7 +19631,7 @@ export const translations: Record<Language, TranslationKeys> = {
         stepsTitle: 'Overboekingsstappen',
         transferAmountLabel: 'Overboekingsbedrag',
         senderLabel: 'Afzender',
-        senderValue: 'ALTUS Finance rekening',
+        senderValue: 'Solventus rekening',
         recipientLabel: 'Ontvanger',
         recipientDefault: 'SEPA Bank',
         referenceLabel: 'Referentie',
@@ -19788,11 +19788,11 @@ export const translations: Record<Language, TranslationKeys> = {
       },
     },
     cardTermsContent: {
-      title: 'Algemene Gebruiksvoorwaarden - ALTUS Virtuele Kaart',
+      title: 'Algemene Gebruiksvoorwaarden - Solventus Virtuele Kaart',
       lastUpdated: 'Laatste update: November 2025',
       section1: {
         title: '1. DOEL EN TOEPASSINGSGEBIED',
-        content: 'Deze algemene voorwaarden (hierna "AV") regelen het gebruik van de virtuele bankkaart ALTUS (hierna "de Virtuele Kaart"), aangeboden door ALTUS Finance Group aan klanten met een ALTUS-rekening (hierna "de Kaarthouder"). De Virtuele Kaart is een gedematerialiseerd betaalmiddel gekoppeld aan uw ALTUS-rekening.',
+        content: 'Deze algemene voorwaarden (hierna "AV") regelen het gebruik van de virtuele bankkaart Solventus (hierna "de Virtuele Kaart"), aangeboden door Solventus Group aan klanten met een Solventus-rekening (hierna "de Kaarthouder"). De Virtuele Kaart is een gedematerialiseerd betaalmiddel gekoppeld aan uw Solventus-rekening.',
       },
       section2: {
         title: '2. SERVICEBESCHRIJVING',
@@ -19806,7 +19806,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '3. GESCHIKTHEIDSVOORWAARDEN',
         content: 'Om een Virtuele Kaart te verkrijgen, moet de Kaarthouder:',
         list: [
-          'ALTUS-klant zijn met een actieve en gefinancierde rekening',
+          'Solventus-klant zijn met een actieve en gefinancierde rekening',
           'De identiteitsverificatie (KYC) hebben voltooid',
           'Niet in een situatie van ongeautoriseerde overtrekking verkeren',
           'Sterke authenticatie (twee-factor) hebben geactiveerd',
@@ -19816,7 +19816,7 @@ export const translations: Record<Language, TranslationKeys> = {
       section4: {
         title: '4. ACTIVERING EN GEBRUIK',
         subtitle1: '4.1 Activering',
-        content1: 'De Virtuele Kaart wordt onmiddellijk geactiveerd bij het aanmaken via de applicatie of het ALTUS-klantengebied. De Kaarthouder ontvangt onmiddellijk de volledige kaartcoördinaten.',
+        content1: 'De Virtuele Kaart wordt onmiddellijk geactiveerd bij het aanmaken via de applicatie of het Solventus-klantengebied. De Kaarthouder ontvangt onmiddellijk de volledige kaartcoördinaten.',
         subtitle2: '4.2 Toegestaan gebruik',
         list1: [
           'Betalingen op alle online handelssites die Visa/Mastercard accepteren',
@@ -19848,7 +19848,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section6: {
         title: '6. LIMIETEN EN GRENZEN',
-        content: 'De betalingslimieten van de Virtuele Kaart zijn identiek aan die van uw ALTUS-hoofdkaart:',
+        content: 'De betalingslimieten van de Virtuele Kaart zijn identiek aan die van uw Solventus-hoofdkaart:',
         list: [
           'Maandelijks limiet: tot 50.000 € afhankelijk van uw profiel',
           'Limiet per transactie: tot 10.000 €',
@@ -19868,7 +19868,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section8: {
         title: '8. AFSCHRIJVING EN AFSCHRIFT',
-        content: 'Alle transacties uitgevoerd met de Virtuele Kaart worden in realtime van uw ALTUS-rekening afgeschreven. Ze verschijnen onmiddellijk in uw transactiegeschiedenis en op uw maandelijkse afschriften.',
+        content: 'Alle transacties uitgevoerd met de Virtuele Kaart worden in realtime van uw Solventus-rekening afgeschreven. Ze verschijnen onmiddellijk in uw transactiegeschiedenis en op uw maandelijkse afschriften.',
       },
       section9: {
         title: '9. VERZET EN BEËINDIGING',
@@ -19881,7 +19881,7 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section10: {
         title: '10. AANSPRAKELIJKHEID',
-        content: 'ALTUS kan niet aansprakelijk worden gesteld in geval van:',
+        content: 'Solventus kan niet aansprakelijk worden gesteld in geval van:',
         list: [
           'Weigering van een handelaar om de Virtuele Kaart te accepteren',
           'Tijdelijke onderbreking van de service voor onderhoud',
@@ -19892,13 +19892,13 @@ export const translations: Record<Language, TranslationKeys> = {
       },
       section11: {
         title: '11. DUUR EN WIJZIGING',
-        content: 'Deze AV worden voor onbepaalde tijd aangegaan. ALTUS behoudt zich het recht voor deze AV op elk moment te wijzigen. Elke wijziging wordt de Kaarthouder minstens 2 maanden vóór inwerkingtreding medegedeeld. Het ontbreken van bezwaar binnen deze termijn geldt als aanvaarding.',
+        content: 'Deze AV worden voor onbepaalde tijd aangegaan. Solventus behoudt zich het recht voor deze AV op elk moment te wijzigen. Elke wijziging wordt de Kaarthouder minstens 2 maanden vóór inwerkingtreding medegedeeld. Het ontbreken van bezwaar binnen deze termijn geldt als aanvaarding.',
       },
       section12: {
         title: '12. KLACHTEN',
-        content: 'Voor klachten kan de Kaarthouder contact opnemen met de ALTUS-klantenservice:',
+        content: 'Voor klachten kan de Kaarthouder contact opnemen met de Solventus-klantenservice:',
         list: [
-          'Per e-mail: support@altusgroup.com',
+          'Per e-mail: support@solventusgroup.com',
           'Per telefoon: +31 XX XX XX XX XX',
           'Via het beveiligde klantengebied',
         ],
@@ -19908,7 +19908,7 @@ export const translations: Record<Language, TranslationKeys> = {
         title: '13. TOEPASSELIJK RECHT EN JURISDICTIE',
         content: 'Deze AV worden beheerst door Nederlands recht. Alle geschillen met betrekking tot hun interpretatie of uitvoering vallen onder de exclusieve bevoegdheid van de Nederlandse rechtbanken.',
       },
-      note: 'Door uw ALTUS Virtuele Kaart te activeren, erkent u dat u de volledige Algemene Gebruiksvoorwaarden hebt gelezen, begrepen en geaccepteerd.',
+      note: 'Door uw Solventus Virtuele Kaart te activeren, erkent u dat u de volledige Algemene Gebruiksvoorwaarden hebt gelezen, begrepen en geaccepteerd.',
     },
     processTimeline: {
       title: 'Financieringsproces',
@@ -20037,7 +20037,7 @@ export const translations: Record<Language, TranslationKeys> = {
     footer: {
       description: 'Uw betrouwbare partner voor al uw financieringsprojecten. Leningsoplossingen aangepast aan particulieren en professionals.',
       phone: '+352 40 63 48',
-      email: 'infos@altusfinancesgroup.com',
+      email: 'infos@solventusgroup.com',
       address: '19 Rue Sigismond, L-2537 Luxembourg',
       hoursTitle: 'Openingstijden',
       hours: {
@@ -20151,7 +20151,7 @@ export const translations: Record<Language, TranslationKeys> = {
       years: 'jaar',
       features: 'Voordelen',
       learnMore: 'Meer informatie',
-      advantagesTitle: 'ALTUS Pro Voordelen',
+      advantagesTitle: 'Solventus Pro Voordelen',
       advantages: [
         'Toegewijde adviseur voor uw bedrijf',
         'Gepersonaliseerde studie van uw dossier',

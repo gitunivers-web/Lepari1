@@ -33,7 +33,7 @@ export default function FooterPremium() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              ALTUS Finance Group
+              Solventus Group
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               {t.footer.description}
@@ -43,8 +43,8 @@ export default function FooterPremium() {
             <div className="space-y-3 text-sm text-gray-400">
               <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-indigo-400" />
-                <a href="mailto:infos@altusfinancesgroup.com" className="hover:text-white transition-colors" data-testid="link-footer-email">
-                  infos@altusfinancesgroup.com
+                <a href="mailto:infos@solventusgroup.com" className="hover:text-white transition-colors" data-testid="link-footer-email">
+                  infos@solventusgroup.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
