@@ -13,7 +13,7 @@ function getEmailBaseUrl(): string {
   }
   return process.env.REPLIT_DEV_DOMAIN 
     ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
-    : 'https://solventisgroup.org';
+    : 'https://altusfinancesgroup.com';
 }
 
 function getEmailLogoUrl(): string {
